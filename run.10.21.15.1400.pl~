@@ -1,0 +1,4 @@
+#! /usr/bin/perl
+BEGIN { push @INC, qw[ /home/rumbaugh/Math/Math-Interpolate-1.05/lib/] }
+use Math::Interpolate qw(derivatives constant_interpolate linear_interpolate robust_interpolate);
+

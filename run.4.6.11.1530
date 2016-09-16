@@ -1,0 +1,8 @@
+set names = (NEP5281 RXJ1757 Cl1324 Cl1324)
+set names2 = (10444+10924 RXJ1757 9403+9840 9404+9836)
+set nacis = (acis10444+10924 RXJ1757 acis9403+9840 acis9404+9836)
+set pbk = (acis10444 acis11999 acis9403 acis9404)
+set ppath = /home/rumbaugh/ChandraData
+foreach i (3)
+specextract infile="$ppath/$names[$i]/master/$nacis[$i].evt2.fits[sky=region($ppath/$names[$i]/master/sources.$names2[$i].EM.4.7.11.reg)]" outroot=$ppath/$names[$i]/master/spec_$names2[$i] bkgfile="$ppath/$names[$i]/master/$nacis[$i].evt2.fits[sky=region($ppath/$names[$i]/master/sources.$names2[$i].BG.4.7.11.reg)]" pbkfile="$ppath/$names[$i]/master/$pbk[$i].pbk.fits" grouptype=NUM_CTS binspec=15 verbose=0 clob+
+end

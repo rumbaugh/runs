@@ -1,0 +1,15 @@
+execfile("FindCloseSources.py")
+
+#path = '/home/rumbaugh/LFC'
+path = '/scratch/rumbaugh/ciaotesting'
+path2 = 'opt_match/opt_Xray_matched_catalog_3high.corrected.twk.dat'
+phots = 'xray_phot.soft_hard_full.dat'
+names = np.array(['Cl1324','NEP5281','Cl0023','Cl1604','RXJ1757'])
+names2 = np.array(['Cl1324','NEP5281','Cl0023','Cl1604','NEP200'])
+
+for i in range(0,len(names)):
+    master = 'master'
+    if i == 2: master = '7914'
+    crp = read_file('%s/%s/%s/photometry/%s.%s'%(path,names[i],master,names[i],phots))
+    mfile = '%s/%s/%s/%s'%(pathm,names[i],master,path2)
+    crm = readfile(mfile)

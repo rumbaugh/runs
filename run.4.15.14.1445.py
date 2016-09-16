@@ -1,0 +1,149 @@
+import numpy as np
+import math as m
+import sys
+import os
+import time
+import matplotlib
+import matplotlib.pylab as plt
+import emcee
+execfile("/home/rumbaugh/arrconv.py")
+execfile("/home/rumbaugh/Dispersion.py")
+
+execfile("/home/rumbaugh/chi_squared_min.py")
+execfile('/home/rumbaugh/MCMC_delaylnprob.py')
+
+try:
+    runs
+except NameError:
+    runs = 1000
+
+burnins = 100
+if runs < 100: burnins = 1
+
+try:
+    timestep
+except NameError:
+    timestep = 0.5
+try:
+    mustep
+except NameError:
+    mustep = 0.001
+try:
+    maxtimestep
+except NameError:
+    maxtimestep = 60
+try:
+    maxmu
+except NameError:
+    maxmu = 1.1
+try:
+    minmu
+except NameError:
+    minmu = 0.9
+try:
+    date
+except NameError:
+    date = '4.15.14'
+
+progress_doc = '/home/rumbaugh/sim_ltcurve_testing/progress_run.4.15.14.1445.dat'
+
+FILE = open('/home/rumbaugh/sim_ltcurve_testing/results/TDC_MCMC_boxcar_nocovmat_Neff_%s.dat'%date,'w')
+FILE.write('#pair tau tau_lowbnd tau_upbnd\n')
+FILE.close()
+FILE = open('/home/rumbaugh/sim_ltcurve_testing/results/TDC_MCMC_boxcar_wcovmat_Neff_%s.dat'%date,'w')
+FILE.write('#pair tau tau_lowbnd tau_upbnd\n')
+FILE.close()
+
+FILE = open(progress_doc,'w')
+FILE.write('# Starting...\n')
+FILE.close()
+
+st = time.time()
+
+for pair in range(1,721):
+    cr = np.loadtxt('/home/rumbaugh/sim_ltcurve_testing/Nickrung0/Nickrung0_pair%i.txt'%pair)
+    ltime,A,Aerr,B,Berr = cr[:,0],cr[:,1],cr[:,2],cr[:,3],cr[:,4]
+    ltime -= ltime[0]
+    maxtimestep = int(0.5*(ltime[-1]-ltime[0]))
+    if maxtimestep < 60: maxtimestep = 60
+    maxtime,mintime = maxtimestep,-1*maxtimestep
+    tau_init,mu_init = 0.,np.mean(B)/np.mean(A)
+    ndim,nwalkers = 2,10
+    Neffstr = '_Neff'
+    for kernel in ['boxcar']:
+        for use_cov_matrix in [True,False]:
+            if use_cov_matrix: cmstr = 'wcovmat'
+            else: cmstr = 'nocovmat'
+            for use_Neff in [True]:
+                #if pair == 1: print 'aaaaaaaaaaaaaaaaaaaaaaa'
+                gsb = np.where(ltime[1:]-ltime[:-1] > 30)[0]
+                gsb = np.sort(np.append(gsb,gsb+1))
+                seasonbounds = np.append(0,np.append(gsb,len(ltime)-1))
+                p0 = np.zeros((nwalkers,ndim))
+                p0[:,0],p0[:,1] = np.ones(nwalkers)*tau_init+np.random.normal(scale=0.1,size=nwalkers),np.ones(nwalkers)*mu_init+np.random.normal(scale=0.01,size=nwalkers)
+                sampler = emcee.EnsembleSampler(nwalkers,ndim,delaylnprob,args=[B,A,Berr,Aerr,ltime,mu_init,mintime,maxtime,use_cov_matrix,use_Neff,True,kernel,10.,0.5,seasonbounds])
+                pos,prob,state=sampler.run_mcmc(p0,burnins)
+                sampler.reset()
+                pos,prob,state=sampler.run_mcmc(pos,runs)
+                if pair == 1: print time.time()-st
+                tau_sort = np.sort(sampler.flatchain[:,0])
+                tau_med,tau_lb,tau_ub = np.median(tau_sort),tau_sort[int(0.31731*0.5*len(tau_sort))],tau_sort[int((1-0.31731*0.5)*len(tau_sort))]
+                FILE = open('/home/rumbaugh/sim_ltcurve_testing/results/TDC_MCMC_%s_%s%s_%s.dat'%(kernel,cmstr,Neffstr,date),'a')
+                FILE.write('%4i %9.5f %9.5f %9.5f\n'%(pair,tau_med,tau_lb,tau_ub))
+                FILE.close()
+    if ((((pair/5)*5 == pair) & (pair < 100)) | (pair == 1)):
+        tchk = time.time()-st
+        ETA = tchk/pair*100-tchk
+        FILE = open(progress_doc,'a')
+        FILE.write('\n#%2i%% Done\n#%.1f seconds elapsed\n#ETA: %.1f seconds\n'%(pair,tchk,ETA))
+        FILE.close()
+FILE = open(progress_doc,'a')
+FILE.write('\n#Pairs 100%% Done\n#%.1f seconds elapsed'%(tchk))
+FILE.close()
+
+quads = np.arange(158)+1
+quadsA,quadsB = np.zeros(len(quads),dtype='|S4'),np.zeros(len(quads),dtype='|S4')
+for q in range(0,len(quads)):
+    quadsA[q],quadsB[q] = str(quads[q])+'A',str(quads[q])+'B'
+quads = np.array([y for x in zip(quadsA,quadsB) for y in x])
+
+for quad in quads:
+    cr = np.loadtxt('/home/rumbaugh/sim_ltcurve_testing/Nickrung0/Nickrung0_pair%i.txt'%pair)
+    ltime,A,Aerr,B,Berr = cr[:,0],cr[:,1],cr[:,2],cr[:,3],cr[:,4]
+    ltime -= ltime[0]
+    maxtimestep = int(0.5*(ltime[-1]-ltime[0]))
+    if maxtimestep < 60: maxtimestep = 60
+    maxtime,mintime = maxtimestep,-1*maxtimestep
+    tau_init,mu_init = 0.,np.mean(B)/np.mean(A)
+    ndim,nwalkers = 2,10
+    Neffstr = '_Neff'
+    for kernel in ['boxcar']:
+        for use_cov_matrix in [True,False]:
+            if use_cov_matrix: cmstr = 'wcovmat'
+            else: cmstr = 'nocovmat'
+            for use_Neff in [True]:
+                #if pair == 1: print 'aaaaaaaaaaaaaaaaaaaaaaa'
+                gsb = np.where(ltime[1:]-ltime[:-1] > 30)[0]
+                gsb = np.sort(np.append(gsb,gsb+1))
+                seasonbounds = np.append(0,np.append(gsb,len(ltime)-1))
+                p0 = np.zeros((nwalkers,ndim))
+                p0[:,0],p0[:,1] = np.ones(nwalkers)*tau_init+np.random.normal(scale=0.1,size=nwalkers),np.ones(nwalkers)*mu_init+np.random.normal(scale=0.01,size=nwalkers)
+                sampler = emcee.EnsembleSampler(nwalkers,ndim,delaylnprob,args=[B,A,Berr,Aerr,ltime,mu_init,mintime,maxtime,use_cov_matrix,use_Neff,True,kernel,10.,0.5,seasonbounds])
+                pos,prob,state=sampler.run_mcmc(p0,burnins)
+                sampler.reset()
+                pos,prob,state=sampler.run_mcmc(pos,runs)
+                if pair == 1: print time.time()-st
+                tau_sort = np.sort(sampler.flatchain[:,0])
+                tau_med,tau_lb,tau_ub = np.median(tau_sort),tau_sort[int(0.31731*0.5*len(tau_sort))],tau_sort[int((1-0.31731*0.5)*len(tau_sort))]
+                FILE = open('/home/rumbaugh/sim_ltcurve_testing/results/TDC_MCMC_%s_%s%s_%s.dat'%(kernel,cmstr,Neffstr,date),'a')
+                FILE.write('%4i %9.5f %9.5f %9.5f\n'%(pair,tau_med,tau_lb,tau_ub))
+                FILE.close()
+    if ((((pair/5)*5 == pair) & (pair < 100)) | (pair == 1)):
+        tchk = time.time()-st
+        ETA = tchk/pair*100-tchk
+        FILE = open(progress_doc,'a')
+        FILE.write('\n#%2i%% Done\n#%.1f seconds elapsed\n#ETA: %.1f seconds\n'%(pair,tchk,ETA))
+        FILE.close()
+FILE = open(progress_doc,'a')
+FILE.write('\n#Quads 100%% Done\n#%.1f seconds elapsed'%(tchk))
+FILE.close()

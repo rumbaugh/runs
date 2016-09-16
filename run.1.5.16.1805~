@@ -1,0 +1,14 @@
+declare -a targets=(rcs0224 cl0849 rxj0910 rxj1053 rxj1221 cl1350 rxj1716 cl1604 cl0023 cl1324 rxj1757 rxj1821 cl1137)
+
+for i in ${targets[@]}
+do
+cd /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$i/raw
+declare q=`ls */primary/*evt2*`
+for b in $q
+do
+declare f=$b
+done
+RA="`dmkeypar $f RA_PNT echo+`"
+DEC="`dmkeypar $f DEC_PNT echo+`"
+echo $i $RA $DEC | tee -a /home/rumbaugh/Chandra/aimpnts.dat
+done

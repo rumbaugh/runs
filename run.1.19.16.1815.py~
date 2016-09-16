@@ -1,0 +1,4 @@
+import numpy as np
+
+for field in ['Cl0023','Cl1324','Cl1604','RXJ1821','RXJ1757']:
+    cr=np.loadtxt('/home/rumbaugh/Chandra/old_xray_photcats/%s.xray_phot.soft_hard_full.dat',usecols=0,1

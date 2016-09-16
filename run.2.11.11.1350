@@ -1,0 +1,11 @@
+set cen = 4634.3131,3645.9097
+set rad = 180
+set cenbg1 = 4885.3131,3638.9097
+set rad2 = 60
+set cenbg2 = 4358.3131,3695.9097
+set tpath = /scratch/rumbaugh/ciaotesting/Cl1324/master
+echo "circle($cen,$rad)" >> tetmpreg.reg
+echo "
+specextract infile="$tpath/acis9404+9836.evt2.500-8000.fits[sky=region(circle($cen,$rad))]" bkgfile="$tpath/acis9404+9836.evt2.500-8000.fits[sky=region('circle($cenbg2,$rad2)')]" outroot="/home/rumbaugh/ChandaData/Cl1324/master/spec/spec_9404+9836_2.11.11.1400" pbkfile="/scratch/rumbaugh/ciaotesting/Cl1324/9836/acis9836.pbk.fits" grouptype=NUM_CTS binspec=15 bkg_grouptype=NUM_CTS bkg_binspec=15 energy_wmap=500:8000
+
+sky=region('circle($cenbg1,$rad2)+circle($cenbg2,$rad2)')

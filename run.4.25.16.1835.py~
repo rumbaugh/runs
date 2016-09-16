@@ -1,0 +1,148 @@
+import numpy as np
+from ConcaveHull import ConcaveHull,CheckPoints
+from shapely.geometry import box as makebox
+import matplotlib.pyplot as plt
+alpha_ref,alphaX = 11.1,1.1
+execfile('/home/rumbaugh/set_spec_dict.py')
+execfile('/home/rumbaugh/SphDist.py')
+targets=np.array(["rcs0224","cl0849","rxj0910","rxj1221","cl1350","rxj1757","cl1604","cl0023","cl1324","rxj1821","cl1137","rxj1716","rxj1053","cl1324_north","cl1324_south"])
+
+mtol=1.
+ldate='1.19.16'
+optmatchloaddict={'names':('indX','raX','decX','errX','nummatch','raopt1','decopt1','optID1','Popt1','likeopt1','raopt2','decopt2','optID2','Popt2','likeopt2','raopt3','decopt3','optID3','Popt3','likeopt3','probnone'),'formats':('i8','f8','f8','f8','i8','f8','f8','|S32','f8','f8','f8','f8','|S32','f8','f8','f8','f8','|S32','f8','f8','f8')}
+
+refdir='/home/rumbaugh/git/ORELSE/Catalogs/tomczak_catalogs'
+reffile_dict={"cl0023":'sg0023+0423_v0.1.9','cl1604':'sc1604_v0.0.3','rxj1757':'nep200_v0.0.4','rxj1821':'nep5281_v0.0.1','rxj1716':'rxj1716+6708_v0.0.7'}
+
+rfmt=('i8',)
+for k in range(0,42):rfmt=rfmt+('f8',)
+#for k in range(0,4):rfmt=rfmt+('i8',)
+refdict={'names':('ID','z_spec','ra','dec','magaper_B','erraper_B','magaper_V','erraper_V','magaper_Rplus','erraper_Rplus','magaper_Iplus','erraper_Iplus','magaper_r','erraper_r','magaper_i','erraper_i','magaper_z','erraper_z','magaper_J','erraper_J','magaper_K','erraper_K','magcolor_ch1','magcolor_ch1err','magcolor_ch2','magcolor_ch2err','apercorr','weight_B','weight_V','weight_Rplus','weight_Iplus','weight_r','weight_i','weight_z','weight_J','weight_K','weight_ch1','weight_ch2','wmin','star','saturation','badfit','use'),'formats':rfmt}
+
+rfmt=('i8',)
+for k in range(0,36):rfmt=rfmt+('f8',)
+refdict_1821={'names':('ID','z_spec','ra','dec','magaper_B','erraper_B','magaper_V','erraper_V','magaper_r','erraper_r','magaper_i','erraper_i','magaper_z','erraper_z','magaper_J','erraper_J','magaper_Ks','erraper_Ks','magcolor_ch1','errcolor_ch1','magcolor_ch2','errcolor_ch2','apercorr','weight_B','weight_V','weight_r','weight_i','weight_z','weight_J','weight_Ks','weight_ch1','weight_ch2','wmin','star','saturation','badfit','use'),'formats':rfmt}
+
+zfmt=('i8',)
+for k in range(0,14):zfmt=zfmt+('f8',)
+zfmt=zfmt+('i8',)
+for k in range(0,4):zfmt=zfmt+('f8',)
+pzdict={'names':('id','z_spec','z_a','z_m1','chi_a','z_p','chi_p','z_m2','odds','l68','u68','l95','u95','l99','u99','nfilt','q_z','z_peak','peak_prob','z_mc'),'formats':zfmt}
+
+rffmt=('i8',)
+for k in range(0,23):rffmt=rffmt+('f8',)
+rfdict={'names':('id','z','DM','restflux_NUV','p16_NUV','p84_NUV','restflux_U','p16_U','p84_U','restflux_B','p16_B','p84_B','restflux_V','p16_V','p84_V','restflux_r','p16_r','p84_r','restflux_J','p16_J','p84_J','restflux_2800','p16_2800','p84_2800'),'formats':rffmt}
+
+crcc=np.loadtxt('/home/rumbaugh/cc_out.2.19.16.dat')
+D_L=crcc[:,13]*3.086E22
+DM=crcc[:,15]
+kpc=crcc[:,12]
+cc_z=crcc[:,0]
+
+for field in reffile_dict.keys():
+    FILE=open('/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/%s.adammatch.4.23.16.dat'%(field,field,field),'w')
+    FILE.write('# ID_adam RA_phot Dec_phot z_peak flag ID_spec RA_spec Dec_spec z_spec z_spec_adam Q ID_xray RA_xray Dec_xray nummatch    for flag: 0=outside spec coverage,1=inside spec coverage,2=new source\n') 
+    matchcat='/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/%s_optmatch_comb.%s.dat'%(field,field,field,ldate)
+    if field=='cl1604': 
+        ACSmatchcat='/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/%s_optmatch_ACS_comb.%s.dat'%(field,field,field,ldate)
+        crmACS=np.loadtxt(matchcat,dtype=optmatchloaddict)
+        ACSnumX=len(crmACS['indX'])
+        ACSmras,ACSmdecs=crmACS['raopt1'],crmACS['decopt1']
+        ACSnummatch=crmACS['nummatch']
+        tmpcrm=np.loadtxt(matchcat,dtype=optmatchloaddict)
+        crm=np.copy(crmACS)
+        crm[((ACSnummatch==0)&(tmpcrm['nummatch']>0))]=tmpcrm[((ACSnummatch==0)&(tmpcrm['nummatch']>0))]
+        usedACS=np.ones(ACSnumX,dtype='i8')
+        usedACS[((ACSnummatch==0)&(tmpcrm['nummatch']>0))]=0
+    else:
+        crm=np.loadtxt(matchcat,dtype=optmatchloaddict)
+    crs=np.loadtxt('%s/%s'%(spec_dict['basepath'],spec_dict[field]['file']),dtype=specloaddict)
+    ra_opt,dec_opt=crs['ra'],crs['dec']
+    gq=np.where((crs['Q']>2.5)&(crs['z']>spec_dict[field]['z'][1])&(crs['z']<spec_dict[field]['z'][2]))[0]
+    fz0,fzl,fzu=spec_dict[field]['z'][0],spec_dict[field]['z'][1],spec_dict[field]['z'][2]
+    refcat='%s/%s/%s.mag.gz'%(refdir,reffile_dict[field],reffile_dict[field])
+    if field=='rxj1821':
+        cr=np.loadtxt(refcat,dtype=refdict_1821)
+    else:
+        cr=np.loadtxt(refcat,dtype=refdict)
+    outtmp=np.zeros((np.shape(cr)[0],4))
+    outtmp[:,3],outtmp[:,0],outtmp[:,1],outtmp[:,2]=cr['ID'],cr['ra'],cr['dec'],cr['magaper_i']+cr['apercorr']
+    magB=cr['magaper_B']+cr['apercorr']
+
+    pzcat='%s/%s/%s.zout.gz'%(refdir,reffile_dict[field],reffile_dict[field])
+    crpz=np.loadtxt(pzcat,dtype=pzdict)
+    rfcat='%s/%s/%s.restframe.gz'%(refdir,reffile_dict[field],reffile_dict[field])
+    crrf=np.loadtxt(rfcat,dtype=rfdict)
+
+    RFU,RFB=crrf['restflux_U'],crrf['restflux_B']
+    mRFU,mRFB=np.ones(len(RFU))*99,np.ones(len(RFU))*99
+    gdls=np.zeros(len(mRFU),dtype='i8')
+    for igdl in range(0,len(gdls)):
+        gdl=np.argsort(np.abs(crpz['z_peak'][igdl]-cc_z))[0]
+        gdls[igdl]=gdl
+    mRFU[RFU>0],mRFB[RFB>0]=-2.5*np.log10(RFU[RFU>0])+25-DM[gdls][RFU>0],-2.5*np.log10(RFB[RFB>0])+25-DM[gdls][RFB>0]
+    CKP_arr=np.zeros(len(RFU),dtype='bool')
+    match_arr_spec,match_arr_xray=np.ones(len(RFU),dtype='i8')*-1,np.ones(len(RFU),dtype='i8')*-1
+    for i in range(0,len(RFU)):
+        zx,zs=crpz['z_peak'][i],crpz['z_peak']
+        gnoz=np.where((np.abs(cr['ra'][i]-cr['ra'])*np.cos(cr['dec'][i]*np.pi/180)<20./3600)&(np.abs(cr['dec'][i]-cr['dec'])<20./3600))[0]
+        if ((len(gnoz)>1)&(zx>0.01)):
+            tmpdist=60*SphDist(cr['ra'][i],cr['dec'][i],cr['ra'][gnoz],cr['dec'][gnoz])*kpc[gdls[i]]
+            tmpzdist=np.abs(((1+zx)**2-(1+zs[gnoz])**2)/((1+zx)**2+(1+zs[gnoz])**2))*3.*10.**5
+            gCKP=np.where((tmpdist<70)&(tmpzdist<350))[0]
+            if len(gCKP)>1: CKP_arr[i]=1
+        gnoz=np.where((np.abs(cr['ra'][i]-ra_opt)*np.cos(cr['dec'][i]*np.pi/180)<mtol/3600)&(np.abs(cr['dec'][i]-dec_opt)<mtol/3600))[0]
+        if len(gnoz)>0:
+            tmpdist=60*SphDist(cr['ra'][i],cr['dec'][i],ra_opt[gnoz],dec_opt[gnoz])
+            if len(gnoz)>1:
+                gtmpdist=np.argsort(tmpdist)[0]
+                match_arr_spec[i]=gnoz[gtmpdist]
+            else:
+                match_arr_spec[i]=gnoz[0]
+        gnoz=np.where((np.abs(cr['ra'][i]-crm['raX'])*np.cos(cr['dec'][i]*np.pi/180)<mtol/3600)&(np.abs(cr['dec'][i]-crm['decX'])<mtol/3600))[0]
+        if len(gnoz)>0:
+            tmpdist=60*SphDist(cr['ra'][i],cr['dec'][i],crm['raX'][gnoz],crm['decX'][gnoz])
+            if len(gnoz)>1:
+                gtmpdist=np.argsort(tmpdist)[0]
+                match_arr_xray[i]=gnoz[gtmpdist]
+            else:
+                match_arr_xray[i]=gnoz[0]
+    
+    gall=np.where((crpz['z_peak']>=fzl)&(crpz['z_peak']<=fzu)&(cr['use']==1)&(mRFB<-20.9)&(mRFB>-80))[0]
+    gnew0=np.where((crpz['z_peak']>=fzl)&(crpz['z_peak']<=fzu)&(cr['use']==1)&(cr['z_spec']<0)&(mRFB<-20.9)&(mRFB>-80))[0]
+
+    CH_ref = np.zeros((len(ra_opt),2))
+    CH_ref[:,0],CH_ref[:,1]=ra_opt,dec_opt
+    CHull_ref,edges_ref=ConcaveHull(CH_ref,alpha_ref)
+    gCH=CheckPoints(CHull_ref,cr['ra'][gall],cr['dec'][gall])
+    gnew=np.where(cr['z_spec'][gall][gCH]<0)[0]
+    print field,len(gnew),len(gCH),np.sum(CKP_arr),np.sum(CKP_arr[gall][gCH])
+    flag=np.ones(len(RFU),dtype='i8')*-1
+    flag[gall]=0
+    flag[gall][gCH]=1
+    flag[gall][gCH][gnew]=2
+
+    for i in range(0,len(RFU)):
+        ID_spec,ra_spec,dec_spec,z_spec_tmp,Q_tmp,ID_xray,rax,decx,nm='NONE',-99.,-99.,-9.,0,'NONE',-99.,-99.,0
+        if match_arr_spec[i]>=0:
+            ga=match_arr_spec[i]
+            ID_spec,ra_spec,dec_spec,z_spec_tmp,Q_tmp=crs['ID'][ga],crs['ra'][ga],crs['dec'][ga],crs['z'][ga],crs['Q'][ga]
+        if match_arr_xray[i]>=0:
+            ga=match_arr_xray[i]
+            ID_xray,rax,decx,nm=crm['indX'][ga],crm['raX'][ga],crm['decX'][ga],crm['nummatch'][ga]
+        FILE.write('%6s %9.5f %9.5f %9.6f %2f %16s %9.5f %9.5f %9.6f %9.6f %2i %4s %9.5f %9.5f %i \n'%(cr['ID'][i],cr['ra'][i],cr['dec'][i],crpz['z_peak'][i],flag[i],ID_spec,ra_spec,dec_spec,z_spec_tmp,cr['z_spec'][i],Q_tmp,ID_xray,rax,decx,nm))
+    FILE.close()
+    plt.clf()
+    plt.rc('axes',linewidth=2)
+    plt.fontsize = 14
+    plt.tick_params(which='major',length=8,width=2,labelsize=14)
+    plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+    plt.scatter(cr['ra'],cr['dec'],color='k',s=2)
+    plt.scatter(crs['ra'][gq],crs['dec'][gq],color='b',s=6)
+    plt.scatter(cr['ra'][gall],cr['dec'][gall],color='green',s=16,marker='s')
+    plt.scatter(cr['ra'][gall][gCH],cr['dec'][gall][gCH],color='orange',s=16,marker='s')
+    plt.scatter(cr['ra'][gall][gCH][gnew],cr['dec'][gall][gCH][gnew],color='r',lw=2,s=22,marker='x')
+    plt.xlabel('RA')
+    plt.ylabel('Dec')
+    plt.legend()
+    plt.savefig('/home/rumbaugh/Chandra/plots/adam_spec_cov_test.%s.4.23.16.png'%field)

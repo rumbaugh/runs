@@ -1,0 +1,33 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(2.63)
+declare -a cons=(6.30076552038e-12 3.56382411483e-11)
+declare cnt=0
+
+for i in 927+1708
+do
+cd /mnt/data2/rumbaugh/dump/ChandraData/0849/master
+ln -sf /home/rumbaugh/Chandra_ORELSE_Notes/get_chandra_phot2.pl .
+punlearn ardlib
+acis_set_ardlib ../927/acis927.bpix.fits
+RA="`dmkeypar acis$i.evt2.500-2000.fits RA_PNT echo+`"
+DEC="`dmkeypar acis$i.evt2.500-2000.fits DEC_PNT echo+`"
+TIME="`dmkeypar acis$i.evt2.500-2000.fits EXPOSURE echo+`"
+for j in 0 1
+do
+./get_chandra_phot2.pl sources.$i.full+soft+hard.srclist.dat $i acis$i.img.${n[$j]}.vig_corr.fits acis$i.expmap_${z[$j]}.fits ../927/acis927.asol.fits ${z[$j]} ${cons[$j]} 
+done
+done
+done

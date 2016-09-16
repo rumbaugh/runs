@@ -1,0 +1,3 @@
+import numpy as np
+
+cr = np.loadtxt('/home/rumbaugh/KAST/Science/sci_fits_list.txt','dtype='string')

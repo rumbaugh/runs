@@ -1,0 +1,3 @@
+cd /local3/rumbaugh/EVLA/data/11A-138/raw/archive.nrao.edu/secured/DO0005/
+forach i (11*.ms)
+cp $i /local3/rumbaugh/EVLA/data/11A-138/raw/.

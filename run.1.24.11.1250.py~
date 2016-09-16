@@ -1,0 +1,6 @@
+import numpy as np
+import math as m
+import sys
+import os
+
+cr = read_file("/home/rumbaugh/COSMOS/lens_sample_id_z_exp_rc.dat")

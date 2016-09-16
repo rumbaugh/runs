@@ -1,0 +1,3 @@
+import numpy as np
+
+fields=['cl0023','rxj1716']

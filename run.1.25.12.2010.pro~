@@ -1,0 +1,20 @@
+
+rsb = [1.777,1.325,1.84,1.203,1.305,3.182,1.0])
+rsm = [0.0229,0.0084,0.0319,0.0012,0.00485,0.063,0])
+rsSTD = [0.0625,0.0735,0.0576,0.0413,0.0813,0.0907,0.1])
+rsNSTD = [3.0,2.0,3.0,3.0,2.0,2.0,3.0])
+files = ['FINAL.onlykindafinal.cl0023.deimos.lris.oct2010.cat','FINAL.cl1322.lrisplusdeimos.cat','FINAL.spectroscopic.autocompile.N200.blemaux.nov2010.cat','FINAL.nep5281.deimos.gioia.feb2010.nh.cat','FINAL.spectra.sc1604.onlysemifinal.wcompletenessmasks.feb2011.nh.cat','LFC/FINAL.spectra.sc1604.onlysemifinal.wcompletenessmasks.nov2010.cat','FINAL.spectroscopic.autocompile.blemaux.0910.notsofinal.plusT08.cat']
+names = ['Cl1324+3011','Cl1324+3013','Cl1324+3059','RXJ1757','RXJ1821','Cl1604A','Cl1604B','RXJ0910+5419','RXJ0910+5422'])
+cRAh = [13,13,13,17,18,16,16,9,9])
+cRAm = [24,24,24,57,21,4,4,10,10])
+cRAs = [48.9,20.3,49.2,19.3,32.3,23.5,26.5,8.5,45.0])
+cDd = [30,30,30,66,68,43,43,54,54])
+cDm = [11,12,58,31,27,4,14,18,22,])
+cDs = [26,52,35,29,57,39,22,56,7])
+#centerRAs = [((16+(4.0+23.5/60)/60)*360.0/24,(16+(4.0+26.5/60)/60)*360.0/24])
+#centerDecs = [43+(4.0+39.0/60)/60,43+(14.0+22.0/60)/60])
+centerRAs = (cRAh + (cRAm + (cRAs/60.0))/60.0)*360.0/24
+centerDecs = cDd + (cDm + (cDs/60.0))/60.0
+centerzs = [0.76,0.76,0.69,0.69,0.84,0.89861,0.86531,1.1,1.1])
+#1 Mpc = 3.06*0.7 Arcmin
+srchdist = [3.23,3.23,3.36,3.36,3.12,3.06,3.09,2.92,2.92])*0.7

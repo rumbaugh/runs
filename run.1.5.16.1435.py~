@@ -1,0 +1,4 @@
+import numpy as np
+import pyfits as py
+
+targets=np.array(["rcs0224","cl0849","rxj0910","rxj1053","rxj1221","cl1350","rxj1716","cl1604","cl0023","cl1324","rxj1757","rxj1821","cl1137"])

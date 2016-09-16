@@ -1,0 +1,11 @@
+declare -a targets=(rcs0224 cl0849 rxj0910 rxj1053 rxj1221 cl1350 rxj1716 cl1604 cl0023 cl1324 rxj1757 rxj1821 cl1137)
+declare -a obsids=(3181s4987 927s1708 2227s2452 4936 1662 2229 548 6932s6933s7343 7914 9403s9840s9404s9836 10443s11999 10444s10924 4161)
+
+declare -a inds=(0 1 2 3 4 5 6 7 8 9 10 12)
+
+for i in ${inds[@]}
+do
+cd /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/${targets[$i]}/proc/${targets[$i]}/SRCv1
+cp -n ${targets[$i]}_srclist_v1.fits bkup_12.22.15.${targets[$i]}_srclist_v1.fits
+cp -n ${targets[$i]}_srclist_v1.reg bkup_12.22.15.${targets[$i]}_srclist_v1.reg
+done

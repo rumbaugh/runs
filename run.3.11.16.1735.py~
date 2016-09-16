@@ -1,0 +1,10 @@
+import numpy as np
+execfile("/home/rumbaugh/makeCMD.py")
+date='3.11.16'
+
+ARed[zarr>1/1.794+0.628]=0
+BRed[zarr<0.628]=0
+ABlue[zarr>1/1.824+0.679]=0
+BBlue[zarr<0.679]=0
+param_dict={'ARed':ARed,'ABlue':ABlue,'BRed':BRed,'BBlue':BBlue,'z':zarr}
+for field in targets[np.argsort(zlist)]:

@@ -1,0 +1,146 @@
+import numpy as np
+import pyfits as py
+import matplotlib.pyplot as plt
+import matplotlib.backends.backend_pdf as bpdf
+execfile("/home/rumbaugh/makeCMD.py")
+
+ierrmax = 0.05
+
+spec_dict= { \
+             'cl1324': {'file': 'FINAL.cl1322.lrisplusdeimos.jul2015.1322Ptmp.nodups.cat', 'loaddict': '','z':[0.756,0.65,0.79], 'obsids': [9403,9404,9836,9840]}, \
+             'cl1324_north': {'file': 'FINAL.cl1322.lrisplusdeimos.jul2015.1322Ptmp.nodups.cat', 'loaddict': '','z':[0.756,0.65,0.79], 'obsids': [9403,9840]}, \
+             'cl1324_south': {'file': 'FINAL.cl1322.lrisplusdeimos.jul2015.1322Ptmp.nodups.cat', 'loaddict': '','z':[0.756,0.65,0.79], 'obsids': [9404,9836]}, \
+             'rxj1821': {'file': 'FINAL.nep5281.deimos.gioia.aug2013.nodups.cat', 'loaddict': '','z':[0.818,0.8,0.83], 'obsids': [10444,10924]}, \
+             'cl0849': {'file': 'FINAL.onlysemifinal.autocompile.blemaux.0849.feb2013.nodups.cat', 'loaddict': '','z':[1.261,1.25,1.28], 'obsids': [927,1708]}, \
+             'X3': {'file': 'FINAL.semifinal.spectroscopic.autocompile.blemaux.XL005.targetsonly.apr2014.cat', 'loaddict': '','z':[1.050,1,1.1], 'obsids': []}, \
+             'cl0023': {'file': 'FINAL.SG0023.deimos.lris.feb2012.nodups.cat', 'loaddict': '','z':[0.845,0.82,0.87], 'obsids': [7914]}, \
+             'X5': {'file': 'FINAL.spectra.Cl0023.edit.cat', 'loaddict': '','z':[0.845,0.82,0.87], 'obsids': []}, \
+             'cl1604': {'file': 'FINAL.spectra.sc1604.wcompletenessmasks.feb2012.nodups.cat', 'loaddict': '','z':[0.900,0.84,0.96], 'obsids': [6932,6933,7343]}, \
+             'cl1350': {'file': 'FINAL.spectroscopic.autocompile.blemaux.1350.dec2015.nodups.cat', 'loaddict': '','z':[0.804,0.79,0.81], 'obsids': [2229]}, \
+             'X7': {'file': 'FINAL.spectroscopic.autocompile.blemaux.1429.may2015.nodups.cat', 'loaddict': '','z':[0.985,0.97,1.], 'obsids': []}, \
+             'X8': {'file': 'FINAL.spectroscopic.autocompile.blemaux.N2560.apr2012.nodups.cat', 'loaddict': '','z':[0,0,0], 'obsids': []}, \
+             'rcs0224': {'file': 'FINAL.spectroscopic.autocompile.blemaux.RCS0224.apr2012.nodups.cat', 'loaddict': '','z':[0.772,0.76,0.79], 'obsids': [3181,4987]}, \
+             'rxj1221': {'file': 'FINAL.spectroscopic.autocompile.blemaux.RXJ1221.dec2015.nodups.cat', 'loaddict': '','z':[0.700,0.69,0.71], 'obsids': [1662]}, \
+             'rxj1716': {'file': 'FINAL.spectroscopic.autocompile.blemaux.RXJ1716.jul2015.nodups.cat', 'loaddict': '','z':[0.813,0.8,0.83], 'obsids': [548]}, \
+             'rxj0910': {'file': 'FINAL.spectroscopic.autocompile.blemaux.sc0910.may2015.plusT08.nodups.cat', 'loaddict': '','z':[1.110,1.08,1.15], 'obsids': [2227,2452]}, \
+             'rxj1757': {'file': 'FINAL.spectroscopic.autocompile.N200.blemaux.aug2013.nodups.cat', 'loaddict': '','z':[0.691,0.68,0.71], 'obsids': [10443,11999]}, \
+             'X10': {'file': 'spectroscopic.autocompile.blemaux.0943A.targetsonly.cat', 'loaddict': '','z':[0,0,0], 'obsids': []}, \
+             'cl1137': {'file': 'spectroscopic.autocompile.blemaux.1137.1137Ctmp.may2015.cat', 'loaddict': '','z':[0.959,0.94,0.97], 'obsids': [4161]}, \
+             'rxj1053': {'file': 'FINAL.spectroscopic.autocompile.blemaux.RXJ1053.dec2015.BCDXtargetsonly.nodups.cat', 'loaddict': '','z':[1.140,1.1,1.15], 'obsids': [4936]}}
+
+targets=np.array(["rcs0224","cl0849","rxj0910","rxj1221","cl1350","rxj1757","cl1604","cl0023","cl1324","rxj1821","cl1137","rxj1716","rxj1053"])
+zlist=np.zeros(len(targets))
+for i in range(0,len(targets)): zlist[i]=spec_dict[targets[i]]['z'][0]
+
+psfpdf=bpdf.PdfPages('/home/rumbaugh/Chandra/plots/CMDs.2.17.16.pdf')
+
+fig=figure(1)
+for field in targets[np.argsort(zlist)]:
+    if field[:6] in ['cl1604','cl1324']:
+        numsig=2
+    else: 
+        numsig=3
+    curdir='/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s'%(field,field)
+    pcat = '/home/rumbaugh/Chandra/photcats/%s_rizdata.corr.gz'%field
+    scat='/home/rumbaugh/Chandra/speccats/%s_spec.cat'%field
+    specloaddict={'names':('ID','mask','slit','ra','dec','magR','magI','magZ','z','zerr','Q'),'formats':('|S16','|S16','|S8','f8','f8','f8','f8','f8','f8','f16','i8')}
+    refdict={'names':('ID','dum1','dum2','ra','dec','magR','dmagR','magI','dmagI','magZ','dmagZ'),'formats':('|S64','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')}
+    crp=np.loadtxt(pcat,dtype=refdict)
+    crs=np.loadtxt(scat,dtype=specloaddict)
+    r,i,z,redshift,q=crs['magR'],crs['magI'],crs['magZ'],crs['z'],crs['Q']
+    rerr,ierr,zerr=np.zeros(len(r)),np.zeros(len(i)),np.zeros(len(i))
+    for ipr in range(0,np.shape(crs)[0]):
+        gp=np.where(((np.abs(crs['ra'][ipr]-crp['ra'])<0.2/3600)&(np.abs(crs['dec'][ipr]-crp['dec'])<0.2/3600)&(np.abs(r[ipr]-crp['magR'])<0.1)&(np.abs(i[ipr]-crp['magI'])<0.1)))[0]
+        if len(gp)==0:
+            rerr[ipr],ierr[ipr]=99,99
+        else:
+            gp=gp[0]
+            rerr[ipr],ierr[ipr],zerr[ipr]=crp['dmagR'][gp],crp['dmagI'][gp],crp['dmagZ'][gp]
+    rerrinit,ierrinit=np.copy(rerr),np.copy(ierr)                
+    r,i,z,redshift,rerr,ierr,zerr,gCMD=r[q>2.5],i[q>2.5],z[q>2.5],redshift[q>2.5],rerr[q>2.5],ierr[q>2.5],zerr[q>2.5],np.arange(len(q))[q>2.5]
+    r,i,z,rerr,ierr,zerr,redshift,gCMD=r[((redshift>spec_dict[field]['z'][1])&(redshift<spec_dict[field]['z'][2]))],i[((redshift>spec_dict[field]['z'][1])&(redshift<spec_dict[field]['z'][2]))],z[((redshift>spec_dict[field]['z'][1])&(redshift<spec_dict[field]['z'][2]))],rerr[((redshift>spec_dict[field]['z'][1])&(redshift<spec_dict[field]['z'][2]))],ierr[((redshift>spec_dict[field]['z'][1])&(redshift<spec_dict[field]['z'][2]))],zerr[((redshift>spec_dict[field]['z'][1])&(redshift<spec_dict[field]['z'][2]))],redshift[((redshift>spec_dict[field]['z'][1])&(redshift<spec_dict[field]['z'][2]))],gCMD[((redshift>spec_dict[field]['z'][1])&(redshift<spec_dict[field]['z'][2]))]
+    rcut,icut,zcut,rcuterr,icuterr,zcuterr,redshiftcut,gCMDcut=r[ierr<ierrmax],i[ierr<ierrmax],z[ierr<ierrmax],rerr[ierr<ierrmax],ierr[ierr<ierrmax],zerr[ierr<ierrmax],redshift[ierr<ierrmax],gCMD[ierr<ierrmax]
+    gm0=np.where(((r<40)&(i<40)&(z<40)))[0]
+    gm=np.where(((rcut<40)&(icut<40)&(zcut<40)))[0]
+    mred,mblue,mrederr,mblueerr=calc_param_mags(r[gm0],i[gm0],z[gm0],rerr[gm0],ierr[gm0],zerr[gm0],redshift[gm0])
+    mredcut,mbluecut,mrederrcut,mblueerrcut=calc_param_mags(rcut[gm],icut[gm],zcut[gm],rcuterr[gm],icuterr[gm],zcuterr[gm],redshiftcut[gm])
+
+    fig.clf()
+    ax=fig.add_subplot(1,1,1)
+    ax.scatter(icut,rcut-icut)
+    ax.set_xlabel("i'")
+    ax.set_ylabel("r'-i'")
+    ax.set_title("%s (i' err. < 0.05)"%field)
+    ax.set_xlim(19,25)
+    ax.set_ylim(0,1.6)
+    fig.savefig(psfpdf,format='pdf')
+
+    fig.clf()
+    ax=fig.add_subplot(1,1,1)
+    ax.scatter(i,r-i)
+    ax.set_xlabel("i'")
+    ax.set_ylabel("r'-i'")
+    ax.set_title("%s"%field)
+    ax.set_xlim(19,25)
+    ax.set_ylim(0,1.6)
+    fig.savefig(psfpdf,format='pdf')
+
+    fig.clf()
+    ax=fig.add_subplot(1,1,1)
+    ax.scatter(zcut,icut-zcut)
+    ax.set_xlabel("z'")
+    ax.set_ylabel("i'-z'")
+    ax.set_title("%s (z' err. < 0.05)"%field)
+    ax.set_xlim(18,25)
+    ax.set_ylim(-0.5,1.25)
+    fig.savefig(psfpdf,format='pdf')
+
+    fig.clf()
+    ax=fig.add_subplot(1,1,1)
+    ax.scatter(z,i-z)
+    ax.set_xlabel("z'")
+    ax.set_ylabel("i'-z'")
+    ax.set_title("%s"%field)
+    ax.set_xlim(18,25)
+    ax.set_ylim(-0.5,1.25)
+    fig.savefig(psfpdf,format='pdf')
+
+    fig.clf()
+    ax=fig.add_subplot(1,1,1)
+    ax.scatter(mbluecut,mredcut-mbluecut)
+    ax.set_xlabel("m_blue")
+    ax.set_ylabel("m_blue-m_red'")
+    ax.set_title("%s (m_blue err. < 0.05)"%field)
+    #ax.set_xlim(19,25)
+    #ax.set_ylim(-0.5,1.25)
+    fig.savefig(psfpdf,format='pdf')
+
+    fig.clf()
+    ax=fig.add_subplot(1,1,1)
+    ax.scatter(mblue,mred-mblue)
+    ax.set_xlabel("m_blue")
+    ax.set_ylabel("m_blue-m_red'")
+    ax.set_title("%s"%field)
+    #ax.set_xlim(19,25)
+    #ax.set_ylim(-0.5,1.25)
+    fig.savefig(psfpdf,format='pdf')
+
+
+#crp=py.open('/home/rumbaugh/Downloads/psftable.fits')
+#d=crp[1].data
+#ang=d['PSF95'][:,2]
+#xin=d['X']
+#yin=d['Y']
+#fig=figure(1)
+#for i in range(0,211):
+#    fig.clf()
+#    ax=fig.add_subplot(1,1,1)
+#    ax.plot(xin[np.arange(0,211*211,211)],ang[np.arange(i,211*211,211)])
+#    ax.scatter(xin[np.arange(0,211*211,211)],ang[np.arange(i,211*211,211)],s=6)
+#    ax.set_xlabel('CCD X')
+#    ax.set_ylabel('PSF Angle')
+#    ax.set_title('CCD Y = %.1f'%yin[i])
+#    ax.set_xlim(xin[0]-5,xin[-1]+5)
+#    ax.set_ylim(-5,185)
+#    fig.savefig(psfpdf,format='pdf')
+psfpdf.close()

@@ -1,0 +1,8 @@
+import numpy as np
+
+crt = np.loadtxt('sim_ltcurve_testing/Nicktruth.txt')
+
+season_len = np.zeros(100)
+for pair in (1,101):
+    cr = np.loadtxt('sim_ltcurve_testing/Nick/Nick_pair%i.txt'%pair)
+    

@@ -1,0 +1,2 @@
+vis = 'test.ms'
+bants = {'2': 'ea10,ea18', '3': 'ea10,ea15,ea18', '4': 'ea10,ea18'

@@ -1,0 +1,30 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+set z = (soft hard full)
+set el = (0.5 2.0 0.5)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+
+
+foreach i (548 4936)
+cd /local3/rumbaugh/ChandraData/$i/
+foreach j (1 2 3)
+dmlist "sources.$i.$z[$j].1e6.b1.1-16.wexp20.fits[cols RA, DEC, SRC_SIGNIFICANCE, NET_COUNTS]" data,clean > sources.$i.$z[$j].1e6.b1.1-16.wexp20.radecsigncnts.dat
+lc -C -I -n RA -n DEC -n sig -n ncnts < sources.$i.$z[$j].1e6.b1.1-16.wexp20.radecsigncnts.dat > sources.$i.$z[$j].1e6.b1.1-16.wexp20.radecsigncnts.cat
+set RA = `dmkeypar acis$i.evt2.fits RA_PNT echo+`
+set DEC = `dmkeypar acis$i.evt2.fits DEC_PNT echo+`
+getxsfromradec $RA $DEC < sources.$i.$z[$j].1e6.b1.1-16.wexp20.radecsigncnts.cat > sources.$i.$z[$j].1e6.b1.1-16.wexp20.xsradecsigncnts.cat
+end
+mergecats -x xs -n 1 -m 0.0015 sources.$i.full.1e6.b1.1-16.wexp20.xsradecsigncnts.cat sources.$i.soft.1e6.b1.1-16.wexp20.xsradecsigncnts.cat sources.$i.hard.1e6.b1.1-16.wexp20.xsradecsigncnts.cat> sources.$i.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsigncnts.cat
+lc -O < sources.$i.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsigncnts.cat > sources.$i.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsigncnts.hdatend
+end
+end

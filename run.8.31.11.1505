@@ -1,0 +1,21 @@
+set z = (soft hard full)
+set el = (0.5 2.0 0.5)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+set cenx = (4656.28 4009.28)
+set ceny = (3974.77 4359.77)
+
+cd /home/rumbaugh/ChandraData/0910/master
+mkdir -p spec
+foreach i (1 2)
+specextract infile="acis2227+2452.evt2.500-2000.fits[sky=region(regions/EM$i.reg)]" outroot=spec/spec_2227+2452_$i bkgfile="acis2227+2452.evt2.500-2000.fits[sky=region(regions/BG$i.reg)]" pbkfile="acis2227.pbk.fits" grouptype=NUM_CTS binspec=15 verbose=0 clob+
+end
+end

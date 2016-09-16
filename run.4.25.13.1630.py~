@@ -1,0 +1,2 @@
+py.scatter(ltime+0.1,Bflux/np.mean(Bflux),s=20,color='r',label='B')
+py.scatter(ltime,Cflux/np.mean(Cflux),s=20,color='b',label='C')

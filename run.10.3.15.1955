@@ -1,0 +1,24 @@
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+declare -a b=(0.5-2.0 2.0-8.0 0.5-8.0)
+declare -a el=(0.5 2.0 0.5)
+declare -a b=(0.5-2.0 2.0-8.0 0.5-8.0)
+declare -a el=(0.5 2.0 0.5)
+
+for i in 548
+do
+cd /home/rumbaugh/Chandra/$i
+punlearn ardlib
+acis_set_ardlib acis$i.bpix.fits.gz
+for j in 0 1 2
+do
+echo $i.$j
+echo "acis${i}_${b[$j]}_thresh.img"
+done
+done

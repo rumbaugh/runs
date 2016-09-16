@@ -1,0 +1,4 @@
+import numpy as np
+import math as m
+import matplotlib
+import matplotlib.pylab as pylab

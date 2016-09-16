@@ -1,0 +1,65 @@
+import numpy as np
+import os
+nh = np.array([2.63])
+names = np.array(['927+1708'])
+times = np.array([125146.86866667+61469.789688443])
+i=0
+os.chdir('/mnt/data2/rumbaugh/dump/ChandraData/0849/master/spec')
+load_pha("spec_%s_soft_grp.pi"%(names[i]))
+rmf1 = unpack_rmf("spec_%s_soft.wrmf"%(names[i]))
+set_rmf(rmf1)
+arf1 = unpack_arf("spec_%s_soft.warf"%(names[i]))
+set_arf(arf1)
+ignore()
+notice(0.5,2.0)
+paramprompt()
+set_model(powlaw1d.pl*xswabs.abs1)
+pl.gamma = 1.4
+pl.ampl = 1.0
+abs1.nh = nh[i]/100.0
+freeze(abs1.nh)
+time = times[i]
+fake_pha(1,arf1,rmf1,time)
+mcnt = calc_model_sum(0.5,2.0)
+pl.ampl = 1.0/mcnt
+freeze(pl.ampl)
+fake_pha(1,arf1,rmf1,time)
+eflx = calc_energy_flux(0.5,2.0)
+mcnt2 = calc_model_sum(0.5,2.0)
+abs1.nh = 0.0
+fake_pha(1,arf1,rmf1,time)
+eflx2 = calc_energy_flux(0.5,2.0)
+cnt2flux = time*eflx2
+print "Count rate to unabsorbed flux conversion: " + str(cnt2flux)
+FILE = open('../cnt2flux.conv.dat'%(names[i]),'w')
+FILE.write(str(cnt2flux) + ' soft\n')
+
+load_pha("spec_%s_hard_grp.pi"%(names[i]))
+rmf1 = unpack_rmf("spec_%s_hard.wrmf"%(names[i]))
+set_rmf(rmf1)
+arf1 = unpack_arf("spec_%s_hard.warf"%(names[i]))
+set_arf(arf1)
+ignore()
+notice(2.0,10.0)
+paramprompt()
+set_model(powlaw1d.pl*xswabs.abs1)
+pl.gamma = 1.4
+pl.ampl = 1.0
+abs1.nh = nh[i]
+freeze(abs1.nh)
+time = times[i]
+fake_pha(1,arf1,rmf1,time)
+mcnt = calc_model_sum(2.0,8.0)
+pl.ampl = 1.0/mcnt
+freeze(pl.ampl)
+fake_pha(1,arf1,rmf1,time)
+eflx = calc_energy_flux(2.0,8.0)
+mcnt2 = calc_model_sum(2.0,8.0)
+abs1.nh = 0.0
+fake_pha(1,arf1,rmf1,time)
+eflx2 = calc_energy_flux(2.0,8.0)
+cnt2flux = time*eflx2
+print "Count rate to unabsorbed flux conversion: " + str(cnt2flux)
+FILE.write(str(cnt2flux) + ' hard\n')
+FILE.close()
+exit

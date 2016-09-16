@@ -1,0 +1,11 @@
+set r0 = (12 98)
+set names = (NEP5281)
+set n_ids = (10444+10924)
+
+foreach i (1)
+foreach j (1 2)
+cd /home/rumbaugh/ChandraData/$names[$i]/master
+aconvolve acis$n_ids[$i].img.500-2000.vig_corr.nops.fits test.conv.$n_ids[$i].soft.r_$r0[$j].5.7.12.fits "file:/home/rumbaugh/ChandraData/bmodels/beta_model.r0_$r0[$j].alpha_1.5.fits" edges=wrap method=fft clob+
+end
+end
+end

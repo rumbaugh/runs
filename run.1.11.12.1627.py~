@@ -1,0 +1,2 @@
+cr = read_file('/home/rumbaugh/FINAL.spectroscopic.autocompile.blemaux.0910.notsofinal.plusT08.cat')
+id = get_colvals(cr,'col1')

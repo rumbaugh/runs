@@ -1,0 +1,25 @@
+export ImpDoPrep=True
+export ImpDoFilt=True
+export ImpDoAstrom=True
+export ImpDoExpo=True
+export ImpDoImg=True
+export ImpDoMerge=True
+export ImpDoWave=True
+export ImpDoSrc=True
+
+declare -a targets=(rcs0224 cl0849 rxj0910 rxj1053 rxj1221 cl1350 rxj1716 cl1604 cl0023 cl1324 rxj1757 rxj1821 cl1137)
+declare -a obsids=(3181s4987 927s1708 2227s2452 4936 1662 2229 548 6932s6933s7343 7914 9403s9840s9404s9836 10443s11999 10444s10924 4161)
+
+declare -a targets=(cl1324_north cl1324_south)
+declare -a obsids=(9403\ 9840 9404\ 9836)
+
+declare -a inds=(0 1)
+
+for i in 0 1
+do
+export ImpProj=${targets[$i]}
+export ImpObsID=${obsids[$i]}
+export ImpOutBase=${targets[$i]}
+export ImpRefCat="/home/rumbaugh/Chandra/ImperialPipeline/refcats/speccat.${targets[$i]}.radec.dat"
+/home/rumbaugh/Chandra/ImperialPipeline/Scripts/c_master.sh
+done

@@ -1,0 +1,29 @@
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+declare -a cid=(2227+2452 3181+4987 927+1708)
+declare -a cida=(2227 3181 927)
+declare -a cidb=(2452 4987 1708)
+declare -a b=(0.5-2.0 2.0-8.0 0.5-8.0)
+declare cnt=0
+
+for i in 2227+2452 927+1708 3181+4987
+do
+cd /home/rumbaugh/Chandra/$i
+punlearn ardlib
+acis_set_ardlib acis$i.bpix.fits.gz
+ln -sf /home/rumbaugh/runs/run_10_21_15_1400.pl .
+for j in 0 1 2
+do
+./run_10_21_15_1400.pl ra_dec_list.${i}_${z[$j]}.dat acis$i.img.${n[$j]}.fits acis$i.asol.fits ra_dec_theta_list.${i}_${z[j]}.dat
+done
+done

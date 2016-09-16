@@ -1,0 +1,8 @@
+set_plot,'PS'
+loadct,13
+
+device,file
+
+
+names2 = ['RXJ1757','RXJ1821','Cl0910+5422']
+names = ['nep200','nep5281','cl0910']

@@ -1,0 +1,10 @@
+import numpy as np
+
+fields = ['Cl1604','Cl1324','Cl0023','RXJ1787','RXJ1821']
+
+match_cat_name_dict = {x: x for x in fields}
+phot_cat_name_dict = {x: x for x in fields}
+match_cat_name_dict['RXJ1787'] = 'NEP200'
+match_cat_name_dict['RXJ1821'] = 'NEP5281'
+
+for field in fields:

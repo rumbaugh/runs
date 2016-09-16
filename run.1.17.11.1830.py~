@@ -1,0 +1,366 @@
+import sys
+import os
+import numpy as np
+import math as m
+
+try:
+    infile
+except NameError:
+    infile = "/scratch/rumbaugh/ciaotesting/analysis/list_rad_plotStack0.3-0.4.txt"
+
+S_crit = 10**-2
+#Algorithm will iterate until residual is below this value
+
+TINY = 1.0*10**-20
+
+#ParamVec is a vector containing the amplitude, core radius, beta value, and 
+#constant background value of the beta model, in that order
+try:
+    Amp
+except NameError:
+    Amp = 5.27e-07
+try:
+    Beta
+except NameError:
+    Beta = 1.5
+try:
+    Rcore
+except NameError:
+    Rcore = 39
+try:
+    bkg
+except NameError:
+    bkg = 1.9e-07
+try:
+    ParamVec
+except NameError:
+    ParamVec = np.zeros(4)
+    ParamVec[0] = Amp
+    ParamVec[1] = Rcore
+    ParamVec[2] = Beta
+    ParamVec[3] = bkg
+if len(ParamVec) != 4:
+    ParamVec = np.zeros(4)
+    ParamVec[0] = Amp
+    ParamVec[1] = Rcore
+    ParamVec[2] = Beta
+    ParamVec[3] = bkg
+#print ParamVec
+
+
+
+# ia[i] = 1 means ParamVec[i] is thawed, 0 means it's frozen
+try:
+    ia
+except NameError:
+    ia = (1,1,1,1)
+if len(ia) != 4:
+    ia = (1,1,1,1)
+
+ndata = 40
+ma = 4
+
+trouble_flag = 0
+temp = 0.0
+
+def BetaFunc( Amp, R, Rcore, Beta, bkg, dvnum):
+    #Evaluates beta function a r=R if dvnum = 0. Otherwise, evaluates 
+    #the derivate of the beta function with respect to parameter
+    #number dvnum (1=Amp,2=Rcore,3=beta,4=bkg)
+    if dvnum == 0: BetaFuncValue = (Rcore**2)*(-Amp/(Beta-1))/(1+(R/Rcore)**2)**(Beta-1) + bkg*R**2
+    if dvnum == 1: BetaFuncValue = (Rcore**2)*(-1.0/(Beta-1))/(1+(R/Rcore)**2)**(Beta-1)
+    if dvnum == 2: BetaFuncValue = 2*Beta*Amp*((R**2)/(Rcore**3))/(1+(R/Rcore)**2)**(Beta+1)
+    if dvnum == 3: BetaFuncValue = -m.log(1+(R/Rcore)**2)*Amp/(1+(R/Rcore)**2)**(Beta)
+    if dvnum == 4: BetaFuncValue = R**2
+    if dvnum != 0 and dvnum != 1 and dvnum != 2 and dvnum != 3 and dvnum != 4:
+        print "Improper calling of BetaFunc: dvnum = " + str(dvnum)
+        BetaFuncValue = -1.0/0.0
+    return BetaFuncValue
+
+def CovSrt( covar, ma, ia, mfit ):
+    for i in range(mfit,ma):
+        for j in range(0,i+1):
+            #print i,j
+            covar[i][j] = covar[j][i] = 0.0
+    k = mfit
+    for j in range(ma-1,-1,-1):
+        if ia[j] != 0:
+            k -= 1
+            for i in range(0,ma): covar[i][k],covar[i][j] = covar[i][j],covar[i][k]
+            for i in range(0,ma): covar[k][i],covar[j][i] = covar[j][i],covar[k][i]
+    return covar
+
+step = 0.251
+def IntegrateSurBr( floata, floatb, ParamVec ):
+    #Integrates beta model from point a to b to 
+    #find average surface brightness
+    pos = floata
+    RManSum = 0.0
+    while pos < floatb:
+        if step + pos > floatb:
+            laststep = floatb - pos
+            RManSum += laststep*2*(pos+laststep/2)*BetaFunc(ParamVec[0],pos+laststep/2,ParamVec[1],ParamVec[2],ParamVec[3])
+        else:
+            RManSum += step*2*(pos+step/2)*BetaFunc(ParamVec[0],pos+step/2,ParamVec[1],ParamVec[2],ParamVec[3])
+        pos += step
+    Ar = (floatb**2-floata**2)
+    return RManSum/Ar
+
+def IntegrateSurBrSimp( floata, floatb, ParamVec, dvnum ):
+    #Integrates beta model from point a to b to 
+    #find average surface brightness
+    #This function uses Simpon's Rule isntead of rectangles
+    pos = floata
+    Sum = 0.0
+    if dvnum == 3 or dvnum == 2:
+        while pos < floatb:
+            if step + pos > floatb:
+                laststep = floatb - pos
+                Sum += (laststep/6)*2*(pos*BetaFunc(ParamVec[0],pos,ParamVec[1],ParamVec[2],ParamVec[3],dvnum) + 4*(pos+laststep/2)*BetaFunc(ParamVec[0],pos+laststep/2,ParamVec[1],ParamVec[2],ParamVec[3],dvnum)+ (floatb)*BetaFunc(ParamVec[0],floatb,ParamVec[1],ParamVec[2],ParamVec[3],dvnum))
+            else:
+                Sum += (step/6)*2*(pos*BetaFunc(ParamVec[0],pos,ParamVec[1],ParamVec[2],ParamVec[3],dvnum) + 4*(pos+step/2)*BetaFunc(ParamVec[0],pos+step/2,ParamVec[1],ParamVec[2],ParamVec[3],dvnum)+ (pos+step)*BetaFunc(ParamVec[0],pos+step,ParamVec[1],ParamVec[2],ParamVec[3],dvnum))
+            pos += step
+    else:
+        Sum = BetaFunc(ParamVec[0],floatb,ParamVec[1],ParamVec[2],ParamVec[3],dvnum) - BetaFunc(ParamVec[0],floata,ParamVec[1],ParamVec[2],ParamVec[3],dvnum)
+    Ar = (floatb**2-floata**2)
+    return Sum/Ar
+
+def ThreePtDv( ParamVecInd, i, h, scale, trouble_flag ):
+    # Numerically calculates derivative using 5 Point Stencil method:
+    # f'(x) ~ [-f(x+2h)+8f(x+h)-8f(x-h)+f(x-2h)]/12h
+    # If scale = 1, then the input h is interpreted as a fraction 
+    # and the interval h is evaluated as h times the parameter being varied
+    R_a = 4*(i+1.0)
+    R_b = 4*(i+2.0)
+    if i == 0:
+        R_a = 0
+    if scale != 0 or ParamVec[ParamVecInd] < h:
+        h *= ParamVec[ParamVecInd]
+        if scale == 0:
+            h *= 100
+    PV1p = np.copy(ParamVec)
+    PV1m = np.copy(ParamVec)
+    PV1p[ParamVecInd] += h
+    PV1m[ParamVecInd] -= h
+    stencil = (IntegrateSurBrSimp(R_a,R_b,PV1p)- IntegrateSurBrSimp(R_a,R_b,PV1m))/(2*h)
+#    if trouble_flag < 7.5:
+#        while m.fabs(stencil) < 0.000001:
+#            trouble_flag += 1
+#            stencil = ThreePtDv(ParamVecInd,i,2*h,scale,trouble_flag)
+#            print "Warning: " + str(trouble_flag)
+#        trouble_flag = 0
+#    else:
+#        print "Trouble with ThreePtDv"
+#    print stencil
+    return stencil
+
+
+def MrqCof( Y, sig, ndata, a, ia, ma, alpha, beta ):
+    mfit = 0
+    dyda = np.zeros(ma)
+    for j in range(0,ma):
+        if ia[j] != 0: mfit += 1
+    for j in range(0,mfit):
+        for k in range(0,j+1): alpha[j][k] = 0.0
+        beta[j] = 0.0
+    chisq = 0.0
+    for i in range(0,ndata):    
+        R_a = 4*(i+1.0)
+        R_b = 4*(i+2.0)
+        if i == 0:
+            R_a = 0
+        ymod = 0.0
+        ymod = IntegrateSurBrSimp(R_a,R_b,a,0)
+        for ind in range(0,ma): dyda[ind] = IntegrateSurBrSimp(R_a,R_b,a,ind+1)
+        sig2i = 1.0/(sig[i]**2)
+        #if sig[i]**2 == 0.0: print "Div by 0"
+        #print sig2i
+        dy = y[i] - ymod
+        #print (dy,ymod,sig2i)
+        j = 0
+        for l in range(0,ma):
+            if ia[l] != 0:
+                wt = dyda[l]*sig2i
+                k = 0
+                for m in range(0,l+1):               
+                    if ia[m] != 0: 
+                        #print str(j) + " " + str(k) + " " + str(l) + " " + str(m)
+                        alpha[j][k] += wt*dyda[m]
+                        k += 1
+                beta[j] += dy*wt
+                j += 1
+        chisq += dy*dy*sig2i
+    #print chisq
+    for j in range(1,mfit):
+        for k in range(0,j): alpha[k][j] = alpha[j][k]
+    return alpha,beta,chisq
+
+def LUdcmp( a, n ):
+    indx = np.zeros(n)
+    vv = np.zeros(n)
+    d = 1.0
+    for i in range(0,n):
+        big = 0.0
+        for j in range(0,n):
+            temp = m.fabs(a[i][j])
+            if temp > big: big = temp
+        if big == 0.0: sys.exit("Singular matrix in routine LUdcmp")
+        vv[i] = 1.0/big
+    for j in range(0,n):
+        for i in range(0,j):
+            Sum=a[i][j]
+            for k in range(0,i): Sum -= a[i][k]*a[k][j]
+            a[i][j] = Sum
+        big = 0.0
+        for i in range(j,n):
+            Sum = a[i][j]
+            for k in range(0,j): Sum -= a[i][k]*a[k][j]
+            a[i][j] = Sum
+            dum = vv[i]*m.fabs(Sum)
+            if dum >= big:
+                big=dum
+                imax=i
+        if j != imax:
+            for k in range(0,n):
+                a[imax][k],a[j][k] = a[j][k],a[imax][k]
+            d *= -1
+            vv[imax] = vv[j]
+        indx[j] = imax
+        if a[j][j] == 0.0: a[j][j] = TINY #prevent divide by zero
+        if j != n:
+            dum=1.0/a[j][j]
+            for i in range(j+1,n): a[i][j] *= dum
+    return a,indx,d
+
+def LUbksb( a, n, indx, b ):
+    ii = 0
+    for i in range(0,n):
+        ip = indx[i]
+        Sum=b[ip]
+        b[ip] = b[i]
+        if ii:
+            for j in range(ii-1,i): Sum -= a[i][j]*b[j]
+        elif Sum: ii=i
+        b[i] = Sum
+    for i in range(n-1,-1,-1):
+        Sum=b[i]
+        for j in range(i+1,n): Sum -= a[i][j]*b[j]
+        b[i] = Sum/a[i][i]
+    return b
+
+def LUinv( a, N, indx, covar ):
+    temp_mat = np.zeros((N,N))
+    for j in range(0,N):
+        col = np.zeros(N)
+        col[j] = 1.0
+        col=LUbksb(a,N,indx,col)
+        for i in range(0,N): temp_mat[i][j] = col[i]
+    for i in range(0,N): 
+        for j in range(0,N): covar[i][j] = temp_mat[i][j]
+    return covar
+
+def MrqMin( Y, sig, ndata, a, ia, ma, covar, alpha, beta, atry, da, oneda, chisq , alamda ):
+    mfit = 0
+    ochisq = chisq
+    #print "Iteration " + str(cnt)
+    for ind in range(0,ma): 
+        if a[ind] < 0: a[ind] *= -1
+    for j in range(0,ma):
+        if ia[j]: mfit += 1
+    if alamda < 0.0:
+        atry = np.zeros(ma)
+        beta = np.zeros(ma)
+        da = np.zeros(ma)
+        oneda = np.zeros((mfit,1))
+        alamda = 0.00001
+        alpha,beta,chisq = MrqCof( Y, sig, ndata, a, ia , ma, alpha, beta )  
+    for j in range(0,mfit):
+        for k in range(0,mfit): covar[j][k] = alpha[j][k]
+        covar[j][j] = alpha[j][j]*(1.0 + alamda)
+        oneda[j][0] = beta[j]
+    A,indx,d = LUdcmp(covar,mfit)
+    oneda = LUbksb(A,mfit,indx,oneda)
+    covar = LUinv(A,mfit,indx,covar)
+    for j in range(0,mfit): da[j]=oneda[j][0]
+    #print da
+    if alamda == 0.0:
+        #print covar
+        covar = CovSrt(covar,ma,ia,mfit)
+        alpha = CovSrt(alpha,ma,ia,mfit)
+        return a,covar,alpha,chisq,ochisq,atry,beta,da,oneda,alamda
+    j=0
+    for l in range(0,ma):
+        if ia[l]: 
+            atry[l] = a[l] + da[j]
+            j += 1
+    covar,da,chisq = MrqCof(Y,sig,ndata,atry,ia,ma,covar,da)
+    #print chisq - ochisq
+    DelChisq = ochisq - chisq
+    if DelChisq < 0: DelChisq = 99999999999
+    if chisq < ochisq:
+        alamda *= 0.1
+        ochisq = chisq
+        for j in range(0,mfit):
+            for k in range(0,mfit): alpha[j][k] = covar[j][k]
+            beta[j]=da[j]
+        for l in range(0,ma): a[l] = atry[l]
+    else:
+        alamda *= 10
+        chisq=ochisq
+   # print "alamda = " + str(alamda) + "; a = " + str(a) + "; da = " + str(da)
+    return a,covar,alpha,chisq,ochisq,atry,beta,da,oneda,alamda,DelChisq
+    
+#cr_in = read_file("/scratch/rumbaugh/ciaotesting/analysis/list_rad_plotStack0.3-0.4.txt")
+cr_in = read_file(infile)
+y = get_colvals(cr_in,'col2')
+Y = get_colvals(cr_in,'col2') 
+sig = get_colvals(cr_in,'col3')
+alamda = -1.0
+
+if ia[3] == 0:
+    ParamVec[3] = 0.0
+    for i in range(29,40):
+        ParamVec[3] += Y[i]/11.0
+
+alpha=np.zeros((ma,ma))
+covar=np.zeros((ma,ma))
+beta = np.zeros(ma)
+atry = np.zeros(ma)
+da = np.zeros(ma)
+oneda = np.zeros((sum(ia),1))
+
+hcnt = 1
+
+alpha,beta,chisq = MrqCof( Y, sig, ndata, ParamVec, ia , ma, alpha, beta )
+
+print "Iterations: 0; ParamVec: " + str (ParamVec) + "; chisq : " + str(chisq)
+ParamVec,covar,alpha,chisq,ochisq,atry,beta,da,oneda,alamda,DelChisq = MrqMin( Y, sig, ndata, ParamVec, ia, ma, covar, alpha, beta, atry, da, oneda, chisq, alamda )
+S_naught = ochisq
+cnt = 1
+ParamVec,covar,alpha,chisq,ochisq,atry,beta,da,oneda,alamda,DelChisq = MrqMin( Y, sig, ndata, ParamVec, ia, ma, covar, alpha, beta, atry, da, oneda, chisq, alamda)
+#while chisq >= ochisq or ochisq - chisq > 0.01:
+while DelChisq > 0.001:
+#while chisq > 38:
+    cnt += 1
+    hcnt += 1
+    ParamVec,covar,alpha,chisq,ochisq,atry,beta,da,oneda,alamda,DelChisq = MrqMin( Y, sig, ndata, ParamVec, ia, ma, covar, alpha, beta, atry, da, oneda, chisq, alamda)
+    if hcnt == 100:
+        hcnt = 0
+        print "Iterations: " + str(cnt) + "; ParamVec: " + str (ParamVec) + "; chisq : " + str(chisq)
+#print covar
+#print alpha
+alamda = 0.0
+#print "Zero Point"
+ParamVec,covar,alpha,chisq,ochisq,atry,beta,da,oneda,alamda = MrqMin( Y, sig, ndata, ParamVec, ia, ma, covar, alpha, beta, atry, da, oneda, chisq, alamda)
+
+beta2 = (ParamVec[2] + 0.5)/3
+
+print "Calculated Fit Parameters:\n"
+print "Amplitude:     " + str(ParamVec[0]) + " +/- " + str(covar[0][0])
+print "Core Radius:   " + str(ParamVec[1]) + " +/- " + str(covar[1][1])
+print "Alpha Value:   " + str(ParamVec[2]) + " +/- " + str(covar[2][2])
+print "Beta Value:    " + str(beta2) + " +/- " + str((1.0/3.0)*covar[2][2])
+print "Background:    " + str(ParamVec[3]) + " +/- " + str(covar[3][3])
+print "\nInitial Statistic: " + str(S_naught)
+print "Final Statistic:   " + str(chisq)
+print "Iterations:  " + str(cnt)

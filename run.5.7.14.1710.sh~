@@ -1,0 +1,42 @@
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB2/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229239.eb4939598.55784.53609730324.ms EarlySB2_9.8.11.11.11A-138.sb4229239.eb4939598.55784.53609730324.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data
+rm -rf /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229388.eb4954497.55791.49189045139.ms
+wget -r ftp://ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229388.eb4954497.55791.49189045139.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB2/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229388.eb4954497.55791.49189045139.ms EarlySB2_10.8.18.11.11A-138.sb4229388.eb4954497.55791.49189045139.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data
+rm -rf /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226043.eb4964621.55794.65426420139.ms
+wget -r ftp://ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226043.eb4964621.55794.65426420139.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB1/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226043.eb4964621.55794.65426420139.ms EarlySB1_11.8.21.11.11A-138.sb4226043.eb4964621.55794.65426420139.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data
+rm -rf /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229686.eb4972392.55797.460993252316.ms
+wget -r ftp://ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229686.eb4972392.55797.460993252316.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB2/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229686.eb4972392.55797.460993252316.ms EarlySB2_12.8.24.11.11A-138.sb4229686.eb4972392.55797.460993252316.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data
+rm -rf /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226490.eb4987618.55804.58522645834.ms
+wget -r ftp://ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226490.eb4987618.55804.58522645834.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB1/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226490.eb4987618.55804.58522645834.ms EarlySB1_14.8.31.11.11A-138.sb4226490.eb4987618.55804.58522645834.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data
+rm -rf /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229835.eb4990490.55805.52036195602.ms
+wget -r ftp://ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229835.eb4990490.55805.52036195602.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB2/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4229835.eb4990490.55805.52036195602.ms EarlySB2_13.9.1.11.11A-138.sb4229835.eb4990490.55805.52036195602.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data
+rm -rf /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226639.eb4995759.55806.60072701389.ms
+wget -r ftp://ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226639.eb4995759.55806.60072701389.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB1/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4226639.eb4995759.55806.60072701389.ms EarlySB1_15.9.2.11.11A-138.sb4226639.eb4995759.55806.60072701389.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data
+rm -rf /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4230133.eb5010815.55809.38475037037.ms
+wget -r ftp://ftp.aoc.nrao.edu/e2earchive/11A-138.sb4230133.eb5010815.55809.38475037037.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB2/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4230133.eb5010815.55809.38475037037.ms EarlySB2_15.9.5.11.11A-138.sb4230133.eb5010815.55809.38475037037.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data
+rm -rf /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4230282.eb5118752.55815.425016678244.ms
+wget -r ftp://ftp.aoc.nrao.edu/e2earchive/11A-138.sb4230282.eb5118752.55815.425016678244.ms
+cd /mnt/data2/rumbaugh/EVLA/11A-138/data/EarlySB2/data
+ln -s /mnt/data2/rumbaugh/EVLA/11A-138/data/ftp.aoc.nrao.edu/e2earchive/11A-138.sb4230282.eb5118752.55815.425016678244.ms EarlySB2_16.9.11.11.11A-138.sb4230282.eb5118752.55815.425016678244.ms

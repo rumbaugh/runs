@@ -1,0 +1,3 @@
+import numpy as np
+cr=np.loadtxt('comb_spec_skysub_noCR.0956_blue.dat')
+w,f,v=cr[:,0],cr[:,1],cr[:,2]

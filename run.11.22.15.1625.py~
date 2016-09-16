@@ -1,0 +1,6 @@
+import numpy as np
+import pyfits as py
+import matplotlib.pyplot as plt
+import matplotlib.backends.backend_pdf as bpdf
+
+psfpdf=bpdf.PsfPages('/home/rumbaugh/Chandra/plots/Imperial.PSFAngle.rows.pdf')

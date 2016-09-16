@@ -1,0 +1,6 @@
+import numpy as np
+
+for lens in ['0414','0712','1127','1152','1030']:
+    cr = np.loadtxt('/home/rumbaugh/VLA/difmap_results/model_wrms.%s.10.25.00.mod'%(lens),comments='!',dtype='string',usecols=(0,))
+    rms = float(cr[-1])
+    print '%s\nrms = %f\n'%(lens,rms)

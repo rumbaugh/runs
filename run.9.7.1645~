@@ -1,0 +1,6 @@
+set_dirs 
+loadct,13  
+set_plot,'PS'  
+device,file="daledatacheck.ps",/color
+readcol,"/home/rumbaugh/Download/Cl0023_new.logNlogS_hard.2-10_90perc.dat",fluxDnew,N_D,Nerr_D,format="D,D,D"
+readcol, "/home/rumbaugh/Download/Cl0023.xray_phot.soft_hard_full.dat", ra_d_temp, dec_d_temp, flux_softz_d_temp, flux_hardz_d_temp, flux_fullz_d_temp,  netcnts_corr_softz_d_temp, netcnts_corr_hardz_d_temp, netcnts_corr_fullz_d_temp, sig_soft_d_temp, sig_hard_d_temp, sig_full_d_temp, wsig_soft_d_temp, wsig_hard_d_temp, wsig_full_d_temp, wmask_d_temp, wflag_d_temp, FORMAT='D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D'

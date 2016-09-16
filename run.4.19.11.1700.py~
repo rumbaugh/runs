@@ -1,0 +1,37 @@
+import numpy as np
+
+cr = read_file('/home/rumbaugh/clusters.z+pos+mpc.4.18.11.dat')
+
+#,struc,name,z,ra,dec,mpc,mpccm,rah,ram,ras,decd,decm,decs,format='A,A,D,D,D,D,D,D,D,D,D,D,D',/silent
+
+ra = get_colvals(cr,'col4')
+dec = get_colvals(cr,'col5')
+
+usethese = np.array([1,0,0,1,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,1])
+
+c1604N = 'acis6933+7343.img.500-2000.nops.fits'
+c1604S = 'acis6932.img.500-2000.nops.fits'
+
+path1 = '/home/rumbaugh/ChandraData/'
+path2 = 'Cl0023/master/'
+cfile = 'acis7914.img.500-2000.nops.fits'
+cntsArr = np.zeros(80)
+annuli = (np.arange(80)+1)*5
+annulias = (np.arange(80)+1)*5*0.5/(60.0*60)
+for i in range(0,len(ra)):
+    if i == 5: path2 = 'Cl1324/master/' 
+    if i == 9: cfile = 'acis9404+9836.img.500-2000.nops.fits' 
+    if i == 10: path2 = 'Cl1604/master/' 
+    if i == 10: cfile = c1604S 
+    if i == 11: cfile = c1604N 
+    if i == 12: cfile = c1604S 
+    if i == 13: cfile = c1604N 
+    if usethese[i] == 1: 
+        if ((i == 0) | (i == 5) | ((i >= 9) & (i <= 13))): load_data(path1 + path2 + cfile)
+        set_coord('WCS')
+        for j in range(0,len(annuli)): 
+            cntsArr[j] += calc_data_sum2d('circle(%f,%f,%f)'%(ra[i],dec[i],annulias[j]))
+FILE = open('/home/rumbaugh/LFC/diffuse.stacked.4.19.11.dat','w')
+for i in range(0,len(annuli)): FILE.write('%3i %3i  %f\n'%(annuli[i],annuli[i]/2.0,cntsArr[i]))
+FILE.close()
+

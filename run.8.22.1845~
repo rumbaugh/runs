@@ -1,0 +1,24 @@
+set z = (soft hard full)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set ii = 1
+set ij = 1
+set roots = (/scratch/rumbaugh/ciaotesting/Cl0023/7914/ /scratch/rumbaugh/ciaotesting/Cl1324/master /scratch/rumbaugh/ciaotesting/Cl1324/master /scratch/rumbaugh/ciaotesting/Cl1604/6932 /scratch/rumbaugh/ciaotesting/Cl1604/6933 /scratch/rumbaugh/ciaotesting/Cl1604/7343)
+set obs = (10444 10924 6932 6933 7343)
+set obs2 = (10444+10924 6932 6933+7343)
+set field = (NEP5281 Cl1604 Cl1604)
+set roots2 = (/scratch/rumbaugh/ciaotesting/NEP5281/master /scratch/rumbaugh/ciaotesting/Cl1604/6932 /scratch/rumbaugh/ciaotesting/Cl1604/master)
+set nh = (0.0566 0.0123 0.0122)
+set zr = (0.5,2.0 2.0,8.0)
+
+set i = 2
+cd $roots2[$i]
+set pbk = `ls *pbk*`
+set time = `dmkeypar acis$obs2[$i].evt2.500-2000.fits LIVETIME echo+`
+dmstat acis$obs2[$i].expmap_hard.fits centroid=yes verbose=0
+set maxcen = `pget dmstat out_max_loc`
+specextract infile="acis$obs2[$i].evt2.fits[sky=circle($maxcen,20)]" outroot=spec_$obs2[$i]_hard2-10 grouptype=NUM_CTS binspec=15 pbkfile ="$pbk" energy_wmap=2000:10000 clob+
+echo '\nload_pha("spec_'$obs2[$i]'_'hard2-10'_grp.pi")\nrmf1 = unpack_rmf("spec_'$obs2[$i]'_'hard2-10'.wrmf")\nset_rmf(rmf1)\narf1 = unpack_arf("spec_'$obs2[$i]'_'hard2-10'.warf")\nset_arf(arf1)\nignore()\nnotice('2.0,10.0')\nparamprompt()\nset_model(powlaw1d.pl*xswabs.abs1)\npl.gamma = 1.4\nabs1.nh = '$nh[$i]'\nfreeze(abs1.nh)\ntime = '$time'\nfake_pha(1,arf1,rmf1,time)\nmcnt = calc_model_sum('2.0,8.0')\npl.ampl = 1.0/mcnt\nfreeze(pl.ampl)\nfake_pha(1,arf1,rmf1,time)\neflx = calc_energy_flux('2.0,10.0')\nmcnt2 = calc_model_sum('2.0,8.0')\nabs1.nh = 0.0\nfake_pha(1,arf1,rmf1,time)\neflx2 = calc_energy_flux('2.0,10.0')\ncnt2flux = time*eflx2\nprint "Count rate to unabsorbed flux conversion: " + str(cnt2flux)\nquit\n' > sherpastart
+sherpa sherpastart
+rm sherpastart
+

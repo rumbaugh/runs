@@ -1,0 +1,21 @@
+import numpy as np
+cr = np.loadtxt('/home/rumbaugh/KAST/Science/mupoly.0810.dat',dtype={'names':('names','m3','m2','m1','m0','lb','ub','mu0'),'formats':('|S4','float64','float64','float64','float64','f8','f8','float64')})
+m0,m1,m2,m3 = cr['m0'],cr['m1'],cr['m2'],cr['m3']
+names= cr['names']
+lbs=cr['lb']
+y=1000
+cen=lbs+m0+m1*y+m2*y**2+m3*y**3
+cen-=cen[0]
+cen *= -1
+FILE=open('/home/rumbaugh/KAST/Science/offsets.b0810.dat','w')
+for i in range(0,len(cen)/2):
+    FILE.write('0 %.1f\n'%(cen[i]))
+FILE.close()
+FILE=open('/home/rumbaugh/KAST/Science/offsets.r0810.dat','w')
+cen-=cen[len(cen)/2]
+for i in range(len(cen)/2,len(cen)):
+    FILE.write('0 %.1f\n'%(cen[i]))
+FILE.close()
+x=np.arange(2048)
+plot(x,lbs[0]+m0[0]+m1[0]*x+m2[0]*x**2+m3[0]*x**3)
+print cr

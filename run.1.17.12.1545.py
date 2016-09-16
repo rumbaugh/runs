@@ -1,0 +1,113 @@
+import math as m
+import numpy as np
+import random as rand
+import matplotlib
+import matplotlib.pylab as pylab
+import sys
+
+try:
+    numgals
+except NameError:
+    numgals = 20
+
+try:
+    Mpctoas
+except NameError:
+    Mpctoam = 3*0.7
+
+try:
+    maxr
+except NameError:
+    maxr = 1.0
+
+try:
+    probblue
+except NameError:
+    probblue = 0.5
+
+if ((probblue >= 1) | (probblue <= 0)): sys.exit('probblue = %f: outside allowed bounds'%(probblue))
+
+try:
+    output
+except NameError:
+    output = 1
+
+diff_un = np.zeros(10000)
+diff_gauss = np.zeros(10000)
+x_gauss = np.zeros(10000)
+x_uni = np.zeros(10000)
+dist_un = np.zeros(10000)
+dist_gauss = np.zeros(10000)
+diff_un_tot = np.zeros(10000)
+diff_gauss_tot = np.zeros(10000)
+for ii in range(0,10000):
+    x = np.zeros(numgals)
+    y = np.zeros(numgals)
+    isblue = np.zeros(numgals)
+    checkflag = 0
+    while checkflag == 0:
+        for jj in range(0,numgals):
+            phi = rand.random()*2*m.pi
+            theta = rand.random()*m.pi
+            r = rand.gauss(0,0.5*maxr)
+            x[jj] = r*m.cos(phi)*m.sin(theta)
+            y[jj] = r*m.sin(phi)*m.sin(theta)
+            if jj == 0: x_gauss[ii] = x[jj]
+            color = rand.random()
+            if color < probblue: isblue[jj] = 1
+            if jj == 0:
+                dist_gauss[ii] = m.sqrt(x[jj]**2+y[jj]**2)
+        if ((np.sum(isblue) < numgals) & (np.sum(isblue) > 0)): checkflag = 1
+    #if ((np.sum(isblue) >= numgals) | (np.sum(isblue) <= 0)): sys.exit("np.sum(isblue) = %f, probblue = %f, numgal = %f: np.sum(isblue) can't be 0 or the same as numgal; either the run very unlucky, probblue is too low/high, or something else has gone wrong"%(np.sum(isblue),probblue,numgals))
+    x_avg_b = np.sum(isblue*x)/np.sum(isblue)
+    y_avg_b = np.sum(isblue*y)/np.sum(isblue)
+    x_avg_r = np.sum((1-isblue)*x)/(numgals-np.sum(isblue))
+    y_avg_r = np.sum((1-isblue)*y)/(numgals-np.sum(isblue))
+    x_avg = np.sum(x)*1.0/numgals
+    y_avg = np.sum(y)*1.0/numgals
+    diff_gauss[ii] = m.sqrt((x_avg_b-x_avg_r)**2+(y_avg_b-y_avg_r)**2)
+    diff_gauss_tot[ii] = m.sqrt(x_avg**2+y_avg**2)
+for ii in range(0,10000):
+    x = np.zeros(numgals)
+    y = np.zeros(numgals)
+    isblue = np.zeros(numgals)
+    checkflag = 0
+    while checkflag == 0:
+        for jj in range(0,numgals):
+            phi = rand.random()*2*m.pi
+            theta = rand.random()*m.pi
+            r = rand.random()*maxr
+            x[jj] = r*m.cos(phi)*m.sin(theta)
+            y[jj] = r*m.sin(phi)*m.sin(theta)
+            if jj == 0: x_uni[ii] = x[jj]
+            color = rand.random()
+            if color < probblue: isblue[jj] = 1
+            if jj == 0:
+                dist_un[ii] = m.sqrt(x[jj]**2+y[jj]**2)
+        if ((np.sum(isblue) < numgals) & (np.sum(isblue) > 0)): checkflag = 1
+    x_avg_b = np.sum(isblue*x)/np.sum(isblue)
+    y_avg_b = np.sum(isblue*y)/np.sum(isblue)
+    x_avg_r = np.sum((1-isblue)*x)/(numgals-np.sum(isblue))
+    y_avg_r = np.sum((1-isblue)*y)/(numgals-np.sum(isblue))
+    x_avg = np.sum(x)*1.0/numgals
+    y_avg = np.sum(y)*1.0/numgals
+    diff_un[ii] = m.sqrt((x_avg_b-x_avg_r)**2+(y_avg_b-y_avg_r)**2)
+    diff_un_tot[ii] = m.sqrt(x_avg**2+y_avg**2)
+sort_diff_gauss_tot = np.sort(diff_gauss_tot)*Mpctoam*60
+sort_diff_un_tot = np.sort(diff_un_tot)*Mpctoam*60
+sort_diff_gauss = np.sort(diff_gauss)*Mpctoam*60
+sort_diff_un = np.sort(diff_un)*Mpctoam*60
+if output == 1:
+    print 'Gauss r: %f, %f, %f\n Uni. r: %f, %f, %f\n'%(sort_diff_gauss[4999],sort_diff_gauss[6666],sort_diff_gauss[9999],sort_diff_un[4999],sort_diff_un[6666],sort_diff_un[9999])
+    pylab.hist(x_gauss,bins=40,range=(-2,2),color='red')
+    pylab.hist(x_uni,bins=20,range=(-1,1),histtype='step',color='blue')
+    pylab.savefig('/home/rumbaugh/histtest_x.png')
+    pylab.close('all')
+    pylab.hist(sort_diff_gauss,bins=40,range=(0,100),color='red')
+    pylab.hist(sort_diff_un,bins=40,range=(0,100),histtype='step',color='blue')
+    pylab.savefig('/home/rumbaugh/diffhist_x.png')
+    pylab.close('all')
+    pylab.hist(dist_gauss*Mpctoam*60,bins=40,range=(0,200),color='red')
+    pylab.hist(dist_un*Mpctoam*60,bins=40,range=(0,200),histtype='step',color='blue')
+    pylab.savefig('/home/rumbaugh/disthist_test.png')
+    pylab.close('all')

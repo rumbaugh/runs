@@ -1,0 +1,3 @@
+import numpy as np
+
+execfile("/home/rumbaugh/check_wavdetect_regs.py")

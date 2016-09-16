@@ -1,0 +1,6 @@
+date='6.10.16'
+
+zrange=np.arange(0.65,1.28,0.05)
+
+targets=np.array(["rcs0224","cl0849","rxj0910","rxj1221","cl1350","rxj1757","cl1604","cl0023","cl1324","rxj1821","cl1137","rxj1716","rxj1053"])
+

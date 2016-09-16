@@ -1,0 +1,45 @@
+import numpy as np
+import pyfits as py
+import os
+import copy
+execfile('/home/rumbaugh/git/data_redux_code/spec_simple.py')
+obs_dict = {}
+#blue_ID_list = np.array([192,189,190,191,195,196,197,198,199,200,201,366,367,368,369,375,376,377,378])
+#red_ID_list = np.array([141,132,133,140,151,158,159,174,175,182,342,343,350,351,369,370,377,378])
+blue_ID_list = np.array([193,194,370,371,373,374])
+red_ID_list = np.array([142,149,352,353,361,362])
+
+crm = np.loadtxt('/home/rumbaugh/KAST/Science/mupoly.0810.dat',dtype={'names':('names','m3','m2','m1','m0','lb','ub','mu0'),'formats':('|S4','float64','float64','float64','float64','f8','f8','float64')})
+crs = np.loadtxt('/home/rumbaugh/KAST/Science/mupoly.0810.dat',dtype={'names':('names','m3','m2','m1','m0','lb','ub','mu0'),'formats':('|S4','float64','float64','float64','float64','f8','f8','float64')})
+
+def do_redux(ID,i,side):
+    try:
+        data = load_2d_spectrum('/home/rumbaugh/KAST/Science/sci-%s%i.fits.gz'%(side,ID))
+        cr = py.open('/home/rumbaugh/KAST/Science/sci-%s%i.fits.gz'%(side,ID))
+    except:
+        data = load_2d_spectrum('/home/rumbaugh/KAST/Science/sci-%s%i.fits'%(side,ID))
+        cr = py.open('/home/rumbaugh/KAST/Science/sci-%s%i.fits'%(side,ID))
+    invar = cr[1].data
+    var = np.copy(invar)
+    var[var!=0]=1./var[var!=0]
+    var[var==0]=99999.
+    print np.shape(var)
+    struct = cr[5].data
+    #if not(ID in [189,190,191,132,133,140]):
+    w=struct['WAVE_OPT'][0]
+    mupoly_0810=np.array([crm['m3'][i],crm['m2'][i],crm['m1'][i],crm['m0'][i]])
+    sigpoly=np.array([crs['m3'][i],crs['m2'][i],crs['m1'][i],crs['m0'][i]])
+    dlb_0810,dub_0810=crm['lb'][i],crm['ub'][i]
+    mupoly=copy.deepcopy(mupoly_0810)
+    #mupoly[-1]+=mu0_0810-113.5-mu0_0810
+    offset_dict = {'b':113.5,'r':63.5}
+    offset=offset_dict[side]
+    HW=30.
+    dlb,dub=dlb_0810+mupoly[-1]-offset-HW,dlb_0810+mupoly[-1]-offset+HW
+    mupoly[-1]=HW
+    specm,varspec = extract_spectrum(data[:,dlb:dub+1],mupoly,sigpoly,dispaxis='y',var_in=var[:,dlb:dub+1])
+    os.system('rm /home/rumbaugh/KAST/Science/spec.%s%i.dat'%(side,ID))
+    save_spectrum('/home/rumbaugh/KAST/Science/spec.%s%i.dat'%(side,ID),w,specm,var=varspec)
+
+for ID,i in zip(blue_ID_list,np.arange(len(blue_ID_list))): do_redux(ID,i,'b')
+for ID,i in zip(red_ID_list,6+np.arange(len(red_ID_list))): do_redux(ID,i,'r')

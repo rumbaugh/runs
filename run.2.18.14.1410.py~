@@ -1,0 +1,6 @@
+import numpy as np
+
+try:
+    lens
+except NameError:
+    lens = '1131'

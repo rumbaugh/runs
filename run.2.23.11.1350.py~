@@ -1,0 +1,3 @@
+load_data("/scratch/rumbaugh/ciaotesting/4199/acis4199.img.500-2000.S07.norand.fits")
+set_coord("physical")
+cen = '3591.4156,3740.6206'

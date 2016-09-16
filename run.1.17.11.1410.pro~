@@ -1,0 +1,3 @@
+set_dirs
+set_plot,'PS'
+device,file='/home/rumbaugh/COSMOS/test.spat.error.plot.ps'

@@ -1,0 +1,3 @@
+import numpy as np
+
+crf=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.cluster_fits.dat',dtype={'names':('cluster','r0','r0-','r0+','bkg','bkg-','bkg+','r500','r500C','NC'),'formats':('|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8')})

@@ -1,0 +1,40 @@
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+
+for i in 927 1708
+do
+cd /mnt/data2/rumbaugh/dump/ChandraData/0849/$i
+mkdir -p regions
+mkdir -p photometry
+mkdir -p spec
+mkdir -p temp
+mkdir -p tmp
+punlearn ardlib
+acis_set_ardlib acis$i.bpix.fits
+for j in 0 1 2
+do
+wavdetect infile="acis$i.img.${n[$j]}.fits" outfile="sources.$i.${z[$j]}.1e6.b1.1-16.wexp20.fits" scellfile="./temp/sources_scell.$i.${z[$j]}.1e6.wexp20.fits" imagefile="./temp/sources_image.$i.${z[$j]}.1e6.wexp20.fits" defnbkgfile="./temp/sources_bkg.$i.${z[$j]}.1e6.wexp20.fits" regfile="./regions/sources.$i.${z[$j]}.1e6.b1.1-16.wexp20.reg" scales="1.0 1.414 2.0 2.828 4.0 5.657 8.0 11.314 16.0" sigthresh=1.0e-6 ellsigma=4 expthresh=0.2 expfile="acis$i.expmap_${z[$j]}.fits" psffile='' clob+
+rm temp/*
+cd regions
+rm bkg*${z[$j]}*reg
+mkBgRegScript sources.$i.${z[$j]}.1e6.b1.1-16.wexp20.reg 2 bkg.$i.${z[$j]}.reg
+mkSubSuperBgRegScript sources.$i.${z[$j]}.1e6.b1.1-16.wexp20.reg bkg.$i.${z[$j]}.reg bkg_sub.$i.${z[$j]}.reg
+sed -i 's/[0-9]e-[0-9][0-9]/0/g' bkg_sub.$i.${z[$j]}.reg
+sed -i 's/[0-9]e-[0-9][0-9]/0/g' sources.$i.${z[$j]}.1e6.b1.1-16.wexp20.reg
+cd ..
+num="`stats -v max < acis$i.expmap_${z[$j]}.fits`"
+dmimgcalc acis$i.img.${n[$j]}.fits acis$i.expmap_${z[$j]}.fits acis$i.img.${n[$j]}.vig_corr.fits div weight=$num clob+
+dmfilth infile=acis$i.img.${n[$j]}.vig_corr.fits outfile=acis$i.img.${n[$j]}.nops.fits method=POISSON srclist=@./regions/sources.$i.${z[$j]}.1e6.b1.1-16.wexp20.reg bkglist=@./regions/bkg_sub.$i.${z[$j]}.reg randseed=0 clob+
+done
+done
+done

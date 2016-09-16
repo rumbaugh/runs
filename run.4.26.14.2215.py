@@ -1,0 +1,76 @@
+import numpy as np
+import matplotlib.pyplot as py
+import emcee
+import smoothing_1d as sm
+import time
+
+st = time.time()
+
+try:
+    runs
+except NameError:
+    runs = 10
+
+try:
+    date
+except NameError:
+    date = '4.21.14'
+
+try:
+    maxmuratio
+except NameError:
+    maxmuratio = 0.5
+
+execfile('/home/rumbaugh/MCMC_delaylnprob.py')
+execfile('/home/rumbaugh/set_TDC_dict.py')
+
+def runtemplate(base,rung):
+    commonbase = 'tdc1_rung'
+    ltype = 'double'
+    if isinstance(base,str): ltype = 'quad'
+    else: base = '%i'%base
+    pair = '%s%i_%s_pair%s'%(commonbase,rung,ltype,base)
+    cr = np.loadtxt('/mnt/data2/rumbaugh/TDC/tdc1/rung%i/%s.txt'%(rung,pair))
+    ltime,A,B,Aerr,Berr = cr[:,0],cr[:,1],cr[:,3],cr[:,2],cr[:,4]
+    gsb = np.where(ltime[1:]-ltime[:-1] > 30)[0]
+    gsb = np.sort(np.append(gsb,gsb+1))
+    seasonbounds = np.append(0,np.append(gsb,len(ltime)-1))
+    seasonlengths = ltime[seasonbounds[2*np.arange(len(seasonbounds)/2)+1]]-ltime[seasonbounds[2*np.arange(len(seasonbounds)/2)]]
+    mintime,maxtime = -0.75*np.max(seasonlengths),0.75*np.max(seasonlengths)
+    #mintime,maxtime = ref_dict['rung'][rung][pair]['range'][0],ref_dict['rung'][rung][pair]['range'][1]
+    #mintime,maxtime = -1*int(0.75*(ltime[-1]-ltime[0])),int(0.75*(ltime[-1]-ltime[0]))
+    tau_init,mu_init = 0.5*(mintime+maxtime),np.mean(B)/np.mean(A)
+    ndim,nwalkers = 2,10
+    p0 = np.zeros((nwalkers,ndim))
+    p0[:,0],p0[:,1] = np.ones(nwalkers)*tau_init+np.random.normal(scale=0.1,size=nwalkers),np.ones(nwalkers)*mu_init+np.random.normal(scale=0.01,size=nwalkers)
+    sampler = emcee.EnsembleSampler(nwalkers,ndim,delaylnprob,args=[B,A,Berr,Aerr,ltime,mu_init,mintime,maxtime,True,True,True,'boxcar',10.,0.5,seasonbounds])
+    #pos,prob,state=sampler.run_mcmc(p0,runs)
+    pos,prob,state=sampler.run_mcmc(p0,100)
+    sampler.reset()
+    pos,prob,state=sampler.run_mcmc(pos,runs)
+    #tau_sort = np.sort(sampler.flatchain[:,0])
+    FILE = open('/mnt/data2/rumbaugh/TDC/tdc1/rung%i/emcee/%s.emcee_output_full_chain.wcovmat.%s.dat'%(rung,pair,date),'w')
+#for i in range(0,len(tau_sort)): FILE.write(str(sampler.flatchain[:,0][i]) + '\n')
+    for i in range(0,runs):
+        for j in range(0,nwalkers):
+            FILE.write('%f %f\n'%(sampler.chain[j,i,0],sampler.chain[j,i,1]))
+    FILE.close()
+    print '\n\nAll Done! Elapsed time: %.0f seconds\n'%(time.time()-st)
+
+
+quads = np.arange(158)+1
+quadsA,quadsB = np.zeros(len(quads),dtype='|S4'),np.zeros(len(quads),dtype='|S4')
+for q in range(0,len(quads)):
+    quadsA[q],quadsB[q] = str(quads[q])+'A',str(quads[q])+'B'
+quads = np.array([y for x in zip(quadsA,quadsB) for y in x])
+
+noquads = ['11A','11B','15A','15B','67A','67B','94A','94B','126A','126B','138A','138B']
+
+rungs=np.array([0,1,2,3,4])
+st = time.time()
+for rung in rungs:
+    for pair in np.arange(1,721):
+        if ((rung > 0) | (pair > 33)): runtemplate(pair,rung)
+    for quad in quads:
+        if not(quad in noquads): runtemplate(quad,rung)
+    print 'Rung %i finished\nElapsed Time: %f seconds'%(rung,time.time()-st)

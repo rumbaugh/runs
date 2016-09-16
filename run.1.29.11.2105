@@ -1,0 +1,19 @@
+set names = (3572 4807 423+424)
+set r = (15.07 16.99 15.44)
+set cc = (15.2957208 15.5861454 9.1671687)
+set c = (0.0013107 0.0013107 0.0033405)
+foreach i (1 2 3)
+cd /home/rumbaugh/COSMOS/analysis/FPerroranal/
+mkdir -p $names[$i]
+foreach t (1 2 3 4 5 6 7 8 9 10)
+set num = $t
+cd /home/rumbaugh/COSMOS/analysis/FPerroranal/$names[$i]
+cp /scratch/rumbaugh/runs/run.1.29.11.2105.template.py run$t.1.29.11.py
+sed -i 's/temp1/'$num'/g' run$num.1.29.11.py
+sed -i 's/tempname/'$names[$i]'/g' run$num.1.29.11.py
+sed -i 's/tempc0/'$c[$i]'/g' run$num.1.29.11.py
+sed -i 's/tempcc/'$cc[$i]'/g' run$num.1.29.11.py
+sed -i 's/tempr/'$r[$i]'/g' run$num.1.29.11.py
+sherpa run$num.1.29.11.py
+end
+end

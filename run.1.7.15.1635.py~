@@ -1,0 +1,3 @@
+import numpy as np
+
+cr=np.loadtxt('/home/rumbaugh/R12_T8.dat',delimiter=',',dtype={'names':('field','rah','ram','ras','decd','decm','decs','z','fluxS','fluxH','fluxF','sig'),'formats':('|S8','i8','i8','i8','f8','i8','i8','f8','f8

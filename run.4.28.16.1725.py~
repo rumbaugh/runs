@@ -1,0 +1,5 @@
+import numpy as np
+
+for s in [1,2]:
+    cr=np.loadtxt('/home/rumbaugh/Downloads/sample%i.txt'%s,dtype={'names':('Adam_ID','RA','','Dec','','mask','slit','iband','','z','','q    Roy_ID')
+    

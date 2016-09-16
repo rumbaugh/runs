@@ -1,0 +1,14 @@
+cd /scratch/rumbaugh/ciaotesting
+foreach i ( */*12.4* )
+set obsid = `echo $i | sed 's/\/conv.beta.12.4.10.fits//g'`            
+dmstat $i verbose=0
+set tt = `pget dmstat out_max_loc | sed 's/,/\ /g'`
+set pmax = ($tt)                                                       
+cd /home/rumbaugh/ChandraData/$obsid
+ln -s primary/pca* acis$obsid.asol.fits
+cd /scratch/rumbaugh/ciaotesting
+dmcoords infile=$obsid/acis$obsid.evt2.500-2000.S07.norand.fits asol=/home/rumbaugh/ChandraData/$obsid/acis$obsid.asol.fits opt=sky x=$pmax[1] y=$pmax[2]
+set decmax = `pget dmcoords dec | sed 's/:/ /g'`
+set ramax = `pget dmcoords ra | sed 's/:/ /g'`
+echo "$obsid $ramax $decmax $pmax[1] $pmax[2]" >> /scratch/rumbaugh/ciaotesting/analysis/conv.centers.1.13.11.dat
+end

@@ -1,0 +1,37 @@
+import numpy as np
+import math as m
+import sys
+execfile("arrconv.py")
+
+CSO_arr = np.array(['J0003+4807','J1400+6210','J1414+4554','J1545+4751','J1734+0926','J1816+3457','J1823+7938','J1826+1831','J1927+7358','J1945+7055'])
+
+compareto = 'J1945+7055'
+CSOload = np.loadtxt('/local3/rumbaugh/EVLA/data/11A-138/difmap_results/%s.fluxes.8.17.12.dat'%compareto,dtype='string')
+CSOload2 = np.loadtxt('/local3/rumbaugh/EVLA/data/11A-138/difmap_results/%s.fluxes.11.5.12.dat'%compareto,dtype='string')
+SBgrouparrt1 = CSOload[:,1].copy()
+SBnumarrt1 = CSOload[:,2].copy()
+SBgrouparrt2 = CSOload2[:,1].copy()
+SBnumarrt2 = CSOload2[:,2].copy()
+fluxest1 = CSOload[:,6].copy()
+fluxest2 = CSOload2[:,6].copy()
+compto_SBgrouparr,compto_SBnumarr,compto_fluxes = np.append(SBgrouparrt1,SBgrouparrt2),np.append(SBnumarrt1,SBnumarrt2),np.append(fluxest1,fluxest2)
+compto_fluxes = arrconv.float2str(compto_fluxes)
+
+for i in range(0,len(CSO_arr)-1):
+    CSOload = np.loadtxt('/local3/rumbaugh/EVLA/data/11A-138/difmap_results/%s.fluxes.8.17.12.dat'%CSO_arr[i],dtype='string')
+    CSOload2 = np.loadtxt('/local3/rumbaugh/EVLA/data/11A-138/difmap_results/%s.fluxes.11.5.12.dat'%CSO_arr[i],dtype='string')
+    fluxest = arrconv.float2str(CSOload[:,6].copy())
+    SBgrouparrt = CSOload[:,1].copy()
+    SBnumarrt = CSOload[:,2].copy()
+    if len(CSOload2.shape) > 1:
+        fluxest2 = arrconv.float2str(CSOload2[:,6].copy())
+        fluxes = np.append(fluxest,fluxest2)
+        SBgrouparrt2 = CSOload2[:,1].copy()
+        SBnumarrt2 = CSOload2[:,2].copy()
+        SBgrouparr,SBnumarr = np.append(SBgrouparrt,SBgrouparrt2),np.append(SBnumarrt,SBnumarrt2)
+    else:
+        fluxest2 = CSOload2[6]
+        SBgrouparrt2 = CSOload2[1]
+        SBnumarrt2 = CSOload2[2]
+        SBgrouparr,SBnumarr = np.append(SBgrouparrt,SBgrouparrt2),np.append(SBnumarrt,SBnumarrt2)
+        fluxes = np.append(fluxest,float(fluxest2))

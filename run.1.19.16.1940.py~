@@ -1,0 +1,12 @@
+execfile('/home/rumbaugh/check_Imp_wavdetect_regs.py')
+
+date='1.19.16'
+
+
+targets=np.array(["rcs0224","cl0849","rxj0910","rxj1221","cl1350","rxj1757","cl1604","cl0023","cl1324","rxj1821","cl1137","rxj1716","rxj1053","cl1324_north","cl1324_south"])
+
+for field in targets:
+    fitsfile='/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/%s'%(field,field,field)
+    srcfile='/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/SRCv1/%s_srclist_v1.fits'%(field,field,field)
+    outreg='/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/%s_PS_masks'%(field,field,field,date)
+    check_Imp_wavdetect_regs(fitsfile,srcfile,outreg,zoom=8)

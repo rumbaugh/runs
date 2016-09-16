@@ -1,0 +1,8 @@
+foreach i (sb4217934.eb4920726.55780.04841137731 sb4218053.eb4926802.55783.087350601854 sb4220855.eb4947823.55787.38247170139 sb4223559.eb4926806.55783.246391782406)
+cd /local3/rumbaugh/EVLA/data/11A-138/raw/archive.nrao.edu/secured/IO3659
+foreach j (*$i*)
+cd /local3/rumbaugh/EVLA/data/11A-138/raw/
+ln -s /local3/rumbaugh/EVLA/data/11A-138/raw/archive.nrao.edu/secured/IO3659/$j .
+end
+end
+end

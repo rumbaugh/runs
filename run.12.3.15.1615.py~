@@ -1,0 +1,3 @@
+import numpy as np
+
+cr=np.loadtxt('/home/rumbaugh/Chandra/7914/photometry/7914.xray_phot_imp.soft_hard_full.dat')

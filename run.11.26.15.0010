@@ -1,0 +1,52 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+declare -a b=(0.5-2.0 2.0-8.0 0.5-8.0)
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+declare -a ef=(1.497 4.51 2.3)
+declare -a id=(6933+7343 9403+9840 9404+9836 10443+11999 10444+10924)
+declare -a ida=(6933 9403 9404 10443 10444)
+declare -a idb=(7343 9840 9836 11999 10924)
+
+cd /home/rumbaugh/Chandra
+
+for i in 0 1 2 3 4
+do
+cd /home/rumbaugh/Chandra
+mkdir -p ${id[$i]}
+cd ${id[$i]}
+mkdir -p regions
+mkdir -p photometry
+mkdir -p spec
+mkdir -p temp
+mkdir -p tmp
+punlearn ardlib
+acis_set_ardlib acis${id[$i]}.bpix.fits.gz 
+for j in 0 1 2
+do
+mkpsfmap infile="acis${id[$i]}.img.${n[$j]}.fits" outfile="acis${id[$i]}.psfmap.${b[$j]}.fits" energy=${ef[$j]} ecf=0.393 clob+
+wavdetect infile="acis${id[$i]}.img.${n[$j]}.fits" outfile="sources.${id[$i]}.${b[$j]}.1e6.b1.1-16.wexp20.fits" scellfile="./temp/sources_scell.${id[$i]}.${b[$j]}.1e6.wexp20.fits" imagefile="./temp/sources_image.${id[$i]}.${b[$j]}.1e6.wexp20.fits" defnbkgfile="./temp/sources_bkg.${id[$i]}.${b[$j]}.1e6.wexp20.fits" regfile="./regions/sources.${id[$i]}.${b[$j]}.1e6.b1.1-16.wexp20.reg" scales="1.0 1.414 2.0 2.828 4.0 5.657 8.0 11.314 16.0" sigthresh=1.0e-6 ellsigma=4 expthresh=0.2 expfile="acis${id[$i]}.expmap_${b[$j]}.fits" psffile="acis${id[$i]}.psfmap.${b[$j]}.fits" clob+
+rm temp/*
+cd regions
+rm bkg*${b[$j]}*reg
+/home/rumbaugh/ciao/ciao-4.7/contrib/bin/mkBgRegScript.pl sources.${id[$i]}.${b[$j]}.1e6.b1.1-16.wexp20.reg 2 bkg.${id[$i]}.${b[$j]}.reg
+/home/rumbaugh/ciao/ciao-4.7/contrib/bin/mkSubSuperBgRegScript.pl sources.${id[$i]}.${b[$j]}.1e6.b1.1-16.wexp20.reg bkg.${id[$i]}.${b[$j]}.reg bkg_sub.${id[$i]}.${b[$j]}.reg
+sed -i 's/[0-9]e-[0-9][0-9]/0/g' bkg_sub.${id[$i]}.${b[$j]}.reg
+sed -i 's/[0-9]e-[0-9][0-9]/0/g' sources.${id[$i]}.${b[$j]}.1e6.b1.1-16.wexp20.reg
+cd ..
+num="`stats -v max < acis${id[$i]}.expmap_${b[$j]}.fits`"
+dmimgcalc acis${id[$i]}.img.${n[$j]}.fits acis${id[$i]}.expmap_${b[$j]}.fits acis${id[$i]}.img.${n[$j]}.vig_corr.fits div weight=$num clob+
+dmfilth infile=acis${id[$i]}.img.${n[$j]}.vig_corr.fits outfile=acis${id[$i]}.img.${n[$j]}.nops.fits method=POISSON srclist=@./regions/sources.${id[$i]}.${b[$j]}.1e6.b1.1-16.wexp20.reg bkglist=@./regions/bkg_sub.${id[$i]}.${b[$j]}.reg randseed=0 clob+
+done
+done

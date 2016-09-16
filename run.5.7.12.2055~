@@ -1,0 +1,11 @@
+set r0 = (12 98)
+set names = (RXJ1757 Cl1604 Cl1324 Cl1324 0910)
+set n_ids = (RXJ1757 acis6932 acis9403+9840 acis9404+9836 acis2227+2452)
+
+foreach i (1 2 3 4 5)
+foreach j (1 2)
+cd /home/rumbaugh/ChandraData/$names[$i]/master
+aconvolve $n_ids[$i].img.500-2000.vig_corr.nops.fits test.conv.$n_ids[$i].soft.r_$r0[$j].5.7.12.fits "file:/home/rumbaugh/ChandraData/bmodels/beta_model.r0_$r0[$j].alpha_1.5.fits" edges=wrap method=fft clob+
+end
+end
+end

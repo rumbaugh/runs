@@ -1,0 +1,27 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+set z = (soft hard full)
+set el = (0.5 2.0 0.5)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+set cons = (0.00000000000583654559476 0.0000000000343096106814 0.00000000000366269272639 0.0000000000212174639544)
+set cnt = 0
+
+foreach i (548 4936)
+cd /home/rumbaugh/temp.2.5.12
+ln -sf /home/rumbaugh/Chandra_ORELSE_Notes/get_chandra_phot2.pl .
+foreach j (1 2)
+@ cnt = $cnt + 1
+./get_chandra_phot2.pl sources.$i.full+soft+hard.srclist.dat $i acis$i.img.$n[$j].vig_corr.fits acis$i.expmap_$z[$j].fits acis$i.asol.fits $z[$j] $cons[$cnt] 
+end
+end
+end

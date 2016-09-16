@@ -1,0 +1,28 @@
+import numpy as np
+import time
+execfile('/home/rumbaugh/get_cols_batch.py')
+z = np.array(['soft','hard'])
+nd = np.array(['0.5,2.0','2.0,8.0'])
+ndL = np.array([0.5,2.0])
+ndH = np.array([2.0,8.0])
+nh = np.array([2.79,1.22,1.22,1.155,1.155,5.66,4.07])
+mas0 = np.array(['7914','master','master','master','master','master','master'])
+mas = np.array(['7914','6932','master','master','master','master','master'])
+inum = np.array(['7914','6932','6933+7343','9403+9840','9404+9836','10444+10924','10443+11999'])
+singnum = np.array([7914,6932,6933,9403,9404,10444,11999])
+mas2 = np.array(['7914','6932','master','9403','9404','master','master'])
+icnt = 0
+zs = np.array([0.84,0.9,0.9,0.76,0.76,0.82,0.69])
+exps = np.array([49383.247922195,49478.092354796,46103.507982594,48391.890220549,50399.00069391,49548.501183658,46451.792387024])
+f2l = np.array([1.676,1.987,1.987,1.310,1.310,1.580,1.034])
+
+mx = (43.2104078-43.348505)/(240.9472-241.28263)
+cl1324rac = 0.5*(30.86373172217+30.279328719557)
+icnt = -1
+names = np.array(['Cl0023','Cl1604','Cl1604','Cl1324','Cl1324','NEP5281','RXJ1757'])
+snames = np.array(['0023','1604','1604','1322','1322','N5281','N200'])
+st = time.time()
+tarr = np.zeros(8)
+tarr[0] = st
+
+for i in names:

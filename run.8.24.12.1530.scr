@@ -1,0 +1,23 @@
+obs /local3/rumbaugh/EVLA/data/11A-138/LateSB2/data/LateSB2_4.6.24.11.11A-138.B1938+666.uvfits
+select I
+mapunits arcsec
+mapsize 256,0.05
+
+!shift -sin(83.9966*pi/180.0)*1.20478,-cos(83.9966*pi/180.0)*1.20478
+shift -1.41143,-0.030
+
+addcmp 0.0717458,true,-0.664,0.574,varpos
+addcmp 0.0307923,true,-0.053,0.869,varpos
+addcmp 0.0809120,true,-0.581,0.695,varpos
+addcmp 0.0112803,true,0,0,varpos
+addcmp 0.00985509,true,-0.310,0.973,varpos
+addcmp 0.00985509,true,-0.098,0.077,varpos
+
+modelfit 30
+selfcal false,false,60
+modelfit 30
+selfcal false,false, 60
+modelfit 30
+cmul = imstat(rms)
+logl 3,0.04/cmul
+mapl clean

@@ -1,0 +1,5 @@
+from numpy import *
+from scipy import *
+from pylab import *
+import scipy.optimize
+import leastsq

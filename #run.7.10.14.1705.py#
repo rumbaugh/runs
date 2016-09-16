@@ -1,0 +1,11 @@
+import numpy as np
+import matplotlib.pylab as plt
+
+date = '7.10.14'
+
+FILE = open('/mnt/data2/rumbaugh/Fermi/TimeBombs/output/results.testlightcurves.%s.dat'%date,'w')
+for i,pair in zip(np.arange(len(iter_dict.keys())),iter_dict.keys()):
+    tau,mu = cr[:,0][pair-1],cr[:,1][pair-1]
+    ldate = ldate_dict[iter_dict[pair]]
+    pfile = '/mnt/data2/rumbaugh/Fermi/TimeBombs/output/posterior.testlightcurve_%i.tau_%.2f.mu_%.3f.%s.dat'%(pair,tau,mu,ldate)
+    crp = np.loadtxt(pfile)

@@ -1,0 +1,16 @@
+names = np.array(['RXJ1757','acis10444+10924','acis9403+9840','acis9404+9836'])
+paths = np.array(['/scratch/rumbaugh/ciaotesting/RXJ1757/master','/scratch/rumbaugh/ciaotesting/NEP5281/master','/scratch/rumbaugh/ciaotesting/Cl1324/master','/scratch/rumbaugh/ciaotesting/Cl1324/master'])
+zz = np.array(['RXJ1757','10444+10924','9403+9840','9404+9836'])
+pbk = np.array(['acis11999','acis10444','acis9840','../9836/acis9836'])
+full = np.array(['full','full','full','full_2'])
+bnds = np.array([300,300,250,200])
+for i in range(2,4):
+    os.system('cd $paths[i]'%())
+    os.system('dmstat %s/conv.beta.12.15.10.fits verbose=0'%(paths[i]))
+    os.system('cen = `pget dmstat out_max_loc`'%())
+    bgA = bnds[i] + 10
+    bgB = bnds[i] + 20
+    #os.system('specextract infile="%s/%s.evt2.500-8000.fits[sky=circle(%s,%i)]" outroot=spec_%s_%s_300 grouptype=NUM_CTS binspec=300 pbkfile="%s/%s.pbk.fits" bkgfile="%s/%s.evt2.500-8000.fits[sky=region(tempbg.reg)]" bkg_grouptype=NUM_CTS bkg_binspec=300 energy_wmap=500:8000 clob+'%(paths[i],names[i],cen,bnds[i],zz[i],full[i],paths[i],pbk[i],paths[i],names[i]))
+    load_data('%s/%s.img.500-8000.nops.fits'%(paths[i],names[i]))
+    set_coord('physical')
+    

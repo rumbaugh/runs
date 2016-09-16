@@ -1,0 +1,16 @@
+for i in 548 927 1662 1708 2227 2229 2452 3181 4936 4987
+do
+echo $i
+cd /home/rumbaugh/Chandra/$i
+mkdir -p regions
+mkdir -p photometry
+mkdir -p spec
+mkdir -p temp
+mkdir -p tmp
+cd primary
+ln -s acisf*bpix*gz acis$i.bpix.fits.gz
+ln -s acisf*evt2*gz acis$i.evt2.fits.gz
+ln -s p*asol*gz acis$i.asol.fits.gz
+cd ../secondary
+ln -s acis*_pbk*gz acis$i.pbk0.fits.gz
+done

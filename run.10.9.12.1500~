@@ -1,0 +1,1 @@
+specextract infile='/home/rumbaugh/ChandraData/NEP5281/master/acis10444+10924.evt2.fits' outroot =/home/rumbaugh/ChandraData/NEP5281/master/spec/spec_10444+10924_bkg_test.10.8.12 clob+

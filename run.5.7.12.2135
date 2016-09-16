@@ -1,0 +1,14 @@
+set r0 = (12 98)
+set names = (Cl1324 0910)
+set n_ids = (acis9403+9840 acis2227+2452)
+set baselines = (0.0044 0.012)
+
+foreach i (1 2)
+foreach j (1 2)
+cd /home/rumbaugh/ChandraData/$names[$i]/master
+dmimgcalc infile=test.conv.$n_ids[$i].soft.r_$r0[$j].5.7.12.fits infile2=none op="imgout=img1-$baselines[$j]" out=temp_baselinesub.fits mode=h clob+
+dmimgcalc infile=temp_baselinesub.fits,test.conv.var.$n_ids[$i].soft.r_$r0[$j].5.7.12.fits infile2=none op="imgout=img1/(img2**0.5)" out=test.conv.sig.$n_ids[$i].soft.r_$r0[$j].5.7.12.fits clob+
+rm temp_baselinessub.fits
+end
+end
+end

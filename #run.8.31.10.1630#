@@ -1,0 +1,4 @@
+foreach i (8177 363 7757 367 5602 5604 3571 3460 7759 1644 1642 4763 1629 419 5193 423 424 3419)
+cd /scratch/rumbaugh/ciaotesting/$i
+set emax = `stats -v max < acis$i.expmap_soft.fits`
+dmimgcalc infile="acis$i.img.500-2000.S07.nops.norand.fits" infile2="acis$i.expmap_soft.fits" outfile="acis$i.img.500-2000.S07.vig_corr.nops.norand.fits" operation=div weight=$emax clobber=yes

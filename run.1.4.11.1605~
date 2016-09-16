@@ -1,0 +1,8 @@
+ciao
+cd /home/rumbaugh/COSMOS/test
+foreach i ([1-9]*)
+cd /home/rumbaugh/COSMOS/test/$i
+foreach j (18.83 27.27 35.1)
+aconvolve acis$i.img.500-2000.nops.fits conv.beta.12.28.10.r_$j.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_$j.fits" edges=wrap method=fft clob+
+end
+end

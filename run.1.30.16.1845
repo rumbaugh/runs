@@ -1,0 +1,34 @@
+declare -a z=(soft hard full)
+
+declare -a targets=(rcs0224 cl0849 rxj0910 rxj1053 rxj1221 cl1350 rxj1716 cl1604 cl0023 cl1324 rxj1757 rxj1821 cl1137)
+declare -a obsids=(3181\ 4987 3181\ 4987 927\ 1708 927\ 1708 2227\ 2452 2227\ 2452 1662 2229 548 9403\ 9840 9404\ 9836 9404\ 9836 10443\ 11999 10444\ 10924 4936)
+
+declare -a targets=(rcs0224 rcs0224 cl0849 cl0849 rxj0910 rxj0910 rxj1221 cl1350 rxj1716 cl1324_north cl1324_south cl1324_south rxj1757 rxj1821 rxj1053)
+
+declare -a clusters=(RCS0224B 0225-0019 Cl0849 0848+4451 0910+5422 0910+5419 RXJ1221B Cl1350C RXJ1716A Cluster_I 1324+3011 1324+3013 RXJ1757 RXJ1821 1053+5735)
+
+declare -a inds=(0 1 2 3 4 5 6 7 9 10 11 12 13)
+
+for i in ${inds[@]}
+do
+declare field=${targets[$i]}
+declare cluster=${clusters[$i]}
+declare curdir=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/proc/$field
+cd $curdir
+rm -f $curdir/${cluster}_bkg.lis
+for obs in ${obsids[$i]}
+do
+declare evtfile=`ls /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/raw/$obs/primary/acisf*${obs}*evt2*fits*`
+echo "${evtfile}[sky=region(/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/proc/$field/${cluster}_${obs}_bkg_spec.reg)]" | tee -a $curdir/${cluster}_bkg.lis
+done
+for band in ${z[@]}
+do
+rm -f $curdir/${cluster}_spec_$band.lis
+for obs in ${obsids[$i]}
+do
+declare evtfile=`ls /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/raw/$obs/primary/acisf*${obs}*evt2*fits*`
+echo "${evtfile}[sky=region(/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/proc/$field/${cluster}_${obs}_${band}_spec.reg)]" | tee -a $curdir/${cluster}_spec_$band.lis
+done
+specextract @./${cluster}_spec_$band.lis outroot=${cluster}_spec_$band bkgfile=@./${cluster}_bkg.lis grouptype=NUM_CTS binspec=15 combine="yes" clob+
+done
+done

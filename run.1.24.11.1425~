@@ -1,0 +1,15 @@
+set names = (RXJ1757 acis10444+10924 acis9403+9840 acis9404+9836)
+set paths = (/scratch/rumbaugh/ciaotesting/RXJ1757/master/ /scratch/rumbaugh/ciaotesting/NEP5281/master/ /scratch/rumbaugh/ciaotesting/Cl1324/master/ /scratch/rumbaugh/ciaotesting/Cl1324/master/)
+set zz = (RXJ1757 10444+10924 9403+9840 9404+9836)
+set pbk = (acis11999 acis10444 acis9840 ../9836/acis9836)
+set full = (full full full full_2)
+set bnds = (300 280 250 200)
+set cens = (1 3884.5130391,4112.342391 1 1)
+foreach i (2)
+cd $paths[$i]
+@ bgA = 300
+@ bgB = 320
+set cen = $cens[$i]
+echo "circle($cen,$bgB)-circle($cen,$bgA)" > tempbg.reg
+specextract infile="$paths[$i]$names[$i].evt2.500-8000.fits[sky=circle($cen,$bnds[$i])]" outroot=/home/rumbaugh/ChandraData/NEP5281/10444+10924/spec/spec_"$zz[$i]"_$full[$i]_1.24.225 grouptype=SNR binspec=7 pbkfile="$paths[$i]$pbk[$i].pbk.fits" bkgfile="$paths[$i]$names[$i].evt2.500-8000.fits[sky=region(tempbg.reg)]" bkg_grouptype=SNR bkg_binspec=7 energy_wmap=500:8000 clob+
+end

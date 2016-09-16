@@ -1,0 +1,2 @@
+import pyfits as py
+hdu = py.open('./S30218+35_86400.lc')

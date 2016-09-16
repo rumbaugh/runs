@@ -1,0 +1,3 @@
+execfile('/home/rumbaugh/git/CDCranking/CDCranking.py')
+
+filebase='view-source_www.hearthpwn.com_forums_hearthstone-general_fan-creations_86577-the-winter-unveiling-a-card-design-competition'

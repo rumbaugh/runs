@@ -1,0 +1,3 @@
+import numpy as np
+
+lens_dict = {'0414': {'images': 4}, '0712': {'images': 4}, '1030': {'images': 2}, '1127': {'images': 2}, '1152': {'images': 2}}

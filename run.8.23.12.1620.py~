@@ -1,0 +1,7 @@
+import math as m
+import sys
+
+try:
+    cRA,cDec,r,PA
+except NameError:
+    sys.exit("Parameters not set")

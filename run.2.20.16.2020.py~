@@ -1,0 +1,3 @@
+import numpy as np
+
+cr=np.loadtxt('/home/rumbaugh/LFC_color_param/LFC_color_param_output_graz13.dat',usecols=(1,2))

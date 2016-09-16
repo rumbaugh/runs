@@ -1,0 +1,23 @@
+import numpy as np
+import time
+import matplotlib.pylab as py
+try:
+    lens
+except NameError:
+    lens = '1938'
+
+infile = '/home/rumbaugh/EVLA/light_curves/Dispersions/Disp_grid_out.%s.10.23.13.dat'%lens
+cr = np.loadtxt(infile)
+tau,mu,disp = cr[:,0],cr[:,1],cr[:,2]
+len_mu = len(tau[tau==tau[0]])
+len_tau = len(mu[mu==mu[0]])
+Z = np.reshape(disp,(len_tau,len_mu))
+Ztau = np.reshape(tau,(len_tau,len_mu))[:,0]
+Zmu = np.reshape(mu,(len_tau,len_mu))[0]
+try:
+    V
+except NameError:
+    V = np.arange(11)*(np.max(Z)-np.min(Z))*0.95+np.min(Z)*1.05
+py.clf()
+py.contour(Zmu,Ztau,Z,V)
+py.savefig('/home/rumbaugh/EVLA/light_curves/Dispersions/Disp.con_plot.%s.10.23.13.ps'%lens)

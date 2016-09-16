@@ -1,0 +1,20 @@
+set j = 0
+foreach i (6431 8018 8023 8027 8124 8549)
+cd /home/rumbaugh/COSMOS/$i
+aconvolve acis$i.img.S$j.500-2000.nops.fits conv.beta.S$j.11.13.10.1840.r_27.27.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_27.27.fits" edges=wrap method=fft
+aconvolve acis$i.img.S$j.500-2000.nops.fits conv.beta.S$j.11.13.10.1840.r_18.83.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_18.83.fits" edges=wrap method=fft
+set j = 1
+foreach i (6431 8020 8027)
+cd /home/rumbaugh/COSMOS/$i
+aconvolve acis$i.img.S$j.500-2000.nops.fits conv.beta.S$j.11.13.10.1840.r_27.27.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_27.27.fits" edges=wrap method=fft
+aconvolve acis$i.img.S$j.500-2000.nops.fits conv.beta.S$j.11.13.10.1840.r_18.83.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_18.83.fits" edges=wrap method=fft
+set j = 2
+foreach i (6431 8018 8020)
+cd /home/rumbaugh/COSMOS/$i
+aconvolve acis$i.img.S$j.500-2000.nops.fits conv.beta.S$j.11.13.10.1840.r_27.27.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_27.27.fits" edges=wrap method=fft
+aconvolve acis$i.img.S$j.500-2000.nops.fits conv.beta.S$j.11.13.10.1840.r_18.83.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_18.83.fits" edges=wrap method=fft
+set j = 3
+foreach i (6431 8020 8124 8549)
+cd /home/rumbaugh/COSMOS/$i
+aconvolve acis$i.img.S$j.500-2000.nops.fits conv.beta.S$j.11.13.10.1840.r_27.27.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_27.27.fits" edges=wrap method=fft
+aconvolve acis$i.img.S$j.500-2000.nops.fits conv.beta.S$j.11.13.10.1840.r_18.83.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_18.83.fits" edges=wrap method=fft

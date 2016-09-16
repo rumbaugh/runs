@@ -1,0 +1,2 @@
+execfile('/mnt/data2/rumbaugh/Fermi/scripts/MockBlazarLightcurves.py')
+

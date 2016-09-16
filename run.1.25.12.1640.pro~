@@ -1,0 +1,23 @@
+readcols,'/home/rumbaugh/LFC/FINAL.spectra.sc1604.onlysemifinal.wcompletenessmasks.nov2010.cat',phot_id,mask,slit,ra,dec,rB,iB,zB,rs,rserr,q,oldid,pflags,acsra,acsdec,acsID,f606,f814,format='A,A,A,D,D,D,D,D,D,D,I,A,A,D,D,D,D,D'
+
+srchdist = 3.09*0.7
+
+cRAh = 16
+cRAm = 4
+cRAs = 26.5
+cDd = 43
+cDm = 14
+cDs = 22
+
+centerRA = (cRAh + (cRAm + (cRAs/60.0))/60.0)*360.0/24
+centerDec = cDd + (cDm + (cDs/60.0))/60.0
+
+g = FindCloseSources(centerRA,centerDec,srchdist*60,ra,dec,0)
+set_plot,'PS'
+loadct,13
+device,file='/home/rumbaugh/testsrch.ps',/color
+plot,ra,dec,PSYM=2,SYMSIZE=0.3
+oplot,ra[g[0:9]],dec[g[0:9]],PSYM=4,color=155
+oplot,centerRA,centerDec,PSYM=5,color=255
+
+end

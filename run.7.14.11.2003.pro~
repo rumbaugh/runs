@@ -1,0 +1,730 @@
+; IDL script to construct the logN-logS plot for Cl0023
+set_dirs
+mkct
+loadct,13
+set_plot,'PS'
+device,file="/home/rumbaugh/paperstuff/logNlogSplot.overdensities.hard.7.14.11.ps",/color
+
+rdfloat,"/home/rumbaugh/CDF/src_flux_sort.N_sort.Nerr.2232_582.hard.lst",CDFflux,CDFN,CDFNerr
+
+rdfloat, "/scratch/rumbaugh/Chandra_ORELSE_Notes/psfsize_4.51_90perc.dat", arcsec_offset, perc95_radius
+
+;; Set sigma above background to use in constructing logN-logS
+sigma = 3.0
+
+pix_area = 31.488^2.0      ; arcsec^2
+COSMOS_S = make_array(4)
+COSMOS_S[0] = 10^(-13.0)
+COSMOS_S[1] = 10^(-13.5)
+COSMOS_S[2] = 10^(-14.0)
+COSMOS_S[3] = 10^(-14.3)
+COSMOS_N = make_array(4)
+COSMOS_N[3] = 600.1
+COSMOS_N[2] = 258.9
+COSMOS_N[1] = 57.0
+COSMOS_N[0] = 8.6
+
+;; NOTE: These COSMOS values are for 2-10 keV and for pow-law slope=1.7
+;;       I've noticed going from 1.7 to 1.4 tends to DECREASE k by 6.96%
+COSMOS_S2 = COSMOS_S*1.11404
+
+
+srcfluxAll = []
+sigAll = []
+
+srcfluxAlly = []
+sigAlly = []
+
+srcfluxAllo = []
+sigAllo = []
+
+plotzero = [0,0,0,0,0,0,0]
+pzX = [1E-20,6E-16,6.1E-16,1.9E-14,2E-14,1E-13,1]
+
+;; Set counts to flux conversion
+k1 = 0.0000000000278875534235
+k12 = 0.0000000000222524348045
+
+
+;; First get amount of sky covered at a given flux (6932)
+
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl0023/7914/acis7914.img.2000-8000.nops.bin64.dat", x1, y1, counts1
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl0023/7914/acis7914.bin64.offaxis_angle.dat", x_theta1, y_theta1, theta1
+
+r95a = interpol(perc95_radius, arcsec_offset, theta1)
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl0023/7914/acis7914.expmap_hard.bin64.dat", x_exp, y_exp, exp_map
+EA = exp_map         ; cm^2 * sec
+V1 = max(exp_map) / exp_map
+g1a = where(EA gt 0)
+g2a = where(finite(V1))
+
+; imhead -v LIVETME < acisf06932_img.2000-8000.fits
+t1 = 49383.247922195 ; seconds
+flux1 = sigma * (1.0+SQRT(0.75 + ((counts1/pix_area)*(!PI*r95a^2.0) ))) * V1/t1     ; / EA
+flux_finite1 = flux1(where(finite(flux1)))
+
+sky_cov = make_array(10001)
+farr = make_array(10001)
+farr[0] = 0.00001
+fmax =  0.004   ; 
+df = (fmax-farr[0])/double(n_elements(sky_cov))
+for i=1L, n_elements(sky_cov)-1 do begin  &$
+    farr[i] = farr[i-1] + df  &$
+    Nf = n_elements(where(flux_finite1 le farr[i]))  &$
+    sky_cov[i] = Nf * pix_area / (3600.0^2.0)  &$     ; N pixels * pixel area in degrees
+endfor
+
+
+
+
+
+;; Now construct logN-logS 
+
+; Read in photometery
+photcat1 = '/scratch/rumbaugh/ciaotesting/Cl0023/7914/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat'
+readcol, photcat1, id_all,ra_all,dec_all,netcnts_corr_all,netcnts_all,counts_all,sig_all,offaxis_all,src_flux_all,wmask_all,wsigf_all,wsigs_all,wsigh_all, format='I,D,D,D,D,D,D,D,D,D,D,D,D,D,D'
+src_flux_all = src_flux_all*k1/k12
+; Fluxes for sources 30 and 40 are overestimated.  Not sure by how much, so lets just bring it down a little.
+; src_flux_all[71] = src_flux_all[71]*0.9
+; src_flux_all[87] = src_flux_all[87]*0.9
+
+g = where(sig_all gt sigma)
+ra = ra_all[g]
+dec = dec_all[g]
+sig = sig_all[g]
+src_flux = src_flux_all[g]
+netcnts = netcnts_all[g]  
+
+srcfluxAll = [srcfluxAll,src_flux]
+sigAll = [sigAll,sig]
+srcfluxAlly = [srcfluxAlly,src_flux]
+sigAlly = [sigAlly,sig]
+
+src_sky_cov = interp1(farr*k1,sky_cov,src_flux)
+src_sky_cov_inv = 1.0/src_sky_cov 
+
+N = make_array(n_elements(src_flux))
+Nerr = make_array(n_elements(src_flux))
+src_flux_sort = src_flux[reverse(sort(src_flux))]
+src_sky_cov_inv_sort = src_sky_cov_inv[reverse(sort(src_flux))] 
+
+for i=0L, n_elements(src_flux_sort)-1 do begin  &$
+    g = where(src_flux_sort ge src_flux_sort[i],count) &$
+    if (count gt 0) then N[i] = total(src_sky_cov_inv_sort[g]) &$
+    if (count gt 0) then Nerr[i] = sqrt(total(((src_sky_cov_inv_sort[g])^2.0))) &$
+;    if (count eq 0) then N[i] = 0 &$
+endfor
+
+; Plot logN-logS
+; window, 1
+;;plot, src_flux_sort, N, /xlog, /ylog,
+;;psym=7,xrange=[6E-16,2E-14],yrange=[50,2000],/ysty,/xsty
+ploterror, src_flux_sort, N,Nerr, /xlog, /ylog, psym=4,xrange=[3E-15,5E-14],yrange=[30,2000],XTITLE="S (erg s!E-1!N cm!E-2!N)", YTITLE = "N(>S) (deg!E-2!N)",TITLE="Cl0023 - Hard Band", /ysty,/xsty,SYMSIZE=0.7,THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,CDFflux,CDFN,LINESTYLE=1
+
+;oplot, COSMOS_S2, COSMOS_N, PSYM=0,LINESTYLE=5
+
+CDFinterp1 = dblarr(n_elements(N))
+CDFinterp1 = interp1(CDFflux,CDFN,src_flux_sort)
+overdense1 = (N-CDFinterp1)/CDFinterp1
+sfs1 = src_flux_sort
+
+plot,src_flux_sort,overdense1,/xlog,xrange=[3E-15,5E-14],/xsty,/ysty,YRANGE=[-3.5,3],XTITLE="S (erg s!E-1!N cm!E-2!N)",YTITLE="Overdensity (sigma)",TITLE="Cl0023 - Hard Band",THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,pzX,plotzero,LINESTYLE=1
+
+;; Set counts to flux conversion
+k2 = 0.5*(0.0000000000278030236628+0.0000000000278166819506)
+k22 = 0.5*(0.0000000000221956802628+0.0000000000221849856109)
+kN2 = 0.0000000000278166819506
+kS2 = 0.0000000000278030236628
+kN22 = 0.0000000000221849856109
+kS22 = 0.0000000000221956802628
+
+
+;; First get amount of sky covered at a given flux (9404+9836)
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1324/master/acis9403+9840.img.2000-8000.nops.bin64.dat", xN2, yN2, countsN2
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1324/master/acis9403+9840.bin64.offaxis_angle.dat", x_thetaN2, y_thetaN2, thetaN2
+
+r95aN = interpol(perc95_radius, arcsec_offset, thetaN2)
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1324/master/acis9404+9836.img.2000-8000.nops.bin64.dat", xS2, yS2, countsS2
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1324/master/acis9404+9836.bin64.offaxis_angle.dat", x_thetaS2, y_thetaS2, thetaS2
+
+r95aS = interpol(perc95_radius, arcsec_offset, thetaS2)
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1324/master/acis9403+9840.expmap_hard.bin64.dat", x_expN2, y_expN2, exp_mapN2
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1324/master/acis9404+9836.expmap_hard.bin64.dat", x_expS2, y_expS2, exp_mapS2
+EAS = exp_mapS2         ; cm^2 * sec
+VS2 = max(exp_mapS2) / exp_mapS2
+g1aS = where(EAS gt 0)
+g2aS = where(finite(VS2))
+EAN = exp_mapN2        ; cm^2 * sec
+VN2 = max(exp_mapN2) / exp_mapN2
+g1aN = where(EAN gt 0)
+g2aN = where(finite(VN2))
+
+
+; imhead -v LIVETME < acisf09404+9836_img.2000-8000.fits
+tS2 =  49478.092354796; seconds
+tN2 =  46103.507982594; seconds
+fluxS2 = sigma * (1.0+SQRT(0.75 + ((countsS2/pix_area)*(!PI*r95aS^2.0) ))) * VS2/tS2     ; / EA
+flux_finiteS2 = fluxS2(where(finite(fluxS2)))
+
+
+fluxN2 = sigma * (1.0+SQRT(0.75 + ((countsN2/pix_area)*(!PI*r95aN^2.0) ))) * VN2/tN2     ; / EA
+flux_finiteN2 = fluxN2(where(finite(fluxN2)))
+
+
+sky_cov = make_array(10001)
+farr = make_array(10001)
+farr[0] = 0.00001
+fmax =  0.004   ; 
+df = (fmax-farr[0])/double(n_elements(sky_cov))
+for i=1L, n_elements(sky_cov)-1 do begin  &$
+    farr[i] = farr[i-1] + df  &$
+    Nf = n_elements(where(flux_finiteS2 le farr[i])) + n_elements(where(flux_finiteN2 le farr[i]))  &$
+    sky_cov[i] = Nf * pix_area / (3600.0^2.0)  &$     ; N pixels * pixel area in degrees
+endfor
+
+; Read in photometery
+photcat1 = '/scratch/rumbaugh/ciaotesting/Cl1324/master/CALDB_PHOT/9403+9840_caldb_phot/hard/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat'
+readcol, photcat1, id_all1,ra_all1,dec_all1,netcnts_corr_all1,netcnts_all1,counts_all1,sig_all1,offaxis_all1,src_flux_all1,wmask_all1,wsigf_all1,wsigs_all1,wsigh_all1, format='I,D,D,D,D,D,D,D,D,D,D,D,D,D'
+src_flux_all1 = src_flux_all1*kN2/kN22
+;readcol, photcat1, id_all1,ra_all1,dec_all1,netcnts_corr_all1,netcnts_all1,counts_all1,sig_all1,offaxis_all1,src_flux_all1,wmask_all1,wflag_all1,wsigf_all1,wsigs_all1,wsigh_all1, format='I,D,D,D,D,D,D,D,D,D,D,D,D,D,D'
+photcat2 = '/scratch/rumbaugh/ciaotesting/Cl1324/master/CALDB_PHOT/9404+9836_caldb_phot/hard/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat'
+readcol, photcat2, id_all2,ra_all2,dec_all2,netcnts_corr_all2,netcnts_all2,counts_all2,sig_all2,offaxis_all2,src_flux_all2,wmask_all2,wsigf_all2,wsigs_all2,wsigh_all2, format='I,D,D,D,D,D,D,D,D,D,D,D,D,D'
+src_flux_all2 = src_flux_all2*kS2/kS22
+;readcol, photcat2, id_all2,ra_all2,dec_all2,netcnts_corr_all2,netcnts_all2,counts_all2,sig_all2,offaxis_all2,src_flux_all2,wmask_all2,wflag_all2,wsigf_all2,wsigs_all2,wsigh_all2, format='I,D,D,D,D,D,D,D,D,D,D,D,D,D,D'
+
+;readcol, photcat1, id_all,ra_all,dec_all,netcnts_corr_all,netcnts_all,counts_all,sig_all,offaxis_all,src_flux_all,wmask_all,wsigf_all,wsigs_all,wsigh_all, format='I,D,D,D,D,D,D,D,D,D,D,D,D,D,D'
+
+; Fluxes for sources 30 and 40 are overestimated.  Not sure by how much, so lets just bring it down a little.
+; src_flux_all[71] = src_flux_all[71]*0.9
+; src_flux_all[87] = src_flux_all[87]*0.9
+
+len1 = n_elements(id_all1)
+len2 = n_elements(id_all2)
+len = len1 + len2
+ra_all = dindgen(len)
+dec_all = dindgen(len)
+netcnts_all = dindgen(len)
+sig_all = dindgen(len)
+src_flux_all = dindgen(len)
+for i = 0L,len-1 do begin
+   if i lt len1 then begin
+      ra_all[i] = ra_all1[i]
+      dec_all[i] = dec_all1[i]
+      netcnts_all[i] = netcnts_all1[i]
+      sig_all[i] = sig_all1[i]
+      src_flux_all[i] = src_flux_all1[i]
+   endif else begin
+      ra_all[i] = ra_all2[i-len1]
+      dec_all[i] = dec_all2[i-len1]
+      netcnts_all[i] = netcnts_all2[i-len1]
+      sig_all[i] = sig_all2[i-len1]
+      src_flux_all[i] = src_flux_all2[i-len1]
+   endelse   
+endfor
+
+
+g = where(sig_all gt sigma)
+ra = ra_all[g]
+dec = dec_all[g]
+sig = sig_all[g]
+src_flux = src_flux_all[g]
+netcnts = netcnts_all[g]  
+
+src_sky_cov = interp1(farr*k2,sky_cov,src_flux)
+src_sky_cov_inv = 1.0/src_sky_cov 
+
+N = make_array(n_elements(src_flux))
+Nerr = make_array(n_elements(src_flux))
+src_flux_sort = src_flux[reverse(sort(src_flux))]
+src_sky_cov_inv_sort = src_sky_cov_inv[reverse(sort(src_flux))] 
+
+srcfluxAll = [srcfluxAll,src_flux]
+sigAll = [sigAll,sig]
+srcfluxAllo = [srcfluxAllo,src_flux]
+sigAllo = [sigAllo,sig]
+
+for i=0L, n_elements(src_flux_sort)-1 do begin  &$
+    g = where(src_flux_sort ge src_flux_sort[i],count) &$
+    if (count gt 0) then N[i] = total(src_sky_cov_inv_sort[g]) &$
+    if (count gt 0) then Nerr[i] = sqrt(total(((src_sky_cov_inv_sort[g])^2.0))) &$
+;    if (count eq 0) then N[i] = 0 &$
+endfor
+
+ploterror, src_flux_sort, N,Nerr, /xlog, /ylog, psym=4,xrange=[3E-15,5E-14],yrange=[30,2000],XTITLE="S (erg s!E-1!N cm!E-2!N)", YTITLE = "N(>S) (deg!E-2!N)",TITLE="Cl1324 - Hard Band", /ysty,/xsty,SYMSIZE=0.7,THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,CDFflux,CDFN,LINESTYLE=1
+oplot, COSMOS_S2, COSMOS_N, PSYM=0,LINESTYLE=5
+
+CDFinterp2 = dblarr(n_elements(N))
+CDFinterp2 = interp1(CDFflux,CDFN,src_flux_sort)
+overdense2 = (N-CDFinterp2)/CDFinterp2
+
+sfs2 = src_flux_sort
+plot,src_flux_sort,overdense2,/xlog,xrange=[3E-15,5E-14],/xsty,/ysty,YRANGE=[-3.5,3],XTITLE="S (erg s!E-1!N cm!E-2!N)",YTITLE="Overdensity (sigma)",TITLE="Cl1324 - Hard Band",THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,pzX,plotzero,LINESTYLE=1
+
+
+
+
+;; Set counts to flux conversion
+
+k3 = 0.5*(0.0000000000278290277327+0.000000000027821073278)
+k32 = 0.5*(0.0000000000222057351496+0.0000000000221993880176)
+kS3 = 0.0000000000278290277327
+kN3 = 0.000000000027821073278
+kS32 = 0.0000000000222057351496
+kN32 = 0.0000000000221993880176
+
+;; First get amount of sky covered at a given flux (6932)
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1604/master/acis6933+7343.img.2000-8000.nops.bin64.dat", xN3, yN3, countsN3
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1604/master/acis6933+7343.bin64.offaxis_angle.dat", x_thetaN, y_thetaN, thetaN
+
+r95aN = interpol(perc95_radius, arcsec_offset, thetaN2)
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1604/master/../6932/acis6932.img.2000-8000.nops.bin64.dat", xS3, yS3, countsS3
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1604/master/../6932/acis6932.bin64.offaxis_angle.dat", x_thetaS, y_thetaS, thetaS
+
+r95aS = interpol(perc95_radius, arcsec_offset, thetaS2)
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1604/master/acis6933+7343.expmap_hard.bin64.dat", x_expN, y_expN, exp_mapN
+rdfloat, "/scratch/rumbaugh/ciaotesting/Cl1604/master/../6932/acis6932.expmap_hard.bin64.dat", x_expS, y_expS, exp_mapS
+EAS = exp_mapS         ; cm^2 * sec
+VS3 = max(exp_mapS) / exp_mapS
+g1aS = where(EAS gt 0)
+g2aS = where(finite(VS3))
+EAN = exp_mapN         ; cm^2 * sec
+VN3 = max(exp_mapN) / exp_mapN
+g1aN = where(EAN gt 0)
+g2aN = where(finite(VN3))
+
+
+; imhead -v LIVETME < acisf06932_img.2000-8000.fits
+tS3 =  49478.092354796; seconds
+tN3 =  46103.507982594; seconds
+
+fluxS3 = sigma * (1.0+SQRT(0.75 + ((countsS3/pix_area)*(!PI*r95aS^2.0) ))) * VS3/tS3     ; / EA
+flux_finiteS3 = fluxS3(where(finite(fluxS3)))
+
+
+fluxN3 = sigma * (1.0+SQRT(0.75 + ((countsN3/pix_area)*(!PI*r95aN^2.0) ))) * VN3/tN3     ; / EA
+flux_finiteN3 = fluxN3(where(finite(fluxN3)))
+
+
+sky_cov = make_array(10001)
+farr = make_array(10001)
+farr[0] = 0.00001
+fmax =  0.004   ; 
+df = (fmax-farr[0])/double(n_elements(sky_cov))
+for i=1L, n_elements(sky_cov)-1 do begin  &$
+    farr[i] = farr[i-1] + df  &$
+    Nf = n_elements(where(flux_finiteS3 le farr[i])) + n_elements(where(flux_finiteN3 le farr[i]))  &$
+    sky_cov[i] = Nf * pix_area / (3600.0^2.0)  &$     ; N pixels * pixel area in degrees
+endfor
+
+
+; Read in photometery
+photcat1 = '/scratch/rumbaugh/ciaotesting/Cl1604/master/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat'
+readcol, photcat1, id_all1,ra_all1,dec_all1,netcnts_corr_all1,netcnts_all1,counts_all1,sig_all1,offaxis_all1,src_flux_all1,wmask_all1,wsigf_all1,wsigs_all1,wsigh_all1, format='I,D,D,D,D,D,D,D,D,D,D,D,D'
+src_flux_all1 = src_flux_all1*kN3/kN32
+photcat2 = '/scratch/rumbaugh/ciaotesting/Cl1604/master/../6932/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat'
+readcol, photcat2, id_all2,ra_all2,dec_all2,netcnts_corr_all2,netcnts_all2,counts_all2,sig_all2,offaxis_all2,src_flux_all2,wmask_all2,wsigf_all2,wsigs_all2,wsigh_all2, format='I,D,D,D,D,D,D,D,D,D,D,D,D'
+src_flux_all2 = src_flux_all2*kS3/kS32
+
+len1 = n_elements(id_all1)
+len2 = n_elements(id_all2)
+len = len1 + len2
+ra_all = dindgen(len)
+dec_all = dindgen(len)
+netcnts_all = dindgen(len)
+sig_all = dindgen(len)
+src_flux_all = dindgen(len)
+for i = 0L,len-1 do begin
+   if i lt len1 then begin
+      ra_all[i] = ra_all1[i]
+      dec_all[i] = dec_all1[i]
+      netcnts_all[i] = netcnts_all1[i]
+      sig_all[i] = sig_all1[i]
+      src_flux_all[i] = src_flux_all1[i]
+   endif else begin
+      ra_all[i] = ra_all2[i-len1]
+      dec_all[i] = dec_all2[i-len1]
+      netcnts_all[i] = netcnts_all2[i-len1]
+      sig_all[i] = sig_all2[i-len1]
+      src_flux_all[i] = src_flux_all2[i-len1]
+   endelse   
+endfor
+
+
+g = where(sig_all gt sigma)
+ra = ra_all[g]
+dec = dec_all[g]
+sig = sig_all[g]
+src_flux = src_flux_all[g]
+netcnts = netcnts_all[g]  
+
+src_sky_cov = interp1(farr*k3,sky_cov,src_flux)
+src_sky_cov_inv = 1.0/src_sky_cov 
+
+srcfluxAll = [srcfluxAll,src_flux]
+sigAll = [sigAll,sig]
+srcfluxAlly = [srcfluxAlly,src_flux]
+sigAlly = [sigAlly,sig]
+
+N = make_array(n_elements(src_flux))
+Nerr = make_array(n_elements(src_flux))
+src_flux_sort = src_flux[reverse(sort(src_flux))]
+src_sky_cov_inv_sort = src_sky_cov_inv[reverse(sort(src_flux))] 
+
+for i=0L, n_elements(src_flux_sort)-1 do begin  &$
+    g = where(src_flux_sort ge src_flux_sort[i],count) &$
+    if (count gt 0) then N[i] = total(src_sky_cov_inv_sort[g]) &$
+    if (count gt 0) then Nerr[i] = sqrt(total(((src_sky_cov_inv_sort[g])^2.0))) &$
+;    if (count eq 0) then N[i] = 0 &$
+endfor
+
+CDFinterp3 = dblarr(n_elements(N))
+CDFinterp3 = interp1(CDFflux,CDFN,src_flux_sort)
+overdense3 = (N-CDFinterp3)/CDFinterp3
+
+ploterror, src_flux_sort, N,Nerr, /xlog, /ylog, psym=4,xrange=[3E-15,5E-14],yrange=[30,2000],XTITLE="S (erg s!E-1!N cm!E-2!N)", YTITLE = "N(>S) (deg!E-2!N)",TITLE="Cl1604 - Hard Band", /ysty,/xsty,SYMSIZE=0.7,THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,CDFflux,CDFN,LINESTYLE=1
+oplot, COSMOS_S2, COSMOS_N, PSYM=0,LINESTYLE=5
+
+sfs3 = src_flux_sort
+plot,src_flux_sort,overdense3,/xlog,xrange=[3E-15,5E-14],/xsty,/ysty,YRANGE=[-3.5,3],XTITLE="S (erg s!E-1!N cm!E-2!N)",YTITLE="Overdensity (sigma)",TITLE="Cl1324 - Hard Band",THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,pzX,plotzero,LINESTYLE=1
+
+
+
+
+;; Set counts to flux conversion
+k4 = 0.0000000000279176013033
+k42 = 0.0000000000222764110378
+
+
+rdfloat, "/scratch/rumbaugh/ciaotesting/NEP5281/master/acis10444+10924.img.2000-8000.nops.bin64.dat", x, y, counts4
+rdfloat, "/scratch/rumbaugh/ciaotesting/NEP5281/master/acis10444+10924.bin64.offaxis_angle.dat", x_theta, y_theta, theta
+
+r95a = interpol(perc95_radius, arcsec_offset, theta)
+rdfloat, "/scratch/rumbaugh/ciaotesting/NEP5281/master/acis10444+10924.expmap_hard.bin64.dat", x_exp, y_exp, exp_map
+EA = exp_map         ; cm^2 * sec
+V = max(exp_map) / exp_map
+g1a = where(EA gt 0)
+g2a = where(finite(V))
+
+; imhead -v LIVETME < acisf06932_img.2000-8000.fits
+t4 = 49548.501183658  ; seconds
+flux4 = sigma * (1.0+SQRT(0.75 + ((counts4/pix_area)*(!PI*r95a^2.0) ))) * V/t4     ; / EA
+flux_finite4 = flux4(where(finite(flux4)))
+
+sky_cov = make_array(10001)
+farr = make_array(10001)
+farr[0] = 0.00001
+fmax =  0.004   ; 
+df = (fmax-farr[0])/double(n_elements(sky_cov))
+for i=1L, n_elements(sky_cov)-1 do begin  &$
+    farr[i] = farr[i-1] + df  &$
+    Nf = n_elements(where(flux_finite4 le farr[i]))  &$
+    sky_cov[i] = Nf * pix_area / (3600.0^2.0)  &$     ; N pixels * pixel area in degrees
+endfor
+
+
+i = n_elements(sky_cov)-1 
+while sky_cov[i] GT 0.2*max(sky_cov) do begin &$
+    i-- &$
+endwhile
+inds = indgen(n_elements(sky_cov))
+i_lim = interpol(sky_cov, inds, i + 0.5)
+j_lim = interpol(farr, inds, i + 0.5)
+;print, j_lim
+;j_lim = farr[i]
+limitingX = dindgen(4)
+limitingX[0] = j_lim*k4
+limitingX[1] = j_lim*k4
+limitingX[2] = j_lim*k4
+limitingX[3] = j_lim*k4
+limitingY = dindgen(4)
+limitingY[0] = -0.35
+limitingY[1] = 100
+limitingY[2] = 1000
+limitingY[3] = 2000
+
+
+; Read in photometery
+photcat1 = '/scratch/rumbaugh/ciaotesting/NEP5281/master/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat'
+readcol, photcat1, id_all,ra_all,dec_all,netcnts_corr_all,netcnts_all,counts_all,sig_all,offaxis_all,src_flux_all,wmask_all,wsigf_all,wsigs_all,wsigh_all, format='I,D,D,D,D,D,D,D,D,D,D,D,D'
+src_flux_all = src_flux_all*k4/k42
+
+g = where(sig_all gt sigma)
+ra = ra_all[g]
+dec = dec_all[g]
+sig = sig_all[g]
+src_flux = src_flux_all[g]
+netcnts = netcnts_all[g]  
+
+src_sky_cov = interp1(farr*k4,sky_cov,src_flux)
+src_sky_cov_inv = 1.0/src_sky_cov 
+
+srcfluxAll = [srcfluxAll,src_flux]
+sigAll = [sigAll,sig]
+srcfluxAllo = [srcfluxAllo,src_flux]
+sigAllo = [sigAllo,sig]
+
+N = make_array(n_elements(src_flux))
+Nerr = make_array(n_elements(src_flux))
+src_flux_sort = src_flux[reverse(sort(src_flux))]
+src_sky_cov_inv_sort = src_sky_cov_inv[reverse(sort(src_flux))] 
+
+for i=0L, n_elements(src_flux_sort)-1 do begin  &$
+    g = where(src_flux_sort ge src_flux_sort[i],count) &$
+    if (count gt 0) then N[i] = total(src_sky_cov_inv_sort[g]) &$
+    if (count gt 0) then Nerr[i] = sqrt(total(((src_sky_cov_inv_sort[g])^2.0))) &$
+;    if (count eq 0) then N[i] = 0 &$
+endfor
+CDFinterp4 = dblarr(n_elements(N))
+CDFinterp4 = interp1(CDFflux,CDFN,src_flux_sort)
+overdense4 = (N-CDFinterp4)/CDFinterp4
+
+ploterror, src_flux_sort, N,Nerr, /xlog, /ylog, psym=4,xrange=[3E-15,5E-14],yrange=[30,2000],XTITLE="S (erg s!E-1!N cm!E-2!N)", YTITLE = "N(>S) (deg!E-2!N)",TITLE="NEP5281 - Hard Band", /ysty,/xsty,SYMSIZE=0.7,THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,CDFflux,CDFN,LINESTYLE=1
+oplot, COSMOS_S2, COSMOS_N, PSYM=0,LINESTYLE=5
+
+sfs4 = src_flux_sort
+plot,src_flux_sort,overdense4,/xlog,xrange=[3E-15,5E-14],/xsty,/ysty,YRANGE=[-3.5,3],XTITLE="S (erg s!E-1!N cm!E-2!N)",YTITLE="Overdensity (sigma)",TITLE="NEP5281 - Hard Band",THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,pzX,plotzero,LINESTYLE=1
+
+
+
+
+;; Set counts to flux conversion
+k5 = 0.0000000000277963945676
+k52 = 0.0000000000221796960286
+
+
+rdfloat, "/scratch/rumbaugh/ciaotesting/RXJ1757/master/RXJ1757.img.2000-8000.nops.bin64.dat", x, y, counts5
+rdfloat, "/scratch/rumbaugh/ciaotesting/RXJ1757/master/RXJ1757.bin64.offaxis_angle.dat", x_theta, y_theta, theta
+
+r95a = interpol(perc95_radius, arcsec_offset, theta)
+rdfloat, "/scratch/rumbaugh/ciaotesting/RXJ1757/master/RXJ1757.expmap_hard.bin64.dat", x_exp, y_exp, exp_map
+EA = exp_map         ; cm^2 * sec
+V = max(exp_map) / exp_map
+g1a = where(EA gt 0)
+g2a = where(finite(V))
+
+; imhead -v LIVETME < acisf06932_img.2000-8000.fits
+t5 = 46451.792387024  ; seconds
+pix_area = 31.488^2.0      ; arcsec^2
+
+flux5 = sigma * (1.0+SQRT(0.75 + ((counts5/pix_area)*(!PI*r95a^2.0) ))) * V/t5     ; / EA
+flux_finite5 = flux5(where(finite(flux5)))
+
+sky_cov = make_array(10001)
+farr = make_array(10001)
+farr[0] = 0.00001
+fmax =  0.004   ; 
+df = (fmax-farr[0])/double(n_elements(sky_cov))
+for i=1L, n_elements(sky_cov)-1 do begin  &$
+    farr[i] = farr[i-1] + df  &$
+    Nf = n_elements(where(flux_finite5 le farr[i]))  &$
+    sky_cov[i] = Nf * pix_area / (3600.0^2.0)  &$     ; N pixels * pixel area in degrees
+endfor
+
+
+i = n_elements(sky_cov)-1 
+while sky_cov[i] GT 0.2*max(sky_cov) do begin &$
+    i-- &$
+endwhile
+inds = indgen(n_elements(sky_cov))
+i_lim = interpol(sky_cov, inds, i + 0.5)
+j_lim = interpol(farr, inds, i + 0.5)
+;print, j_lim
+;j_lim = farr[i]
+limitingX = dindgen(4)
+limitingX[0] = j_lim*k5
+limitingX[1] = j_lim*k5
+limitingX[2] = j_lim*k5
+limitingX[3] = j_lim*k5
+limitingY = dindgen(4)
+limitingY[0] = -0.35
+limitingY[1] = 100
+limitingY[2] = 1000
+limitingY[3] = 2000
+
+
+; Read in photometery
+photcat1 = '/scratch/rumbaugh/ciaotesting/RXJ1757/master/CALDB_PHOT/RXJ1757_caldb_phot/hard/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat'
+readcol, photcat1, id_all,ra_all,dec_all,netcnts_corr_all,netcnts_all,counts_all,sig_all,offaxis_all,src_flux_all,wmask_all,wsigf_all,wsigs_all,wsigh_all, format='I,D,D,D,D,D,D,D,D,D,D,D,D,D,D'
+
+src_flux_all = src_flux_all*k5/k52
+g = where(sig_all gt sigma)
+ra = ra_all[g]
+dec = dec_all[g]
+sig = sig_all[g]
+src_flux = src_flux_all[g]
+netcnts = netcnts_all[g]  
+
+src_sky_cov = interp1(farr*k5,sky_cov,src_flux)
+src_sky_cov_inv = 1.0/src_sky_cov 
+
+srcfluxAll = [srcfluxAll,src_flux]
+sigAll = [sigAll,sig]
+
+srcfluxAllo = [srcfluxAllo,src_flux]
+sigAllo = [sigAllo,sig]
+
+N = make_array(n_elements(src_flux))
+Nerr = make_array(n_elements(src_flux))
+src_flux_sort = src_flux[reverse(sort(src_flux))]
+src_sky_cov_inv_sort = src_sky_cov_inv[reverse(sort(src_flux))] 
+
+for i=0L, n_elements(src_flux_sort)-1 do begin  &$
+    g = where(src_flux_sort ge src_flux_sort[i],count) &$
+    if (count gt 0) then N[i] = total(src_sky_cov_inv_sort[g]) &$
+    if (count gt 0) then Nerr[i] = sqrt(total(((src_sky_cov_inv_sort[g])^2.0))) &$
+;    if (count eq 0) then N[i] = 0 &$
+endfor
+ploterror, src_flux_sort, N,Nerr, /xlog, /ylog, psym=4,xrange=[3E-15,5E-14],yrange=[30,2000],XTITLE="S (erg s!E-1!N cm!E-2!N)", YTITLE = "N(>S) (deg!E-2!N)",TITLE="NEP200 - Hard Band", /ysty,/xsty,SYMSIZE=0.7,THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,CDFflux,CDFN,LINESTYLE=1
+oplot, COSMOS_S2, COSMOS_N, PSYM=0,LINESTYLE=5
+
+CDFinterp5 = dblarr(n_elements(N))
+CDFinterp5 = interp1(CDFflux,CDFN,src_flux_sort)
+overdense5 = (N-CDFinterp5)/CDFinterp5
+;for q=0L,n_elements(N)-1 do print,N[q],src_flux_sort[q],CDFinterp5[q]
+;print,CDFflux,CDFN
+
+sfs5 = src_flux_sort
+plot,src_flux_sort,overdense5,/xlog,xrange=[3E-15,5E-14],/xsty,/ysty,YRANGE=[-3.5,3],XTITLE="S (erg s!E-1!N cm!E-2!N)",YTITLE="Overdensity (sigma)",TITLE="NEP200 - Hard Band",THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,pzX,plotzero,LINESTYLE=1
+
+;make combined plot
+
+sky_cov = make_array(10001)
+farr = make_array(10001)
+farr[0] = 0.00001
+fmax =  0.004   ; 
+df = (fmax-farr[0])/double(n_elements(sky_cov))
+for i=1L, n_elements(sky_cov)-1 do begin  &$
+    farr[i] = farr[i-1] + df  &$
+    Nf = n_elements(where(flux_finite5*k5 le farr[i]*k3)) + n_elements(where(flux_finite4*k4 le farr[i]*k3)) + n_elements(where(flux_finiteS3*kS3 le farr[i]*k3)) + n_elements(where(flux_finiteN3*kN3 le farr[i]*k3)) + n_elements(where(flux_finiteS2*kS2 le farr[i]*k3))+ n_elements(where(flux_finiteN2*kN2 le farr[i]*k3)) + n_elements(where(flux_finite1*k1 le farr[i]*k3))  &$
+    sky_cov[i] = Nf * pix_area / (3600.0^2.0)  &$     ; N pixels * pixel area in degrees
+endfor
+
+src_sky_cov = interp1(farr*k3,sky_cov,srcfluxAll)
+src_sky_cov_inv = 1.0/src_sky_cov 
+N = make_array(n_elements(srcfluxAll))
+Nerr = make_array(n_elements(srcfluxAll))
+src_flux_sort = srcfluxAll[reverse(sort(srcfluxAll))]
+src_sky_cov_inv_sort = src_sky_cov_inv[reverse(sort(srcfluxAll))] 
+
+for i=0L, n_elements(src_flux_sort)-1 do begin  &$
+    g = where(src_flux_sort ge src_flux_sort[i],count) &$
+    if (count gt 0) then N[i] = total(src_sky_cov_inv_sort[g]) &$
+    if (count gt 0) then Nerr[i] = sqrt(total(((src_sky_cov_inv_sort[g])^2.0))) &$
+endfor
+CDFinterpC = dblarr(n_elements(N))
+CDFinterpC = interp1(CDFflux,CDFN,src_flux_sort)
+overdenseC = (N-CDFinterpC)/CDFinterpC
+
+;print,overdenseC,src_flux_sort,N,CDFinterpC
+;; Optional Output
+openw, 1, "src_flux_sort.N_sort.Nerr.composite.hard.lst"
+for i=0, n_elements(N)-1 do printf, 1, src_flux_sort[i], N[i],Nerr[i]
+close, 1
+
+NerrUp = N+Nerr
+NerrDown = N-Nerr
+plot, [0-1],[0-1],/nodata,/xlog, /ylog, xrange=[3E-15,5E-14],yrange=[30,2000],XTITLE="S (erg s!E-1!N cm!E-2!N)", YTITLE = "N(>S) (deg!E-2!N)", /ysty,/xsty,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,src_flux_sort, N,PSYM=4,SYMSIZE=0.5,THICK=1,color=60
+oplot,src_flux_sort,NerrUp,THICK=0.8,color=60
+oplot,src_flux_sort,NerrDown,THICK=0.8,color=60
+oplot,CDFflux,CDFN,LINESTYLE=2,THICK=2
+oplot, COSMOS_S2, COSMOS_N, PSYM=0,LINESTYLE=5,THICK=2
+oplot,limitingX,limitingY,LINESTYLE=1
+
+sfsC = src_flux_sort
+plot,src_flux_sort,overdenseC,/xlog,xrange=[3E-15,5E-14],/xsty,/ysty,YRANGE=[-3.5,4.5],XTITLE="S (erg s!E-1!N cm!E-2!N)",YTITLE="Overdensity (!7r!3)",TITLE="Composite - Hard Band",THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,pzX,plotzero,LINESTYLE=1
+
+plot,src_flux_sort,overdenseC,/xlog,xrange=[3E-15,5E-14],YRANGE=[-1,1],XTITLE="S (erg s!E-1!N cm!E-2!N)",YTITLE="Fractional Overdensity",TITLE="Cumulative Source Count Residuals - Hard Band",THICK=4,XTHICK=6,YTHICK=6,CHARSIZE=1.3,CHARTHICK=5,xstyle=1,ystyle=1
+oplot,pzX,plotzero,linestyle=2,THICK=6
+oplot,sfs1,overdense1,PSYM=7,THICK=4,color=15,SYMSIZE=0.6;255
+oplot,sfs2,overdense2,PSYM=2,THICK=4,color=60,SYMSIZE=0.6;190
+oplot,sfs3,overdense3,PSYM=4,THICK=4,color=255,SYMSIZE=0.6;15
+oplot,sfs4,overdense4,PSYM=5,THICK=4,color=90,SYMSIZE=0.6;60
+oplot,sfs5,overdense5,PSYM=6,THICK=4,color=180,SYMSIZE=0.6;125
+
+oplot,limitingX,limitingY,LINESTYLE=1,THICK=4
+legend,['Composite','Cl0023','Cl1604','Cl1324','RXJ1757','RXJ1821'],PSYM=[0,7,4,2,6,5],color=[0,15,255,60,180,90],THICK=[4,4,4,4,4,4],SYMSIZE=[0.5,0.8,0.8,0.8,0.8,0.8],CHARSIZE=1.3,CHARTHICK=4,/bottom,box=0
+
+
+;make young Vs Old plot
+
+sky_cov = make_array(10001)
+farr = make_array(10001)
+farr[0] = 0.00001
+fmax =  0.004   ; 
+df = (fmax-farr[0])/double(n_elements(sky_cov))
+for i=1L, n_elements(sky_cov)-1 do begin  &$
+    farr[i] = farr[i-1] + df  &$
+    Nf = n_elements(where(flux_finite1*k1 le farr[i]*k3)) + n_elements(where(flux_finiteS3*kS3 le farr[i]*k3)) + n_elements(where(flux_finiteN3*kN3 le farr[i]*k3))  &$
+    sky_cov[i] = Nf * pix_area / (3600.0^2.0)  &$     ; N pixels * pixel area in degrees
+endfor
+
+src_sky_cov = interp1(farr*k3,sky_cov,srcfluxAlly)
+src_sky_cov_inv = 1.0/src_sky_cov 
+N = make_array(n_elements(srcfluxAlly))
+Nerr = make_array(n_elements(srcfluxAlly))
+src_flux_sort = srcfluxAlly[reverse(sort(srcfluxAlly))]
+src_sky_cov_inv_sort = src_sky_cov_inv[reverse(sort(srcfluxAlly))] 
+
+for i=0L, n_elements(src_flux_sort)-1 do begin  &$
+    g = where(src_flux_sort ge src_flux_sort[i],count) &$
+    if (count gt 0) then N[i] = total(src_sky_cov_inv_sort[g]) &$
+    if (count gt 0) then Nerr[i] = sqrt(total(((src_sky_cov_inv_sort[g])^2.0))) &$
+endfor
+CDFinterpy = dblarr(n_elements(N))
+CDFinterpy = interp1(CDFflux,CDFN,src_flux_sort)
+overdensey = (N-CDFinterpy)/CDFinterpy
+
+sfsy = src_flux_sort
+
+plot,[0,1],[0,1],/nodata,/xlog,xrange=[3E-15,5E-14],/xsty,/ysty,YRANGE=[-1,10],XTITLE="S (erg s!E-1!N cm!E-2!N)",YTITLE="Overdensity (sigma)",TITLE="Comparison - Hard Band",THICK=2,XTHICK=2,YTHICK=2,CHARSIZE=1.6,CHARTHICK=2
+oplot,pzX,plotzero,LINESTYLE=1
+oplot,src_flux_sort,overdensey,LINESTYLE=0,THICK=2,color=250
+
+;Old 
+sky_cov = make_array(10001)
+farr = make_array(10001)
+farr[0] = 0.00001
+fmax =  0.004   ; 
+df = (fmax-farr[0])/double(n_elements(sky_cov))
+for i=1L, n_elements(sky_cov)-1 do begin  &$
+    farr[i] = farr[i-1] + df  &$
+    Nf = n_elements(where(flux_finiteN2*kN2 le farr[i]*k3)) + n_elements(where(flux_finiteS2*kS2 le farr[i]*k3)) + n_elements(where(flux_finite5*k5 le farr[i]*k3)) + n_elements(where(flux_finite4*k4 le farr[i]*k3))  &$
+    sky_cov[i] = Nf * pix_area / (3600.0^2.0)  &$     ; N pixels * pixel area in degrees
+endfor
+
+src_sky_cov = interp1(farr*k3,sky_cov,srcfluxAllo)
+src_sky_cov_inv = 1.0/src_sky_cov 
+N = make_array(n_elements(srcfluxAllo))
+Nerr = make_array(n_elements(srcfluxAllo))
+src_flux_sort = srcfluxAllo[reverse(sort(srcfluxAllo))]
+src_sky_cov_inv_sort = src_sky_cov_inv[reverse(sort(srcfluxAllo))] 
+
+for i=0L, n_elements(src_flux_sort)-1 do begin  &$
+    g = where(src_flux_sort ge src_flux_sort[i],count) &$
+    if (count gt 0) then N[i] = total(src_sky_cov_inv_sort[g]) &$
+    if (count gt 0) then Nerr[i] = sqrt(total(((src_sky_cov_inv_sort[g])^2.0))) &$
+endfor
+CDFinterpo = dblarr(n_elements(N))
+CDFinterpo = interp1(CDFflux,CDFN,src_flux_sort)
+overdenseo = (N-CDFinterpo)/CDFinterpo
+
+sfso = src_flux_sort
+oplot,src_flux_sort,overdenseo,LINESTYLE=0,THICK=2,color=180
+
+legend,['Advanced Systems','Not Advanced'],Linestyle=[0,0],color=[180,250],THICK=[2.2,2.2],CHARSIZE=1.0,CHARTHICK=1.4,/bottom,box=0
+
+
+
+end

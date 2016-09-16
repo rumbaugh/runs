@@ -1,0 +1,7 @@
+import numpy as np
+execfile('/home/rumbaugh/setup_adam_cats.py')
+execfile('/home/rumbaugh/set_spec_dict.py')
+
+indict={'names':('field','number','RA','Dec','lum_soft','lum_hard','lum_full','flux_soft','flux_hard','flux_full','ncnts_soft','ncnts_hard','ncnts_full','redshift','mask','slit'),'formats':('|S32','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S32','|S32')}
+
+crn=np.loadtxt('/home/rumbaugh/X-ray_lum_cat.4.17.16.dat',dtype=indict)

@@ -1,0 +1,30 @@
+#!/usr/bin/ipython
+import pyfits,numpy
+
+indir = "/local/rumbaugh/LRIS/Marusa/lrispipeline_marusa/" 
+outname = 'miki03A_blue_t'
+scicoadd=varcoadd=numpy.zeros(1)
+dataList = []
+for img in [44,45,46,163,164,165]:
+    filesci='%s%s_%2d_bgsub.fits'%(indir,outname,img)
+    filevar='%s%s_%2d_var.fits'%(indir,outname,img)
+ 
+    var = pyfits.open(filevar)[0].data.copy()
+    var[numpy.isnan(var)] = 1e30
+    sci = pyfits.open(filesci)[0].data.copy()
+ 
+    if (scicoadd.all() == 0):
+        scicoadd=numpy.zeros_like(sci)
+        varcoadd=numpy.zeros_like(sci)
+    #scicoadd=scicoadd+sci/var
+        
+    dataList.append(sci)
+    varcoadd=varcoadd+var
+#final = scicoadd/varcoadd
+final = numpy.median(numpy.array(dataList), axis=0)
+header = pyfits.open(filevar)[0].header.copy()
+outname = indir+outname+"_coadd.fits"
+newfile = pyfits.PrimaryHDU(data=final,header=header)
+newfile.writeto(outname,clobber=True)
+ 
+

@@ -1,0 +1,15 @@
+export ImpProj='cl0023'
+export ImpObsID='7914'
+export ImpOutBase='cl0023'
+export ImpRefCat='/home/rumbaugh/Chandra/ImperialPipeline/refcats/speccat.cl0023.radec.dat'
+
+export ImpDoPrep=False
+export ImpDoFilt=False
+export ImpDoAstrom=False
+export ImpDoExpo=False
+export ImpDoImg=False
+export ImpDoMerge=False
+export ImpDoWave=False
+export ImpDoSrc=True
+
+/home/rumbaugh/Chandra/ImperialPipeline/Scripts/c_master.sh

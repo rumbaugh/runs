@@ -1,0 +1,116 @@
+set z = (soft hard full)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh1 = (0.58 1.93 3.71)
+set nh = (3.71 1.93)
+set icnt = 0
+ciao
+cd /home/rumbaugh/LFC
+foreach i (548 4161)
+@ icnt ++
+cd /home/rumbaugh/LFC/$i
+ln -s primary/*bpix* acis$i.bpix.fits
+ln -s primary/*evt2* acis$i.evt2.fits
+ln -s primary/pcad* acis$i.asol.fits
+ln -s primary/*pbk* acis$i.pbk.fits
+punlearn acis_set_ardlib
+acis_set_ardlib acis$i.bpix.fits
+mkdir -p regions
+mkdir -p tmp
+mkdir -p temp
+mkdir -p sources
+skyfov acis$i.evt2.fits ./regions/chips$i.reg aspect=acis$i.asol.fits
+foreach j (1 2 3)
+dmcopy "acis$i.evt2.fits[sky=region(./regions/chips$i.reg[ccd_id=0:3])][energy=500:8000]" acis$i.evt2.$n[$j].fits
+dmcopy "acis$i.evt2.fits[sky=region(./regions/chips$i.reg[ccd_id=0:3])][energy=500:8000][bin sky=1]" acis$i.img.$n[$j].fits
+get_sky_limits acis$i.evt2.$n[$j].fits verbose=0
+set xy = `pget get_sky_limits xygrid`
+merge_all evtfile="acis$i.evt2.$n[$j].fits" asol="acis$i.asol.fits" chip="0,1,2,3" refcoord="acis$i.evt2.$n[$j].fits" xygrid="$xy" energy="/scratch/rumbaugh/Chandra_ORELSE_Notes/expmap_weights/weights.$z[$j].gamma=1.4.txt" expmap="acis$i.expmap_$z[$j].fits" dtffile='' merged='' expcorr=''
+wavdetect infile="acis$i.img.$n[$j].fits" outfile="sources.$i.$z[$j].1e6.b1.1-16.wexp20.fits" scellfile="./temp/sources_scell.$i.$z[$j].1e6.wexp20.fits" imagefile="./temp/sources_image.$i.$z[$j].1e6.wexp20.fits" defnbkgfile="./temp/sources_bkg.$i.$z[$j].1e6.wexp20.fits" regfile="./regions/sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg" scales="1.0 1.414 2.0 2.828 4.0 5.657 8.0 11.314 16.0" sigthresh=1.0e-6 ellsigma=4 expthresh=0.2 expfile="acis$i.expmap_$z[$j].fits"
+rm temp/*
+cd regions
+mkBgRegScript sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg 2 bkg.$i.$z[$j].reg
+mkSubSuperBgRegScript sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg bkg.$i.$z[$j].reg bkg_sub.$i.$z[$j].reg
+sed -i 's/[0-9]e-[0-9][0-9]/0/g' bkg_sub.$i.$z[$j].reg
+sed -i 's/[0-9]e-[0-9][0-9]/0/g' sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg
+cd ..
+set num = `stats -v max < acis$i.expmap_$z[$j].fits`
+dmimgcalc acis$i.img.$n[$j].fits acis$i.expmap_$z[$j].fits acis$i.img.$n[$j].vig_corr.fits div weight=$num clob+
+dmfilth infile=acis$i.img.$n[$j].vig_corr.fits outfile=acis$i.img.$n[$j].nops.fits method=POISSON srclist=@./regions/sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg bkglist=@./regions/bkg_sub.$i.$z[$j].reg randseed=0
+end
+foreach j (1 2)
+dmstat acis$i.expmap_$z[$j].fits verbose=0
+set cen = `pget dmstat out_max_loc`
+specextract infile="acis$i.evt2.$n[$j].fits[sky=circle($cen,20)]" outroot=spec_$i_$z[$j] grouptype=NUM_CTS binspec=15 pbkfile="acis$i.pbk.fits" energy_wmap=$nn[$j]
+set expt = `dmkeypar acis$i.evt2.500-2000.fits EXPOSURE echo+`
+
+echo "load_pha('spec_"$i"_"$z[$j]"_grp.pi')\n" > sherpatemp.py
+echo "rmf1 = unpack_rmf('spec_"$i"_$z[$j].wrmf')\n" >> sherpatemp.py
+echo "set_rmf(rmf1)\n" >> sherpatemp.py
+echo "arf1 = unpack_arf('spec_"$i"_$z[$j].warf')\n" >> sherpatemp.py
+echo "set_arf(arf1)\n" >> sherpatemp.py
+echo "ignore()\n" >> sherpatemp.py
+echo "notice($nd[$icnt])\n" >> sherpatemp.py
+echo "paramprompt()\n" >> sherpatemp.py
+echo "set_model(powlaw1d.pl*xswabs.abs1)\n" >> sherpatemp.py
+echo "pl.gamma = 1.4\n" >> sherpatemp.py
+echo "abs1.nh = $nh[$icnt]/100.0\n" >> sherpatemp.py
+echo "freeze(abs1.nh)\n" >> sherpatemp.py
+echo "time = $expt\n" >> sherpatemp.py
+echo "fake_pha(1,arf1,rmf1,time)\n" >> sherpatemp.py
+echo "mcnt = calc_model_sum($nd[$j])\n" >> sherpatemp.py
+echo "pl.ampl = 1.0/mcnt\n" >> sherpatemp.py
+echo "freeze(pl.ampl)\n" >> sherpatemp.py
+echo "fake_pha(1,arf1,rmf1,time)\n" >> sherpatemp.py
+echo "eflx = calc_energy_flux($nd[$j])\n" >> sherpatemp.py
+echo "mcnt2 = calc_model_sum($nd[$j])\n" >> sherpatemp.py
+echo "abs1.nh = 0.0\n" >> sherpatemp.py
+echo "fake_pha(1,arf1,rmf1,time)\n" >> sherpatemp.py
+echo "eflx2 = calc_energy_flux($nd[$j])\n" >> sherpatemp.py
+echo "cnt2flux = time*eflx2\n" >> sherpatemp.py
+echo "print 'Count rate to unabsorbed flux conversion: ' + str(cnt2flux)\n" >> sherpatemp.py
+echo "FILE = open('c2f.$i.$z[$j].txt','w')\n" >> sherpatemp.py
+echo "FILE.write(str(cnt2flux))\n" >> sherpatemp.py
+echo "FILE.close()\n" >> sherpatemp.py
+echo "exit()\n" >> sherpatemp.py
+sherpa sherpatemp.py
+end
+set j = 2
+
+echo "load_pha('spec_"$i"_"$z[$j]"_grp.pi')\n" > sherpatemp.py
+echo "rmf1 = unpack_rmf('spec_"$i"_$z[$j].wrmf')\n" >> sherpatemp.py
+echo "set_rmf(rmf1)\n" >> sherpatemp.py
+echo "arf1 = unpack_arf('spec_"$i"_$z[$j].warf')\n" >> sherpatemp.py
+echo "set_arf(arf1)\n" >> sherpatemp.py
+echo "ignore()\n" >> sherpatemp.py
+echo "notice(2.0,10.0)\n" >> sherpatemp.py
+echo "paramprompt()\n" >> sherpatemp.py
+echo "set_model(powlaw1d.pl*xswabs.abs1)\n" >> sherpatemp.py
+echo "pl.gamma = 1.4\n" >> sherpatemp.py
+echo "abs1.nh = $nh[$icnt]/100.0\n" >> sherpatemp.py
+echo "freeze(abs1.nh)\n" >> sherpatemp.py
+echo "time = $expt\n" >> sherpatemp.py
+echo "fake_pha(1,arf1,rmf1,time)\n" >> sherpatemp.py
+echo "mcnt = calc_model_sum($nd[$j])\n" >> sherpatemp.py
+echo "pl.ampl = 1.0/mcnt\n" >> sherpatemp.py
+echo "freeze(pl.ampl)\n" >> sherpatemp.py
+echo "fake_pha(1,arf1,rmf1,time)\n" >> sherpatemp.py
+echo "eflx = calc_energy_flux($nd[$j])\n" >> sherpatemp.py
+echo "mcnt2 = calc_model_sum($nd[$j])\n" >> sherpatemp.py
+echo "abs1.nh = 0.0\n" >> sherpatemp.py
+echo "fake_pha(1,arf1,rmf1,time)\n" >> sherpatemp.py
+echo "eflx2 = calc_energy_flux(2.0,10.0)\n" >> sherpatemp.py
+echo "cnt2flux = time*eflx2\n" >> sherpatemp.py
+echo "print 'Count rate to unabsorbed flux conversion: ' + str(cnt2flux)\n" >> sherpatemp.py
+echo "FILE = open('c2f.$i."$z[$j]"_2-10kev.txt','w')\n" >> sherpatemp.py
+echo "FILE.write(str(cnt2flux))\n" >> sherpatemp.py
+echo "FILE.close()\n" >> sherpatemp.py
+echo "exit()\n" >> sherpatemp.py
+sherpa sherpatemp.py
+
+end
+end

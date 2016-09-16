@@ -1,0 +1,22 @@
+ln -s primary/*bpix* acis12913.bpix.fits
+ln -s primary/*evt2* acis12913.evt2.fits
+ln -s primary/pcad* acis12913.asol.fits
+punlearn acis_set_ardlib
+acis_set_ardlib acis12913.bpix.fits
+mkdir -p regions
+mkdir -p tmp
+mkdir -p temp
+mkdir -p sources
+skyfov acis12913.evt2.fits ./regions/chips12913.reg aspect=acis12913.asol.fits
+dmcopy "acis12913.evt2.fits[sky=region(./regions/chips12913.reg[ccd_id=3])][energy=500:8000]" acis12913.evt2.S3.500-8000.fits
+dmcopy "acis12913.evt2.fits[sky=region(./regions/chips12913.reg[ccd_id=3])][energy=500:8000][bin sky=1]" acis12913.img.S3.500-8000.fits
+get_sky_limits acis12913.evt2.S3.500-8000.fits verbose=0
+set xy = `pget get_sky_limits xygrid`
+merge_all evtfile="acis12913.evt2.S3.500-8000.fits" asol="acis12913.asol.fits" chip="3" refcoord="acis12913.evt2.S3.500-8000.fits" xygrid="$xy" energy="/scratch/rumbaugh/Chandra_ORELSE_Notes/expmap_weights/weights.full.gamma=1.4.txt" expmap="acis12913.expmap_full.fits" dtffile='' merged='' expcorr=''
+wavdetect infile="acis12913.img.S3.500-8000.fits" outfile="sources.12913.full.1e6.b1.1-16.wexp20.fits" scellfile="./temp/sources_scell.12913.full.1e6.wexp20.fits" imagefile="./temp/sources_image.12913.full.1e6.wexp20.fits" defnbkgfile="./temp/sources_bkg.12913.full.1e6.wexp20.fits" regfile="./regions/sources.12913.full.1e6.b1.1-16.wexp20.reg" scales="1.0 1.414 2.0 2.828 4.0 5.657 8.0 11.314 16.0" sigthresh=1.0e-6 ellsigma=4 expthresh=0.2 expfile="acis12913.expmap_full.fits"
+rm temp/*
+cd regions
+mkBgRegScript sources.12913.full.1e6.b1.1-16.wexp20.reg 2 bkg.12913.full.reg
+mkSubSuperBgRegScript sources.12913.full.1e6.b1.1-16.wexp20.reg bkg.12913.full.reg bkg_sub.12913.full.reg
+cd ..
+dmfilth infile=acis12913.img.S3.500-8000.fits outfile=acis12913.img.S3.500-8000.nops.fits method=POISSON srclist=@./regions/sources.12913.full.1e6.b1.1-16.wexp20.reg bkglist=@./regions/bkg_sub.12913.full.reg randseed=0

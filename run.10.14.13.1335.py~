@@ -1,0 +1,3 @@
+execfile('/mnt/data2/rumbaugh/HST/scripts/matt_astrodrizzle.py')
+indir = '/mnt/data2/rumbaugh/HST/12898/raw'
+indir = '/mnt/data2/rumbaugh/HST/12898/drizzled'

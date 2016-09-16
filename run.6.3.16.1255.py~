@@ -1,0 +1,3 @@
+import numpy as np
+
+crxl=np.loadtxt('/home/rumbaugh/X-ray_lum_cat.4.17.16.dat',dtype={'names':('field','number','RA','Dec','lum_soft','lum_hard','lum_full','flux_soft','flux_hard','flux_full','ncnts_soft','ncnts_hard','ncnts_full','redshift','mask','slit','sig_soft','sig_hard','sig_full'),'formats':('|S24','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S64','|S24','f8','f8','f8')})

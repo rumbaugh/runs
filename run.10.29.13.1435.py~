@@ -1,0 +1,3 @@
+import numpy as np
+
+fields = ['Cl0023','Cl1324','RXJ1757','NEP5281','Cl1604']

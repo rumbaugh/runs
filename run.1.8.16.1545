@@ -1,0 +1,36 @@
+echo ' '
+echo 'Needs to be run on gravlens'
+echo ' '
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+declare -a cid=(2227+2452 3181+4987 927+1708)
+declare -a cida=(2227 3181 927)
+declare -a cidb=(2452 4987 1708)
+declare -a b=(0.5-2.0 2.0-8.0 0.5-8.0)
+
+for i in 6932 6933+7343 9403+9840 9404+9836 10443+11999 10444+10924
+do
+cd /home/rumbaugh/Chandra/${i}
+punlearn ardlib
+acis_set_ardlib acis${i}.bpix.fits.gz
+RA="`dmkeypar acis$i.evt2.500-2000.fits RA_PNT echo+`"
+DEC="`dmkeypar acis$i.evt2.500-2000.fits DEC_PNT echo+`"
+for j in 0 1 2
+do
+dmlist "sources.${i}.${b[$j]}.1e6.b1.1-16.wexp20.fits[cols RA, DEC, SRC_SIGNIFICANCE, NET_COUNTS]" data,clean > sources.${i}.${b[$j]}.1e6.b1.1-16.wexp20.radecsigncnts.dat
+lc -C -I -n RA -n DEC -n sig -n ncnts < sources.${i}.${b[$j]}.1e6.b1.1-16.wexp20.radecsigncnts.dat > sources.${i}.${b[$j]}.1e6.b1.1-16.wexp20.radecsigncnts.cat
+getxsfromradec $RA $DEC < sources.${i}.${b[$j]}.1e6.b1.1-16.wexp20.radecsigncnts.cat > sources.${i}.${b[$j]}.1e6.b1.1-16.wexp20.xsradecsigncnts.cat
+done
+mergecats -x xs -n 1 -m 0.0015 sources.${i}.0.5-8.0.1e6.b1.1-16.wexp20.xsradecsigncnts.cat sources.${i}.0.5-2.0.1e6.b1.1-16.wexp20.xsradecsigncnts.cat sources.${i}.2.0-8.0.1e6.b1.1-16.wexp20.xsradecsigncnts.cat> sources.${i}.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsigncnts.cat
+lc -O < sources.${i}.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsigncnts.cat > sources.${i}.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsigncnts.hdat
+done

@@ -1,0 +1,7 @@
+import numpy as np
+import matplotlib.pylab as plt
+
+date = '6.7.14'
+
+for lens in ['1030','0712']:
+    cr = np.loadtxt('/home/rumbaugh/EVLA/light_curves/Dispersions/%s.emcee_output_full_chain_interp_bs.%s.dat'%(lens,date))

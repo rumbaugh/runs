@@ -1,0 +1,8 @@
+execfile('/mnt/data2/rumbaugh/EVLA/11A-138/scripts/utils_11A-138.py')
+set_obs_arr()
+
+for lens in ['MG0414+0534','B0712+472','B1938+666']:
+    if lens == 'B1938+666': EorL = 'Late'
+    else: EorL = 'Early'
+    for gnum in EVLA_obs_dict[EorL]:
+        for SBnum in EVLA_obs_dict[EorL][gnum]

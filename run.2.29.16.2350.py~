@@ -1,0 +1,18 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.backends.backend_pdf as bpdf
+execfile('/home/rumbaugh/LFC_color_param.py')
+
+safeLB=950
+safeUB=32000
+SED='/home/rumbaugh/git/eazy-photoz/templates/PEGASE2.0/graz01_00100.dat'
+SEDs=np.array(['graz01_00100.dat','graz01_00400.dat','graz01_05000.dat','graz13_00050.av3.00.dat'])
+
+for SED in SEDs:
+    curcr=np.loadtxt('/home/rumbaugh/git/eazy-photoz/templates/PEGASE2.0/%s'%SED)
+    w,S=np.copy(curcr[:,0]),np.copy(curcr[:,1])
+
+    restU,restB=calc_rest_flux(w,S,safeLB,safeUB,filt='U'),calc_rest_flux(w,S,safeLB,safeUB,filt='B')
+
+    magU,magB=-48.6 - 2.5*np.log10(restU),-48.6 - 2.5*np.log10(restB)
+    print magU,magB,magU-magB

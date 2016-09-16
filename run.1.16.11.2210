@@ -1,0 +1,16 @@
+foreach j (0 1 2)
+@ jUB = $j + 1
+foreach k (0 1 2)
+@ kUB = $k + 1
+foreach t (1 2 3 4 5 6 7 8 9 10)
+@ num = 30 * $j + 10 * $k + $t
+cp /scratch/rumbaugh/runs/run.1.17.11.1620.template run$num.1.17.11.py
+sed -i 's/temp1/\_'$num'/g' run$num.1.17.11.py
+sed -i 's/tempj1/'$j'/g' run$num.1.17.11.py
+sed -i 's/tempj2/'$jUB'/g' run$num.1.17.11.py
+sed -i 's/tempk1/'$k'/g' run$num.1.17.11.py
+sed -i 's/tempk2/'$kUB'/g' run$num.1.17.11.py
+sherpa run$num.1.17.11.py
+end
+end
+end

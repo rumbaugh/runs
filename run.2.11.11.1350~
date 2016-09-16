@@ -1,0 +1,8 @@
+set cen = 4634.3131,3645.9097
+set rad = 180
+set cenbg1 = 4885.3131,3638.9097
+set rad2 = 60
+set cenbg2 = 4358.3131,3695.9097
+
+set path = /scratch/rumbaugh/ciaotesting/Cl1324/master
+specextract infile="$path/acis9404+9836.evt2.500-8000.fits" outroot="/home/rumbaugh/ChandaData/Cl1324/master/spec/spec_9404+9836" pbkfile="$path/

@@ -1,0 +1,12 @@
+set z = (soft hard full)
+set n = (500-2000 2000-8000 500-8000)
+set nh = 2.79
+
+foreach i (1 2)
+
+
+
+
+foreach i (1 2 3)
+set emax = `stats -v max < acis7914.expmap_$z[$i].fits`
+rm acis7914.img.$n[$i].

@@ -1,0 +1,26 @@
+execfile("/home/rumbaugh/LeastSquares.py")
+
+names = np.array(['RXJ1757','NEP5281','Cl1324','Cl0023','Cl1604','composite'])
+paths = np.array(['/scratch/rumbaugh/ciaotesting/RXJ1757/master/','/scratch/rumbaugh/ciaotesting/NEP5281/master/','/scratch/rumbaugh/ciaotesting/Cl1324/master/','/scratch/rumbaugh/ciaotesting/Cl0023/7914/','/scratch/rumbaugh/ciaotesting/Cl1604/master/','/home/rumbaugh/CDF/'])
+
+S_0 = 1e-14
+
+for i in range(0,len(names)):
+    cr = read_file(paths[i] + "src_flux_sort.N_sort.Nerr." + names[i] + ".hard.lst")
+    S = get_colvals(cr,'col1')
+    N = get_colvals(cr,'col2')
+    Nerr = get_colvals(cr,'col3')
+    x = np.zeros(len(S))
+    for j in range(0,len(S)): x[j] = m.log(S[j]/S_0)
+    y = np.zeros(len(S))
+    for j in range(0,len(y)): y[j] = m.log(N[j])
+    dy = y*Nerr/N
+    a,b,da,db = LQFitYErr(x,y,dy)
+    k = m.exp(a)
+    alpha = b
+    dk = m.exp(a)*da
+    kkrerr = m.sqrt((dk/275)**2 + (22.0*k/(275*275))**2)
+    print 'Fit %s to k(S/S_0)^alpha, S_0 = %5.3E'%(names[i],S_0)
+    print 'k     = %6.1f    Error in k     = %5.1f'%(k,dk)
+    print 'alpha = %6.3f    Error in alpha = %5.3f'%(alpha,db)
+    print 'k/k_ref = %4.2f  Error in k/k_ref = %4.2f\n'%(k/275.0,kkrerr)

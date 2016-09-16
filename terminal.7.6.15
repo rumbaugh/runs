@@ -1,0 +1,500 @@
+   76  ipython
+   77  ls python*
+   78  cd python
+   79  cd ..
+   80  cd pythonscripts/
+   81  ln -s ../CalcVelDisp.py .
+   82  ln -s ../scale_estimators.py .
+   83  cd ~/git/TimeBombs/
+   84  emacs ~/runs/run.6.7.15.1910.py &
+   85  ipython -pylab
+   86  ipython -pylab
+   87  cd
+   88  gimp Downloads/cheung_et_al_2014.pdf &
+   89  emacs /home/rumbaugh/runs/run.6.7.15.1910.py &
+   90  emacs /home/rumbaugh/runs/run.5.13.15.2115.py &
+   91  get critwidth runs/run.*.15.*y
+   92  grep critwidth runs/run.*.15.*y
+   93  emacs runs/run.5.15.15.1550.py &
+   94  grep tau_hist runs/run.5.*.15.*y
+   95  emacs runs/run.5.27.15.1355.py &
+   96  ipython -pylan
+   97  ipython -pylab
+   98  ls
+   99  ls Fermi/data/test/*_88*
+  100  ls ~/runs/run.5.13.15*
+  101  emacs /home/rumbaugh/runs/run.5.13.15.2115.py &
+  102  emacs Fermi/scripts/MockBlazarLightcurves.py &
+  103  ipython
+  104  cd git/TimeBombs/
+  105  ipython -pylab
+  106  cd
+  107  mv Downloads/1228_001.pdf ProgressReport2015.pdf
+  108  cp /home/rumbaugh/Fermi/TimeBombs/output/sample.0218.t16.ms_1000.5.26.15.dat /home/rumbaugh/Fermi/TimeBombs/output/sample.0218.t16.ms_1000.5.26.15.txt
+  109  grep truthvalues ~/runs/run.5.1*.15.*y
+  110  emacs /home/rumbaugh/runs/run.5.15.15.1530.py &
+  111  emacs /home/rumbaugh/runs/run.5.11.15.1605.py &
+  112  ls ~/Fermi/TimeBombs/output/*_88.*
+  113  emacs ~/Fermi/TimeBombs/output/sample.0218.t16.ms_1000.5.26.15.dat  &
+  114  emacs ~/runs/run.5.27.15.1355.py &
+  115  ls ~/Fermi/data/0218/
+  116  emacs ~/Fermi/data/0218/0218_TimeBombsInput.dat &
+  117  grep S30218 ~/runs/run.*
+  118  emacs /home/rumbaugh/runs/run.8.1.14.1745.py &
+  119  emacs PosteriorPredictiveModelChecking.py &
+  120  cd ~/Fermi/TimeBombs/output/
+  121  ls *0218*5.26.15*
+  122  ls *0218*5.27.15*
+  123  ls *0218*5.26.15*
+  124  ls ../plots/*0218*5.26.15*
+  125  ls ../plots/*0218*5.*.15*
+  126  cp ../plots/*0218*5.*.15* ../plots/temp4phil/.
+  127  ipythpn
+  128  emacs ~/thesis_draft_5.19.15.tex &
+  129  cd
+  130  ls */*/Article.tex
+  131  emacs test/Rumbaugh.MNRAS_resubmission_3.13.15/Article.tex &
+  132  ls */*tex
+  133  ls */Article.tex
+  134  ls */*rticle.tex
+  135  emacs arxiv_update_2.18.12/article.tex &
+  136  ls ApJ_submit_12.1.12/
+  137  ls */*Artic*ex
+  138  ls .13*/**ex
+  139  ls *.13*/**ex
+  140  emacs ApJ_submit_12.1.12/ArticleFile.tex &
+  141  latex thesis_draft_6.3.15.tex
+  142  latex thesis_draft_6.3.15.tex
+  143  latex thesis_draft_6.3.15.tex
+  144  latex thesis_draft_6.3.15.tex
+  145  latex thesis_draft_6.3.15.tex
+  146  emacs ~/thesis_draft_6.3.15.tex &
+  147  ls thesis_draft_
+  148  mkdir Thesis
+  149  mv thesis_draft_* Thesis/.
+  150  for i in `seq 1 10`; do echo $i; done
+  151  ls */Article*ex
+  152  ls Rumbaugh.MNRAS_resubmission_3.13.15/
+  153  for i in `seq 1 10`; do cp Rumbaugh.MNRAS_resubmission_3.13.15/Figure$i.eps Thesis/Figure3.%i.eps; done
+  154  ls Thesis/
+  155  for i in `seq 1 10`; do cp Rumbaugh.MNRAS_resubmission_3.13.15/Figure$i.eps Thesis/Figure3.$i.eps; done
+  156  ls Thesis/
+  157  rm Thesis/Figure3.%i.eps 
+  158  ls */Figu*a*eps
+  159  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure$i.eps Thesis/Figure2.$i.eps; done
+  160  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure$ia.eps Thesis/Figure2.$ia.eps; done
+  161  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure$ib.eps Thesis/Figure2.$ib.eps; done
+  162  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure$ic.eps Thesis/Figure2.$ic.eps; done
+  163  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure$id.eps Thesis/Figure2.$id.eps; done
+  164  ls arxiv_update_2.18.12/Figure*
+  165  ls Thesis/
+  166  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure${i}d.eps Thesis/Figure2.${i}d.eps; done
+  167  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure${i}c.eps Thesis/Figure2.${i}c.eps; done
+  168  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure${i}b.eps Thesis/Figure2.${i}b.eps; done
+  169  for i in `seq 1 15`; do cp arxiv_update_2.18.12/Figure${i}a.eps Thesis/Figure2.${i}a.eps; done
+  170  ls Thesis/
+  171  ls */*Figure1.eps
+  172  ls */Art*ex
+  173  ls arxiv_update_2.18.12/
+  174  cp Downloads/rumb1201.tar .
+  175  ls rumb*
+  176  tar -xvf rumb1201.tar
+  177  less changes.txt 
+  178  mkdir arxiv_submit_12.01.12
+  179  cd arxiv_submit_12.01.12/
+  180  mv ../rumb1201.tar 
+  181  mv ../rumb1201.tar .
+  182  tar -xvf rumb1201.tar 
+  183  cd ..
+  184  for i in `seq 1 15`; do cp arxiv_submit_12.01.12/Figure$i.eps Thesis/Figure1.$i.eps; done
+  185  cd Thesis/
+  186  cp ../*bst .
+  187  ls
+  188  ln -s ../rum.bib
+  189  ls
+  190  latex thesis_draft_6.3.15.tex
+  191  cp ../mn2e.cls
+  192  cp ../mn2e.cls .
+  193  latex thesis_draft_6.3.15.tex
+  194  cp ../Lens*eps .
+  195  latex thesis_draft_6.3.15.tex
+  196  latex thesis_draft_6.3.15.tex
+  197  latex thesis_draft_6.3.15.tex
+  198  mv ~/thesis_draft_6.3.15.tex .
+  199  emacs thesis_draft_6.3.15.tex &
+  200  latex thesis_draft_6.3.15.tex
+  201  latex thesis_draft_6.3.15.tex
+  202  emacs thesis_draft_6.3.15.tex &
+  203  latex thesis_draft_6.3.15.tex
+  204  latex thesis_draft_6.3.15.tex
+  205  latex thesis_draft_6.3.15.tex
+  206  emacs thesis_draft_6.3.15.tex &
+  207  emacs thesis_draft_6.3.15.tex &
+  208  latex thesis_draft_6.3.15.tex
+  209  latex thesis_draft_6.3.15.tex
+  210  latex thesis_draft_6.3.15.tex
+  211  latex thesis_draft_6.3.15.tex
+  212  latex thesis_draft_6.3.15.tex
+  213  emacs thesis_draft_6.3.15.tex &
+  214  latex thesis_draft_6.3.15.tex
+  215  latex thesis_draft_6.3.15.tex
+  216  latex thesis_draft_6.3.15.tex
+  217  latex thesis_draft_6.3.15.tex
+  218  latex thesis_draft_6.3.15.tex
+  219  latex thesis_draft_6.3.15.tex
+  220  latex thesis_draft_6.3.15.tex
+  221  latex thesis_draft_6.3.15.tex
+  222  latex thesis_draft_6.3.15.tex
+  223  latex thesis_draft_6.3.15.tex
+  224  latex thesis_draft_6.3.15.tex
+  225  latex thesis_draft_6.3.15.tex
+  226  latex thesis_draft_6.3.15.tex
+  227  latex thesis_draft_6.3.15.tex
+  228  latex thesis_draft_6.3.15.tex
+  229  dvips thesis_draft_6.3.15.dvi 
+  230  bibtex thesis_draft_6.3.15.
+  231  bibtex thesis_draft_6.3.15.tex
+  232  bibtex thesis_draft_6.3.15.aux 
+  233  latex thesis_draft_6.3.15.tex
+  234  latex thesis_draft_6.3.15.tex
+  235  latex thesis_draft_6.3.15.tex
+  236  dvips thesis_draft_6.3.15.dvi 
+  237  psp2df thesis_draft_6.3.15.ps
+  238  ps2pdf thesis_draft_6.3.15.ps
+  239  emacs ~/ReverseSigmaClip.py &
+  240  emacs ~/ReverseSigmaClip.py &
+  241  ls ../CalcVelDisp.*
+  242  emacs ../CalcVelDisp.py &
+  243  ls Fermi/TimeBombs/output/*testlightcurve&
+  244  ls Fermi/TimeBombs/output/*testlightcurve*
+  245  grep accurac runs/run.5.*.15.*
+  246  emacs runs/run.5.15.15.1550.py &
+  247  ls Fermi/TimeBombs/plots/*99*
+  248  ls Fermi/*/plots/*99*
+  249  ls Fermi/
+  250  ls Fermi/plots/*99*
+  251  emacs thesis_draft_5.19.15.tex &
+  252  emacs rum.bib &
+  253  grep review runs/run.5.*.15.*y
+  254  emacs runs/run.5.12.15.1110.py &
+  255  ls Fermi/data/0218/
+  256  cd git/TimeBombs/
+  257  ipython -pylab
+  258  ipython -pylab
+  259  emacs ~/Fermi/TimeBombs/output/sample.0218.ms_1000.5.21.15.dat &
+  260  emacs /home/rumbaugh/Fermi/data/0218/0218_TimeBombsInput.dat &
+  261  emacs ~/Fermi/TimeBombs/output/sample_info.0218.ms_1000.5.21.15.dat &
+  262  ipython -pylab
+  263  emacs ~/Fermi/TimeBombs/output/sample_info.0218.ms_1000.5.21.15.dat &
+  264  emacs ~/Fermi/TimeBombs/output/sample_info.testlightcurve_88.tau_14.90.mu_0.709.5.13.15.dat &
+  265  ipython
+  266  ipython -pylab
+  267  ipython -pylab
+  268  ipython -pylab
+  269  ipython -pylab
+  270  ipython -pylab
+  271  emacs ~/ReverseSigmaClip.py &
+  272  emacs ~/Downloads/Tex_Template/Dissertation.tex &
+  273  emacs ~/CalcVelDisp.py &
+  274  emacs ~/scale_estimators.py &
+  275  cd
+  276  ls Thesis/
+  277  ls Templates/
+  278  ls Downloads/Tex_Template
+  279  cd Downloads/Tex_Template
+  280  latex Dissertation.tex 
+  281  ls ../__MACOSX/
+  282  ls ../__MACOSX/Tex_Template/
+  283  ls
+  284  cp ../lineno.sty .
+  285  latex Dissertation.
+  286  latex Dissertation.tex 
+  287  ls
+  288  less lineno.sty
+  289  rm lineno.sty 
+  290  rm ../lineno.sty 
+  291  sudo apt-get install texlive-humanities
+  292  latex Dissertation.tex 
+  293  bibtex Dissertation.aux 
+  294  latex Dissertation.tex 
+  295  latex Dissertation.tex 
+  296  latex Dissertation.tex 
+  297  dvips Dissertation.dvi 
+  298  ps2pdf Dissertation.ps 
+  299  cd ~/git/TimeBombs/
+  300  ipython -pylab
+  301  ls ~/Fermi/TimeBombs/plots/temp4phil/
+  302  grep accuracy runs/run.*.15.*y
+  303  grep accuracy ~/runs/run.*.15.*y
+  304  emacs /home/rumbaugh/runs/run.5.15.15.1550.py &
+  305  ipython -pylab
+  306  SLACconnect 
+  307  df
+  308  df -m
+  309  emacs ../triangle.py/triangle.py &
+  310  emacs ~/runs/run.6.18.15.2055.py &
+  311  emacs ~/Fermi/scripts/MockBlazarLightcurves.py &
+  312  grep flare_param ~/runs/run.6.*.15.*y
+  313  emacs /home/rumbaugh/runs/run.6.18.15.0725.py &
+  314  less ~/Fermi/TimeBombs/output/posterior.testlightcurve_88.tau_14.90.mu_0.709.5.13.15.dat 
+  315  ipython
+  316  ipython -pylab
+  317  exit
+  318  cd Thesis/
+  319  emacs Dissertation.tex &
+  320  emacs ThesisIntroduction.tex &
+  321  emacs Fermi/scripts/MockBlazarLightcurves.py &
+  322  ls *ens*eps
+  323  ls *ens*fig*
+  324  ls *ens*ig*
+  325  emacs ~/Fermi/scripts/MockBlazarLightcurexti
+  326  exit
+  327  grep Num.\ of\ Samples
+  328  grep Num.\ of\ Samples runs/run.*.15.*y
+  329  emacs runs/run.7.2.15.1315.py &
+  330  grep Num.\ of\ samples runs/run.*.15.*y
+  331  emacs runs/run.6.9.15.1435.py &
+  332  ipython -python
+  333  ipython -pylab
+  334  ls Fermi/plots/testlightcurve*_55*
+  335  cd ~/git/TimeBombs/
+  336  ipython -pylab
+  337  ipython -pylab
+  338  ipython -pylab
+  339  ipython -pylab
+  340  ipython -pylab
+  341  ipython -pylab
+  342  ipython -pylab
+  343  ipython -pylab
+  344  ipython -pylab
+  345  ipython -pylab
+  346  ipython -pylab
+  347  ipython -pylab
+  348  ipython -pylab
+  349  ipython -pylab
+  350  ipython -pylab
+  351  ls
+  352  grep review runs/run.6.2*y
+  353  grep review ~/runs/run.6.2*y
+  354  emacs /home/rumbaugh/runs/run.6.23.15.1050.py &
+  355  emacs showresults.py &
+  356  emacs ../DNest3/postprocess.py &
+  357  ls ~/Fermi/TimeBombs/output/weight*
+  358  ipython
+  359  grep Timebombs_accuracy_vs_flarewidths.clip_loc ~/runs/run.*.15.*y
+  360  emacs /home/rumbaugh/runs/run.5.15.15.1550.py &
+  361  grep Timebombs_accuracy_vs_flarewidt ~/runs/run.*.15.*y
+  362  ipython -pylab
+  363  grep mind ~/runs/run.*.15.*y
+  364  emacs /home/rumbaugh/runs/run.6.24.15.1840.py &
+  365  crep mind ~/runs/run.*.15.*y
+  366  grep cind ~/runs/run.*.15.*y
+  367  grep magenta runs/run.*.15.*y
+  368  grep magenta ~/runs/run.*.15.*y
+  369  emacs /home/rumbaugh/runs/run.6.7.15.1910.py &
+  370  grep bic ~/runs/run.6.*.15.*y
+  371  emacs /home/rumbaugh/runs/run.6.24.15.1840.py &
+  372  ipython -pylab
+  373  ipython -pylab
+  374  ipython -pylab
+  375  ipython -pylab
+  376  emacs ~/Fermi/scripts/MockBlazarLightcurves.py &
+  377  ipython -pylab
+  378  ipython -pylab
+  379  grep corner ~/runs/run.*.15.*y
+  380  emacs /home/rumbaugh/runs/run.6.22.15.1415.py &
+  381  ipython -pylab
+  382  emacs /home/rumbaugh/runs/run.6.24.15.1840.py &
+  383  ipython -pylab
+  384  ipython -pylab
+  385  emacs ../DNest3/postprocess.py &
+  386  ipython -pylab
+  387  ipython -pylab
+  388  ipython -pylab
+  389  grep 0218 ~/runs/run.6.*.15.*y
+  390  emacs /home/rumbaugh/runs/run.6.9.15.1435.py &
+  391  ipython
+  392  ipython -pylab
+  393  ipython -pylab
+  394  ipython -pylab
+  395  SLACconnect 
+  396  SLACconnect 
+  397  cd Fermi/data/test/
+  398  ls testlightcurve.tau_10_73.*
+  399  ls testlightcurve.tau_5_73.*
+  400  ls testlightcurve.tau_5_73.*
+  401  emacs testlightcurve_truthvalues.6.10.15.dat %
+  402  emacs ~/runs/run.6.21.15.2100.py &
+  403  emacs ~/runs/run.6.21.15.2100.py &
+  404  grep corner ~/runs/run.6.*.15.*y
+  405  emacs /home/rumbaugh/runs/run.6.19.15.1300.py &
+  406  grep corner ~/runs/run.*.14.*y
+  407  emacs /home/rumbaugh/runs/run.8.19.14.1730.py &
+  408  SLACsftp 
+  409  cd ../../TimeBombs/output/
+  410  SLACsftp 
+  411  emacs ~/git/triangle.py/triangle.py &
+  412  grep accu ~/runs/run*.15.*y
+  413  emacs /home/rumbaugh/runs/run.6.22.15.1330.py &
+  414  cd
+  415  cd git/TimeBombs/
+  416  ipython
+  417  ipython -pylab
+  418  ipython -pylab
+  419  ipython -pylab
+  420  ipython -pylab
+  421  ipython -pylab
+  422  cd
+  423  cp Downloads/signedDocument7739073.pdf AcademyLaneLeaseAgreement.pdf
+  424  cp Downloads/signedDocument7739018.pdf AcademyLaneWelcomePack.pdf
+  425  grep weight_cen runs/run.6.23*
+  426  emacs runs/run.6.23.15.1805.py &
+  427  sudo apt-get install scikit-learn
+  428  sudo apt-get install scikit
+  429  sudo apt-get install python sklearn
+  430  sudo apt-get install python-sklearn
+  431  ipython -pylab
+  432  cd Thesis/
+  433  ls
+  434  emacs Dissertation.tex &
+  435  emacs ThesisIntroduction.tex &
+  436  emacs Tex_Template/Abstract.tex &
+  437  emacs Abstract.tex &
+  438  emacs Chapter-Clusters.tex &
+  439  emacs Chapter-AGN.tex &
+  440  emacs Chapter-Radio.tex &
+  441  mv ~/Downloads/apjl_782_2_14.pdf ~/Lubin_et_al_2009.pdf
+  442  emacs ThesisIntroduction.tex &
+  443  latex Dissertation.tex
+  444  latex Dissertation.tex
+  445  emacs Abstract.tex &
+  446  emacs Abstract.tex &
+  447  latex Dissertation.tex
+  448  latex Dissertation.tex
+  449  latex Dissertation.tex
+  450  dvips Dissertation.dvi 
+  451  ps2pdf Dissertation.ps
+  452  latex Dissertation.tex
+  453  latex Dissertation.tex
+  454  latex Dissertation.tex
+  455  dvips Dissertation.dvi 
+  456  ps2pdf Dissertation.ps
+  457  cd ~
+  458  mv Downloads/0912.2380v3.pdf DNest3.pdf
+  459  gimp DNest3.pdf &
+  460  grep reviewresults runs/run.6.*.15.*y
+  461  emacs runs/run.6.23.15.1755.py &
+  462  ls Fermi/TimeBombs/plots/*hist*
+  463  ls Fermi/TimeBombs/plots/*hist*
+  464  emacs runs/run.6.23.15.1755.py &
+  465  grep color_arr runs/run.6.*.15.*y
+  466  emacs runs/run.6.29.15.1535.py &
+  467  grep GenerateMockCurve ~/runs/run.*.15.*y
+  468  /home/rumbaugh/runs/run.6.18.15.0800.py &
+  469  emacs /home/rumbaugh/runs/run.6.18.15.0800.py &
+  470  emacs Fermi/data/test/testlightcurve_truthvalues.6.10.15.dat &
+  471  cd Fermi/data/test/
+  472  SLACsftp 
+  473  cd ../../TimeBombs/output/
+  474  cd ../../data/test/
+  475  SLACsftp 
+  476  cd ../../TimeBombs/output/
+  477  SLACsftp 
+  478  ls *notau* > test72
+  479  emacs test72
+  480  less ../../data/test/testlightcurve_truthvalues.5.13.15.dat 
+  481  grep truthvalues.5.13.15. ~/runs/run.*.15.*y
+  482  emacs /home/rumbaugh/runs/run.7.1.15.1120.py &
+  483  ipython -pylab
+  484  emacs sample_info.testlightcurve_75.tau_6.49.mu_0.784.5.13.15.dat &
+  485  grep corner ~/runs/run.7.*.15.*y
+  486  emacs sample_info.testlightcurve_75.tau_6.49.mu_0.784.5.13.15.dat &
+  487  grep corner ~/runs/run.7.*.15.*y
+  488  emacs /home/rumbaugh/runs/run.7.2.15.1205.py &
+  489  grep accuracy ~/runs/run.6.2*.15.*y
+  490  grep accuracy ~/runs/run.6.2*.15.*y
+  491  emacs /home/rumbaugh/runs/run.6.23.15.1555.py &
+  492  emacs /home/rumbaugh/runs/run.6.21.15.2100.py &
+  493  grep accuracy ~/runs/run.6.*.15.*y
+  494  emacs /home/rumbaugh/runs/run.6.18.15.1755.py &
+  495  emacs /home/rumbaugh/runs/run.6.10.15.1615.py &
+  496  grep tau_hist ~/runs/run.7.*.15.*y
+  497  emacs /home/rumbaugh/runs/run.7.2.15.1315.py &
+  498  emacs /home/rumbaugh/runs/run.7.1.15.1120.py &
+  499  sudo amdcccle &
+  500  fg
+  501  cd Fermi/TimeBombs/
+  502  ls
+  503  git status
+  504  cd ~/git/TimeBombs/
+  505  ls
+  506  git status
+  507  mkdir attic
+  508  mv *.png.png attic/
+  509  mv *png attic/
+  510  ls
+  511  git status
+  512  mv Options_test* attic/
+  513  ls
+  514  git status
+  515  git checkout -b dev
+  516  git status
+  517  git commit -am "1 year of editing offline: mainly to allow more flexible input/output. Makefile changed to work at UCDavis"
+  518  git config --global user.email "takkyon13@gmail.com"
+  519  git config --global user.name "Nick Rumbaugh"
+  520  git commit -am "1 year of editing offline: mainly to allow more flexible input/output. Makefile changed to work at UCDavis"
+  521  git status
+  522  git add PosteriorPredictiveModelChecking.py 
+  523  git commit -am "Function for checking mock vs observed datasets via ACF"
+  524  git status
+  525  ls
+  526  emacs run.cpp  &
+  527  git status
+  528  git status >> .gitignore 
+  529  pico .gitignore 
+  530  git status
+  531  pico .gitignore 
+  532  git status
+  533  pico .gitignore 
+  534  git status
+  535  git commit -am "Ignore DNest stuff"
+  536  git status
+  537  git remote -v
+  538  git remote rename origin jim
+  539  git remote -v
+  540  git remote add origin git@github.com:rumbaugh/TimeBombs.git
+  541  git remote -v
+  542  git push origin dev
+  543  more ~/.ssh
+  544  cd ~/.ssh/
+  545  ssh-keygen
+  546  ls
+  547  more id_rsa.pub 
+  548  cd -
+  549  git push origin dev
+  550  git status
+  551  git remote -v
+  552  git remote add brendon git@github.com:eggplantbren/TimeBombs.git
+  553  git remote -v
+  554  git merge master
+  555  git checkout master
+  556  ls
+  557  git pull brendon master
+  558  git status
+  559  git checkout dev
+  560  git merge master
+  561  emacs display.py &
+  562  git status
+  563  git add display.py
+  564  git status
+  565  git commit -am "merged with brendon"
+  566  git status
+  567  git push origin dev
+  568  git status
+  569  git checkout master
+  570  git pull origin master
+  571  git branch -d dev
+  572  git log 
+  573  log
+  574  history
+  575  history > ~/runs/terminal.7.6.15

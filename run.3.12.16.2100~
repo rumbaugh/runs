@@ -1,0 +1,86 @@
+cd /home/rumbaugh/Chandra/ImperialPipeline/ImperialPipe
+export PSFTAB='/PSF/psftable.fits'
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/rcs0224_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/rcs0224_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/rcs0224_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/rcs0224_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/rcs0224_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rcs0224/proc/rcs0224/rcs0224_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/cl0849_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/cl0849_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/cl0849_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/cl0849_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/cl0849_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0849/proc/cl0849/cl0849_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/rxj0910_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/rxj0910_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/rxj0910_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/rxj0910_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/rxj0910_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj0910/proc/rxj0910/rxj0910_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/rxj1221_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/rxj1221_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/rxj1221_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/rxj1221_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/rxj1221_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1221/proc/rxj1221/rxj1221_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/cl1350_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/cl1350_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/cl1350_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/cl1350_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/cl1350_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1350/proc/cl1350/cl1350_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/rxj1757_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/rxj1757_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/rxj1757_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/rxj1757_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/rxj1757_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1757/proc/rxj1757/rxj1757_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/cl0023_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/cl0023_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/cl0023_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/cl0023_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/cl0023_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl0023/proc/cl0023/cl0023_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/cl1324_north_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/cl1324_north_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/cl1324_north_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/cl1324_north_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/cl1324_north_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_north/proc/cl1324_north/cl1324_north_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/cl1324_south_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/cl1324_south_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/cl1324_south_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/cl1324_south_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/cl1324_south_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1324_south/proc/cl1324_south/cl1324_south_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/rxj1821_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/rxj1821_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/rxj1821_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/rxj1821_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/rxj1821_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1821/proc/rxj1821/rxj1821_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/cl1137_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/cl1137_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/cl1137_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/cl1137_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/cl1137_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1137/proc/cl1137/cl1137_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/rxj1716_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/rxj1716_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/rxj1716_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/rxj1716_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/rxj1716_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1716/proc/rxj1716/rxj1716_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/rxj1053_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/rxj1053_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/rxj1053_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/rxj1053_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/rxj1053_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/rxj1053/proc/rxj1053/rxj1053_full.getpsfout.dat
+./getpsf soft /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/XYout_soft.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/cl1604_soft.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/cl1604_soft.getpsfout.dat
+./getpsf hard /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/XYout_hard.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/cl1604_hard.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/cl1604_hard.getpsfout.dat
+./getpsf full /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/XYout_full.3.12.16.dat infmt=sky afile=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/cl1604_full.img
+mv getpsfout.dat /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/cl1604/proc/cl1604/cl1604_full.getpsfout.dat

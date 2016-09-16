@@ -1,0 +1,77 @@
+cd /home/rumbaugh/CDF
+set z = (soft hard full)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set nh = (0.58 1.93 3.71)
+set cf = (5.52493999614e-12 2.2067913599e-11 5.77711246668e-12 2.19441008051e-11)
+set icnt = 0
+foreach i (4936 4161 548)
+@ icnt ++
+cd /home/rumbaugh/LFC/$i
+ln -s /scratch/rumbaugh/set_dirs.pro .
+mkdir -p sources
+mkdir -p photometry
+set RA = `dmkeypar acis$i.img.500-2000.fits RA_PNT echo+`
+set DEC = `dmkeypar acis$i.img.500-2000.fits DEC_PNT echo+`
+
+cp source* sources/.
+cd sources
+ln -s /scratch/rumbaugh/set_dirs.pro .
+foreach j (1 2 3)
+dmlist "sources.$i.$z[$j].1e6.b1.1-16.wexp20.fits[cols RA, DEC, SRC_SIGNIFICANCE]" data,clean > sources.$i.$z[$j].1e6.b1.1-16.wexp20.radecsig.dat
+lc -C -I -n RA -n DEC -n sig < sources.$i.$z[$j].1e6.b1.1-16.wexp20.radecsig.dat | getxsfromradec $RA $DEC  > sources.$i.$z[$j].1e6.b1.1-16.wexp20.xsradecsig.cat
+
+
+end
+
+mergecats -x xs -n 1 -m 0.0015 sources.$i.full.1e6.b1.1-16.wexp20.xsradecsig.cat sources.$i.soft.1e6.b1.1-16.wexp20.xsradecsig.cat sources.$i.hard.1e6.b1.1-16.wexp20.xsradecsig.cat | lc -O  > sources.$i.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsig.hdat
+
+
+echo "set_dirs\n" > idltemp.pro
+echo "readcol, 'sources.$i.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsig.hdat', mask, RAf, RAs, RAh, DECf, DECs, DECh, sf, ss, sh, xsxf, xsxs, xsxh, xsyf, xsys, xsyh,  format='I,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D' \n" >> idltemp.pro
+echo "sig = dblarr(3,n_elements(ras))\n" >> idltemp.pro
+echo "ra = dblarr(3,n_elements(ras))\n" >> idltemp.pro
+echo "dec = dblarr(3,n_elements(ras))\n" >> idltemp.pro
+echo "ra_out = dblarr(n_elements(ras))\n" >> idltemp.pro
+echo "dec_out = dblarr(n_elements(ras))\n" >> idltemp.pro
+echo "sig[0,*] = sf  &  sig[1,*] = ss  &  sig[2,*] = sh  \n" >> idltemp.pro
+echo "ra[0,*] = raf  &  ra[1,*] = ras  &  ra[2,*] = rah  \n" >> idltemp.pro
+echo "dec[0,*] = decf  &  dec[1,*] = decs  &  dec[2,*] = dech \n" >> idltemp.pro
+echo "openw, 1, 'sources.$i.full+soft+hard.srclist.dat'\n" >> idltemp.pro
+echo 'for i=0, n_elements(ras)-1 do begin &$ \n' >> idltemp.pro
+echo '    g = where(sig[*,i] eq max(sig[*,i]))  &$\n' >> idltemp.pro
+echo '    ra_out[i] = ra[g,i]  &$\n' >> idltemp.pro
+echo '    dec_out[i] = dec[g,i]  &$\n' >> idltemp.pro
+echo '    printf,1, ra_out[i], dec_out[i], mask[i], sf[i],ss[i],sh[i], g, format='"'"'(%"%13.7F %13.7F %3I %7.2F %7.2F %7.2F %2I")'"'"'&$\n' >> idltemp.pro
+echo 'endfor\n' >> idltemp.pro
+echo 'close, 1\n' >> idltemp.pro
+echo 'exit\n' >> idltemp.pro
+idl idltemp.pro
+
+cd ..
+rm -rf CALDB*
+foreach j (1 2)
+
+set c2f = `grep "[0-9]*" c2f.$i.$z[$j].txt`
+cp /home/rumbaugh/CDF/2232/get_chandra_phot2.pl .
+
+./get_chandra_phot2.pl ./sources/sources.$i.full+soft+hard.srclist.dat $i acis$i.img.500-2000.fits acis$i.expmap_$z[$j].fits acis$i.asol.fits $z[$j] $c2f
+
+end
+
+cd photometry
+ln -s /scratch/rumbaugh/set_dirs.pro .
+rm stats.radec_netcntscor_netcnts_cnts_sig_flux.*.dat
+ln -s ../CALDB_PHOT/$i\_caldb_phot/hard/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat .
+ln -s ../CALDB_PHOT/$i\_caldb_phot/soft/stats.radec_netcntscor_netcnts_cnts_sig_flux.soft.dat
+ln -s ../sources/sources.$i.full+soft+hard.srclist.dat sources.FSH.srclist.dat
+cp /home/rumbaugh/LFC/mkXRAYcat.txt .
+idl mkXRAYcat.txt
+mv RENAME.xray_phot.soft_hard_full.dat $i.xray_phot.soft_hard_full.dat
+cd ..
+
+
+
+end
+end

@@ -1,0 +1,19 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import emcee
+execfile('/home/rumbaugh/MCMC_delaylnprob.py')
+execfile('/home/rumbaugh/git/triangle.py/triangle_mod.py')
+
+oneminussigma = 0.317310507863
+
+date = '1.19.15'
+
+try:
+    runs
+except NameError:
+    runs = 10
+
+try:
+    ntrials
+except NameError:
+    ntrials=10

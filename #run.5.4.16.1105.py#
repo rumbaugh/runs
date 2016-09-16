@@ -1,0 +1,7 @@
+import numpy as np
+
+fields=['cl0023','rxj1716']
+bands=['soft','hard','full']
+
+for s in [1,2]:
+    

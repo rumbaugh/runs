@@ -1,0 +1,3 @@
+import numpy as np
+
+cr=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.clus_rad.dat',dtype={'names':(),'formats':()})

@@ -1,0 +1,7 @@
+cr = read_file("/home/rumbaugh/cluster.redshifts.4.18.11.dat")
+struc = get_colvals(cr,'col1')
+cname = get_colvals(cr,'col2')
+z = get_colvals(cr,'col3')
+ra = get_colvals(cr,'col4')
+dec = get_colvals(cr,'col5')
+

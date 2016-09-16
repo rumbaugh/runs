@@ -1,0 +1,3 @@
+import numpy as np
+import matplotlib as py
+cr = np.loadtxt('/mnt/data2/rumbaugh/Fermi/TimeBombs/output/test.sample.testlightcurve_3.tau_7.22.mu_0.841.7.31.14.dat')

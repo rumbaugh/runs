@@ -1,0 +1,104 @@
+execfile("/home/rumbaugh/FindPeaks.py")
+execfile("/home/rumbaugh/FindCloseSources.py")
+import sys
+
+crcc = read_file("/home/rumbaugh/cosmocalc_out_12.9.10.noheader.dat")
+DLs = get_colvals(crcc,'col9')
+fourpiDl2 = get_colvals(crcc,'col10')
+DLs = DLs/0.7
+fourpiDl2 = fourpiDl2/(0.7*0.7)
+
+cr = read_file("/home/rumbaugh/COSMOS/lens_z_exp_c2f.dat")
+ID = get_colvals(cr,'col1')
+z = get_colvals(cr,'col2')
+exps = get_colvals(cr,'col3')
+exps *= 1000
+c2f = get_colvals(cr,'col4')
+isnotcut = get_colvals(cr,'col5')
+texp= 0.0
+FILE = open("/home/rumbaugh/COSMOS/lens.flux.analysis.dat","w")
+avglum = 0.0
+avglumcut = 0.0
+for i in range(0,len(ID)):
+    texp += exps[i]
+    if ((ID[i] != 423) and (ID[i] != 424) and (ID[i] != 9515) and (ID[i] != 10576)):
+        ccr = read_file('/scratch/rumbaugh/ciaotesting/' + str(int(ID[i])) + '/conv.beta.12.4.10.fits')
+        cimcr = get_piximgvals(ccr)
+        peaks,decs,ras = FindPeaks(cimcr)
+        sinds = np.argsort(peaks)
+        pra = ras[sinds[len(sinds)-1]]
+        pdec = decs[sinds[len(sinds)-1]]
+        ccr,cimcr = 0,0
+        load_data('/scratch/rumbaugh/ciaotesting/' + str(int(ID[i])) + '/acis' + str(int(ID[i])) + '.img.500-2000.S07.nops.norand.fits')
+        set_coord("image")
+        cnts_inner = calc_data_sum2d('circle(%f,%f,80)'%(pra,pdec))
+        cnts_bg = calc_data_sum2d('circle(%f,%f,110)-circle(%f,%f,100)'%(pra,pdec,pra,pdec))
+        ncnts = cnts_inner - cnts_bg*(80*80)/(110*110-1.0*100*100)
+        cntrt = ncnts/exps[i]
+        flux = cntrt*c2f[i]*10**(-11)
+        lum = fourpiDl2[i]*flux
+        avglum += lum
+        avglumcut += isnotcut[i]*lum
+        print str(int(ID[i])) + " " + str(lum)
+        FILE.write('%12s %6.4f %E %E %E %f %f %f %5.2f %4.2f %i %f %E\n'%(str(int(ID[i])),z[i],lum,flux,cntrt,ncnts,cnts_inner,cnts_bg,exps[i],c2f[i],isnotcut[i],DLs[i],fourpiDl2[i]))
+
+sys.exit("g")
+
+avglum=5.40522375607e+44
+avglumcut=4.32022806755e+44
+
+FILE = open("/home/rumbaugh/COSMOS/lens.flux.analysis_2.dat","w")
+
+
+ccr = read_file('/scratch/rumbaugh/ciaotesting/merged/conv.beta.423+424.12.9.10.fits')
+cimcr = get_piximgvals(ccr)
+peaks,decs,ras = FindPeaks(cimcr)
+sinds = np.argsort(peaks)
+pra = ras[sinds[len(sinds)-1]]
+pdec = decs[sinds[len(sinds)-1]]
+ccr,cimcr = 0,0
+load_data('/scratch/rumbaugh/ciaotesting/merged/423+424.fits')
+set_coord("image")
+cnts_inner = calc_data_sum2d('circle(%f,%f,80)'%(pra,pdec))
+cnts_bg = calc_data_sum2d('circle(%f,%f,110)-circle(%f,%f,100)'%(pra,pdec,pra,pdec))
+ncnts = cnts_inner - cnts_bg*(80*80)/(110*110-1.0*100*100)
+cntrt = ncnts/(exps[25]+exps[26])
+flux = cntrt*c2f[25]*10**(-11)
+lum = fourpiDl2[25]*flux
+avglum += lum
+i = 25
+avglumcut += isnotcut[i]*lum
+FILE.write('%10s %6.4f %E %E %E %f %f %f %5.2f %4.2f %i %f %E\n'%('423+424',z[i],lum,flux,cntrt,ncnts,cnts_inner,cnts_bg,exps[i]+exps[26],c2f[i],isnotcut[i],DLs[i],fourpiDl2[i]))
+
+ccr = read_file('/scratch/rumbaugh/ciaotesting/merged/conv.beta.9515+10576.12.9.10.fits')
+cimcr = get_piximgvals(ccr)
+peaks,decs,ras = FindPeaks(cimcr)
+sinds = np.argsort(peaks)
+pra = ras[sinds[len(sinds)-1]]
+pdec = decs[sinds[len(sinds)-1]]
+ccr,cimcr = 0,0
+load_data('/scratch/rumbaugh/ciaotesting/merged/9515+10576.fits')
+set_coord("image")
+cnts_inner = calc_data_sum2d('circle(%f,%f,80)'%(pra,pdec))
+cnts_bg = calc_data_sum2d('circle(%f,%f,110)-circle(%f,%f,100)'%(pra,pdec,pra,pdec))
+ncnts = cnts_inner - cnts_bg*(80*80)/(110*110-1.0*100*100)
+cntrt = ncnts/(exps[9]+exps[10])
+flux = cntrt*c2f[9]*10**(-11)
+lum = fourpiDl2[9]*flux
+avglum += lum
+i = 9
+avglumcut += isnotcut[i]*lum
+FILE.write('%10s %6.4f %E %E %E %f %f %f %5.2f %4.2f %i %f %E\n'%('9515+10576',z[i],lum,flux,cntrt,ncnts,cnts_inner,cnts_bg,exps[i]+exps[10],c2f[i],isnotcut[i],DLs[i],fourpiDl2[i]))
+FILE.close()
+
+avglum2 = avglum + 1.28713416173e+41 + 9.01651153226e+41
+avglum2 /= 25
+avglum /= 27
+avglumcut /= (np.sum(isnotcut)-2)
+
+print 'Average Luminosity: ' + str(avglum)
+print 'Average Mass: ' + str(10**14*(avglum/(12.6*10**42))**(1/1.65))
+print 'Average Luminosity2: ' + str(avglum2)
+print 'Average Mass2: ' + str(10**14*(avglum2/(12.6*10**42))**(1/1.65))
+print 'Average Luminosity - cut: ' + str(avglumcut)
+print 'Average Mass - cut: ' + str(10**14*(avglumcut/(12.6*10**42))**(1/1.65))

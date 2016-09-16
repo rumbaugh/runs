@@ -1,0 +1,27 @@
+execfile("/home/rumbaugh/FindCloseSources.py")
+execfile("/home/rumbaugh/biweight.py")
+c = 3.0*10**5
+
+names = np.array(['nep200','nep5281','cl0910'])
+
+for i in range(0,len(names)):
+    cr = read_file('/home/rumbaugh/%s.info.1Mpc.withvels'%(names[i]))
+    RA = copy_colvals(cr,'col2')
+    Dec = copy_colvals(cr,'col3')
+    z = copy_colvals(cr,'col4')
+    vels = copy_colvals(cr,'col5')
+    delta = np.zeros(len(z))
+    avg_v = c*biweight_loc(z)
+    #sig = np.std(vels)
+    sig = biweight_scale(vels)
+    for j in range(0,len(z)):
+        dists = np.zeros(len(z))
+        for k in range(0,len(dists)): dists[k] = SphDist(RA[j],Dec[j],RA[k],Dec[k])
+        ga = np.argsort(dists)
+        g = ga[0:11]
+        if len(g) > 11: sys.exit("should be 0:11 instead of 0:12, or else something else went wrong")
+        v_avg_loc = biweight_loc(c*z[g])
+        sig_loc = biweight_scale(vels[g])
+        delta[j] = m.sqrt((11.0/sig/sig)*((v_avg_loc-avg_v)**2+(sig_loc-sig)**2))
+    Del = np.sum(delta)
+    print '%s:\n sig = %f using %i gals\n Del = %f\n'%(names[i],sig,len(z),Del)

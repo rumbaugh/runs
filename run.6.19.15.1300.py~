@@ -1,0 +1,45 @@
+import numpy as np
+import matplotlib.pyplot as plt
+execfile('/home/rumbaugh/ReverseSigmaClip.py')
+execfile('/home/rumbaugh/git/TimeBombs/showresults.py')
+execfile('/home/rumbaugh/git/TimeBombs/PosteriorPredictiveModelChecking.py')
+
+cbase='/home/rumbaugh/Fermi/TimeBombs/output/'
+
+critwidth=3.716/2.35482
+
+date='6.19.15'
+ldate='6.10.15'
+
+errstd = 7.5
+cr = np.loadtxt('/home/rumbaugh/Fermi/data/test/testlightcurve_truthvalues.6.10.15.dat')
+tau5,mu5,tau10,mu10,tau15,mu15,tau20,mu20=cr[:,0],cr[:,1],cr[:,2],cr[:,3],cr[:,4],cr[:,5],cr[:,6],cr[:,7]
+
+for tau,it in zip(np.array([10]),np.array([1])):
+    avg_fwidth,medtau,cliptau=np.zeros(100),np.zeros(100),np.zeros(100)
+    taus=cr[:,2*it]
+    for i,pair in zip(pairs-1,pairs):
+        mus=cr[:,2*it+1]
+        posteriorFile='%sposterior.testlightcurve.tau_%i_%i.mu_%.3f.%s.dat'%(cbase,tau,pair,mu,ldate)
+        crpost = np.loadtxt(posteriorFile)
+        crFP = np.loadtxt('/home/rumbaugh/Fermi/data/test/testlightcurve.tau_%i_%i.flare_params_truthvalues.mu_%.3f%s.dat'%(taus[i],i+1,mus[i],ldate))
+        try:
+            amp,skew,Tfl = crFP[:,1],crFP[:,2],crFP[:,3]
+            mean_amp,mean_skew,mean_Tfl=np.average(amp),np.average(skew),np.average(Tfl)
+            true_nflares=np.shape(crFP)[0]
+        except:
+            amp,skew,Tfl = crFP[1],crFP[2],crFP[3]
+            true_nflares=1
+            mean_amp,mean_skew,mean_Tfl=amp,skew,Tfl
+        fwidths = crpost[:,210:310]
+        pamps,pskews = crpost[:,110:210],crpost[:,310:410]
+        pnflares=crpost[:,9]
+        post_taus = np.abs(crpost[:,1])
+        truetau=np.abs(taus[i])
+        avg_fwidth[i]=np.mean(fwidths[fwidths>0])
+        fwidth_tmp = np.zeros(len(post_taus))
+        for j in range(0,len(post_taus)): 
+            fwidth_tmp[j] = np.mean(fwidths[j][:pnflares[j]])
+            pamp_tmp[j] = np.mean(pamps[j][:pnflares[j]])
+            pskew_tmp[j] = np.mean(pskews[j][:pnflares[j]])
+        medtau[i]=np.median(post_taus)

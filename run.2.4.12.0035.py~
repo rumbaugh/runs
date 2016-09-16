@@ -1,0 +1,1 @@
+cr = readfile('/local3/rumbaugh/ChandraData/nh.list.dat')

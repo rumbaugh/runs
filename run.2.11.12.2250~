@@ -1,0 +1,28 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+set z = (soft hard full)
+set el = (0.5 2.0 0.5)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+
+foreach i (548 4936)
+cd /local3/rumbaugh/ChandraData/$i
+punlearn ardlib
+acis_set_ardlib acis$i.bpix.fits
+set RA = `dmkeypar acis$i.evt2.fits RA_PNT echo+`
+set DEC = `dmkeypar acis$i.evt2.fits DEC_PNT echo+`
+echo "circle($RA,$DEC,20)" | tee testpoint.reg
+foreach j (1 2)
+specextract infile="acis$i.evt2.$n[$j].fits[sky=region(./regions/acis$i.pointing.reg)]" outroot=spec_$i\_$z[$j] grouptype=NUM_CTS binspec=15 pbkfile="acis$i.pbk0.fits" energy_wmap=$nn[$j] clob+
+end
+end
+end

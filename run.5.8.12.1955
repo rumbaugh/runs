@@ -1,0 +1,35 @@
+set r0 = (12 98)
+set r = (32.369 46.27 46.27 44.15 48.84 46.27 47.17)
+set names = (0910 Cl1324 RXJ1757 NEP5281 Cl1604 Cl1324 Cl1324)
+set n_ids = (acis2227+2452 acis9403+9840 RXJ1757 acis10444+10924 acis6932 acis9404+9836 acis9404+9836)
+set i = 1
+foreach j (1 2)
+cd /home/rumbaugh/ChandraData/$names[$i]/master
+aconvolve $n_ids[$i].img.500-2000.nops.fits test.conv.$n_ids[$i].soft.r_$r0[$j].5.8.12.fits "file:/home/rumbaugh/ChandraData/bmodels/beta_model.r0_$r0[$j].alpha_1.5.fits" edges=wrap method=fft normkernel=none clob+
+echo "Made test.conv.$n_ids[$i].soft.r_$r0[$j].5.8.12.fits"
+aconvolve $n_ids[$i].img.500-2000.nops.fits test.conv.var.$n_ids[$i].soft.r_$r0[$j].5.8.12.fits "file:/home/rumbaugh/ChandraData/bmodels/sqrd_beta_model.r0_$r0[$j].alpha_1.5.fits" edges=wrap method=fft normkernel=none clob+
+echo "Made test.conv.var.$n_ids[$i].soft.r_$r0[$j].5.8.12.fits"
+end
+foreach i (2 3 4 5 6)
+foreach j (1 2)
+cd /home/rumbaugh/ChandraData/$names[$i]/master
+aconvolve $n_ids[$i].img.500-2000.nops.fits test.conv.$n_ids[$i].soft.r_$r0[$j].5.8.12.fits "file:/home/rumbaugh/ChandraData/bmodels/beta_model.r0_$r0[$j].alpha_1.5.fits" edges=wrap method=fft normkernel=none clob+
+echo "Made test.conv.$n_ids[$i].soft.r_$r0[$j].5.8.12.fits"
+aconvolve $n_ids[$i].img.500-2000.nops.fits test.conv.var.$n_ids[$i].soft.r_$r0[$j].5.8.12.fits "file:/home/rumbaugh/ChandraData/bmodels/sqrd_beta_model.r0_$r0[$j].alpha_1.5.fits" edges=wrap method=fft normkernel=none clob+
+echo "Made test.conv.var.$n_ids[$i].soft.r_$r0[$j].5.8.12.fits"
+end
+end
+set i = 1
+cd /home/rumbaugh/ChandraData/$names[$i]/master
+aconvolve $n_ids[$i].img.500-2000.nops.fits conv.$n_ids[$i].soft.r_$r[$i].5.8.12.fits "file:/home/rumbaugh/ChandraData/0910/master/beta_model.r0_$r[$i].alpha_1.5.fits" edges=wrap method=fft normkernel=none clob+
+echo "Made conv.$n_ids[$i].soft.r_$r[$i].5.8.12.fits"
+aconvolve $n_ids[$i].img.500-2000.nops.fits conv.var.$n_ids[$i].soft.r_$r[$i].5.8.12.fits "file:/home/rumbaugh/ChandraData/bmodels/sqrd_beta_model.r0_$r[$i].alpha_1.5.fits" edges=wrap method=fft normkernel=none clob+
+echo "Made conv.var.$n_ids[$i].soft.r_$r[$i].5.8.12.fits"
+foreach i (2 3 4 5 6 7)
+cd /home/rumbaugh/ChandraData/$names[$i]/master
+aconvolve $n_ids[$i].img.500-2000.nops.fits conv.$n_ids[$i].soft.r_$r[$i].5.8.12.fits "file:/home/rumbaugh/ChandraData/bmodels/beta_model.r0_$r[$i].alpha_1.5.fits" edges=wrap method=fft normkernel=none clob+
+echo "Made conv.$n_ids[$i].soft.r_$r[$i].5.8.12.fits"
+aconvolve $n_ids[$i].img.500-2000.nops.fits conv.var.$n_ids[$i].soft.r_$r[$i].5.8.12.fits "file:/home/rumbaugh/ChandraData/bmodels/sqrd_beta_model.r0_$r[$i].alpha_1.5.fits" edges=wrap method=fft normkernel=none clob+
+echo "Made conv.var.$n_ids[$i].soft.r_$r[$i].5.8.12.fits"
+end
+end

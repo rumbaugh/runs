@@ -1,0 +1,59 @@
+import numpy as np
+import matplotlib.pyplot as py
+import emcee
+import smoothing_1d as sm
+
+try:
+    runs
+except NameError:
+    runs = 1000
+
+try:
+    date
+except NameError:
+    date = '4.3.13'
+
+
+def calc_chi_squared(obs,exp,var,nozero=True):
+    if ((len(obs) != len(exp)) | (len(obs) != len(var))): sys.exit("Inputs to calc_chi_squared must have same length: %i,%i,%i,%i"%(len(obs),len(exp),len(x_grid),len(var)))
+    if nozero:
+        gcs = np.where((var > 0) & (obs != 0) & (var != 0))
+    else:
+        gcs = np.where((var > 0))
+    gcs = gcs[0]
+    if len(gcs) == 0: sys.exit("Calc_chi_squared failure: var is zero everywhere")
+    chi_sq = np.sum((obs[gcs]-exp[gcs])*(obs[gcs]-exp[gcs])/var[gcs])
+    return chi_sq
+
+#FILE = open('/home/rumbaugh/BDemceetest.3.5.13.txt','w')
+
+def delaylnprob(x,A,B,A_err,B_err,ltime,maxtime=117,mintime=-10,t_grid_spacing=0.5,smooth_param=10.):
+    #x is a vector with x[0] = tau and x[1,2,3] = mu1,2,3 for the 3 seasons of data
+    if mintime == None: mintime = -1*maxtime
+    if ((x[0] > maxtime) | (x[0] < mintime)):
+        #print x[0],x[1],np.log(0.00001)
+        return -9999999999.
+        #FILE.write('%f %f %f %f\n'%(x[0],x[1],0.0,-9999999999.))
+    else:
+        if x[0] < 0:
+            gltime1,gltime2,gltime3 = np.where(ltime1 < ltime.max()+x[0]),np.where(ltime2 < ltime.max()+x[0]),np.where(ltime3 < ltime.max()+x[0])
+        else:
+            gltime1,gltime2,gltime3 = np.where(ltime1 > x[0]),np.where(ltime2 > x[0]),np.where(ltime3 > x[0])
+        gltime1,gltime2,gltime3 = gltime1[0],gltime2[0],gltime3[0]
+        gltime = np.append(gltime1,np.append(gltime2+season1len,gltime3+season1len+season2len))
+        if ((len(gltime1) <= 3) | (len(gltime2) <= 3) | (len(gltime3) <= 3)): print "Short gltime: %i %i %i"%(len(gltim1),len(gltime2),len(gltime3))
+        Btmp,Berrtmp = B.copy(),B_err.copy()
+        Btmp[0:season1len] *= x[1]
+        Btmp[season1len:season1len+season2len] *= x[2]
+        Btmp[season2len:season1len+season2len+season3len] *= x[3]
+        Berrtmp[0:season1len] *= x[1]
+        Berrtmp[season1len:season1len+season2len] *= x[2]
+        Berrtmp[season2len:season1len+season2len+season3len] *= x[3]
+        smB,smB_var = sm.boxcar(ltime+x[0],Btmp,np.append(ltime1[gltime1],np.append(ltime2[gltime2],ltime3[gltime3])),smooth_param,y_var=Berrtmp*Berrtmp)
+        chisq_tmp = calc_chi_squared(smB,A[gltime],A_err[gltime]*A_err[gltime]+smB_var)
+        Neff = (ltime[len(ltime)-1]-np.abs(x[0]))/3.7
+        #print x[0],x[1],Neff,-1.*(chisq_tmp/Neff)
+        #FILE.write('%f %f %f %f\n'%(x[0],x[1],Neff,-1.*(chisq_tmp/Neff)))
+        return -1.*(chisq_tmp/Neff)
+
+loadfile = np.loadtxt('/home/rumbaugh/time_delay_files/lc_test_chris_v2.txt')

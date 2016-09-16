@@ -1,0 +1,7 @@
+foreach i (1662 2229)
+cd /local3/rumbaugh/ChandraData/$i
+mkdir photometry
+cd photometry
+ln -s ../CALDB_PHOT/$i\_caldb_phot/hard/stats.radec_netcntscor_netcnts_cnts_sig_flux.hard.dat .
+ln -s ../CALDB_PHOT/$i\_caldb_phot/soft/stats.radec_netcntscor_netcnts_cnts_sig_flux.soft.dat
+

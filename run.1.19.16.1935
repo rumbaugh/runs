@@ -1,0 +1,8 @@
+declare -a targets=(rcs0224 cl0849 rxj0910 rxj1221 cl1350 rxj1757 cl1604 cl0023 cl1324 rxj1821 cl1137 rxj1716 rxj1053 cl1324_north cl1324_south)
+
+for field in ${targets[@]}
+do
+cd /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/proc/$field/SRCv1
+cp ${field}_srclist_v1.fits bkup_1.19.16_${field}_srclist_v1.fits
+cp ${field}_srclist_v1.reg bkup_1.19.16_${field}_srclist_v1.reg
+done

@@ -1,0 +1,17 @@
+import numpy as np
+import matplotlib.pyplot as py
+import emcee
+import smoothing_1d as sm
+import time
+
+date = '5.11.14'
+
+noquads = ['11A','11B','15A','15B','67A','67B','94A','94B','126A','126B','138A','138B']
+
+rungs=np.array([0,1,2,3,4])
+st = time.time()
+for rung in rungs:
+    for pair in np.arange(1,721):
+        if ((rung > 0) | (pair > 280)): runtemplate(pair,rung)
+    for quad in quads:
+        if not(quad in noquads): runtemplate(quad,rung)

@@ -1,0 +1,37 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+declare -a b=(0.5-2.0 2.0-8.0 0.5-8.0)
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+declare -a ef=(1.497 4.51 2.3)
+
+cd /home/rumbaugh/Chandra
+
+for j in 0 1 2
+do
+reproject_events infile="./1708/acis1708.evt2.${n[$j]}.fits" outfile="./1708/reproj_acis1708.evt2.${n[$j]}.fits" match="./927/acis927.evt2.${n[$j]}.fits" clob+
+dmmerge infile="./927/acis927.evt2.${n[$j]}.fits,./1708/reproj_acis1708.evt2.${n[$j]}.fits" outfile=acis927+1708.evt2.${n[$j]}.fits clob+
+reproject_events infile="./4987/acis4987.evt2.${n[$j]}.fits" outfile="./4987/reproj_acis4987.evt2.${n[$j]}.fits" match="./3181/acis3181.evt2.${n[$j]}.fits" clob+
+dmmerge infile="./3181/acis3181.evt2.${n[$j]}.fits,./4987/reproj_acis4987.evt2.${n[$j]}.fits" outfile=acis3181+4987.evt2.${n[$j]}.fits clob+
+reproject_events infile="./2452/acis2452.evt2.${n[$j]}.fits" outfile="./2452/reproj_acis2452.evt2.${n[$j]}.fits" match="./2227/acis2227.evt2.${n[$j]}.fits" clob+
+dmmerge infile="./2227/acis2227.evt2.${n[$j]}.fits,./2452/reproj_acis2452.evt2.${n[$j]}.fits" outfile=acis2227+2452.evt2.${n[$j]}.fits clob+
+done
+for i in 2227+2452 927+1708 3181+4987
+do
+cd /home/rumbaugh/Chandra/$i
+for j in 0 1 2
+do
+mv ../acis$i.evt2.${n[$j]}.fits acis$i.evt2.${n[$j]}.fits
+done
+done

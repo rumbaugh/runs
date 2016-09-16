@@ -1,0 +1,4 @@
+set_dirs
+set_plot,'PS'
+loadct,13
+device,file='/home/rumbaugh/IDLcolorcode.plot.ps',/color

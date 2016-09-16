@@ -1,0 +1,16 @@
+date = '7.7.14'
+
+import pyfits as py
+hdu = py.open('/mnt/data2/rumbaugh/Fermi/data/0218/S30218+35_86400.lc')
+d = hdu[1].data
+ltime = (d['START']-d['START'][0])/86400
+g = np.where((ltime > 350) & (ltime < 525))[0]
+Sfull = d['FLUX_100_300000']
+Sfullerr = d['ERROR_100_300000']
+
+outfile = '/mnt/data2/rumbaugh/Fermi/output/0218/disp_out.daily_lc.D_2.%s.dat'%(date)
+
+calc_disp_delay(Sfull[g],Sfull[g],ltime[g],ltime[g],Sfullerr[g],Sfullerr[g],maxtime,timestep,minmu,maxmu,mustep,'D_2',delta=delta,mintime=mintime,dispmatrix=True,outfile=outfile)
+for delta in np.arange(18)+2.5:
+    outfile = '/mnt/data2/rumbaugh/Fermi/output/0218/disp_out.daily_lc.%s.delta_%4.1f.%s.dat'%(disp_type,delta,date)
+    calc_disp_delay(Sfull[g],Sfull[g],ltime[g],ltime[g],Sfullerr[g],Sfullerr[g],maxtime,timestep,minmu,maxmu,mustep,'D_4_2',delta=delta,mintime=mintime,dispmatrix=True,outfile=outfile)

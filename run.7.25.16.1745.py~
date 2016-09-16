@@ -1,0 +1,7 @@
+import numpy as np
+
+
+rkeys=np.array(reffile_dict.keys())
+for field in rkeys:
+    pzcat='%s/%s/%s.zout.gz'%(refdir,reffile_dict[field],reffile_dict[field])
+    crpz=np.loadtxt(pzcat,dtype=pzdict)

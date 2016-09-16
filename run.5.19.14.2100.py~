@@ -1,0 +1,43 @@
+execfile('/home/rumbaugh/LoadEVLA_2011.py')
+execfile('/home/rumbaugh/radmon_var_chisq_test.py')
+for source in ['B1938','MG0414','B0712']:
+    fluxratio_err = 0.0043
+    if source == 'B1938':
+        fluxratio_err = 0.0048
+        imgnames = ['fluxC1','fluxC2','fluxB','fluxA']
+        imgshnames = ['C','B','A']
+        nimg=3
+    if source == 'MG0414':
+        nimg = 4
+        imgnames = ['fluxA1','fluxA2','fluxB','fluxC']
+        imgshnames = np.copy(imgnames)
+        for k in range(0,nimg): imgshnames[k] = imgshnames[k][4:]
+    if source == 'B0712':
+        imgnames = ['fluxA','fluxB','fluxC','fluxD']
+        imgshnames = ['A+B','C','D']
+        nimg = 3
+    errnames = np.copy(imgnames)
+    for n in np.arange(0,len(errnames)): errnames[n] = 'err%s'%errnames[n][4:]
+    crS = LoadEVLA_2011(source,normalize=True,normalize_mean=False)
+    if source == 'B1938': day0 = crS['day'][0]
+    crS['day'] -= day0
+    days = crS['day']
+    print source
+    for img in range(0,nimg):
+        if (source == 'MG0414'): 
+            S = crS[imgnames[img]]
+            Serr = crS[errnames[img]]
+        else: 
+            S = np.copy(crS[imgnames[img+1]])
+            Serr = np.copy(crS[errnames[img+1]])
+        g = np.where(S > 0)[0]
+        if ((source != 'MG0414') & (img == 0)):
+            S2 = crS[imgnames[0]]
+            S2err = crS[errnames[0]]
+            g2 = np.where(S2 > 0)[0]
+            S += S2
+            Serr = np.sqrt(Serr**2+S2err**2)
+            g = list(set(g) & set(g2))
+        csq,prob = calc_chi_sqrd(S[g],Serr[g],calcprob=True)
+        print '\n%s: %f\n'%(imgshnames[img],prob)
+            

@@ -1,0 +1,7 @@
+import pyfits as pf
+import numpy as np
+import os
+import sys
+
+os.chdir('/mnt/data2/rumbaugh/HST/12898/raw')
+os.system('ls *flt*fits > temp.dat')

@@ -1,0 +1,11 @@
+execfile("/home/rumbaugh/FindCloseSources.py")
+
+cr = read_file("/home/rumbaugh/COSMOS/analysis/lens.analysis.12.4.10.dat")
+IDs = get_colvals(cr,'col1')
+means = get_colvals(cr,'col4')
+stds = get_colvals(cr,'col5')
+peaks = get_colvals(cr,'col7')
+
+for i in range(0,len(stds)):
+    print '%5s Mean: %9.7f STD: %9.7f Sigma: %6.2f'%(int(IDs[i]),means[i],stds[i],(peaks[i]-means[i])/stds[i])
+

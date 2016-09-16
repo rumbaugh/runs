@@ -1,0 +1,31 @@
+declare -a targets=(rcs0224 rcs0224 cl0849 cl0849 rxj0910 rxj0910 rxj1053 rxj1221 cl1350 rxj1716 cl1604 cl1604 cl1604 cl0023 cl1324 cl1324 cl1324 cl1324 rxj1757 rxj1757 rxj1821 rxj1821 cl1137)
+declare -a obsids=(3181 4987 927 1708 2227 2452 4936 1662 2229 548 6932 6933 7343 7914 9403 9840 9404 9836 10443 11999 10444 10924 4161)
+declare -a inds=(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22)
+
+
+declare prevtar='None'
+
+for i in ${inds[@]}
+do
+cd /home/rumbaugh/Chandra/ImperialPipeline/ORELSE
+declare target=${targets[$i]}
+declare obsid=${obsids[$i]}
+mkdir -p $target
+cd $target
+if [ $target = $prevtar ]
+then
+printf " $obsid" >> master.dat
+else
+printf "$target $obsid" > master.dat
+fi
+mkdir -p logs
+mkdir -p raw
+cd raw
+mkdir -p $obsid
+cd $obsid
+ln -sf /home/rumbaugh/Chandra/$obsid/primary .
+ln -sf /home/rumbaugh/Chandra/$obsid/secondary .
+ln -s primary/* .
+ln -s secondary/* .
+declare prevtar=$target
+done

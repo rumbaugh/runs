@@ -1,0 +1,29 @@
+set z = (soft hard full)
+set el = (0.5 2.0 0.5)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+set i = 2227+2452
+set rs = (0.84 0.69 0.69 0.76 0.898 1.1)
+set namef = (/home/rumbaugh/ChandraData/NEP5281/master/acis10444+10924.img.500-2000.nops.fits /home/rumbaugh/ChandraData/RXJ1757/master/RXJ1757.img.500-2000.nops.fits /home/rumbaugh/ChandraData/Cl1324/master/acis9403+9840.img.500-2000.nops.fits /home/rumbaugh/ChandraData/Cl1324/master/acis9404+9836.img.500-2000.nops.fits /home/rumbaugh/ChandraData/Cl1324/master/acis9404+9836.img.500-2000.nops.fits /scratch/rumbaugh/ciaotesting/Cl1604/6932/acis6932.img.500-2000.nops.fits /scratch/rumbaugh/ciaotesting/Cl1604/6932/acis6932.img.500-2000.nops.fits /home/rumbaugh/ChandraData/0910/master/acis2227+2452.img.500-2000.nops.fits)
+set namesp = (10444+10924 1757 9403+9840 9404+9836 9404+9836 6932 6932 2227+2452)
+set patht = /home/rumbaugh/ChandraData
+set names = (NEP5281 RXJ1757 Cl1324 Cl1324 Cl1324 Cl1604 Cl1604 0910)
+set r = (44.15 46.27 46.27 47.17 47.17 48.84 48.84 50.80)
+set x = (3884.513 4097.7827 4093.65 3912.3173 4636.0706 4007.0272 3945.6178 4009.28)
+set y = (4112.3424 4351.7991 4920.9909 3445.9129 3657.7822 3412.1968 4605.2017 4359.77)
+
+foreach i (1 2 3 4 5 6 7)
+cd $patht/$names[$i]/master/
+dmstat "conv.$namesp[$i].soft.r_$r[$i].fits[(x,y)=circle($x[$i],$y[$i],200)]" verbose=0
+pget dmstat out_max_loc
+
+end
+end

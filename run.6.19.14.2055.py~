@@ -1,0 +1,3 @@
+import numpy as np
+cr = np.loadtxt('/mnt/data2/rumbaugh/Fermi/data/test/testlightcurve_truthvalues.6.19.14.dat')
+tau,mu = cr[:,0],cr[:,1]

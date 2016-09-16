@@ -1,0 +1,3 @@
+import numpy as np
+
+slits = np.array([761,85,324,628,211])

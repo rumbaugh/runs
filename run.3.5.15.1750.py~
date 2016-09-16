@@ -1,0 +1,4 @@
+import numpy as np
+import pyfits as py
+execfile('/home/rumbaugh/git/data_redux_code/spec_simple.py')
+

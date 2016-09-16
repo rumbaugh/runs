@@ -1,0 +1,8 @@
+declare -a slits=(761 85 189 324 628)
+for i in ${slits[*]}
+do
+cp 
+
+
+
+declare -a slits=(211)

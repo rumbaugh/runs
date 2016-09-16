@@ -1,0 +1,5 @@
+import numpy as np
+
+
+
+plotfile,title,outfile = '%s/spec_output/outspec.%s_%s_%s_%s_coadd_bgsub.dat'%(indir,mask,slit,color,side),'%s %s %s %s%s'%(mask,slit,color,side,titledict[line]),'%s/plots/lineplot.%s_%s_%s_%s%s_coadd_bgsub.png'%(indir,mask,slit,color,side,linedict[line])

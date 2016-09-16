@@ -1,0 +1,27 @@
+set z = (soft hard full)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+set cons = (0.00000000000583654559476 0.0000000000343096106814 0.00000000000366269272639 0.0000000000212174639544)
+set cnt = 0
+
+foreach i (548 4936)
+foreach j (1 2)
+cd /local3/rumbaugh/ChandraData/$i
+cp sources.$i.full+soft+hard.srclist.dat /home/rumbaugh/temp.2.5.12.sources.$i.full+soft+hard.srclist.dat
+cp acis$i.img.$n[$j].vig_corr.fits /home/rumbaugh/temp.2.5.12/acis$i.img.$n[$j].vig_corr.fits
+cp acis$i.expmap_$z[$j].fits /home/rumbaugh/temp.2.5.12/acis$i.expmap_$z[$j].fits
+foreach k (primary/pcad*)
+cp $k /home/rumbaugh/temp.2.5.12/acis$i.asol.fits
+end
+end
+end
+end
+

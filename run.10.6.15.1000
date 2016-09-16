@@ -1,0 +1,5 @@
+for i in 548 927 1662 1708 2227 2229 2452 3181 4936 4987
+do
+cd /home/rumbaugh/Chandra/$i
+dmkeypar acis$i.evt2.fits.gz EXPOSURE echo+
+done

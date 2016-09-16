@@ -1,0 +1,14 @@
+cd /home/rumbaugh/Chandra/optimages
+ln -s rxj1053_i_fix_trim.fits rxj1053_I.fits
+ln -s rxj1716_i.fits rxj1716_I.fits
+ln -s cl1137_i_trim_fix.fits cl1137_I.fits
+ln -s cl0910_i_shift_norm.fits rxj0910_I.fits
+ln -s cl0023_i_shift_norm.fits cl0023_I.fits
+ln -s cl0849_i_shift.fits cl0849_I.fits
+ln -s nep5281_i_shift_norm.fits rxj1821_I.fits
+ln -s nep200_i_shift_norm.fits rxj1757_I.fits
+ln -s rxj1221_i_shift_norm.fits rxj1221_I.fits
+ln -s rcs0224_i.fits rcs0224_I.fits
+ln -s sc1322_1i_shift_norm.fits cl1324_south_I.fits
+ln -s sc1322_2i_shift_norm.fits cl1324_north_I.fits
+ln -s cl1350_i_shift_norm.fits cl1350_I.fits

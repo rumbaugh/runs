@@ -1,0 +1,6 @@
+import numpy as np
+import pyfits as py
+import os
+
+os.chdir('/mnt/data2/rumbaugh/Fermi/data/MSL_LS')
+cr = py.open('3C66A_604800.lc')

@@ -1,0 +1,28 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+set z = (soft hard full)
+set el = (0.5 2.0 0.5)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+
+rm /local3/rumbaugh/ChandraData/times.list.temp.dat
+foreach i (1662 2229)
+cd /local3/rumbaugh/ChandraData/$i
+punlearn ardlib
+acis_set_ardlib acis$i.bpix.fits
+set RA = `dmkeypar acis$i.evt2.fits RA_PNT echo+`
+set DEC = `dmkeypar acis$i.evt2.fits DEC_PNT echo+`
+set TIME = `dmkeypar acis$i.evt2.fits EXPOSURE echo+`
+echo $TIME | tee -a /local3/rumbaugh/ChandraData/times.list.temp.dat
+sherpa -b /home/rumbaugh/runs/run.2.4.12.0035.py
+end
+end

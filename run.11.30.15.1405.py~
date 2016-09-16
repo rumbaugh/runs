@@ -1,0 +1,4 @@
+import numpy as np
+
+crx=np.loadtxt('/home/rumbaugh/Chandra/548/photometry/548.xray_phot.soft_hard_full.dat',dtype={'names':('raX','decX','fluxX_soft','fluxX_hard','fluxX_full','netcnts_corrX_soft','netcnts_corrX_hard','netcnts_corrX_full','sigX_soft','sigX_hard','sigX_full','dummy1','dummy2','dummy3','wflagX'))
+cropt=np.loadtxt('/home/rumbaugh/Chandra/photcats/rxj1716_rizdata.corr.gz')

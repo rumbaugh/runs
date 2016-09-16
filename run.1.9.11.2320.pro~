@@ -1,0 +1,2 @@
+set_dirs
+read_col,"/home/rumbaugh/LFC/diffuseemission.txt",counts1,ncnts1,counts2,ncnts2,counts3,ncnts3,counts4,ncnts4

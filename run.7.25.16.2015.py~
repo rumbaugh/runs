@@ -1,0 +1,6 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+z=np.linspace(0,5,5000)
+
+Pz=np.exp(-(z-0.46)**2/(2.*0.1**2))+0.5*np.exp(-(z-1.04)**2/(2.*0.3**2))

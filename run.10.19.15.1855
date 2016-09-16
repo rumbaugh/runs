@@ -1,0 +1,34 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+declare -a cid=(2227+2452 3181+4987 927+1708)
+declare -a cida=(2227 3181 927)
+declare -a cidb=(2452 4987 1708)
+declare -a b=(0.5-2.0 2.0-8.0 0.5-8.0)
+declare cnt=0
+
+for i in 3181+4987
+do
+cd /home/rumbaugh/Chandra/$i
+punlearn ardlib
+acis_set_ardlib acis$i.bpix.fits.gz
+ln -sf /home/rumbaugh/Chandra_ORELSE_Notes/get_chandra_phot2.pl .
+for j in 0
+do
+IFS=$'\r\n' GLOBIGNORE='*' :; XYZ=($(cat cnt2flux.conv.dat))
+cj=$(expr $j \* 2) 
+./get_chandra_phot2.pl sources.$i.full+soft+hard.srclist.dat $i acis$i.img.${b[$j]}.vig_corr.fits acis$i.expmap_${b[$j]}.fits acis$i.asol.fits ${z[$j]} ${XYZ[$cj]}
+done
+done

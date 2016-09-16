@@ -1,0 +1,151 @@
+import numpy as np
+import matplotlib.pyplot as pl
+from matplotlib.ticker import MaxNLocator
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.patches import Ellipse
+import matplotlib.cm as cm
+import time
+
+def hist2d(x, y, V=None, *args, **kwargs):
+    """
+    Plot a 2-D histogram of samples.
+
+    """
+    ax = kwargs.pop("ax", pl.gca())
+
+    extent = kwargs.pop("extent", [[x.min(), x.max()], [y.min(), y.max()]])
+    bins = kwargs.pop("bins", 50)
+    color = kwargs.pop("color", "k")
+    linewidths = kwargs.pop("linewidths", None)
+    plot_datapoints = kwargs.get("plot_datapoints", True)
+    plot_contours = kwargs.get("plot_contours", True)
+
+    cmap = cm.get_cmap("gray")
+    cmap._init()
+    cmap._lut[:-3, :-1] = 0.
+    cmap._lut[:-3, -1] = np.linspace(1, 0, cmap.N)
+
+    X = np.linspace(extent[0][0], extent[0][1], bins + 1)
+    Y = np.linspace(extent[1][0], extent[1][1], bins + 1)
+    try:
+        H, X, Y = np.histogram2d(x.flatten(), y.flatten(), bins=(X, Y),
+                                 weights=kwargs.get('weights', None))
+    except ValueError:
+        raise ValueError("It looks like at least one of your sample columns "
+                         "have no dynamic range. You could try using the "
+                         "`extent` argument.")
+    if V == None: V = 1.0 - np.exp(-0.5 * np.arange(0.5, 2.1, 0.5) ** 2)
+    Hflat = H.flatten()
+    inds = np.argsort(Hflat)[::-1]
+    Hflat = Hflat[inds]
+    sm = np.cumsum(Hflat)
+    sm /= sm[-1]
+
+    for i, v0 in enumerate(V):
+        try:
+            V[i] = Hflat[sm <= v0][-1]
+        except:
+            V[i] = Hflat[0]
+
+    X1, Y1 = 0.5 * (X[1:] + X[:-1]), 0.5 * (Y[1:] + Y[:-1])
+    X, Y = X[:-1], Y[:-1]
+
+    if plot_datapoints:
+        ax.plot(x, y, "o", color=color, ms=1.5, zorder=-1, alpha=0.1,
+                rasterized=True)
+        if plot_contours:
+            ax.contourf(X1, Y1, H.T, [V[-1], H.max()],
+                        cmap=LinearSegmentedColormap.from_list("cmap",
+                                                               ([1] * 3,
+                                                                [1] * 3),
+                        N=2), antialiased=False)
+
+    if plot_contours:
+        ax.pcolor(X, Y, H.max() - H.T, cmap=cmap)
+        ax.contour(X1, Y1, H.T, V, colors=color, linewidths=linewidths)
+
+    data = np.vstack([x, y])
+    mu = np.mean(data, axis=1)
+    cov = np.cov(data)
+    if kwargs.pop("plot_ellipse", False):
+        error_ellipse(mu, cov, ax=ax, edgecolor="r", ls="dashed")
+
+    ax.set_xlim(extent[0])
+    ax.set_ylim(extent[1])
+
+def animate_TimeBombs(pair,data_path='./TimeBombsData/',loop=1,delay=0.2,plot_subset=None,plot_range=()):
+    #Creates an animation of TimeBombs results using matplotlib.
+    #Shows individual image lightcurves and the time delay and
+    #magnification for the posterior sample.
+    #Parameters:
+    #   pair - integer indicating which set of simulated curves to
+    #          plot. Must be one of 3,4,5,6,7,8,10,11,12,13,14,15,16,17,20
+    #
+    #   data_path - Path to data.
+    #
+    #   loop - Number of times to loop animation. 0 will loop
+    #          indefinitely, so you will need to kill process.
+    #
+    #   delay - Delay in seconds between each frame
+    #
+    #   plot_subset - Array of indices indicating subset of 
+    #          posterior subset to include in animation. The 
+    #          default input of None will plot all
+    #
+    #   plot_range - Tuple indicating range of indices of 
+    #          posterior sample to plot. Supersedes plot_subset
+    #          when set. Default value of () will plot all.
+
+    truth_values = np.loadtxt('%stestlightcurve_truthvalues.dat'%data_path)
+    axes_limit_values = np.loadtxt('%stestlightcurve_plotvalues.dat'%data_path)
+    axes_pair_index = np.where(axes_limit_values[:,0]==pair)[0][0]
+    tau_lims,mu_lims = (axes_limit_values[axes_pair_index][1],axes_limit_values[axes_pair_index][2]),(axes_limit_values[axes_pair_index][3],axes_limit_values[axes_pair_index][4])
+    tau_truth,mu_truth = truth_values[:,0][pair-1],truth_values[:,1][pair-1]
+    Data=np.loadtxt('%stestlightcurve_%i.tau_%.2f.mu_%.3f.dat'%(data_path,pair,tau_truth,mu_truth))
+    Posterior=np.loadtxt('%sposterior.testlightcurve_%i.tau_%.2f.mu_%.3f.dat'%(data_path,pair,tau_truth,mu_truth))
+
+    taus,mus = np.copy(Posterior[:,1]),np.copy(Posterior[:,2])
+    mus[taus<0]=1./mus[taus<0]
+    taus[taus<0]*=-1
+
+    slen = 110
+    time_lim=(215,555)
+
+    for i in range(0,np.shape(Posterior)[0]):
+        pl.figure(1,figsize=(8,10))
+        pl.clf()
+        lc1 = Posterior[i][-2*slen:-slen]
+        lct = Posterior[i][-slen:]
+        lc2 = lct-lc1
+        mu = Posterior[i][2]
+        tau = Posterior[i][1]
+        if ((mu > 1) | (tau<0)): lc1,lc2=lc2,lc1
+
+        pl.subplot(211)
+        pl.rc('axes',linewidth=2)
+        pl.fontsize = 14
+        pl.tick_params(which='major',length=8,width=2,labelsize=14)
+        pl.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+        
+        hist2d(taus,mus,V=np.array([0.682689,0.9545,0.9973]),extent=[[tau_lims[0],tau_lims[1]],[mu_lims[0],mu_lims[1]]])
+        pl.scatter(taus[i],mus[i],marker='+',s=300,lw=3,color='red')
+        pl.xlim(tau_lims)
+        pl.ylim(mu_lims)
+        
+
+        pl.subplot(212)
+        pl.rc('axes',linewidth=2)
+        pl.fontsize = 14
+        pl.tick_params(which='major',length=8,width=2,labelsize=14)
+        pl.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+        pl.plot(Data[:,0],lc1,color='red',lw=1)
+        pl.plot(Data[:,0],lc2,color='blue',lw=1)
+    #plot(np.arange(len(lc2_th))-tau/3.,lc2_th,color='green',lw=1)
+        pl.scatter(Data[:,0],Data[:,1],color='cyan',lw=2,s=16)
+        pl.xlim(time_lim)
+        pl.ylim(-5,1.1*np.max(Data[:,1]))
+        
+        pl.draw()
+        time.sleep(delay)
+    if loop == 0: animate_loop(pair,data_path,0,delay,plot_subset,plot_range)
+    elif loop > 1: animate_loop(pair,data_path,loop-1,delay,plot_subset,plot_range)

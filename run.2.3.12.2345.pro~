@@ -1,0 +1,24 @@
+
+names = ['548','4936']
+
+ readcol, "sources.Cl1604.soft.1e6.b1.1-16.wexp20.xsradecsigncnts.hdat", RAs, RAn, DECs, DECn, ss, sn,ncnts_s, ncnts_n, xsxs, xsxn, xsys, xsyn,  format='D,D,D,D,D,D,D,D,D,D,D,D'
+
+ sig = dblarr(2,n_elements(ras))
+ ra = dblarr(2,n_elements(ras))
+ dec = dblarr(2,n_elements(ras))
+ ra_out = dblarr(n_elements(ras))
+ dec_out = dblarr(n_elements(ras))
+
+ sig[0,*] = ss  &  sig[1,*] = sn
+ ra[0,*] = ras  &  ra[1,*] = ran 
+ dec[0,*] = decs  &  dec[1,*] = decn 
+
+ openw, 1, "sources.Cl1604.soft.dat"
+ for i=0, n_elements(ras)-1 do begin &$ 
+     g = where(sig[*,i] eq max(sig[*,i]))  &$
+     ra_out[i] = ra[g,i]  &$
+     dec_out[i] = dec[g,i]  &$
+     cnts = ncnts_s[i] + ncnts_n[i] &$
+     printf,1, ra_out[i], dec_out[i], sig[g,i], cnts &$
+ endfor
+ close, 1

@@ -1,0 +1,5 @@
+import numpy as np
+import os
+
+band = ['F390W','F555W','F814W']
+infiles = [

@@ -1,0 +1,3 @@
+import numpy as np
+
+imdict={'cl1324_south': 'sc1322_1i_shift_norm.fits', 'cl1324_north': 'sc1322_2i_shift_norm.fits', 

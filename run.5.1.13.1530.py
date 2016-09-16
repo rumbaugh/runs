@@ -1,0 +1,51 @@
+import numpy as np
+import os
+
+indir = "/local/rumbaugh/LRIS/2011_01/Raw/"
+outdir = "/local/rumbaugh/LRIS/2011_01/reduced/"
+files_dict = {'1131m3': {'prefix': '110106_', \
+'blue': {'arc': 264, 'flat': 263, 'images': np.array([261,262,265,266,267])}, \
+'red': {'arc': 257, 'flat': 256, 'images': np.array([254,255,258,259,260])}}, \
+'1131m4': {'prefix': '110106_', \
+'blue': {'arc': 273, 'flat': 272, 'images': np.array([270,271,274,275,276])}, \
+'red': {'arc': 264, 'flat': 263, 'images': np.array([261,262,265,266,267])}}, \
+'Feige110': {'prefix': '110106_', \
+'blue': {'arc': 229, 'arcarray': np.array([228,229]), 'flat': 230, 'flatarray': np.array([227,230]), 'images': np.array([226,231]), \
+'slit': [125,230,'top'], 'slit_dict': {226: [140,210], 231: [125,230]}}, \
+'red': {'arc': 225, 'arcarray': np.array([224,225]), 'flat': 226, 'flatarray': np.array([223,226]), 'images': np.array([222,227]), \
+'slit': [100,205,'top'], 'slit_dict': {222: [100,150], 231: [125,205]}}}, \
+'Feige110_1': {'prefix': '110106_', \
+'blue': {'arc': 228, 'flat': 227, 'images': np.array([226]), 'slit': [140,210,'top']}, \
+'red': {'arc': 224, 'flat': 223, 'images': np.array([222]), 'slit': [100,150,'top']}}, \
+'Feige110_2': {'prefix': '110106_', \
+'blue': {'arc': 229, 'flat': 230, 'images': np.array([231]), 'slit': [125,230,'top']}, \
+'red': {'arc': 225, 'flat': 226, 'images': np.array([227]), 'slit': [125,205,'top']}},\
+'AGY_GRB_SN': {'prefix': '110106_', \
+'blue': {'arc': 234, 'flat': 233, 'images': np.array([232]), 'slit': [220,250,'top']}, \
+'red': {'arc': 230, 'flat': 229, 'images': np.array([228]), 'slit': [175,205,'top']}}, \
+'HE0435-1223_1': {'prefix': '110106_', \
+'blue': {'arc': 239, 'arcarray': np.array([238,239]), 'flat': 237, 'images': np.array([235,236,240,241]), 'slit': [155,215,'top']},\
+'red': {'arc': 234, 'flat': 233, 'images': np.array([231,232,235,236]), 'slit': [125,285,'top']}},\
+'HE0435-1223_2': {'prefix': '110106_', \
+'blue': {'arc': 245, 'flat': 244, 'images': np.array([242,243,246,247,248]), 'slit': [155,215,'top']},\
+'red': {'arc': 240, 'flat': 239, 'images': np.array([237,238,241,242,243]),  'slit': [125,285,'top']}},\
+'0435_slit1': {'prefix': '110106_', \
+'blue': {'arc': 253, 'flat': 252, 'images': np.array([249,250,251])}, \
+'red': {'arc': 248, 'flat': 247, 'images': np.array([244,245,246])}}, \
+'0435_slit2': {'prefix': '110106_', \
+'blue': {'arc': 254, 'flat': 255, 'images': np.array([256,257,258])}, \
+'red': {'arc': 249, 'flat': 250, 'images': np.array([251,252,253])}}, \
+}
+
+for mask in ['1131m3','1131m4']:
+    for color in ['red','blue']:
+        for side in ['top','bottom']:
+            FILE = open('swarpinputlist_tmp.lst','w')
+            FILE2 = open('swarpinweights_tmp.lst','w')
+            for img in files_dict[mask][color]['images']:
+                FILE.write('%s%s_%s_%s_%i_bgsub.fits\n'%(outdir,mask,color,side,img))
+                FILE2.write('%s%s_%s_%s_%i_var.fits\n'%(outdir,mask,color,side,img))
+            FILE.close()
+            FILE2.close()
+            os.system("swarp @swarpinputlist_tmp.lst -IMAGEOUT_NAME '%s%s_%s_%s_coadd_bgsub.fits' -WEIGHTOUT_NAME '%s%s_%s_%s_coadd_bgsub.weight.fits -WEIGHT_IMAGE @swarpinweights_tmp.lst"%(outdir,mask,color,side,outdir,mask,color,side))
+            

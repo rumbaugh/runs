@@ -1,0 +1,4 @@
+set_dirs
+set_plot,'PS'
+loadct,13
+device,file='/home/rumbaugh/control.anal.plot.2.24.11.ps'

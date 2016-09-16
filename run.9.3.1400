@@ -1,0 +1,67 @@
+set z = (soft hard full)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nh = 0.0279
+set zr = (0.5,2.0 2.0,8.0)
+set zr2 = (0.5,2.0 2.0,10.0)
+
+set pbk = `ls *pbk*`
+set time = `dmkeypar acis7914.evt2.500-2000.fits LIVETIME echo+`
+foreach j (1 2)
+dmstat acis7914.expmap_$z[$j].fits centroid=yes verbose=0
+set maxcen = `pget dmstat out_max_loc`
+specextract infile="acis7914.evt2.$n[$j].fits[sky=circle($maxcen,20)]" outroot=spec_7914_$z[$j] grouptype=NUM_CTS binspec=15 pbkfile ="$pbk" energy_wmap=$nn[$j] clob+
+echo '\nload_pha("spec_'7914'_'$z[$j]'_grp.pi")\nrmf1 = unpack_rmf("spec_'7914'_'$z[$j]'.wrmf")\nset_rmf(rmf1)\narf1 = unpack_arf("spec_'7914'_'$z[$j]'.warf")\nset_arf(arf1)\nignore()\nnotice('$zr2[$j]')\nparamprompt()\nset_model(powlaw1d.pl*xswabs.abs1)\npl.gamma = 1.4\nabs1.nh = '$nh'\nfreeze(abs1.nh)\ntime = '$time'\nfake_pha(1,arf1,rmf1,time)\nmcnt = calc_model_sum('$zr[$j]')\npl.ampl = 1.0/mcnt\nfreeze(pl.ampl)\nfake_pha(1,arf1,rmf1,time)\neflx = calc_energy_flux('$zr[$j]')\nmcnt2 = calc_model_sum('$zr[$j]')\nabs1.nh = 0.0\nfake_pha(1,arf1,rmf1,time)\neflx2 = calc_energy_flux('$zr[$j]')\ncnt2flux = time*eflx2\nprint "Count rate to unabsorbed flux conversion: " + str(cnt2flux)\neflx3=calc_energy_flux('$zr2[$j]')\nprint "Count rate to unabsorbed flux conversion: " + str(cnt2flux*eflx3/eflx2)\nquit\n' > sherpastart
+sherpa sherpastart
+rm sherpastart
+
+set RA = `dmkeypar acis7914.evt2.500-2000.fits RA_PNT echo+`
+set DEC = `dmkeypar acis7914.evt2.500-2000.fits DEC_PNT echo+`
+mv sources.* sources/.
+cd sources
+foreach j (1 2 3)
+ dmlist "sources.7914.$z[$j].fits[cols RA, DEC, SRC_SIGNIFICANCE]" data,clean > sources.7914.$z[$j].1e6.b1.1-16.wexp20.radecsig.dat
+lc -C -I -n RA -n DEC -n sig < sources.7914.$z[$j].1e6.b1.1-16.wexp20.radecsig.dat > sources.7914.$z[$j].1e6.b1.1-16.wexp20.radecsig.cat
+getxsfromradec $RA $DEC < sources.7914.$z[$j].1e6.b1.1-16.wexp20.radecsig.cat > sources.7914.$z[$j].1e6.b1.1-16.wexp20.xsradecsig.cat
+end
+mergecats -x xs -n 1 -m 0.0015 sources.7914.full.1e6.b1.1-16.wexp20.xsradecsig.cat sources.7914.soft.1e6.b1.1-16.wexp20.xsradecsig.cat sources.7914.hard.1e6.b1.1-16.wexp20.xsradecsig.cat > sources.7914.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsig.cat
+lc -O < sources.7914.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsig.cat > sources.7914.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsig.hdat
+
+idl
+set_dirs
+ readcol, "sources.7914.full+soft+hard.1e6.b1.1-16.wexp20.xsradecsig.hdat", mask, RAf, RAs, RAh, DECf, DECs, DECh, sf, ss, sh, xsxf, xsxs, xsxh, xsyf, xsys, xsyh,  format='I,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D'
+
+ sig = dblarr(3,n_elements(ras))
+ ra = dblarr(3,n_elements(ras))
+ dec = dblarr(3,n_elements(ras))
+ ra_out = dblarr(n_elements(ras))
+ dec_out = dblarr(n_elements(ras))
+
+ sig[0,*] = sf  &  sig[1,*] = ss  &  sig[2,*] = sh  
+ ra[0,*] = raf  &  ra[1,*] = ras  &  ra[2,*] = rah  
+ dec[0,*] = decf  &  dec[1,*] = decs  &  dec[2,*] = dech  
+
+ openw, 1, "sources.7914.full+soft+hard.srclist.dat"
+ for i=0, n_elements(ras)-1 do begin &$ 
+     g = where(sig[*,i] eq max(sig[*,i]))  &$
+     ra_out[i] = ra[g,i]  &$
+     dec_out[i] = dec[g,i]  &$
+     printf,1, ra_out[i], dec_out[i], mask[i], sf[i],ss[i],sh[i], g, format='(%"%13.7F %13.7F %3I %7.2F %7.2F %7.2F %2I")' &$
+ endfor
+ close, 1
+
+exit
+cd ..
+
+
+foreach i (1 2 3)
+set emax = `stats -v max < acis7914.expmap_$z[$i].fits`
+rm acis7914.img.$n[$i]*vig*
+dmimgcalc infile="acis7914.img.$n[$i].fits" infile2="acis7914.expmap_$z[$i].fits" outfile="acis7914.img.$n[$i].vig_corr.fits" operation=div weight=$emax clob+
+end
+
+
+./get_chandra_phot2.pl ./sources/sources.7914.full+soft+hard.srclist.dat 7914 acis7914.img.500-2000.vig_corr.fits acis7914.expmap_soft.fits acis7914.asol.fits soft 0.00000000000636569734274
+./get_chandra_phot2.pl ./sources/sources.7914.full+soft+hard.srclist.dat 7914 acis7914.img.2000-8000.vig_corr.fits acis7914.expmap_hard.fits acis7914.asol.fits hard 0.0000000000222524348045
+
+

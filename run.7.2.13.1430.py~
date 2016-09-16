@@ -1,0 +1,4 @@
+execfile('/mnt/data2/rumbaugh/LRIS/2011_01/Scripts/split_off_slits.py')
+
+masks = ['0414m3']
+split_off_slits(masks,colors=['blue','red'],sides=['top','bottom'])

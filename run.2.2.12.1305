@@ -1,0 +1,4 @@
+foreach i (5 6 7 8 9)
+sherpa -b /home/rumbaugh/runs/run.2.1.12.2145.py
+end
+

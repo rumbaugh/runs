@@ -1,0 +1,15 @@
+IFS=$'\r\n' GLOBIGNORE='*' :; XYZ=($(cat /home/rumbaugh/speccats.lis))
+
+declare -a IFS=(FINAL.cl1322.lrisplusdeimos.feb2016.nodups.cat FINAL.spectroscopic.autocompile.blemaux.RCS0224.apr2012.nodups.cat FINAL.nep5281.deimos.gioia.aug2013.nodups.cat FINAL.spectroscopic.autocompile.blemaux.RXJ1053.feb2016.nodups.cat FINAL.onlysemifinal.autocompile.blemaux.0849.feb2013.nodups.cat FINAL.spectroscopic.autocompile.blemaux.RXJ1221.apr2012.nodups.cat FINAL.semifinal.spectroscopic.autocompile.blemaux.XL005.targetsonly.apr2014.cat  FINAL.spectroscopic.autocompile.blemaux.RXJ1221.dec2015.nodups.cat FINAL.SG0023.deimos.lris.feb2012.nodups.cat FINAL.spectroscopic.autocompile.blemaux.RXJ1716.jul2015.nodups.cat FINAL.spectra.sc1604.wcompletenessmasks.feb2012.nodups.cat FINAL.spectroscopic.autocompile.blemaux.sc0910.feb2016.plusT08.nodups.cat FINAL.spectroscopic.autocompile.blemaux.1350.dec2015.nodups.cat FINAL.spectroscopic.autocompile.N200.blemaux.aug2013.nodups.cat FINAL.spectroscopic.autocompile.blemaux.1429.may2015.nodups.cat spectroscopic.autocompile.blemaux.0943A.targetsonly.cat FINAL.spectroscopic.autocompile.blemaux.N2560.apr2012.nodups.cat spectroscopic.autocompile.blemaux.1137.1137Ctmp.may2015.cat)
+
+cd /home/rumbaugh/git/ORELSE/Catalogs/Spec_z
+rm /home/rumbaugh/tmpsed.txt
+
+for i in ${IFS[@]}
+do
+echo $i
+cp $i /home/rumbaugh/tmpsed.txt
+sed ':a;N;$!ba;s/\n/ -\n/g'  $i > /home/rumbaugh/tmpsed.txt
+sed -i.bck '$s/$/ -/' /home/rumbaugh/tmpsed.txt
+cp /home/rumbaugh/tmpsed.txt $i
+done

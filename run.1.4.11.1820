@@ -1,0 +1,13 @@
+ciao
+cd /home/rumbaugh/COSMOS/test
+foreach i (10845 10984 21 4472 4485 4510 49899 616 7246 7421 9922)
+cd /home/rumbaugh/COSMOS/test/$i
+cd regions
+mkBgRegScript sources.$i.soft.1e6.b1.1-16.wexp20.mod.reg 2 bkg.$i.soft.reg
+mkSubSuperBgRegScript sources.$i.soft.1e6.b1.1-16.wexp20.mod.reg bkg.$i.soft.reg bkg_sub.$i.soft.reg
+cd ..
+dmfilth infile=acis$i.img.500-2000.fits outfile=acis$i.img.500-2000.nops.fits method=POISSON srclist=@./regions/sources.$i.soft.1e6.b1.1-16.wexp20.mod.reg bkglist=@./regions/bkg_sub.$i.soft.reg randseed=0 clob+
+foreach j (18.83 27.27 35.1)
+aconvolve acis$i.img.500-2000.nops.fits conv.beta.1.4.11.r_$j.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_$j.fits" edges=wrap method=fft clob+
+end
+end

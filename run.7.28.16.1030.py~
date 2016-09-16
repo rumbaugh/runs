@@ -1,0 +1,12 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+execfile('/home/rumbaugh/setup_adam_cats.py')
+rkeys=np.array(reffile_dict.keys())
+for field in rkeys:
+    try:
+        crPI=np.loadtxt('/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/%s.P_inclus.7.19.16.dat'%(field,field,field))
+    except:
+        crPI=np.loadtxt('/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/%s.P_inclus.7.1.16.dat'%(field,field,field))
+    try:
+        crPIs=np.loadtxt('/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/%s/proc/%s/%s.P_inclus_shift.7.26.16.dat'%(field,field,field))

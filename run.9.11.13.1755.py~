@@ -1,0 +1,7 @@
+import numpy as np
+import matplotlib.pylab as plt
+
+execfile("/home/rumbaugh/Load1938.py")
+CSOdict,timedict = Load1938(returnCSOs=True)
+for CSO in CSOdict:
+    

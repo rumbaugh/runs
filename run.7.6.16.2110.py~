@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+crall=np.loadtxt('/home/rumbaugh/Chandra/color-color_all.7.6.16.dat',dtype={'names':('field','ID','RA','Dec','redshift','mU','mV','mJ','U-V','V-J','color_offset','in_structure'),'formats':('|S24','|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8')})
+crAGN=np.loadtxt('/home/rumbaugh/Chandra/color-color_AGN.7.6.16.dat',dtype={'names':('field','ID','RA','Dec','lS','lH','lF','redshift','mU','mV','mJ','U-V','V-J','color_offset','in_structure'),'formats':('|S24','|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8')})
+
+opcoeff=1
+
+opall,opAGN=1-np.abs(crall['color_offset']*opcoeff),1-np.abs(crAGN['color_offset']*opcoeff)
+opall[opall<0],opAGN[opAGN<0]=0,0
+
+
+plt.figure(1)
+plt.clf()
+plt.rc('axes',linewidth=2)
+plt.fontsize = 14
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+for i in range(0,len(opall)): plt.scatter([crall['V-J'][i]],[crall['U-V'][i]],alpha=opall[i],color='b',s=4)
+for i in range(0,len(opAGN)): plt.scatter([crAGN['V-J'][i]],[crAGN['U-V'][i]],alpha=opAGN[i],color='r',s=44)
+
+UV0,VJ0=1.3,1.6
+UV1,VJ1=0.88*VJ0+0.59,(UV0-0.59)/0.88
+plt.xlim(-1,2.5)
+plt.ylim(0,2.5)
+xlim=plt.xlim()
+ylim=plt.ylim()
+
+xdummy=np.linspace(VJ1,VJ0,10)
+plt.plot(xdummy,0.88*xdummy+0.59,color='k',ls='dashed',lw=2)
+plt.axhline(UV0,xmax=(VJ1-xlim[0])/(xlim[1]-xlim[0]),color='k',ls='dashed',lw=2)
+plt.axvline(VJ0,ymin=(UV1-ylim[0])/(ylim[1]-ylim[0]),color='k',ls='dashed',lw=2)
+plt.xlim(xlim)
+plt.ylim(ylim)
+plt.xlabel('V-J')
+plt.ylabel('U-V')
+plt.savefig('/home/rumbaugh/Chandra/plots/optest.color-color_plot.V-J_vs_U-V.7.6.16.png')
+
+

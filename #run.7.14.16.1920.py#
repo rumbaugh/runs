@@ -1,0 +1,122 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+cr=np.loadtxt('/home/rumbaugh/Chandra/coadds.allORELSE.mostly.magcut.EWnD4000.winfillcorrHd.cat',dtype={'names':('field','file','z','OII','OIIerr','Hd','Hderr','D4000','D4000err','Hdcorr'),'formats':('|S12','|S64','f8','f8','f8','f8','f8','f8','f8','f8')})
+cr=cr[cr['field']!='Cl1137']
+
+brian_dir={"RCS0224":"rcs0224","SC0849":"cl0849","SC0910":"rxj0910","RXJ1221":"rxj1221","Cl1350":"cl1350","NEP200":"rxj1757","SG0023":"cl0023","SC1324":'cl1324',"NEP5281":"rxj1821","Cl1137":"cl1137","RXJ1716":"rxj1716","RXJ1053":"rxj1053","SC1604":"cl1604","RXJ1821":"rxj1821","RXJ1757":"rxj1757"}
+
+target_dir={"RCS0224":"rcs0224","Cl0849":"cl0849","RXJ0910":"rxj0910","RXJ1221":"rxj1221","Cl1350":"cl1350","RXJ1757":"rxj1757","SG0023":"cl0023","SC1324":'cl1324',"RXJ1821":"rxj1821","Cl1137":"cl1137","RXJ1716":"rxj1716","RXJ1053":"rxj1053","SC1604":"cl1604"}
+namearr={target_dir[x]: x for x in target_dir.keys()}
+
+plt.figure(1)
+plt.clf()
+plt.rc('axes',linewidth=2)
+plt.fontsize = 14
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+plt.errorbar(cr['OII'],cr['Hd'],xerr=cr['OIIerr'],yerr=cr['Hderr'],color='r',fmt='ro',lw=2,capsize=3,mew=1)
+plt.scatter(cr['OII'],cr['Hd'],color='r',s=32)
+xlim=plt.xlim()
+xrng=xlim[1]-xlim[0]
+plt.xlim(xlim[1],xlim[0])
+for i in range(0,len(cr['OII'])): plt.text(cr['OII'][i]-xrng/50.,cr['Hd'][i],namearr[brian_dir[cr['field'][i]]],color='b')
+plt.axvline(-4,lw=2,color='k',ls='dashed')
+plt.xlabel('EW(OII) (angstroms)')
+plt.ylabel(r'EW(H$\delta$) (angstroms)')
+#plt.savefig('/home/rumbaugh/Chandra/plots/coadds.OII_vs_Hd.png')
+
+
+
+plt.figure(1)
+plt.clf()
+plt.rc('axes',linewidth=2)
+plt.fontsize = 14
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+plt.errorbar(cr['D4000'],cr['Hd'],xerr=cr['D4000err'],yerr=cr['Hderr'],color='r',fmt='ro',lw=2,capsize=3,mew=1)
+plt.scatter(cr['D4000'],cr['Hd'],color='r',s=32)
+xlim=plt.xlim()
+xrng=xlim[1]-xlim[0]
+for i in range(0,len(cr['D4000'])): plt.text(cr['D4000'][i]+xrng/50.,cr['Hd'][i],namearr[brian_dir[cr['field'][i]]],color='b')
+plt.xlabel('D(4000)')
+plt.ylabel(r'EW(H$\delta$) (angstroms)')
+#plt.savefig('/home/rumbaugh/Chandra/plots/coadds.D4000_vs_Hd.png')
+
+
+gotoX=-np.array([0,1,2,4,5,6,7,10,12,20,25,37.5])
+gotoY=np.array([0.6,1,1.4,1.9,2.1,2.2,2.3,2.55,2.65,2.8,2.75,2.55])
+
+
+plt.figure(1)
+plt.clf()
+plt.rc('axes',linewidth=2)
+plt.fontsize = 14
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+
+
+gotoX=-np.array([0,1,2,4,5,6,7,10,12,20,25,37.5])
+gotoY=np.array([0.6,1,1.4,1.9,2.1,2.2,2.3,2.55,2.65,2.8,2.75,2.55])
+
+plt.plot(gotoX,gotoY+2,color='k',lw=2,ls='dashed')
+plt.plot(gotoX,gotoY-2,color='k',lw=2,ls='dashed')
+plt.axvline(-4,lw=2,color='k')
+
+plt.errorbar(cr['OII'],cr['Hdcorr'],xerr=cr['OIIerr'],yerr=cr['Hderr'],color='r',fmt='ro',lw=2,capsize=3,mew=1)
+plt.scatter(cr['OII'],cr['Hdcorr'],color='r',s=32)
+
+plt.xlim(-1,-14)
+plt.ylim(0,6.5)
+
+xlim=plt.xlim()
+xrng=xlim[1]-xlim[0]
+#plt.xlim(xlim[1],xlim[0])
+for i in range(0,len(cr['OII'])): 
+    if cr['field'][i]=='Cl1350': 
+        plt.text(cr['OII'][i]+xrng/90.,cr['Hdcorr'][i]-0.15,namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='NEP200': 
+        plt.text(cr['OII'][i]-xrng/90.,cr['Hdcorr'][i]+0.115,namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='NEP5281': 
+        plt.text(cr['OII'][i]+xrng/80.,cr['Hdcorr'][i],namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='RCS0224': 
+        plt.text(cr['OII'][i]+xrng/60.,cr['Hdcorr'][i]-0.05,namearr[brian_dir[cr['field'][i]]],color='b')
+    else:
+        plt.text(cr['OII'][i]+xrng/50.,cr['Hdcorr'][i],namearr[brian_dir[cr['field'][i]]],color='b')
+plt.xlabel('EW(OII) (angstroms)')
+plt.ylabel(r'EW(H$\delta$) (angstroms)')
+plt.savefig('/home/rumbaugh/Chandra/plots/coadds.OII_vs_Hdcorr.png')
+
+
+plt.clf()
+execfile('/home/rumbaugh/runs/run.7.14.16.1845.py')
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+plt.errorbar(cr['D4000'],cr['Hdcorr'],xerr=cr['D4000err'],yerr=cr['Hderr'],color='r',fmt='ro',lw=2,capsize=3,mew=1)
+plt.scatter(cr['D4000'],cr['Hdcorr'],color='r',s=32)
+xlim=plt.xlim()
+xrng=xlim[1]-xlim[0]
+for i in range(0,len(cr['D4000'])): 
+    if cr['field'][i]=='Cl1350': 
+        plt.text(cr['D4000'][i]+xrng/90.,cr['Hdcorr'][i]-0.05,namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='SG0023': 
+        plt.text(cr['D4000'][i]-xrng/20.,cr['Hdcorr'][i]+0.24,namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='RXJ1053': 
+        plt.text(cr['D4000'][i]-xrng/30.,cr['Hdcorr'][i]+0.17,namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='SC0849': 
+        plt.text(cr['D4000'][i]+xrng/50.,cr['Hdcorr'][i],namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='SC0910': 
+        plt.text(cr['D4000'][i]+xrng/60.,cr['Hdcorr'][i],namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='NEP5281': 
+        plt.text(cr['D4000'][i]-xrng/12.,cr['Hdcorr'][i]-0.45,namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='NEP200': 
+        plt.text(cr['D4000'][i]-xrng/8.5,cr['Hdcorr'][i],namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='SC1324': 
+        plt.text(cr['D4000'][i]-xrng/9.5,cr['Hdcorr'][i]+0.12,namearr[brian_dir[cr['field'][i]]],color='b')
+    elif cr['field'][i]=='RXJ1716': 
+        plt.text(cr['D4000'][i]+xrng/50.,cr['Hdcorr'][i]-0.25,namearr[brian_dir[cr['field'][i]]],color='b')
+    else:
+        plt.text(cr['D4000'][i]-xrng/20.,cr['Hdcorr'][i]-0.45,namearr[brian_dir[cr['field'][i]]],color='b')
+plt.xlabel('D(4000)')
+plt.ylabel(r'EW(H$\delta$) (angstroms)')
+plt.savefig('/home/rumbaugh/Chandra/plots/coadds.D4000_vs_Hdcorr.png')

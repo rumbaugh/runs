@@ -1,0 +1,509 @@
+! Started logfile: difmap.log on Mon Aug 20 17:41:14 2012
+!obs 'LateSB1_9.7.16.11.11A-138.B1938+666.uvfits'
+! observe: File "'LateSB1_9.7.16.11.11A-138.B1938+666.uvfits'" does not exist
+! Error occured in command: observe
+! 
+obs LateSB1_9.7.16.11.11A-138.B1938+666.uvfits
+! Reading UV FITS file: LateSB1_9.7.16.11.11A-138.B1938+666.uvfits
+! AN table 1: 76 integrations on 378 of 378 possible baselines.
+! Apparent sampling: 1 visibilities/baseline/integration-bin.
+! Found source: B1938+666
+! 
+! There are 2 IFs, and a total of 2 channels:
+! 
+!  IF  Channel    Frequency  Freq offset  Number of   Overall IF
+!       origin    at origin  per channel   channels    bandwidth
+!  ------------------------------------------------------------- (Hz)
+!  01        1    8.395e+09      9.6e+07          1      9.6e+07
+!  02        2    8.523e+09      9.6e+07          1      9.6e+07
+! 
+! Polarization(s): RR LL RL LR
+! 
+! Read 1 lines of history.
+! 
+! Reading 229824 visibilities.
+select I
+! Selecting polarization: I,  channels: 1..2
+! Reading IF 1 channels: 1..1
+! Reading IF 2 channels: 2..2
+!mapunits arcsecs
+! Map unit name "arcsecs" not recognised.
+! Error occured in command: mapunits
+! 
+mapunits arcsec
+! Distances in the map plane now have units: arcsec.
+! Distances in the UV plane now have units: kilo-wavelengths.
+mapsize 512,0.05
+! Map grid = 512x512 pixels with 0.0500x0.0500 arcsec cellsize.
+mapl
+! Inverting map and beam 
+! Estimated beam: bmin=0.2161 arcsec, bmaj=0.2595 arcsec, bpa=4.99 degrees
+! Estimated noise=46.3019 mJy/beam.
+! 
+! Move the cursor into the plot window and press 'H' for help
+addcmp peak(flux,max),true,peak(x,max),peak(y,max),true
+modelfit 5
+! Partitioning the model into established and variable parts.
+! The fixed established model contains 0 components (0 Jy).
+! The variable part of the model contains 1 components (0.120172 Jy).
+! There are 3 variables and 31200 usable visibilities.
+! This gives 2 x 31200 - 3 = 62397 degrees of freedom.
+! Reduced Chi-squared = Chi-squared / 62397.
+! 
+! Iteration 00: Reduced Chi-squared=5.8196783e-05  Degrees of Freedom=62397
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.120172v     960.469v     38.6598v
+! 
+! Iteration 01: Reduced Chi-squared=5.1957714e-05  Degrees of Freedom=62397
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.129974v     944.394v     38.8051v
+! 
+! Iteration 02: Reduced Chi-squared=5.1417238e-05  Degrees of Freedom=62397
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.131235v     939.488v     38.8853v
+! 
+! Iteration 03: Reduced Chi-squared=5.1345096e-05  Degrees of Freedom=62397
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.131369v     937.667v     38.9139v
+! 
+! Iteration 04: Reduced Chi-squared=5.1334828e-05  Degrees of Freedom=62397
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.131387v     936.980v     38.9248v
+! 
+! Iteration 05: Reduced Chi-squared=5.1333361e-05  Degrees of Freedom=62397
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.131390v     936.720v     38.9289v
+! 
+mapl
+! Adding 1 model components to the UV plane model.
+! The established model now contains 1 components and 0.13139 Jy
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+mapsize 256,0.05
+! Map grid = 256x256 pixels with 0.0500x0.0500 arcsec cellsize.
+mapl
+! Inverting map and beam 
+! Estimated beam: bmin=0.2049 arcsec, bmaj=0.2434 arcsec, bpa=9.457 degrees
+! Estimated noise=52.764 mJy/beam.
+! 
+! Move the cursor into the plot window and press 'H' for help
+!peakmod
+! Syntax error in line:
+! peakmod
+!       ^
+! Unable to identify keyword "peakmod"
+! 
+addcmp peak(flux,max),true,peak(x,max),peak(y,max),true
+modelfit 5
+! Partitioning the model into established and variable parts.
+! Extracting 1 model components from the UV plane model.
+! The fixed established model contains 0 components (0 Jy).
+! The variable part of the model contains 2 components (0.161843 Jy).
+! There are 6 variables and 31200 usable visibilities.
+! This gives 2 x 31200 - 6 = 62394 degrees of freedom.
+! Reduced Chi-squared = Chi-squared / 62394.
+! 
+! Iteration 00: Reduced Chi-squared=3.3785223e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.131390v     936.720v     38.9289v
+!  0.0304535v     1491.64v     50.4403v
+! 
+! Iteration 01: Reduced Chi-squared=3.2682262e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.132400v     935.802v     38.9167v
+!  0.0348030v     1490.20v     49.5655v
+! 
+! Iteration 02: Reduced Chi-squared=3.2605883e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.132372v     935.471v     38.9125v
+!  0.0355904v     1490.05v     49.3408v
+! 
+! Iteration 03: Reduced Chi-squared=3.2595799e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.132363v     935.359v     38.9115v
+!  0.0356556v     1489.89v     49.2563v
+! 
+! Iteration 04: Reduced Chi-squared=3.2594128e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.132358v     935.321v     38.9110v
+!  0.0356659v     1489.78v     49.2222v
+! 
+! Iteration 05: Reduced Chi-squared=3.2593843e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.132356v     935.308v     38.9108v
+!  0.0356679v     1489.72v     49.2082v
+! 
+mapl
+! Adding 2 model components to the UV plane model.
+! The established model now contains 2 components and 0.168024 Jy
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+!selfcal,false,false
+! Syntax error in line:
+! selfcal,false,false
+!        ^
+! Found operator: ,
+! Where an operand was expected
+! 
+selfcal false,false,60
+! Performing phase self-cal over 60 minute time intervals
+! 
+! Correcting IF 1.
+!  A total of 828 telescope corrections were flagged in sub-array 1.
+! 
+! Correcting IF 2.
+!  A total of 828 telescope corrections were flagged in sub-array 1.
+! 
+! Fit before self-cal, rms=0.047022Jy  sigma=0.005709
+! Fit after  self-cal, rms=0.044234Jy  sigma=0.005368
+mapl
+! Inverting map and beam 
+! Estimated beam: bmin=0.2049 arcsec, bmaj=0.2434 arcsec, bpa=9.457 degrees
+! Estimated noise=52.764 mJy/beam.
+! 
+! Move the cursor into the plot window and press 'H' for help
+modelfit 5
+! Partitioning the model into established and variable parts.
+! Extracting 2 model components from the UV plane model.
+! The fixed established model contains 0 components (0 Jy).
+! The variable part of the model contains 2 components (0.168024 Jy).
+! There are 6 variables and 31200 usable visibilities.
+! This gives 2 x 31200 - 6 = 62394 degrees of freedom.
+! Reduced Chi-squared = Chi-squared / 62394.
+! 
+! Iteration 00: Reduced Chi-squared=2.8822055e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.132356v     935.308v     38.9108v
+!  0.0356679v     1489.72v     49.2082v
+! 
+! Iteration 01: Reduced Chi-squared=2.8797669e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.133467v     935.277v     38.9100v
+!  0.0351363v     1490.68v     49.2188v
+! 
+! Iteration 02: Reduced Chi-squared=2.8797510e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.133470v     935.270v     38.9104v
+!  0.0351379v     1490.90v     49.2255v
+! 
+! Iteration 03: Reduced Chi-squared=2.8797490e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.133471v     935.268v     38.9105v
+!  0.0351380v     1490.96v     49.2286v
+! 
+! Iteration 04: Reduced Chi-squared=2.8797488e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.133471v     935.268v     38.9106v
+!  0.0351381v     1490.97v     49.2300v
+! 
+! Iteration 05: Reduced Chi-squared=2.8797487e-05  Degrees of Freedom=62394
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.133471v     935.267v     38.9106v
+!  0.0351381v     1490.97v     49.2305v
+! 
+mapl
+! Adding 2 model components to the UV plane model.
+! The established model now contains 2 components and 0.168609 Jy
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+addcmp peak(flux,max),true,peak(x,max),peak(y,max),true
+modelfit 5
+! Partitioning the model into established and variable parts.
+! Extracting 2 model components from the UV plane model.
+! The fixed established model contains 0 components (0 Jy).
+! The variable part of the model contains 3 components (0.190955 Jy).
+! There are 9 variables and 31200 usable visibilities.
+! This gives 2 x 31200 - 9 = 62391 degrees of freedom.
+! Reduced Chi-squared = Chi-squared / 62391.
+! 
+! Iteration 00: Reduced Chi-squared=2.2495406e-05  Degrees of Freedom=62391
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.133471v     935.267v     38.9106v
+!  0.0351381v     1490.97v     49.2305v
+!  0.0223458v     1110.18v     35.8377v
+! 
+! Iteration 01: Reduced Chi-squared=3.4257337e-05 (Increased)
+! Iteration 02: Reduced Chi-squared=3.1415394e-05 (Increased)
+! 
+! Iteration 03: Reduced Chi-squared=1.9517525e-05  Degrees of Freedom=62391
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!   0.109460v     910.177v     39.3953v
+!  0.0337009v     1504.27v     49.0703v
+!  0.0428331v     1017.87v     38.3684v
+! 
+! Iteration 04: Reduced Chi-squared=1.3079751e-05  Degrees of Freedom=62391
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0967197v     886.630v     39.7652v
+!  0.0335755v     1505.48v     49.1408v
+!  0.0603337v     1054.61v     37.0232v
+! 
+! Iteration 05: Reduced Chi-squared=1.1506561e-05  Degrees of Freedom=62391
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0909282v     874.174v     39.9347v
+!  0.0339924v     1504.15v     49.2248v
+!  0.0673587v     1024.00v     37.7593v
+! 
+mapl
+! Adding 3 model components to the UV plane model.
+! The established model now contains 3 components and 0.192279 Jy
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+addcmp peak(flux,max),true,peak(x,max),peak(y,max),true
+modelfit 5
+! Partitioning the model into established and variable parts.
+! Extracting 3 model components from the UV plane model.
+! The fixed established model contains 0 components (0 Jy).
+! The variable part of the model contains 4 components (0.202674 Jy).
+! There are 12 variables and 31200 usable visibilities.
+! This gives 2 x 31200 - 12 = 62388 degrees of freedom.
+! Reduced Chi-squared = Chi-squared / 62388.
+! 
+! Iteration 00: Reduced Chi-squared=9.7576585e-06  Degrees of Freedom=62388
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0909282v     874.174v     39.9347v
+!  0.0339924v     1504.15v     49.2248v
+!  0.0673587v     1024.00v     37.7593v
+!  0.0103944v     1209.34v     82.8750v
+! 
+! Iteration 01: Reduced Chi-squared=9.3218621e-06  Degrees of Freedom=62388
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0817517v     863.393v     40.0694v
+!  0.0327457v     1507.82v     49.2667v
+!  0.0778866v     1015.53v     37.8582v
+!  0.0112193v     1193.43v     84.2341v
+! 
+! Iteration 02: Reduced Chi-squared=9.3045713e-06  Degrees of Freedom=62388
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0812606v     861.332v     40.1015v
+!  0.0327736v     1508.10v     49.2888v
+!  0.0785051v     1015.17v     37.8595v
+!  0.0115059v     1195.84v     84.0936v
+! 
+! Iteration 03: Reduced Chi-squared=9.3044634e-06  Degrees of Freedom=62388
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0811432v     861.116v     40.1054v
+!  0.0327787v     1508.14v     49.2936v
+!  0.0786344v     1014.99v     37.8622v
+!  0.0115133v     1195.70v     84.1089v
+! 
+! Iteration 04: Reduced Chi-squared=9.3044601e-06  Degrees of Freedom=62388
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0811179v     861.079v     40.1061v
+!  0.0327792v     1508.14v     49.2946v
+!  0.0786602v     1014.95v     37.8626v
+!  0.0115138v     1195.71v     84.1088v
+! 
+! Iteration 05: Reduced Chi-squared=9.3044600e-06  Degrees of Freedom=62388
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0811130v     861.072v     40.1063v
+!  0.0327794v     1508.15v     49.2949v
+!  0.0786651v     1014.94v     37.8627v
+!  0.0115139v     1195.71v     84.1089v
+! 
+mapl
+! Adding 4 model components to the UV plane model.
+! The established model now contains 4 components and 0.204071 Jy
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+addcmp peak(flux,max),true,peak(x,max),peak(y,max),true
+modelfit 5
+! Partitioning the model into established and variable parts.
+! Extracting 4 model components from the UV plane model.
+! The fixed established model contains 0 components (0 Jy).
+! The variable part of the model contains 5 components (0.21102 Jy).
+! There are 15 variables and 31200 usable visibilities.
+! This gives 2 x 31200 - 15 = 62385 degrees of freedom.
+! Reduced Chi-squared = Chi-squared / 62385.
+! 
+! Iteration 00: Reduced Chi-squared=8.4484667e-06  Degrees of Freedom=62385
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0811130v     861.072v     40.1063v
+!  0.0327794v     1508.15v     49.2949v
+!  0.0786651v     1014.94v     37.8627v
+!  0.0115139v     1195.71v     84.1089v
+! 0.00694815v     1382.93v     40.6013v
+! 
+! Iteration 01: Reduced Chi-squared=8.2952372e-06  Degrees of Freedom=62385
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0783803v     861.184v     40.0188v
+!  0.0318716v     1507.79v     49.4471v
+!  0.0784720v     1012.37v     37.9822v
+!  0.0106234v     1203.34v     83.7332v
+! 0.00891325v     1387.35v     40.5226v
+! 
+! Iteration 02: Reduced Chi-squared=8.2946680e-06  Degrees of Freedom=62385
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0782527v     861.055v     40.0126v
+!  0.0318880v     1508.04v     49.4618v
+!  0.0786083v     1012.20v     37.9842v
+!  0.0106640v     1203.75v     83.7499v
+! 0.00892052v     1387.80v     40.5589v
+! 
+! Iteration 03: Reduced Chi-squared=8.2946215e-06  Degrees of Freedom=62385
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0782343v     861.020v     40.0119v
+!  0.0318833v     1508.09v     49.4647v
+!  0.0786260v     1012.17v     37.9845v
+!  0.0106626v     1203.80v     83.7532v
+! 0.00892586v     1388.15v     40.5781v
+! 
+! Iteration 04: Reduced Chi-squared=8.2946083e-06  Degrees of Freedom=62385
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0782290v     861.008v     40.0115v
+!  0.0318809v     1508.11v     49.4658v
+!  0.0786313v     1012.16v     37.9846v
+!  0.0106615v     1203.78v     83.7533v
+! 0.00892788v     1388.36v     40.5886v
+! 
+! Iteration 05: Reduced Chi-squared=8.2946040e-06  Degrees of Freedom=62385
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0782269v     861.001v     40.0113v
+!  0.0318795v     1508.12v     49.4664v
+!  0.0786336v     1012.16v     37.9846v
+!  0.0106608v     1203.76v     83.7530v
+! 0.00892888v     1388.48v     40.5944v
+! 
+mapl
+! Adding 5 model components to the UV plane model.
+! The established model now contains 5 components and 0.20833 Jy
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+selfcal false,false, 60
+! Performing phase self-cal over 60 minute time intervals
+! 
+! Correcting IF 1.
+! 
+! Correcting IF 2.
+! 
+! Fit before self-cal, rms=0.023762Jy  sigma=0.002880
+! Fit after  self-cal, rms=0.023310Jy  sigma=0.002822
+mapl
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+addcmp peak(flux,max),true,peak(x,max),peak(y,max),true
+mapl
+! 
+! Move the cursor into the plot window and press 'H' for help
+modelfit 5
+! Partitioning the model into established and variable parts.
+! Extracting 5 model components from the UV plane model.
+! The fixed established model contains 0 components (0 Jy).
+! The variable part of the model contains 6 components (0.210519 Jy).
+! There are 18 variables and 31200 usable visibilities.
+! This gives 2 x 31200 - 18 = 62382 degrees of freedom.
+! Reduced Chi-squared = Chi-squared / 62382.
+! 
+! Iteration 00: Reduced Chi-squared=7.8990482e-06  Degrees of Freedom=62382
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0782269v     861.001v     40.0113v
+!  0.0318795v     1508.12v     49.4664v
+!  0.0786336v     1012.16v     37.9846v
+!  0.0106608v     1203.76v     83.7530v
+! 0.00892888v     1388.48v     40.5944v
+! 0.00218935v     1250.00v     36.8699v
+! 
+! Iteration 01: Reduced Chi-squared=7.8210954e-06  Degrees of Freedom=62382
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0748947v     857.734v     40.0532v
+!  0.0308793v     1508.79v     49.5207v
+!  0.0802626v     1005.94v     38.0137v
+!  0.0112520v     1203.92v     83.9962v
+! 0.00868770v     1417.43v     41.1994v
+! 0.00449739v     1212.09v     40.0045v
+! 
+! Iteration 02: Reduced Chi-squared=7.9611882e-06 (Increased)
+! Iteration 03: Reduced Chi-squared=7.8974840e-06 (Increased)
+! 
+! Iteration 04: Reduced Chi-squared=7.7954882e-06  Degrees of Freedom=62382
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0734807v     856.307v     40.1185v
+!  0.0308512v     1509.79v     49.5474v
+!  0.0806145v     1002.78v     37.9963v
+!  0.0112868v     1204.87v     83.9777v
+!  0.0100589v     1399.35v     41.1253v
+! 0.00433653v     1166.23v     38.2300v
+! 
+! Iteration 05: Reduced Chi-squared=7.7775504e-06  Degrees of Freedom=62382
+! ! Flux (Jy) Radius (mas)  Theta (deg)  Major (mas)  Axial ratio   Phi (deg) T \
+! ! Freq (Hz)     SpecIndex
+!  0.0717458v     854.445v     40.1446v
+!  0.0307923v     1509.72v     49.5466v
+!  0.0809120v     999.349v     38.0377v
+!  0.0112803v     1204.78v     83.9966v
+! 0.00985509v     1404.29v     41.0659v
+! 0.00614783v     1151.61v     38.3208v
+! 
+mapl
+! Adding 6 model components to the UV plane model.
+! The established model now contains 6 components and 0.210733 Jy
+! Inverting map 
+! 
+! Move the cursor into the plot window and press 'H' for help
+cmul = imstat(rms)
+!logl,3,0.04/cmul
+! Syntax error in line:
+! logl,3,0.04/cmul
+!     ^
+! Found operator: ,
+! Where an operand was expected
+! 
+logl 3,0.04/cmul
+! The new contour levels are:
+!  -3 3 6 12 24 48 96 192
+mapl clean
+! restore: Substituting estimate of restoring beam from last 'invert'.
+! Restoring with beam: 0.2049 x 0.2434 at 9.457 degrees (North through East)
+! Clean map  min=-0.00054295  max=0.1171 Jy/beam
+! 
+! Move the cursor into the plot window and press 'H' for help
+help savemod
+! help: no such symbol 'savemod'
+wmod 'test1938.mod'
+! Writing 6 model components to file: 'test1938.mod'
+! quit
+! Quitting program
+! Log file difmap.log closed on Mon Aug 20 17:53:52 2012

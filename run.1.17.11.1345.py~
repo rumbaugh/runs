@@ -1,0 +1,7 @@
+import math as m
+import numpy as np
+
+for i in range(1,2):
+    cr = read_file("/home/rumbaugh/COSMOS/analysis/test.spat.error.1.16.11.2100_" + str(i) + ".dat","w")
+    ra = get_colvals(cr,'col1')
+    dec = get_colvals(cr,'col2')

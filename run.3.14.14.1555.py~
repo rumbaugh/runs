@@ -1,0 +1,9 @@
+execfile("/home/rumbaugh/StructureFunction.py")
+
+for lens in ['0414','0712','1030','1127','1152']:
+    ltime,flux_arr,flux_err_arr = LoadVLA_2001(lens)
+    Aflux,Bflux = flux_arr[0],flux_arr[1]
+    Aerr,Berr = flux_err_arr[0],flux_err_arr[1]
+    ltime = (ltime-ltime[0])#/86400
+    g = np.arange(len(ltime))[:len(ltime)-10]
+    CalcStructureFunction(Aflux[g],ltime[g],nbins=nbins)

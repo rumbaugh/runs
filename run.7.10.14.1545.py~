@@ -1,0 +1,3 @@
+import numpy as np
+
+iter_dict = dict(zip(np.array([4,7,8,10,12,16,17,20]),np.array([175,170,135,155,95,125,95,190])))

@@ -1,0 +1,85 @@
+import numpy as np
+import math as m
+
+minsrchrad = 5
+
+def SphDist(RAi,Deci,Raf,Decf):
+	#Distance in arcminutes
+	dist = 2.0*m.asin(m.sqrt((m.sin(0.5*m.pi*(Decf-Deci)/180))**2+m.cos(m.pi*Decf/180.0)*m.cos(m.pi*Deci/180.0)*(m.sin(0.5*m.pi*(Raf-RAi)/180))**2))
+	dist *= 180.0*60/m.pi
+	return dist
+
+def FindCloseSources(ra,dec,tol,ra_opt,dec_opt,usemin):
+	if ((tol < minsrchrad) & (usemin != 0)): tol = minsrchrad
+	tolx = tol/m.cos(dec*m.pi/180.0)
+	ra_box_temp_ind1 = np.where((ra_opt >= ra-tolx/3600.0) & (ra_opt <= ra+tolx/3600.0))
+	if len(ra_box_temp_ind1) > 0: 
+		ra_box_temp_ind1 = ra_box_temp_ind1[0]
+		ra_box_temp1 = ra_opt[ra_box_temp_ind1]
+		dec_box_temp1 = dec_opt[ra_box_temp_ind1]
+		dec_box_temp_ind2 = np.where((dec_box_temp1 >= dec-tol/3600.0) & (dec_box_temp1 <= dec+tol/3600.0))
+		if len(dec_box_temp_ind2) > 0:
+			dec_box_temp_ind2 = dec_box_temp_ind2[0]
+			dec_box_temp3 = dec_box_temp1[dec_box_temp_ind2]
+			ra_box_temp3 = ra_box_temp1[dec_box_temp_ind2]
+			temp_dist_ar = np.zeros(len(dec_box_temp3))
+			for i in range(0L,len(temp_dist_ar)):
+				temp_dist_ar[i] = SphDist(ra_box_temp3[i],dec_box_temp3[i],ra,dec)
+			inside_tol_ind = np.where(temp_dist_ar*60.0 <= tol)
+			if len(inside_tol_ind) > 0: 
+				inside_tol_ind = inside_tol_ind[0]
+				if len(inside_tol_ind) > 0:
+					return ra_box_temp_ind1[[dec_box_temp_ind2[inside_tol_ind]]]
+				else:
+					return np.zeros(0)
+			else:
+				return np.zeros(0)
+		else:
+			return np.zeros(0)
+	else:
+		return np.zeros(0)
+
+cr = read_file("/scratch/rumbaugh/ciaotesting/Cl0023/7914/opt_match/opt_Xray_matched_catalog_3high.corrected.dat")
+cr2 = read_file("/scratch/rumbaugh/ciaotesting/Cl0023/7914/photometry/Cl0023.xray_phot.soft_hard_full.dat")
+nm = get_colvals(cr,'col5')
+raX = get_colvals(cr,'col2')
+decX = get_colvals(cr,'col3')
+errX = get_colvals(cr,'col4')
+idX = get_colvals(cr,'col1')
+raopt1 = get_colvals(cr,'col6')
+decopt1 = get_colvals(cr,'col7')
+probopt1 = get_colvals(cr,'col9')
+raopt2 = get_colvals(cr,'col11')
+decopt2 = get_colvals(cr,'col12')
+probopt2 = get_colvals(cr,'col14')
+raopt3 = get_colvals(cr,'col16')
+decopt3 = get_colvals(cr,'col17')
+probopt3 = get_colvals(cr,'col19')
+probnone = get_colvals(cr,'col21')
+idopt1 = get_colvals(cr,'col8')
+idopt2 = get_colvals(cr,'col13')
+idopt3 = get_colvals(cr,'col18')
+likeopt1 = get_colvals(cr,'col10')
+likeopt3 = get_colvals(cr,'col20')
+likeopt2 = get_colvals(cr,'col15')
+
+sigX_softtemp = get_colvals(cr2,'col9')
+sigX_hardtemp = get_colvals(cr2,'col10')
+sigX_fulltemp = get_colvals(cr2,'col11')
+sigX_temp = np.zeros((3,len(sigX_softtemp)))
+sigX_temp[0][:] = sigX_fulltemp
+sigX_temp[1][:] = sigX_softtemp
+sigX_temp[2][:] = sigX_hardtemp
+sigmax = np.zeros(len(sigX_softtemp))
+for i in range(0,len(sigX_softtemp)):
+      	sigmax[i] = sigX_temp[0][i]
+	if ((sigX_temp[1][i] > sigX_temp[0][i]) & (sigX_temp[1][i] > sigX_temp[2][i])): sigmax[i]  = sigX_temp[1][i]
+	if ((sigX_temp[2][i] > sigX_temp[0][i]) & (sigX_temp[1][i] < sigX_temp[2][i])): sigmax[i] = sigX_temp[2][i]	
+cnt = 0 
+FILE = open("/scratch/rumbaugh/ciaotesting/Cl0023/7914/opt_match/opt_Xray_matched_catalog_3high.corrected.dat.new","w")
+indM = np.where(sigmax >= 3)
+indM = indM[0]
+for i in indM:
+    FILE.write(str(cnt) + " " + str(raX[i]) + " " + str(decX[i]) + " " + str(errX[i]) + " " + str(nm[i]) + " " + str(raopt1[i]) + " " + str(decopt1[i]) + " " + idopt1[i] + " " + str(probopt1[i]) + " " + str(likeopt1[i]) + " " + str(raopt2[i]) + " " + str(decopt2[i]) + " " + idopt2[i] + " " + str(probopt2[i]) + " " + str(likeopt2[i]) + " " + str(raopt3[i]) + " " + str(decopt3[i]) + " " + idopt3[i] + " " + str(probopt3[i]) + " " + str(likeopt3[i]) + " " + str(probnone[i]) + " " + str(idX[i]) + "\n")
+    cnt += 1
+FILE.close()

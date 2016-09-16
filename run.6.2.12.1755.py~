@@ -1,0 +1,10 @@
+import numpy as np
+import math as m
+import time
+import sys
+import matplotlib
+import matplotlib.pylab as pylab
+
+pfile = '/home/rumbaugh/LFC/sc1322.lfc.newIDsandoldIds.radecmag.cat'
+
+cr = readfile(pfile)

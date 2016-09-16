@@ -1,0 +1,10 @@
+readcol,"/scratch/rumbaugh/ciaotesting/Cl1604/master/opt_match/dist.comp.c7343.plot.dat",dists,offaxis,inN
+set_plot,'PS'
+device,file="/home/rumbaugh/dist.comp.c7343.plot.ps"
+plot,offaxis,dists,TITLE="Cl1604 Centroid Comparison of Two Reductions",XTITLE="Off Axis Angle (arcminutes)",YTITLE="Source Separation (arcseconds)",PSYM=5
+g = where(inN gt 0.1)
+device,file="/home/rumbaugh/dist.comp.North.c7343.plot.ps"
+plot,offaxis[g],dists[g],TITLE="Cl1604 Centroid Comparison of Two Reductions - North Pointing",XTITLE="Off Axis Angle (arcminutes)",YTITLE="Source Separation (arcseconds)",PSYM=5
+g = where(inN lt 0.1)
+device,file="/home/rumbaugh/dist.comp.South.c7343.plot.ps"
+plot,offaxis[g],dists[g],TITLE="Cl1604 Centroid Comparison of Two Reductions - South Pointing",XTITLE="Off Axis Angle (arcminutes)",YTITLE="Source Separation (arcseconds)",PSYM=5

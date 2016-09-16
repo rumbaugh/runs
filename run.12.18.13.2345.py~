@@ -1,0 +1,75 @@
+import numpy as np
+import matplotlib.pyplot as py
+import emcee
+import smoothing_1d as sm
+
+st = time.time()
+
+try:
+    runs
+except NameError:
+    runs = 10
+
+try:
+    date
+except NameError:
+    date = '12.18.13'
+
+try:
+    maxmuratio
+except NameError:
+    maxmuratio = 0.5
+
+execfile('/home/rumbaugh/MCMC_delaylnprob.py')
+
+cr = np.loadtxt('/mnt/data2/rumbaugh/TDC/tdc1sample_for_test/rung0/tdc1_rung0_quad_pair6A.txt')
+ltime,A,B,Aerr,Berr = cr[:,0],cr[:,1],cr[:,3],cr[:,2],cr[:,4]
+crl = np.loadtxt('/mnt/data2/rumbaugh/TDC/tdc1sample_for_test/rung0/emcee/tdc1_rung0_quad_pair6A.emcee_output_hist_tau.%s.dat'%date)
+tau_init,mu_init = 15.,np.mean(B)/np.mean(A)
+
+ndim,nwalkers = 2,10
+p0 = crl[np.shape(crl)-10:,:]
+#p0 = np.zeros((nwalkers,ndim))
+#p0[:,0],p0[:,1] = np.ones(nwalkers)*tau_init+np.random.normal(scale=0.1,size=nwalkers),np.ones(nwalkers)*mu_init+np.random.normal(scale=0.01,size=nwalkers)
+sampler = emcee.EnsembleSampler(nwalkers,ndim,delaylnprob,args=[B,A,Berr,Aerr,ltime,mu_init,0,30])
+pos,prob,state=sampler.run_mcmc(p0,runs)
+#pos,prob,state=sampler.run_mcmc(p0,100)
+#sampler.reset()
+#pos,prob,state=sampler.run_mcmc(pos,runs)
+tau_sort = np.sort(sampler.flatchain[:,0])
+FILE = open('/mnt/data2/rumbaugh/TDC/tdc1sample_for_test/rung0/emcee/tdc1_rung0_quad_pair6A.emcee_output_hist_tau.%s.dat'%date,'a')
+#for i in range(0,len(tau_sort)): FILE.write(str(sampler.flatchain[:,0][i]) + '\n')
+for i in range(0,runs):
+    for j in range(0,nwalkers):
+        FILE.write('%f %f\n'%(sampler.chain[j,i,0],sampler.chain[j,i,1]))
+FILE.close()
+#print 'BA delay tau range: %f,%f,%f'%(np.median(tau_sort),tau_sort[int(0.16*len(tau_sort))],tau_sort[int(0.84*len(tau_sort))])
+#py.hist(sampler.flatchain[:,0])
+#py.savefig('/mnt/data2/rumbaugh/TDC/tdc1sample_for_test/rung0/emcee/tdc1_rung0_quad_pair6A.emcee_output_hist_tau.BA_delay.%s.ps'%(date))
+#py.close()
+    #py.plot(sampler.flatchain[:,1])
+    #py.savefig('/home/rumbaugh/B1608_files/B1608.emcee_output_chain_plot_mu1.B%s_delay.%s.ps'%(lens2_names[i],date))
+    #py.close()
+    #py.plot(sampler.flatchain[:,2])
+    #py.savefig('/home/rumbaugh/B1608_files/B1608.emcee_output_chain_plot_mu2.B%s_delay.%s.ps'%(lens2_names[i],date))
+    #py.close()
+    #py.plot(sampler.flatchain[:,3])
+    #py.savefig('/home/rumbaugh/B1608_files/B1608.emcee_output_chain_plot_mu3.B%s_delay.%s.ps'%(lens2_names[i],date))
+    #py.close()
+    #py.plot(sampler.flatchain[:,0])
+    #py.savefig('/home/rumbaugh/B1608_files/B1608.emcee_output_chain_plot_tau.B%s_delay.%s.ps'%(lens2_names[i],date))
+    #py.close()
+    #for j in range(0,nwalkers):
+    #    py.plot(sampler.chain[j,:,0])
+    #    py.savefig('/home/rumbaugh/B1608_files/B1608.emcee_output_all_chain_plot_tau.B%s_delay.%s.ps'%(lens2_names[i],date))
+    #py.close()
+    #for k in range(1,4):
+    #    for j in range(0,nwalkers):
+    #        py.plot(sampler.chain[j,:,k])
+    #        py.savefig('/home/rumbaugh/B1608_files/B1608.emcee_output_all_chain_plot_mu%i.B%s_delay.%s.ps'%(k,lens2_names[i],date))
+    #    py.close()
+    #for j in range(0,len(sampler.flatchain[:,0])): FILE.write('%f %f %f\n'%(sampler.flatchain[j,0],sampler.flatchain[j,1],sampler.flatlnprobability[j]))
+    #sampler.reset()
+#FILE.close()
+
+print '\n\nAll Done! Elapsed time: %.0f seconds\n'%(time.time()-st)

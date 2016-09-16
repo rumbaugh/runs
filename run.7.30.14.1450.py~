@@ -1,0 +1,49 @@
+execfile('/mnt/data2/rumbaugh/Fermi/scripts/MockBlazarLightcurves.py')
+execfile('/home/rumbaugh/StructureFunction.py')
+execfile('/home/rumbaugh/LinReg.py')
+execfile('/home/rumbaugh/KStest.py')
+execfile('/home/rumbaugh/Dispersion.py')
+import time
+import matplotlib.pyplot as plt
+
+date = '4.28.14'
+
+try:
+    ntrials
+except NameError:
+    ntrials = 100
+
+try:
+    errstd
+except NameError:
+    errstd = 7.5
+
+try:
+    nbins
+except NameError:
+    nbins = 20
+
+afracs = np.array([1/3.,0.5,2/3.,0.8,1])
+akeys = np.array(['1/3','1/2','2/3','4/5','all'])
+alpha_dict = {x: np.zeros(ntrials) for x in akeys}
+st = time.time()
+Farr = np.zeros((len(np.arange(220.,550.,1.)),11))
+Farr[:,0] = np.arange(220.,550.,1.)
+for i in range(0,ntrials):
+    stime = np.arange(220.,550.,1.)
+    tau = np.random.rand()*45+5.
+    F = GenerateMockCurve(stime,errstd=errstd,tau=tau)
+    disparr,muarr,tarr = calc_disp_delay(F,F,stime,stime,errstd*np.ones(len(stime)),errstd*np.ones(len(stime)),100,0.237,1,1,None,'D_2',output=2,disparray=True)
+    plt.figure(1)
+    plt.clf()
+    plt.rc('axes',linewidth=2)
+    plt.fontsize = 14
+    plt.tick_params(which='major',length=8,width=2,labelsize=14)
+    plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+    plt.plot(tarr,disparr)
+    plt.axvline(tau)
+    plt.axvline(-tau)
+    plt.xlabel('Time (days)',fontsize=14)
+    plt.ylabel('D_2')
+    plt.title('Lightcurve %i - tau = %5.2f'%(i,tau))
+    plt.savefig('/mnt/data2/rumbaugh/Fermi/plots/testdispcalc_%i.tau_%5.2f.%s.png'%(i,tau,date))

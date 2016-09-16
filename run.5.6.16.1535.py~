@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+execfile('/home/rumbaugh/set_spec_dict.py')
+execfile('/home/rumbaugh/SphDist.py')
+targets=np.array(["rcs0224","cl0849","rxj0910","rxj1221","cl1350","rxj1757","cl1604","cl0023","cl1324","rxj1821","cl1137","rxj1716","rxj1053","cl1324_north","cl1324_south"])
+
+
+refdir='/home/rumbaugh/git/ORELSE/Catalogs/tomczak_catalogs'
+reffile_dict={"cl0023":'sg0023+0423_v0.1.9','cl1604':'sc1604_v0.0.3','rxj1757':'nep200_v0.0.4','rxj1821':'nep5281_v0.0.1','rxj1716':'rxj1716+6708_v0.0.7','rxj0910':'cl0910+5422_v0.0.2'}
+
+rfmt=('i8',)
+for k in range(0,42):rfmt=rfmt+('f8',)
+#for k in range(0,4):rfmt=rfmt+('i8',)
+refdict={'names':('ID','z_spec','ra','dec','magaper_B','erraper_B','magaper_V','erraper_V','magaper_Rplus','erraper_Rplus','magaper_Iplus','erraper_Iplus','magaper_r','erraper_r','magaper_i','erraper_i','magaper_z','erraper_z','magaper_J','erraper_J','magaper_K','erraper_K','magcolor_ch1','magcolor_ch1err','magcolor_ch2','magcolor_ch2err','apercorr','weight_B','weight_V','weight_Rplus','weight_Iplus','weight_r','weight_i','weight_z','weight_J','weight_K','weight_ch1','weight_ch2','wmin','star','saturation','badfit','use'),'formats':rfmt}
+
+rfmt=('i8',)
+for k in range(0,33):rfmt=rfmt+('f8',)
+refdict0910={'names':('ID','z_spec','ra','dec','magaper_V','erraper_V','magaper_Rc','erraper_Rc','magaper_Iplus','erraper_Iplus','magaper_Zplus','erraper_Zplus','magaper_J','erraper_J','magaper_K','erraper_K','magcolor_ch1','errcolor_ch1','magcolor_ch2','errcolor_ch2','apercorr','weight_V','weight_Rc','weight_Iplus','weight_Zplus','weight_J','weight_K','weight_ch1','weight_ch2','wmin','star','saturation','badfit','use'),'formats':rfmt}
+
+rfmt=('i8',)
+for k in range(0,36):rfmt=rfmt+('f8',)
+refdict_1821={'names':('ID','z_spec','ra','dec','magaper_B','erraper_B','magaper_V','erraper_V','magaper_r','erraper_r','magaper_i','erraper_i','magaper_z','erraper_z','magaper_J','erraper_J','magaper_Ks','erraper_Ks','magcolor_ch1','errcolor_ch1','magcolor_ch2','errcolor_ch2','apercorr','weight_B','weight_V','weight_r','weight_i','weight_z','weight_J','weight_Ks','weight_ch1','weight_ch2','wmin','star','saturation','badfit','use'),'formats':rfmt}
+
+zfmt=('i8',)
+for k in range(0,14):zfmt=zfmt+('f8',)
+zfmt=zfmt+('i8',)
+for k in range(0,4):zfmt=zfmt+('f8',)
+pzdict={'names':('id','z_spec','z_a','z_m1','chi_a','z_p','chi_p','z_m2','odds','l68','u68','l95','u95','l99','u99','nfilt','q_z','z_peak','peak_prob','z_mc'),'formats':zfmt}
+
+rffmt=('i8',)
+for k in range(0,23):rffmt=rffmt+('f8',)
+rfdict={'names':('id','z','DM','restflux_NUV','p16_NUV','p84_NUV','restflux_U','p16_U','p84_U','restflux_B','p16_B','p84_B','restflux_V','p16_V','p84_V','restflux_r','p16_r','p84_r','restflux_J','p16_J','p84_J','restflux_2800','p16_2800','p84_2800'),'formats':rffmt}
+
+rffmt=('i8',)
+for k in range(0,16):rffmt=rffmt+('f8',)
+rfdict0910={'names':('id','z','DM','restflux_NUV','errflux_NUV','restflux_U','errflux_U','restflux_B','errflux_B','restflux_V','errflux_V','restflux_r','errflux_r','restflux_J','errflux_J','restflux_2800','errflux_2800'),'formats':rffmt}
+
+smfmt=('i8',)
+smdict={'names':('id','z','l68_z','u68_z','ltau','l68_ltau','u68_ltau','metal','l68_metal','u68_metal','lage','l68_lage','u68_lage','Av','l68_Av','u68_Av','lmass','l68_lmass','u68_lmass','lsfr','l68_lsfr','u68_lsfr','lssfr','l68_lssfr','u68_lssfr','la2t','l68_la2t','u68_la2t','chi2

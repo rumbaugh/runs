@@ -1,0 +1,106 @@
+import numpy as np
+import matplotlib.pyplot as plt
+execfile("/home/rumbaugh/LFC_color_param.py")
+import emcee
+
+A=np.linspace(0.25,0.75,501)
+C=np.linspace(1.5,2,501)
+z0=np.linspace(0.5,1.0,501)
+
+zarr=np.linspace(0.5,1.2,701)
+zhalf=np.median(zarr)
+
+SEDs=np.array(['graz01_00100.dat','graz01_00400.dat','graz01_05000.dat','graz13_00050.av3.00.dat'])
+
+carr=['blue','green','red','orange']
+
+obsU,obsB=np.zeros((len(SEDs),len(zarr))),np.zeros((len(SEDs),len(zarr)))
+obsR,obsI,obsZ=np.zeros((len(SEDs),len(zarr))),np.zeros((len(SEDs),len(zarr))),np.zeros((len(SEDs),len(zarr)))
+
+#FRed,FBlue=np.zeros((len(SEDs),len(A),len(C),len(z0),len(zarr))),np.zeros((len(SEDs),len(A),len(C),len(z0),len(zarr)))
+#mRed,mBlue=np.zeros((len(SEDs),len(A),len(C),len(z0),len(zarr))),np.zeros((len(SEDs),len(A),len(C),len(z0),len(zarr)))
+metricR,metricB=np.zeros((len(A),len(C),len(z0))),np.zeros((len(A),len(C),len(z0)))
+
+safeLB=950
+safeUB=32000
+
+crcc=np.loadtxt('/home/rumbaugh/cc_out.2.19.16.dat')
+D_L=crcc[:,13]*3.086E22
+cc_z=crcc[:,0]
+
+for iSED in range(0,len(SEDs)):
+    SED=SEDs[iSED]
+    curcr=np.loadtxt('/home/rumbaugh/git/eazy-photoz/templates/PEGASE2.0/%s'%SED)
+    w,S=curcr[:,0],curcr[:,1]
+    for iz in range(0,len(zarr)):
+        z=zarr[iz]
+        gdl=np.argsort(np.abs(z-cc_z))[0]
+        obsU[iSED][iz]=calc_obs_flux(w,S,z,safeLB,safeUB,D_L=D_L[gdl],filt='u')
+        obsB[iSED][iz]=calc_obs_flux(w,S,z,safeLB,safeUB,D_L=D_L[gdl],filt='B')
+        obsR[iSED][iz],obsI[iSED][iz],obsZ[iSED][iz]=calc_obs_flux(w,S,z,safeLB,safeUB,D_L=D_L[gdl],filt='r'),calc_obs_flux(w,S,z,safeLB,safeUB,D_L=D_L[gdl],filt='i'),calc_obs_flux(w,S,z,safeLB,safeUB,D_L=D_L[gdl],filt='z')
+
+    for iA in range(0,len(A)):
+        for iC in range(0,len(C)):
+            for iz0 in range(0,len(z0)):
+                FBluetmp=A[iA]*(1-C[iC]*(zarr-z0[iz0]))*obsR[iSED]+(1-A[iA])*(C[iC]*(zarr-z0[iz0]))*obsI[iSED]
+                FRedtmp=A[iA]*(1-C[iC]*(zarr-z0[iz0]))*obsI[iSED]+(1-A[iA])*(C[iC]*(zarr-z0[iz0]))*obsZ[iSED]
+                mRedtmp,mBluetmp=-2.5*np.log10(FRedtmp)m-2.5*np.log10(FBluetmp)
+#mRed,mBlue=-2.5*log10(FRed),-2.5*log10(FBlue)
+mR,mI,mZ=-2.5*log10(obsR),-2.5*log10(obsI),-2.5*log10(obsZ)
+mU,mB=-2.5*log10(obsU),-2.5*log10(obsB)
+
+
+plt.figure(1)
+plt.figure(5)
+plt.clf()
+plt.rc('axes',linewidth=2)
+plt.fontsize = 14
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+for iSED in range(0,len(SEDs)):
+    SED=SEDs[iSED]
+    plt.plot(zarr,mR[iSED],lw=2,color=carr[iSED])
+    plt.plot(zarr,mI[iSED],lw=2,color=carr[iSED],ls='--')
+    plt.plot(zarr,mZ[iSED],lw=2,color=carr[iSED],ls=':')
+plt.xlabel('Redshift')
+plt.ylabel('Magnitude')
+plt.title('r-i-z magnitudes')
+plt.figure(2)
+plt.clf()
+plt.rc('axes',linewidth=2)
+plt.fontsize = 14
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+for iSED in range(0,len(SEDs)):
+    SED=SEDs[iSED]
+    plt.plot(zarr,mR[iSED]-mI[iSED],lw=2,color=carr[iSED])
+    plt.plot(zarr,mI[iSED]-mZ[iSED],lw=2,color=carr[iSED],ls='--')
+plt.xlabel('Redshift')
+plt.ylabel('Color')
+plt.title('r-i-z colors')
+plt.figure(3)
+plt.clf()
+plt.rc('axes',linewidth=2)
+plt.fontsize = 14
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+for iSED in range(0,len(SEDs)):
+    SED=SEDs[iSED]
+    plt.plot(zarr,mU[iSED],lw=2,color=carr[iSED])
+    plt.plot(zarr,mB[iSED],lw=2,color=carr[iSED],ls='--')
+plt.xlabel('Redshift')
+plt.ylabel('Magnitude')
+plt.title('UB magnitudes')
+plt.figure(4)
+plt.clf()
+plt.rc('axes',linewidth=2)
+plt.fontsize = 14
+plt.tick_params(which='major',length=8,width=2,labelsize=14)
+plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+for iSED in range(0,len(SEDs)):
+    SED=SEDs[iSED]
+    plt.plot(zarr,mU[iSED]-mB[iSED],lw=2,color=carr[iSED])
+plt.xlabel('Redshift')
+plt.ylabel('Color')
+plt.title('UB colors')
+

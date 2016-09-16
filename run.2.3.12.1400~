@@ -1,0 +1,26 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+set z = (soft hard full)
+set el = (0.5 2.0 0.5)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+
+
+foreach i (548)
+cd /local3/rumbaugh/ChandraData/$i/
+foreach j (1 2 3)
+set num = `stats -v max < acis$i.expmap_$z[$j].fits`
+dmimgcalc acis$i.img.$n[$j].fits acis$i.expmap_$z[$j].fits acis$i.img.$n[$j].vig_corr.fits div weight=$num clob+
+dmfilth infile=acis$i.img.$n[$j].vig_corr.fits outfile=acis$i.img.$n[$j].nops.fits method=POISSON srclist=@./regions/sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg bkglist=@./regions/bkg_sub.$i.$z[$j].reg randseed=0 clob+
+end
+end
+end

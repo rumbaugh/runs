@@ -1,0 +1,33 @@
+declare -a b=(0.5-2.0 2.0-8.0 0.5-8.0)
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+declare -a ef=(1.497 4.51 2.3)
+declare -a id=(6933+7343 9403+9840 9404+9836 10443+11999 10444+10924)
+declare -a ida=(6933 9403 9404 10443 10444)
+declare -a idb=(7343 9840 9836 11999 10924)
+declare -a zlist=(0.77 1.26 1.11 0.70 0.80 0.69 0.90 0.84 0.76 0.82 0.96 0.81 1.14 0.76 0.76 )
+declare -a fields=(rcs0224 cl0849 rxj0910 rxj1221 cl1350 rxj1757 cl1604 cl0023 cl1324 rxj1821 cl1137 rxj1716 rxj1053 cl1324_north cl1324_south)
+
+
+
+for i in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+do
+echo Starting on ${fields[$i]}
+cd /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/${fields[$i]}/proc/${fields[$i]}
+for j in 0 1 2
+do
+echo ${z[$j]}
+aconvolve ${fields[$i]}_${z[$j]}_nops.img ${fields[$i]}_${z[$j]}_nops.smoothed_var.z_${zlist[$i]}.beta_0.67.rc_180kpc.img "file:betaprofile_squared.z_${zlist[$i]}.beta_0.67.rc_180kpc.fits" method=fft edges=constant clob+
+done
+done
+

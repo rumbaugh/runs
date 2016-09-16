@@ -1,0 +1,5 @@
+echo 'none -99 -99 -1.0 -1.0' | tee p1_cens.2.2.12.dat
+foreach i (1 2 3 4 5 6 7 8 9)
+sherpa -b /home/rumbaugh/runs/run.2.1.12.2145.py
+end
+

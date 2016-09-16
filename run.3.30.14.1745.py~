@@ -1,0 +1,5 @@
+execfile('/mnt/data2/rumbaugh/Fermi/scripts/MockBlazarLightcurves.py')
+
+date = '3.30.14.'
+
+try:

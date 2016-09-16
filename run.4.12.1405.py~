@@ -1,0 +1,2 @@
+import numpy as np
+names = np.array(['NEP5281','RXJ1757','Cl1324','Cl1324'])

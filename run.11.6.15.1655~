@@ -1,0 +1,9 @@
+for i in 548 1662 2229 4936 927+1708 2227+2452 3181+4987
+do
+cd /home/rumbaugh/Chandra/$i
+punlearn ardlib
+acis_set_ardlib acis$i.bpix.fits.gz
+RA="`dmkeypar acis$i.img.500-2000.fits RA_PNT echo+`"
+DEC="`dmkeypar acis$i.img.500-2000.fits DEC_PNT echo+`"
+echo $i $RA $DEC | tee -a /home/rumbaugh/Chandra/aimpnts.dat
+done

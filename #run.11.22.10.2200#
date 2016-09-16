@@ -1,0 +1,6 @@
+time dmfilth infile=acis8020.img.S2.500-2000.nops.fits outfile=temp.img.1.fits method=POISSON srclist=@./regions/dummy.reg bkglist=@./regions/chips8020.S2.reg randseed=0
+time dmfilth infile=temp.img.1.fits outfile=temp.img.2.fits method=POISSON srclist=@./regions/chips8020.S2.reg bkglist=@./regions/dummy.reg randseed=0
+time dmcopy "temp.img.2.fits[sky=region(./regions/chips8020.reg[ccd_id=2])]" poisson.noise.8020.S2.img.fits clob+
+rm temp.img.*.fits
+time aconvolve poisson.noise.8020.S2.img.fits poisson.conv.beta.S2.11.22.10.r_18.83.fits "file:/scratch/rumbaugh/ciaotesting/beta_models/betamodel.alpha_2.064.r_18.83.fits" edges=wrap method=fft clob+
+

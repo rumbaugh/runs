@@ -1,0 +1,3 @@
+import numpy as np
+
+crold=np.loadtxt('/home/rumbaugh/Chandra/548/oldtest_optmatch.548.dat',dtype={'names':('ID','ra','dec','err','nm','raopt','decopt','optID','prob','like','dum1','dum2','dum3','dum4','dum5','dum6','dum7','dum8','dum9','dum10','PN'),'formats':('i8','f8','f8','f8','i8','f8','f8','|S8','f8','f8','f8','f8','|S8','f8','f8','f8','f8','|S8','f8','f8','f8')})

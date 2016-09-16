@@ -1,0 +1,4 @@
+import numpy as np
+import math as m
+
+cr = read_file("/home/rumbaugh/cc_out.6.1.12.nh.dat")

@@ -1,0 +1,5 @@
+import numpy as np
+execfile("/home/rumbaugh/angconvert.py")
+execfile('/home/rumbaugh/SphDist.py')
+
+stol=2.5

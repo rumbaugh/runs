@@ -1,0 +1,30 @@
+echo ' '
+echo 'Needs to be run on Gallifrey'
+echo ' '
+declare -a z=(soft hard full)
+declare -a el=(0.5 2.0 0.5)
+declare -a eu=(2.0 8.0 8.0)
+declare -a nl=(500 2000 500)
+declare -a nu=(2000 8000 8000)
+declare -a n=(500-2000 2000-8000 500-8000)
+declare -a nn=(500:2000 2000:8000 500:8000)
+declare -a nd=(0.5,2.0 2.0,8.0)
+declare -a ndL=(0.5 2.0)
+declare -a ndH=(2.0 8.0)
+declare -a nq=(0.5:2.0 2.0:8.0)
+declare -a nh=(0.58 1.93 3.71)
+
+for i in 927+1708
+do
+cd /mnt/data2/rumbaugh/dump/ChandraData/0849/master
+punlearn ardlib
+acis_set_ardlib ../927/acis927.bpix.fits
+RA="`dmkeypar acis$i.evt2.500-2000.fits RA_PNT echo+`"
+DEC="`dmkeypar acis$i.evt2.500-2000.fits DEC_PNT echo+`"
+echo -e "# Region file format: DS9 version 4.1"\\n"# Filename: acis927+1708.img.500-2000.fits"\\n"global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1"\\nfk5\\ncircle\($RA,$DEC,20\"\) | tee regions/acis$i.pointing.reg
+for j in 0 1
+do
+specextract infile="../927/acis927.evt2.${n[$j]}.fits[sky=region(./regions/acis$i.pointing.reg)],../1708/acis1708.evt2.${n[$j]}.fits[sky=region(./regions/acis$i.pointing.reg)]" outroot=spec_$i\_${z[$j]} grouptype=NUM_CTS binspec=15 energy_wmap=${nn[$j]} combine=yes clob+
+done
+done
+done

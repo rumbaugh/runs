@@ -1,0 +1,33 @@
+set z = (soft hard full)
+set el = (0.5 2.0 0.5)
+set eu = (2.0 8.0 8.0)
+set nl = (500 2000 500)
+set nu = (2000 8000 8000)
+set n = (500-2000 2000-8000 500-8000)
+set nn = (500:2000 2000:8000 500:8000)
+set nd = (0.5,2.0 2.0,8.0)
+set ndL = (0.5 2.0)
+set ndH = (2.0 8.0)
+set nq = (0.5:2.0 2.0:8.0)
+set nh = (0.58 1.93 3.71)
+set i = 2227+2452
+
+
+foreach j (1 2 3)
+dmmerge infile="../2227/acis2227.evt2.$n[$j].fits,../2452/acis2452.evt2.$n[$j].fits" outfile=acis2227+2452.evt2.$n[$j].fits clob+
+dmcopy "acis$i.evt2.$n[$j].fits[bin sky=1]" acis$i.img.$nl[$j]-$nu[$j].fits clob+
+ls ../2227/acis2227.expmap_$z[$j].fits ../acis2452.expmap_soft.fits > expmaps.$i.$z[$j].lst
+reproject_image infile=@expmaps.$i.$z[$j].lst matchfile=acis$i.img.$n[$j].fits outfile=acis$i.expmap_$z[$j].fits clobber=yes method=average
+wavdetect infile="acis$i.img.$n[$j].fits" outfile="sources.$i.$z[$j].1e6.b1.1-16.wexp20.fits" scellfile="./temp/sources_scell.$i.$z[$j].1e6.wexp20.fits" imagefile="./temp/sources_image.$i.$z[$j].1e6.wexp20.fits" defnbkgfile="./temp/sources_bkg.$i.$z[$j].1e6.wexp20.fits" regfile="./regions/sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg" scales="1.0 1.414 2.0 2.828 4.0 5.657 8.0 11.314 16.0" sigthresh=1.0e-6 ellsigma=4 expthresh=0.2 expfile="acis$i.expmap_$z[$j].fits" clob+
+rm temp/*
+cd regions
+rm bkg*reg
+mkBgRegScript sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg 2 bkg.$i.$z[$j].reg
+mkSubSuperBgRegScript sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg bkg.$i.$z[$j].reg bkg_sub.$i.$z[$j].reg
+sed -i 's/[0-9]e-[0-9][0-9]/0/g' bkg_sub.$i.$z[$j].reg
+sed -i 's/[0-9]e-[0-9][0-9]/0/g' sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg
+cd ..
+set num = `stats -v max < acis$i.expmap_$z[$j].fits`
+dmimgcalc acis$i.img.$n[$j].fits acis$i.expmap_$z[$j].fits acis$i.img.$n[$j].vig_corr.fits div weight=$num clob+
+dmfilth infile=acis$i.img.$n[$j].vig_corr.fits outfile=acis$i.img.$n[$j].nops.fits method=POISSON srclist=@./regions/sources.$i.$z[$j].1e6.b1.1-16.wexp20.reg bkglist=@./regions/bkg_sub.$i.$z[$j].reg randseed=0 clob+
+end
