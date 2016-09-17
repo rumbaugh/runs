@@ -4,7 +4,7 @@ import pyfits as py
 hdu=py.open('/home/rumbaugh/Downloads/OzDES_QSO_20160627.fits')
 data=hdu[1].data
 
-cr=np.loadtxt('/home/rumbaugh/Y1A1_idradecerrwinmagmagerr.csv',delimiter=',')
+cr=np.loadtxt('/home/rumbaugh/Y1A1_idradecerrwinmagmagerr.csv',delimiter=',',skiprows=1)
 
 gmatch=np.ones(len(data),dtype='i8')*-1
 
