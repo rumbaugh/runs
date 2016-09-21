@@ -16,8 +16,8 @@ for i in range(0,len(data)):
         if len(gd)>0: 
             gd=gd[np.argsort(tmpdist[gd])][0]
             gmatch[i]=gd
-idsout=np.zeros(len(data),dtype='|S256')
+idsout=np.zeros(len(data),dtype='i8')
 idsout[gcur!=-1]=cr[:,0]
-idsout[gcur==-1]='NONE'
-np.savetxt('/home/rumbaugh/match_OzDES2Y1A1_coadd_objects_ids.txt',idsout,fmt='%|S256')
+idsout[gcur==-1]=-1
+np.savetxt('/home/rumbaugh/match_OzDES2Y1A1_coadd_objects_ids.txt',idsout,fmt='%11i')
 
