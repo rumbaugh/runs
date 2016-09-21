@@ -1,0 +1,1 @@
+SELECT e.mjd_obs,o.imageid,y.COADD_OBJECTS_ID,m.SVA1_COADD_OBJECTS_ID,y.RA,y.DEC,o.mag_model,o.magerr_model,i.exptime FROM Y1A1_COADD_OBJECTS y
