@@ -1,0 +1,5 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+cr=np.loadtxt('/home/rumbaugh/ozdes_lightcurve_entries_y1a1.tab',skiprows=1)
+mjd,mag,magerr,cID=cr[:,0],cr[:,6],cr[:,7],cr[:,2]
