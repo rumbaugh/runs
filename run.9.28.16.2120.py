@@ -30,7 +30,10 @@ HPlist=np.unique(crm['HP'])
 if istest: HPlist=HPlist[:testruns]
 print 'starting loop'
 st=time.time()
-for HP in HPlist:
+for iHP,HP in zip(np.arange(len(HPlist),HPlist)):
+    if iHP%100==0: 
+        chktime=time.time()
+        print '.1f%%% done. %.0f seconds elapsed. ETA: %.0f seconds'%(iHP*100./len(HPlist),chktime-st,(len(HPlist)-iHP)*(chktime-st)/iHP)
     nearHPs=hp.get_all_neighbours(nsides,HP,nest=True)
     hps='%i'%HP
     for h in nearHPs: hps='%s, %i'%(hps,h)
