@@ -1,6 +1,7 @@
 import numpy as np
 import healpy as hp
 import easyaccess as ea
+import time
 con=ea.connect()
 try:
     istest
@@ -13,7 +14,7 @@ tol=5./3600
 
 crm=np.loadtxt('/home/rumbaugh/milliquas+healpix.txt',dtype={'names':('mID','ra','dec','HP'),'formats':('i8','f8','f8','i8')})
 
-
+print 'loaded milliquas+healpix'
 #cr=np.loadtxt('/home/rumbaugh/y1a1_hpix.tab',dtype={'names':('cID','ra','dec','HP'),'formats':('f8','f8','f8','f8')},skiprows=1)
 #cr['cID']=np.array(cr['cID'],dtype='i8')
 #cr['HP']=np.array(cr['HP'],dtype='i8')
@@ -22,6 +23,8 @@ crm=np.loadtxt('/home/rumbaugh/milliquas+healpix.txt',dtype={'names':('mID','ra'
 outcr=np.zeros((0,5))
 HPlist=np.unique(crm['HP'])
 if istest: HPlist=HPlist[:3]
+print 'starting loop'
+st=time.time()
 for HP in HPlist:
     nearHPs=hp.get_all_neighbours(nsides,HP,nest=True)
     hps='%i'%HP
@@ -44,4 +47,7 @@ for HP in HPlist:
                 #nearinds[i]=gn[np.argsort(tmpdist[gd])[0]]
                 crtmp[:,4][i]=YDF['COADD_OBJECTS_ID'][gn[np.argsort(tmpdist[gd])[0]]]
     outcr=np.concatenate((outcr,crtmp),axis=0)
+endt=time.time()
+print 'loop done. Took %.2f seconds'%(endt-st)
 np.savetxt('/home/rumbaugh/milliquas_y1a1_match.csv',outcr,fmt='%i,%f,%f,%i,%i',header='MQ_ROWNUM,RA,DEC,HPIX,COADD_OJECTS_ID',comments='')
+print 'file saved'
