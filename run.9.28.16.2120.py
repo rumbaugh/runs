@@ -11,7 +11,7 @@ nsides=16384
 
 tol=5./3600
 
-crm=np.loadtxt('/home/rumbaugh/milliquas+healpix.txt',dtype={'names':('ra','dec','HP'),'formats':('f8','f8','i8')})
+crm=np.loadtxt('/home/rumbaugh/milliquas+healpix.txt',dtype={'names':('mID','ra','dec','HP'),'formats':('i8','f8','f8','i8')})
 
 
 #cr=np.loadtxt('/home/rumbaugh/y1a1_hpix.tab',dtype={'names':('cID','ra','dec','HP'),'formats':('f8','f8','f8','f8')},skiprows=1)
