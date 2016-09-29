@@ -4,7 +4,7 @@ nside=16384
 
 cr=np.loadtxt("Downloads/milliquas.txt",usecols=(0,1))
 
-crout=np.zeros((np.shape(cr)[0],3))
+crout=np.zeros((np.shape(cr)[0],4))
 
 crout[:,0]=np.arange(np.shape(cr)[0])
 crout[:,1:3]=cr
