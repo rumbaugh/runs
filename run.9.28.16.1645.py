@@ -12,7 +12,9 @@ tol=5./3600
 crm=np.loadtxt('/home/rumbaugh/milliquas+healpix.txt',dtype={'names':('ra','dec','HP'),'formats':('f8','f8','i8')})
 
 
-cr=np.loadtxt('/home/rumbaugh/y1a1_hpix.tab',dtype={'names':('cID','ra','dec','HP'),'formats':('i8','f8','f8','i8')},skiprows=1)
+cr=np.loadtxt('/home/rumbaugh/y1a1_hpix.tab',dtype={'names':('cID','ra','dec','HP'),'formats':('f8','f8','f8','f8')},skiprows=1)
+cr['cID']=np.array(cr['cID'],dtype='i8')
+cr['HP']=np.array(cr['HP'],dtype='i8')
 
 matchinds=np.ones(len(cr),dtype='i8')*-1
 HPlist=np.unique(crm['HP'])
