@@ -1,0 +1,5 @@
+import numpy as np
+import healpy as hp
+nsides=16384
+
+cr=np.loadtxt('/home/rumbaugh/milliquas+healpix.txt',dtype={'names':('ra','dec','HP'),'formats':('f8','f8','i8')})
