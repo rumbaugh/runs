@@ -2,11 +2,16 @@ import numpy as np
 import healpy as hp
 import easyaccess as ea
 import time
+trst=time.time()
 con=ea.connect()
 try:
     istest
 except NameError:
     istest=True
+try:
+    testruns
+except NameError:
+    testruns=10
 
 nsides=16384
 
@@ -22,7 +27,7 @@ print 'loaded milliquas+healpix'
 #matchinds=np.ones(len(cr),dtype='i8')*-1
 outcr=np.zeros((0,5))
 HPlist=np.unique(crm['HP'])
-if istest: HPlist=HPlist[:3]
+if istest: HPlist=HPlist[:testruns]
 print 'starting loop'
 st=time.time()
 for HP in HPlist:
@@ -48,6 +53,9 @@ for HP in HPlist:
                 crtmp[:,4][i]=YDF['COADD_OBJECTS_ID'][gn[np.argsort(tmpdist[gd])[0]]]
     outcr=np.concatenate((outcr,crtmp),axis=0)
 endt=time.time()
+lptime=endt-st
 print 'loop done. Took %.2f seconds'%(endt-st)
 np.savetxt('/home/rumbaugh/milliquas_y1a1_match.csv',outcr,fmt='%i,%f,%f,%i,%i',header='MQ_ROWNUM,RA,DEC,HPIX,COADD_OJECTS_ID',comments='')
 print 'file saved'
+trend=time.time()
+print 'Total time taken: %.2f seconds. Expected time for full run: %.0f seconds.'%(trend-trst,trend-trst+((len(crm)-testruns)*lptime/testruns))
