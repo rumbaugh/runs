@@ -49,11 +49,12 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
     for i in range(0,len(ra_mtmp)):
         gn=np.where((np.abs(ra_mtmp[i]-ra_ytmp)*np.cos(dec_mtmp[i]*np.pi/180.)<5./3600)&(np.abs(dec_mtmp[i]-dec_ytmp)<5./3600))[0]
         if len(gn)>0:
-            tmpdist=np.sqrt(((ra_mtmp[i]-ra_ytmp[gn])*np.cos(dec_mtmp[i]*np.pi/180.))**2+(dec_mtmp[i]-dec_ytmp)**2)
+            tmpdist=np.sqrt(((ra_mtmp[i]-ra_ytmp[gn])*np.cos(dec_mtmp[i]*np.pi/180.))**2+(dec_mtmp[i]-dec_ytmp[gn])**2)
             gd=np.where(tmpdist<5./3600)[0]
+            print tmpdist,gd
             if len(gd)>0:
                 #nearinds[i]=gn[np.argsort(tmpdist[gd])[0]]
-                crtmp[:,4][i]=YDF['COADD_OBJECTS_ID'][gn[np.argsort(tmpdist[gd])[0]]]
+                crtmp[:,4][i]=YDF['COADD_OBJECTS_ID'][gn[np.argsort(np.array(tmpdist[gd]))[0]]]
     outcr=np.concatenate((outcr,crtmp),axis=0)
 endt=time.time()
 lptime=endt-st
