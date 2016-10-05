@@ -1,0 +1,1 @@
+SELECT e.mjd_obs,o.imageid,y.COADD_OBJECTS_ID,y.RA,y.DEC,o.mag_auto,o.magerr_auto,o.band,i.exptime FROM des_admin.Y1A1_COADD_OBJECTS y, des_admin.y1a1_objects o, des_admin.y1a1_image i,des_admin.y1a1_exposure e where o.imageid=i.id and i.exposureid=e.id and y.coadd_objects_id=o.coadd_objects_id and y.coadd_objects_id in (3009931464, 3010516638, 3014595382, 3018997364);
