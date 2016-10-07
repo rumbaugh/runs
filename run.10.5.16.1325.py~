@@ -26,7 +26,7 @@ def plot_SDSS(crS,band,bandname=None,connectpoints=True):
     plt.scatter(SDSSmjd,SDSSmag,color=curcol,label='SDSS %s'%band,marker='d')
     
 
-def plot_band(gid,band,maginp=None,maginperr=None,connectpoints=True):
+def plot_band(gid,band,connectpoints=True):
     gband=np.where(bands[gid]==band)[0]
     if np.shape(maginp)!=():
         magplot=maginp

@@ -1,8 +1,22 @@
+import easyaccess as ea
 import numpy as np
 import matplotlib.pyplot as plt
+cre=np.loadtxt('/home/rumbaugh/milliquas_num_epochs.dat',dtype='i8')
+IDs,exps=cre[:,0],cre[:,1]
 
-cr=np.loadtxt('/home/rumbaugh/milliquas_lightcurve_entries_y1a1.tab',skiprows=1,dtype={'names':('mjd','imageid','cid','MGid','ra','dec','mag','magerr','band','exp'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','|S12','f8')})
-mjd,mag,magerr,cID,bands=cr['mjd'],cr['mag'],cr['magerr'],cr['cid'],cr['band']
+ge=np.argsort(exps)[::-1]
+
+con=ea.connect()
+idsstr=''
+for s in IDs[ge[:10]]: idsstr='%s, %i'%(idsstr,s)
+idsstr=idsstr[1:]
+
+query='SELECT e.mjd_obs,o.imageid,y.COADD_OBJECTS_ID,y.RA,y.DEC,o.mag_auto+i.zeropoint as magauto,o.magerr_auto+i.sigma_zeropoint as magerr_auto,o.mag_psf+i.zeropoint as magpsf,o.magerr_psf+i.sigma_zeropoint as magerr_psf,o.band,i.exptime FROM des_admin.Y1A1_COADD_OBJECTS y, des_admin.y1a1_objects o, des_admin.y1a1_image i,des_admin.y1a1_exposure e where o.imageid=i.id and i.exposureid=e.id and y.coadd_objects_id=o.coadd_objects_id and y.coadd_objects_id in (%s)'%idsstr
+
+DF=con.query_to_pandas(query)
+
+#cr=np.loadtxt('/home/rumbaugh/milliquas_lightcurve_entries_y1a1.tab',skiprows=1,dtype={'names':('mjd','imageid','cid','MGid','ra','dec','mag','magerr','band','exp'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','|S12','f8')})
+mjd,mag,magerr,cID,bands=np.array(DF['MJD_OBS']),np.array(DF['MAGPSF']),np.array(DF['MAGERR_PSF']),np.array(DF['COADD_OBJECTS_ID']),np.array(DF['BAND'])
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
 SDSS_colnames={b:'cModelMag_%s'%b for b in SDSSbands}
@@ -23,31 +37,25 @@ def plot_SDSS(crS,band,bandname=None,connectpoints=True):
     plt.scatter(SDSSmjd,SDSSmag,color=curcol,label='SDSS %s'%band,marker='d')
     
 
-def plot_band(gid,band,maginp=None,maginperr=None,connectpoints=True):
+def plot_band(gid,band,connectpoints=True):
     gband=np.where(bands[gid]==band)[0]
-    if np.shape(maginp)!=():
-        magplot=maginp
-    else:
-        magplot=mag[gid][gband]
-    if np.shape(maginperr)!=():
-        magploterr=maginperr
-    else:
-        magploterr=magerr[gid][gband]
+    magplot=mag[gid][gband]
+    magploterr=magerr[gid][gband]
+    g100=np.where(magplot<100)[0]
     try:
         curcol=coldict[band]
     except KeyError:
         print '%s is not a valid band'%band
         return
     if connectpoints:
-        gsort=np.argsort(mjd[gid][gband])
-        plt.plot(mjd[gid][gband][gsort],magplot[gsort],color=curcol,lw=2)
-    print mjd[gid][gband],magplot,magploterr
-    plt.errorbar(mjd[gid][gband],magplot,yerr=magploterr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    plt.scatter(mjd[gid][gband],magplot,color=curcol,label=band)
+        gsort=np.argsort(mjd[gid][gband][g100])
+        plt.plot(mjd[gid][gband][g100][gsort],magplot[g100][gsort],color=curcol,lw=2)
+    plt.errorbar(mjd[gid][gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
+    plt.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol,label=band)
     #return
 
 
-def plot_lightcurve(cid,maginp=None,maginperr=None,band='all',plotSDSS=False,fname=None,connectpoints=True):
+def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True):
     band=band.lower()
     g=np.where(cID==cid)[0]
     if len(g)==0:
@@ -61,12 +69,7 @@ def plot_lightcurve(cid,maginp=None,maginperr=None,band='all',plotSDSS=False,fna
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     if band=='all':
         for b in coldict.keys():
-            if np.shape(maginp)!=():
-                gp=np.where(np.array(DF['BAND'])[np.array(DF['COADD_OBJECTS_ID'])==cid]==b)[0]
-                magplot,magploterr=maginp[gp],maginperr[gp]
-                plot_band(g,b,maginp=magplot,maginperr=magploterr,connectpoints=connectpoints)
-            else:
-                plot_band(g,b,maginp=maginp,maginperr=maginperr,connectpoints=connectpoints)
+            plot_band(g,b,connectpoints=connectpoints)
         if plotSDSS==True:
             crSDSS=loadSDSS('/home/rumbaugh/SDSS_table_%i.csv'%cid)
             for b in SDSSbands:
@@ -77,12 +80,15 @@ def plot_lightcurve(cid,maginp=None,maginperr=None,band='all',plotSDSS=False,fna
     else:
         plot_band(g,band,connectpoints=connectpoints)
     plt.xlabel('MJD')
-    if np.shape(maginp)!=():
-        plt.ylabel('Mag_psf')
-    else:
-        plt.ylabel('Mag_auto')
+    plt.ylabel('Mag_PSF')
     plt.title(cid)
     if fname!=None: plt.savefig(fname)
     return
-        
-            
+
+
+for idcur in IDs[ge[:10]]:
+    plot_lightcurve(idcur,plotSDSS=False,fname='DES_lightcurve_%s.png'%idcur)
+    try:
+        plot_lightcurve(idcur,plotSDSS=True,fname='DES+SDSS_lightcurve_%s.png'%idcur)
+    except:
+        print 'No SDSS data for %i'%idcur
