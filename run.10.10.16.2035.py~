@@ -1,0 +1,7 @@
+import numpy as np
+import easyaccess as ea
+con=ea.connect()
+
+q1="SELECT HPIX FROM MILLIQUAS_HPIX"
+DF1=con.query_to_pandas(q1)
+HPIX=np.array(DF1['HPIX'])
