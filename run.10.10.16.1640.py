@@ -15,7 +15,7 @@ query='SELECT e.mjd_obs,o.imageid,y.COADD_OBJECTS_ID,y.RA,y.DEC,o.mag_auto+i.zer
 
 DF=con.query_to_pandas(query)
 
-SDSSquery='SELECT s.mjd_g as mjd,s.ra,s.dec,s.objid,s.numrow,s.psfmag_u,s.psfmag_g,s.psfmag_r,s.psfmag_i,s.psfmag_z,s.psfmagerr_u,s.psfmagerr_g,s.psfmagerr_r,s.psfmagerr_i,s.psfmagerr_z,s.run,s.rerun,s.stripe,s.thingid,m.mq_rownum,m.coadd_objects_id as cid,m.hpix FROM RUMBAUGH.MQ_SDSS_DR13_MATCH s, RUMBAUGH.MILLIQUAS_Y1A1_MATCH_ONLY m WHERE m.numrow=s.numrow and m.coadd_objects_id in (%s)'%idsstr
+SDSSquery='SELECT s.mjd_g as mjd,s.ra,s.dec,s.objid,s.numrow,s.psfmag_u,s.psfmag_g,s.psfmag_r,s.psfmag_i,s.psfmag_z,s.psfmagerr_u,s.psfmagerr_g,s.psfmagerr_r,s.psfmagerr_i,s.psfmagerr_z,s.run,s.rerun,s.stripe,s.thingid,m.mq_rownum,m.coadd_objects_id as cid,m.hpix FROM RUMBAUGH.MQ_SDSS_DR13_MATCH s, RUMBAUGH.MILLIQUAS_Y1A1_MATCH_ONLY m WHERE m.numrow-1=s.numrow and m.coadd_objects_id in (%s)'%idsstr
 
 SDF=con.query_to_pandas(SDSSquery)
 
@@ -27,7 +27,7 @@ SDSS_colnames={b:'cModelMag_%s'%b for b in SDSSbands}
 SDSSmjd,SDSScid=np.array(SDF['MJD']),np.array(SDF['CID'])
 SDSSmagdict,SDSSmagerrdict={b: np.array(SDF['PSFMAG_%s'%(b.upper())]) for b in SDSSbands},{b: np.array(SDF['PSFMAGERR_%s'%(b.upper())]) for b in SDSSbands}
 
-def plot_SDSS(crS,band,cid,bandname=None,connectpoints=True):
+def plot_SDSS(band,cid,bandname=None,connectpoints=True):
     SDSS_cols={'g': '#66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
     if bandname==None: bandname=band
     SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
@@ -74,9 +74,8 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
         for b in coldict.keys():
             plot_band(g,b,connectpoints=connectpoints)
         if plotSDSS==True:
-            crSDSS=loadSDSS('/home/rumbaugh/SDSS_table_%i.csv'%cid)
             for b in SDSSbands:
-                plot_SDSS(crSDSS,b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
+                plot_SDSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.12*(xlim[1]-xlim[0]))
         plt.legend()
@@ -89,9 +88,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
     return
 
 
-for idcur in IDs[ge[:10]]:
-    #plot_lightcurve(idcur,plotSDSS=False,fname='DES_lightcurve_%s.png'%idcur)
-    try:
-        plot_lightcurve(idcur,plotSDSS=True,fname='DES+SDSS_lightcurve_%s.png'%idcur)
-    except:
-        print 'No SDSS data for %i'%idcur
+for idcur in np.unique(SDSScid):
+    print idcur
+    plot_lightcurve(idcur,plotSDSS=True,fname='DES+SDSS_lightcurve_%s.png'%idcur)
+    print SDF['RA'][SDSScid==idcur],SDF['DEC'][SDSScid==idcur],DF['RA'][cID==idcur],DF['DEC'][cID==idcur]

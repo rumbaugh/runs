@@ -2,12 +2,21 @@ import numpy as np
 import easyaccess as ea
 con=ea.connect()
 
-q1="SELECT HPIX FROM MILLIQUAS_HPIX"
-DF1=con.query_to_pandas(q1)
-hpixs=np.unique(np.array(DF1['HPIX']))
+try:
+    uhpix
+except NameError:
+    q1="SELECT HPIX FROM MILLIQUAS_HPIX"
+    DF1=con.query_to_pandas(q1)
+    hpixs=np.unique(np.array(DF1['HPIX']))
 
+    qm="SELECT HPIX FROM MCARRAS2.Y1A1_HPIX"
+    MDF=con.query_to_pandas(qm)
+    mhpix=np.unique(np.array(MDF['HPIX']))
+    uhpix=np.intersect1d(mhpix,hpixs,assume_unique=True)
+
+ginpix=np.in1d(hpixs,uhpix,assume_unique=True)
 numinpix=np.zeros(len(hpixs),dtype='i8')
-for ihp,hpix in zip(np.arange(len(hpixs)),hpixs):
+for ihp,hpix in zip(np.arange(len(hpixs))[ginpix],uhpix):
     if hpix!=hpixs[ihp]:
         print 'oops'
         break
