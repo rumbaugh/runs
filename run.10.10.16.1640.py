@@ -91,4 +91,5 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
 for idcur in np.unique(SDSScid):
     print idcur
     plot_lightcurve(idcur,plotSDSS=True,fname='DES+SDSS_lightcurve_%s.png'%idcur)
-    print SDF['RA'][SDSScid==idcur],SDF['DEC'][SDSScid==idcur],DF['RA'][cID==idcur],DF['DEC'][cID==idcur]
+    #print SDF['RA'][SDSScid==idcur],SDF['DEC'][SDSScid==idcur],DF['RA'][cID==idcur],DF['DEC'][cID==idcur]
+    print SDF['THINGID'][SDSScid==idcur]
