@@ -1,6 +1,7 @@
 import easyaccess as ea
 import numpy as np
 import matplotlib.pyplot as plt
+exec
 cre=np.loadtxt('/home/rumbaugh/milliquas_num_epochs.dat',dtype='i8')
 IDs,exps=cre[:,0],cre[:,1]
 

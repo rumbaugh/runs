@@ -1,0 +1,5 @@
+import numpy as np
+import numpy.random as rand
+
+def gametrial(ntrials=10000,seed=None):
+    

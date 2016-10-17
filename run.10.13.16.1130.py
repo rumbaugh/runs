@@ -1,6 +1,7 @@
 import easyaccess as ea
 import numpy as np
 import matplotlib.pyplot as plt
+execfile('/home/rumbaugh/SphDist.py')
 cre=np.loadtxt('/home/rumbaugh/milliquas_num_epochs.dat',dtype='i8')
 IDs,exps=cre[:,0],cre[:,1]
 
@@ -32,7 +33,9 @@ def plot_SDSS(band,cid,bandname=None,connectpoints=True):
     SDSS_cols={'g': '#66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
     if bandname==None: bandname=band
     SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
-    gSDSSid=np.where((SDSScid==cid)&()[0]
+    gcid=np.where(cID==cid)[0][0]
+    gSDSSid=np.where((SDSScid==cid)&(60*SphDist(yra[gcid],ydec[gcid],SDSSra,SDSSdec)<2.))[0]
+    #print SDF['THINGID'][gSDSSid]
     curcol=SDSS_cols[band]
     if connectpoints:
         gsort=np.argsort(SDSSmjd[gSDSSid])
@@ -78,7 +81,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
             for b in SDSSbands:
                 plot_SDSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
         xlim=plt.xlim()
-        plt.xlim(xlim[0],xlim[1]+0.12*(xlim[1]-xlim[0]))
+        plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         plt.legend()
     else:
         plot_band(g,band,connectpoints=connectpoints)
@@ -93,4 +96,4 @@ for idcur in np.unique(SDSScid):
     print idcur
     plot_lightcurve(idcur,plotSDSS=True,fname='DES+SDSS_lightcurve_%s.png'%idcur)
     #print SDF['RA'][SDSScid==idcur],SDF['DEC'][SDSScid==idcur],DF['RA'][cID==idcur],DF['DEC'][cID==idcur]
-    print SDF['THINGID'][SDSScid==idcur]
+    print np.array(SDF['THINGID'])[SDSScid==idcur],SDSSra[SDSScid==idcur],SDSSdec[SDSScid==idcur]
