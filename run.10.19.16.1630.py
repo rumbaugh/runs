@@ -58,26 +58,24 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
     MDF=con.query_to_pandas(MQ)
     #gmHP,gyHP=np.where(crm['HP']==HP)[0],np.in1d(cr['HP'],np.append(nearHPs,HP))
     ra_mtmp,dec_mtmp,ra_ytmp,dec_ytmp,cid_tmp=MDF['RA'],MDF['DEC'],YDF['RA'],YDF['DEC'],np.array(YDF['DEC'])
-    gYallow=np.arange(len(cid_tmp))[np.in1d(cid_tmp,cut_cids,invert=True)]
     
     
     crtmp=np.zeros((len(ra_mtmp),5))
     crtmp[:,0],crtmp[:,1],crtmp[:,2],crtmp[:,3]=MDF['SP_ROWNUM'],MDF['RA'],MDF['DEC'],MDF['HPIX']
     #nearinds=np.ones(len(ra_mtmp),dtype='i8')*-1
-    if len(gYallow)>0:
-        for i in range(0,len(ra_mtmp)):
-            gn=np.where((np.abs(ra_mtmp[i]-ra_ytmp[gYallow])*np.cos(dec_mtmp[i]*np.pi/180.)<tol)&(np.abs(dec_mtmp[i]-dec_ytmp[gYallow])<tol))[0]
-            if len(gn)>0:
-                tmpdist=np.sqrt(((ra_mtmp[i]-ra_ytmp[gYallow][gn])*np.cos(dec_mtmp[i]*np.pi/180.))**2+(dec_mtmp[i]-dec_ytmp[gYallow][gn])**2)
-                gd=np.where(tmpdist<tol)[0]
-                if len(gd)>0:
-                    #nearinds[i]=gn[np.argsort(tmpdist[gd])[0]]
-                    crtmp[:,4][i]=YDF['COADD_OBJECTS_ID'][gn[np.argsort(np.array(tmpdist[gd]))[0]]]
+    for i in range(0,len(ra_mtmp)):
+        gn=np.where((np.abs(ra_mtmp[i]-ra_ytmp)*np.cos(dec_mtmp[i]*np.pi/180.)<tol)&(np.abs(dec_mtmp[i]-dec_ytmp)<tol))[0]
+        if len(gn)>0:
+            tmpdist=np.sqrt(((ra_mtmp[i]-ra_ytmp[gn])*np.cos(dec_mtmp[i]*np.pi/180.))**2+(dec_mtmp[i]-dec_ytmp[gn])**2)
+            gd=np.where(tmpdist<tol)[0]
+            if len(gd)>0:
+                #nearinds[i]=gn[np.argsort(tmpdist[gd])[0]]
+                crtmp[:,4][i]=YDF['COADD_OBJECTS_ID'][gn[np.argsort(np.array(tmpdist[gd]))[0]]]
     outcr=np.concatenate((outcr,crtmp),axis=0)
 endt=time.time()
 lptime=endt-st
 print 'loop done. Took %.2f seconds'%(endt-st)
-np.savetxt('/home/rumbaugh/sdssposs_y1a1_match.csv',outcr,fmt='%i,%f,%f,%i,%i',header='SP_ROWNUM,RA,DEC,HPIX,COADD_OJECTS_ID',comments='')
+np.savetxt('/home/rumbaugh/sdssposs_y1a1_match.csv',outcr,fmt='%i,%f,%f,%i,%i',header='SP_ROWNUM,RA,DEC,HPIX,COADD_OBJECTS_ID',comments='')
 print 'file saved'
 trend=time.time()
 print 'Total time taken: %.2f seconds. Expected time for full run: %.0f seconds.'%(trend-trst,trend-trst+((len(crm)-testruns)*lptime/testruns))
