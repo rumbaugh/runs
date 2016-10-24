@@ -3,7 +3,6 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 DB_path='/home/rumbaugh/var_database'
-execfile('/home/rumbaugh/SphDist.py')
 cre=np.loadtxt('/home/rumbaugh/milliquas_num_epochs.dat',dtype='i8')
 IDs,exps=cre[:,0],cre[:,1]
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
