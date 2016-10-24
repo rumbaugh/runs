@@ -49,13 +49,13 @@ for curIDstep in steps_arr:
 
     for idcur,iid in zip(curIDs,np.arange(len(curIDs))):
         #print idcur
-        DBID=curIDstep+idcur
+        DBID=curIDstep+iid
         os.system('rm -rf %s/%i'%(DB_path,DBID))
         os.mkdir('%s/%i'%(DB_path,DBID))
         gci=np.where(idcur==cID)[0]
         db_outcr=np.zeros((len(gci),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
         db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',idcur,np.array(DF['OBJECT_ID'])[gci],yra[gci],ydec[gci],mjd[gci],'NONE',bands[gci],'PSF',mag[gci],magerr[gci],0
-        gsci=np.where(idcur==cID)[0]
+        gsci=np.where(idcur==SDSScid)[0]
         SDSS_outcr=np.zeros((len(gsci)*5,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
         for b,ib in zip(SDSSbands,np.arange(len(SDSSbands))):
             SDSS_outcr['DatabaseID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['Survey'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['SurveyCoaddID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['SurveyObjectID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['RA'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['DEC'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MJD'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['TAG'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['BAND'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAGTYPE'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAG'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAGERR'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['FLAG'][len(gsci)*ib:len(gsci)*(ib+1)]=DBID,'SDSS',np.array(SDF['THINGID'])[gsci],np.array(SDF['OBJID'])[gsci],SDSSra[gsci],SDSSdec[gsci],SDSSmjd[gsci],stags[gsci],b,'PSF',SDSSmagdict[b][gsci],SDSSmagerrdict[b][gsci],0
