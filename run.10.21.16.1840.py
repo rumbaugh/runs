@@ -46,7 +46,7 @@ for curIDstep in steps_arr:
     SDSSmagdict,SDSSmagerrdict={b: np.array(SDF['PSFMAG_%s'%(b.upper())]) for b in SDSSbands},{b: np.array(SDF['PSFMAGERR_%s'%(b.upper())]) for b in SDSSbands}
 
 
-    for idcur,iid in zip(curIDS,np.arange(len(curIDs))):
+    for idcur,iid in zip(curIDs,np.arange(len(curIDs))):
         #print idcur
         DBID=curIDstep+idcur
         os.system('rm -rf %s/%i'%(DB_path,DBID))
