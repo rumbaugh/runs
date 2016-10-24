@@ -25,7 +25,7 @@ for curIDstep in steps_arr:
         for s in IDs[curIDstep:curIDstep+10]: idsstr='%s, %i'%(idsstr,s)
         curIDs=IDs[curIDstep:curIDstep+10]
     else:
-        for s in IDs[curIDstep:]: idsstr='%s, %i'%(idsstr,s)
+        for s in IDs[curIDstep:laststep]: idsstr='%s, %i'%(idsstr,s)
         curIDs=IDs[curIDstep:laststep]
     idsstr=idsstr[1:]
 
