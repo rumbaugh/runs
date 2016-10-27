@@ -18,7 +18,7 @@ def plot_SDSS(band,cid,bandname=None,connectpoints=True):
     if bandname==None: bandname=band
     SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
     gcid=np.where(cID==cid)[0][0]
-    gSDSSid=np.where((SDSScid==cid)&(60*SphDist(yra[gcid],ydec[gcid],SDSSra,SDSSdec)<2.))[0]
+    gSDSSid=np.where(SDSScid==cid)[0]
     #print SDF['THINGID'][gSDSSid]
     curcol=SDSS_cols[band]
     if connectpoints:
