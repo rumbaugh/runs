@@ -7,6 +7,7 @@ cre=np.loadtxt('/home/rumbaugh/milliquas_num_epochs.dat',dtype='i8')
 IDs,exps=cre[:,0],cre[:,1]
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
+SDSS_colnames={b:'psfmag_%s'%b for b in SDSSbands}
 
 ge=np.argsort(exps)[::-1]
 
