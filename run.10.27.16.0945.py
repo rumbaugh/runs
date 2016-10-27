@@ -81,7 +81,6 @@ IDsteplen=10
 
 curIDstep=0
 laststep=len(IDs)
-laststep=29
 steps_arr=np.arange(0,laststep,IDsteplen,dtype='i8')
 for curIDstep in steps_arr:
     idsstr=''
