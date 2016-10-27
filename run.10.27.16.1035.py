@@ -23,12 +23,12 @@ avg_diffs=np.zeros(0)
 max_diffs=np.zeros(0)
 for curIDstep in steps_arr:
     idsstr=''
-    if curIDstep!=steps_arr[-1]:
-        for s in IDs[curIDstep:curIDstep+10]: idsstr='%s, %i'%(idsstr,s)
-        curIDs=IDs[curIDstep:curIDstep+10]
-    else:
-        for s in IDs[curIDstep:laststep]: idsstr='%s, %i'%(idsstr,s)
-        curIDs=IDs[curIDstep:laststep]
+    #if curIDstep!=steps_arr[-1]:
+    for s in IDs[curIDstep:curIDstep+10]: idsstr='%s, %i'%(idsstr,s)
+    curIDs=IDs[curIDstep:curIDstep+10]
+    #else:
+    #    for s in IDs[curIDstep:laststep]: idsstr='%s, %i'%(idsstr,s)
+    #    curIDs=IDs[curIDstep:laststep]
     idsstr=idsstr[1:]
 
     query='SELECT e.mjd_obs,o.imageid,o.object_id,y.COADD_OBJECTS_ID,y.RA,y.DEC,o.mag_auto+i.zeropoint as magauto,o.magerr_auto+i.sigma_zeropoint as magerr_auto,o.mag_psf+i.zeropoint as magpsf,o.magerr_psf+i.sigma_zeropoint as magerr_psf,o.band,i.exptime FROM des_admin.Y1A1_COADD_OBJECTS y, des_admin.y1a1_objects o, des_admin.y1a1_image i,des_admin.y1a1_exposure e where o.imageid=i.id and i.exposureid=e.id and y.coadd_objects_id=o.coadd_objects_id and y.coadd_objects_id in (%s)'%idsstr
