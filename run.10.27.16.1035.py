@@ -61,7 +61,7 @@ for curIDstep in steps_arr:
             SDSS_outcr['DatabaseID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['Survey'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['SurveyCoaddID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['SurveyObjectID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['RA'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['DEC'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MJD'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['TAG'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['BAND'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAGTYPE'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAG'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAGERR'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['FLAG'][len(gsci)*ib:len(gsci)*(ib+1)]=DBID,'SDSS',np.array(SDF['THINGID'])[gsci],np.array(SDF['OBJID'])[gsci],SDSSra[gsci],SDSSdec[gsci],SDSSmjd[gsci],stags[gsci],b,'PSF',SDSSmagdict[b][gsci],SDSSmagerrdict[b][gsci],0
         outcr=np.append(db_outcr,SDSS_outcr)
         diffs=np.sqrt((SDSSra[gsci]-yra[gci][0])**2+(SDSSdec[gsci]-ydec[gci][0])**2)
-        avg_diffs,max_diffs=np.append(avg_diffs,np.mean(diffs)),np.append(max_difs,np.max(diffs))
+        avg_diffs,max_diffs=np.append(avg_diffs,np.mean(diffs)),np.append(max_diffs,np.max(diffs))
 print avg_diffs,max_diffs
         
         
