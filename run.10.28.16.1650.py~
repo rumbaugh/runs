@@ -1,0 +1,8 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import healpy as hp
+nside=16384
+
+cr=np.loadtxt('milliquas_y1a1_match.tab',dtype={'names':('MQ','ra','dec','hpix','cid'),'formats':('i8','f8','f8','i8','i8')},skiprows=1)
+
+HPradec=np.array(hp.pix2ang(nside,cr['hpix']))
