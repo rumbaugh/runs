@@ -22,6 +22,7 @@ for i in range(0,maxDBID+1):
             gb=np.where(cr['BAND'][gDES]==band)[0]
             if len(gb)>0:
                 outcr[i][3+ib]=np.median(cr['MAG'][gDES][gb])
+                if np.isnan(outcr[i][3+ib]): print i
         if len(gSDSS)>0: 
             outcr[i][2]=cr['CoaddID'][gSDSS][0]
             for ib,band in zip(np.arange(len(bands)),bands):
