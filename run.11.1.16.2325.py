@@ -1,12 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_radec(DBID,savefile=None):
+def plot_radec(DBID,savefile=None,printcens=True):
     cr=np.loadtxt('/home/rumbaugh/var_database/%i/LC.tab'%DBID,dtype={'names':('DBID','Survey','CoaddID','ObjID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','Flag'),'formats':('i8','|S6','i8','i8','f8','f8','f8','|S12','|S4','|S8','f8','f8','i8')},skiprows=1)
     gDES,gSDSS=np.where(cr['Survey']=='DES')[0],np.where(cr['Survey']=='SDSS')[0]
     raDES,decDES,mjdDES,raSDSS,decSDSS,mjdSDSS=cr['RA'][gDES],cr['DEC'][gDES],cr['MJD'][gDES],cr['RA'][gSDSS],cr['DEC'][gSDSS],cr['MJD'][gSDSS]
     raDES,decDES,raSDSS,decSDSS=raDES[np.argsort(mjdDES)],decDES[np.argsort(mjdDES)],raSDSS[np.argsort(mjdSDSS)],decSDSS[np.argsort(mjdSDSS)]
     raDEScen,decDEScen=np.mean(raDES),np.mean(decDES)
+    raSDSScen,decSDSScen=np.mean(raSDSS),np.mean(decSDSS)
     raDES,decDES,raSDSS,decSDSS=np.append(raDES[0],raDES),np.append(decDES[0],decDES),np.append(raSDSS[0],raSDSS),np.append(decSDSS[0],decSDSS)
     plt.figure(1)
     plt.clf()
@@ -24,3 +25,4 @@ def plot_radec(DBID,savefile=None):
     plt.xlabel('RA')
     plt.ylabel('Dec')
     if savefile!=None: plt.savefig(savefile)
+    if printcens: print 'SDSS center:\n%11.7f %11.f\nDES center:\n%11.7f %11.f'%(raSDSScen,decSDSScen,raDEScen,decDEScen)
