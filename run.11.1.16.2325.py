@@ -12,8 +12,8 @@ def plot_radec(DBID,savefile=None):
     plt.clf()
     plt.rc('axes',linewidth=2)
     plt.fontsize = 14
-    plt.tick_padecms(which='major',length=8,width=2,labelsize=14)
-    plt.tick_padecms(which='minor',length=4,width=1.5,labelsize=14)
+    plt.tick_params(which='major',length=8,width=2,labelsize=14)
+    plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     plt.plot(raSDSS,decSDSS,lw=2,color='b')
     plt.plot(raDES,decDES,lw=2,color='r')
     plt.scatter(raSDSS,decSDSS,color='b')
