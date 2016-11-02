@@ -30,6 +30,6 @@ for i in range(0,maxDBID+1):
                     outcr[i][7+ib]=np.median(cr['MAG'][gSDSS][gb])
                     if outcr[i][3+ib]!=0:
                         outcr[i][11+ib]=outcr[i][3+ib]-outcr[i][7+ib]
-newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,:-4]),axis=1))[::-1]]
+newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,-4:]),axis=1))[::-1]]
 np.savetxt('/home/rumbaugh/var_database/mag_changes.SDSS-DESS.dat',newoutcr,fmt='%5i %15i %15i %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f',header='DBID COADD_OBJECTS_ID THINGID DES_g DES_r DES_i DES_z SDSS_g SDSS_r SDSS_i SDSS_z MAGDIFF_g MAGDIFF_r MAGDIFF_i MAGDIFF_z',comments='')
     
