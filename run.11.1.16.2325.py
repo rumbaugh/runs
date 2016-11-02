@@ -25,4 +25,4 @@ def plot_radec(DBID,savefile=None,printcens=True):
     plt.xlabel('RA')
     plt.ylabel('Dec')
     if savefile!=None: plt.savefig(savefile)
-    if printcens: print 'SDSS center:\n%11.7f %11.f\nDES center:\n%11.7f %11.f'%(raSDSScen,decSDSScen,raDEScen,decDEScen)
+    if printcens: print 'SDSS center:\n%11.7f %11.7f\nDES center:\n%11.7f %11.7f'%(raSDSScen,decSDSScen,raDEScen,decDEScen)
