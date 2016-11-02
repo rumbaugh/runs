@@ -11,7 +11,7 @@ SDSS_colnames={b:'psfmag_%s'%b for b in SDSSbands}
 bands = np.array(['g','r','i','z'])
 
 maxDBID=30295
-outcr=np.zeros((maxDBID+1,16))
+outcr=np.zeros((maxDBID+1,17))
 outcr[:,0]=np.arange(0,maxDBID+1)
 for i in range(0,maxDBID+1):
     cr=np.loadtxt('/home/rumbaugh/var_database/%i/LC.tab'%i,dtype={'names':('DBID','Survey','CoaddID','ObjID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','Flag'),'formats':('i8','|S6','i8','i8','f8','f8','f8','|S12','|S4','|S8','f8','f8','i8')},skiprows=1)
@@ -23,14 +23,19 @@ for i in range(0,maxDBID+1):
             if len(gb)>0:
                 outcr[i][3+ib]=np.median(cr['MAG'][gDES][gb])
         if len(gSDSS)>0: 
+            raDES,decDES,mjdDES,raSDSS,decSDSS,mjdSDSS=cr['RA'][gDES],cr['DEC'][gDES],cr['MJD'][gDES],cr['RA'][gSDSS],cr['DEC'][gSDSS],cr['MJD'][gSDSS]
+            raDES,decDES,raSDSS,decSDSS=raDES[np.argsort(mjdDES)],decDES[np.argsort(mjdDES)],raSDSS[np.argsort(mjdSDSS)],decSDSS[np.argsort(mjdSDSS)]
+            raDEScen,decDEScen=np.mean(raDES),np.mean(decDES)
+            raSDSScen,decSDSScen=np.mean(raSDSS),np.mean(decSDSS)
             outcr[i][2]=cr['CoaddID'][gSDSS][0]
+            outcr[i][-2]=np.sqrt(((raDEScen-raSDSScen)*np.cos(decDEScen*np.pi/180))**2+(decDEScen-decSDSScen)**2)
             for ib,band in zip(np.arange(len(bands)),bands):
                 gb=np.where(cr['BAND'][gSDSS]==band)[0]
                 if len(gb)>0:
                     outcr[i][7+ib]=np.median(cr['MAG'][gSDSS][gb])
                     if outcr[i][3+ib]!=0:
                         outcr[i][11+ib]=outcr[i][3+ib]-outcr[i][7+ib]
-newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,-5:-1]),axis=1))[::-1]]
-newoutcr=newoutcr[np.max(newoutcr[:,-5:-1],axis=1)<30]
+newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,-6:-2]),axis=1))[::-1]]
+newoutcr=newoutcr[(np.max(newoutcr[:,-6:-2],axis=1)<30)&(newoutcr[:,-2]<1)]
 np.savetxt('/home/rumbaugh/var_database/mag_changes.SDSS-DESS.dat',newoutcr,fmt='%5i %15i %15i %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %2i',header='DBID COADD_OBJECTS_ID THINGID DES_g DES_r DES_i DES_z SDSS_g SDSS_r SDSS_i SDSS_z MAGDIFF_g MAGDIFF_r MAGDIFF_i MAGDIFF_z INTERESTING_FLAG',comments='')
     
