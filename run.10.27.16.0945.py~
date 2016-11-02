@@ -7,74 +7,10 @@ cre=np.loadtxt('/home/rumbaugh/milliquas_num_epochs.dat',dtype='i8')
 IDs,exps=cre[:,0],cre[:,1]
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
-SDSS_colnames={b:'psfmag_%s'%b for b in SDSSbands}
 
 ge=np.argsort(exps)[::-1]
 
 con=ea.connect()
-
-def plot_SDSS(band,cid,bandname=None,connectpoints=True):
-    SDSS_cols={'g': '66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
-    if bandname==None: bandname=band
-    SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
-    gcid=np.where(cID==cid)[0][0]
-    gSDSSid=np.where(SDSScid==cid)[0]
-    #print SDF['THINGID'][gSDSSid]
-    curcol=SDSS_cols[band]
-    if connectpoints:
-        gsort=np.argsort(SDSSmjd[gSDSSid])
-        plt.plot(SDSSmjd[gSDSSid][gsort],SDSSmag[gSDSSid][gsort],color=curcol,lw=2)
-    plt.errorbar(SDSSmjd[gSDSSid],SDSSmag[gSDSSid],yerr=SDSSmagerr[gSDSSid],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    plt.scatter(SDSSmjd[gSDSSid],SDSSmag[gSDSSid],color=curcol,label='SDSS %s'%band,marker='d')
-    
-
-def plot_band(gid,band,connectpoints=True):
-    gband=np.where(bands[gid]==band)[0]
-    magplot=mag[gid][gband]
-    magploterr=magerr[gid][gband]
-    g100=np.where(magplot<100)[0]
-    try:
-        curcol=coldict[band]
-    except KeyError:
-        print '%s is not a valid band'%band
-        return
-    if connectpoints:
-        gsort=np.argsort(mjd[gid][gband][g100])
-        plt.plot(mjd[gid][gband][g100][gsort],magplot[g100][gsort],color=curcol,lw=2)
-    plt.errorbar(mjd[gid][gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    plt.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol,label=band)
-    #return
-
-
-def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True):
-    band=band.lower()
-    g=np.where(cID==cid)[0]
-    if len(g)==0:
-        print 'No matches for %i'%cid
-        return
-    plt.figure(1)
-    plt.clf()
-    plt.rc('axes',linewidth=2)
-    plt.fontsize = 14
-    plt.tick_params(which='major',length=8,width=2,labelsize=14)
-    plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
-    if band=='all':
-        for b in coldict.keys():
-            plot_band(g,b,connectpoints=connectpoints)
-        if plotSDSS==True:
-            for b in SDSSbands:
-                plot_SDSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
-        xlim=plt.xlim()
-        plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
-        plt.legend()
-    else:
-        plot_band(g,band,connectpoints=connectpoints)
-    plt.xlabel('MJD')
-    plt.ylabel('Mag_PSF')
-    plt.title(cid)
-    if fname!=None: plt.savefig(fname)
-    return
-
 
 outputdir='/home/rumbaugh/var_database'
 IDsteplen=10
@@ -113,7 +49,16 @@ for curIDstep in steps_arr:
     for idcur,iid in zip(curIDs,np.arange(len(curIDs))):
         #print idcur
         DBID=curIDstep+iid
+        os.system('rm -rf %s/%i'%(DB_path,DBID))
+        os.mkdir('%s/%i'%(DB_path,DBID))
         gci=np.where(idcur==cID)[0]
+        db_outcr=np.zeros((len(gci),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
+        db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',idcur,np.array(DF['OBJECT_ID'])[gci],yra[gci],ydec[gci],mjd[gci],'NONE',bands[gci],'PSF',mag[gci],magerr[gci],0
         gsci=np.where(idcur==SDSScid)[0]
-        plot_lightcurve(idcur,plotSDSS=True,fname='/home/rumbaugh/var_database/plots/DES+SDSS_lightcurve_%s.png'%idcur)
-        gsci=np.where(idcur==SDSScid)[0]
+        SDSS_outcr=np.zeros((len(gsci)*5,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
+        for b,ib in zip(SDSSbands,np.arange(len(SDSSbands))):
+            SDSS_outcr['DatabaseID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['Survey'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['SurveyCoaddID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['SurveyObjectID'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['RA'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['DEC'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MJD'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['TAG'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['BAND'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAGTYPE'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAG'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['MAGERR'][len(gsci)*ib:len(gsci)*(ib+1)],SDSS_outcr['FLAG'][len(gsci)*ib:len(gsci)*(ib+1)]=DBID,'SDSS',np.array(SDF['THINGID'])[gsci],np.array(SDF['OBJID'])[gsci],SDSSra[gsci],SDSSdec[gsci],SDSSmjd[gsci],stags[gsci],b,'PSF',SDSSmagdict[b][gsci],SDSSmagerrdict[b][gsci],0
+        outcr=np.append(db_outcr,SDSS_outcr)
+        np.savetxt('%s/%i/LC.tab'%(DB_path,DBID),outcr,fmt=('%12i %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
+        np.savetxt('%s/%i/DES_data.tab'%(DB_path,DBID),np.array(DF)[gci],fmt='%f %i %i %i %f %f %f %f %f %f %s %f',header=('MJD IMAGEID OBJECTID COADD_OBJECTS_ID RA DEC MAG_AUTO MAGERR_AUTO MAG_PSF MAGERR_PSF BAND EXPTIME'),comments='')
+        np.savetxt('%s/%i/SDSS_data.tab'%(DB_path,DBID),np.array(SDF)[gsci],fmt=('%f %f %f %i %i %f %f %f %f %f %f %f %f %f %f%i %i %i %i %i %i %i'),header=('MJD RA DEC OBJID NUMROW PSFMAG_U  PSFMAG_G  PSFMAG_R  PSFMAG_I  PSFMAG_Z  PSFMAGERR_U  PSFMAGERR_G  PSFMAGERR_R  PSFMAGERR_I  PSFMAGERR_Z RUN RERUN STRIPE THINGID MQ_ROWNUM COADD_OBJECTS_UD HPIX'),comments='')
