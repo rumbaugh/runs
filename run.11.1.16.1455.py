@@ -28,7 +28,7 @@ for i in range(0,maxDBID+1):
             raDEScen,decDEScen=np.mean(raDES),np.mean(decDES)
             raSDSScen,decSDSScen=np.mean(raSDSS),np.mean(decSDSS)
             outcr[i][2]=cr['CoaddID'][gSDSS][0]
-            outcr[i][-2]=np.sqrt(((raDEScen-raSDSScen)*np.cos(decDEScen*np.pi/180))**2+(decDEScen-decSDSScen)**2)
+            outcr[i][-2]=np.sqrt(((raDEScen-raSDSScen)*np.cos(decDEScen*np.pi/180))**2+(decDEScen-decSDSScen)**2)*3600
             for ib,band in zip(np.arange(len(bands)),bands):
                 gb=np.where(cr['BAND'][gSDSS]==band)[0]
                 if len(gb)>0:
@@ -37,5 +37,5 @@ for i in range(0,maxDBID+1):
                         outcr[i][11+ib]=outcr[i][3+ib]-outcr[i][7+ib]
 newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,-6:-2]),axis=1))[::-1]]
 newoutcr=newoutcr[(np.max(newoutcr[:,-6:-2],axis=1)<30)&(newoutcr[:,-2]<1)]
-np.savetxt('/home/rumbaugh/var_database/mag_changes.SDSS-DESS.dat',newoutcr,fmt='%5i %15i %15i %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %2i',header='DBID COADD_OBJECTS_ID THINGID DES_g DES_r DES_i DES_z SDSS_g SDSS_r SDSS_i SDSS_z MAGDIFF_g MAGDIFF_r MAGDIFF_i MAGDIFF_z INTERESTING_FLAG',comments='')
+np.savetxt('/home/rumbaugh/var_database/mag_changes.SDSS-DESS.dat',newoutcr,fmt='%5i %15i %15i %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %5.3f %2i',header='DBID COADD_OBJECTS_ID THINGID DES_g DES_r DES_i DES_z SDSS_g SDSS_r SDSS_i SDSS_z MAGDIFF_g MAGDIFF_r MAGDIFF_i MAGDIFF_z DISTANCE INTERESTING_FLAG',comments='')
     
