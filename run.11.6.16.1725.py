@@ -12,7 +12,7 @@ cr=np.loadtxt('/home/rumbaugh/Downloads/VanderBerk_datafile1.txt',skiprows=23)
 crdb=np.loadtxt('/home/rumbaugh/var_database/%i/LC.tab'%DBID,dtype={'names':('DBID','Survey','CoaddID','ObjID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','Flag'),'formats':('i8','|S6','i8','i8','f8','f8','f8','|S12','|S4','|S8','f8','f8','i8')},skiprows=1)
 
 gDES,gSDSS=np.where(crdb['Survey']=='DES')[0],np.where(crdb['Survey']=='SDSS')[0]
-u_sdss,g_sdss,r_sdss,i_sdss,z_sdss=crDB['MAG'][gSDSS][crdb['BAND'][gSDSS]=='u'],crDB['MAG'][gSDSS][crdb['BAND'][gSDSS]=='g'],crDB['MAG'][gSDSS][crdb['BAND'][gSDSS]=='r'],crDB['MAG'][gSDSS][crdb['BAND'][gSDSS]=='i'],crDB['MAG'][gSDSS][crdb['BAND'][gSDSS]=='z']
+u_sdss,g_sdss,r_sdss,i_sdss,z_sdss=crdb['MAG'][gSDSS][crdb['BAND'][gSDSS]=='u'],crdb['MAG'][gSDSS][crdb['BAND'][gSDSS]=='g'],crdb['MAG'][gSDSS][crdb['BAND'][gSDSS]=='r'],crdb['MAG'][gSDSS][crdb['BAND'][gSDSS]=='i'],crdb['MAG'][gSDSS][crdb['BAND'][gSDSS]=='z']
 u_sdss,g_sdss,r_sdss,i_sdss,z_sdss,Y_sdss=SDSS2DES_mag(u_sdss,g_sdss,r_sdss,i_sdss,z_sdss)
 magdict={'DES': {b: np.median(crdb['MAG'][gDES][crdb['BAND'][gDES]==b]) for b in bands}, 'SDSS': {'g': np.median(g_sdss),'r': np.median(r_sdss),'i': np.median(i_sdss),'z': np.median(z_sdss)}}
 
