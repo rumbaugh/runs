@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 execfile('/home/rumbaugh/pythonscripts/SDSS2DES_transform.py')
 DBID=20458
 
+redshift=1.6
+
 WavLL,WavUL=300,1050
 
 bands=np.array(['g','r','i','z'])
@@ -16,7 +18,7 @@ u_sdss,g_sdss,r_sdss,i_sdss,z_sdss=crdb['MAG'][gSDSS][crdb['BAND'][gSDSS]=='u'],
 u_sdss,g_sdss,r_sdss,i_sdss,z_sdss,Y_sdss=SDSS2DES_mag(u_sdss,g_sdss,r_sdss,i_sdss,z_sdss)
 magdict={'DES': {b: np.median(crdb['MAG'][gDES][crdb['BAND'][gDES]==b]) for b in bands}, 'SDSS': {'g': np.median(g_sdss),'r': np.median(r_sdss),'i': np.median(i_sdss),'z': np.median(z_sdss)}}
 
-VBmax=np.max(cr[:,1][(cr[:,0]>WavLL)&(cr[:,0]<WavUL)])
+VBmax=np.max(cr[:,1][(cr[:,0]/(1.+redshift)>WavLL)&(cr[:,0]/(1.+redshift)<WavUL)])
 
 fluxdict={surv: {b: 10**(magdict[surv][b]/-2.5) for b in bands} for surv in ['DES','SDSS']}
 
@@ -27,7 +29,7 @@ relfluxdict={'DES': {b: fluxdict['DES'][b]*VBmax/DESfluxmax for b in bands},'SDS
 plt.figure(1)
 plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
-plt.plot(cr[:,0],cr[:,1],color='k',lw=2)
+plt.plot(cr[:,0]/(1.+redshift),cr[:,1],color='k',lw=2)
 for b in bands: 
     for surv,scol in zip(['DES','SDSS'],['r','b']):
         plt.scatter(np.array([bcens[b]]),np.array([relfluxdict[surv][b]]),color=scol)
