@@ -30,7 +30,7 @@ execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 plt.plot(cr[:,0],cr[:,1],color='k',lw=2)
 for b in bands: 
     for surv,scol in zip(['DES','SDSS'],['r','b']):
-        plt.scatter(np.array([bcens[b]]),np.array([relfuxdict[surv][b]]),color=scol)
+        plt.scatter(np.array([bcens[b]]),np.array([relfluxdict[surv][b]]),color=scol)
 plt.xlabel('Wavelength (Angstroms)')
 plt.ylabel('Flux (arbitrary units)')
 plt.xlim(WavLL,WavUL)
