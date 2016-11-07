@@ -3,7 +3,10 @@ import matplotlib.pyplot as plt
 execfile('/home/rumbaugh/pythonscripts/SDSS2DES_transform.py')
 DBID=20458
 
-redshift=1.6
+try:
+    redshift
+except NameError:
+    redshift=1.6
 
 WavLL,WavUL=300,1050
 
