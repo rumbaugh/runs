@@ -22,7 +22,7 @@ fluxdict={surv: {b: 10**(magdict[surv][b]/-2.5) for b in bands} for surv in ['DE
 
 SDSSfluxmax,DESfluxmax=np.max(np.array([fluxdict['SDSS'][b] for b in bands])),np.max(np.array([fluxdict['DES'][b] for b in bands]))
 
-relfluxdict={'DES': {b: fluxdict[surv][b]*VBmax/DESfluxmax},'SDSS': {b: fluxdict[surv][b]*VBmax/SDSSfluxmax}}
+relfluxdict={'DES': {b: fluxdict['DES'][b]*VBmax/DESfluxmax},'SDSS': {b: fluxdict['SDSS'][b]*VBmax/SDSSfluxmax}}
 
 plt.figure(1)
 plt.clf()
