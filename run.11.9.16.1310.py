@@ -105,7 +105,7 @@ for curid in IDs:
     SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())][gid] for b in POSSbands}
     POSScid=cr['cid'][gid]
     POSSra,POSSdec=cr['ra'][gid],cr['dec'][gid]
-    POSSmagdict,POSSmagerrdict,POSSmjddict={b: cr['%s_POSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_POSS_err'%(b.upper())][gid] for b in POSSbands},{b: 2450448.5+365.25*(cr['EPOCH%s'%(b.upper())][gid]-1997) for b in POSSbands}
+    POSSmagdict,POSSmagerrdict,POSSmjddict={b: cr['%s_POSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_POSS_err'%(b.upper())][gid] for b in POSSbands},{b: 50448.+365.25*(cr['EPOCH%s'%(b.upper())][gid]-1997) for b in POSSbands}
 
 
     plot_lightcurve(curid,plotSDSS=True,fname='/home/rumbaugh/var_database/plots/DES+SDSS+POSS_lightcurve_%s.png'%curid)
