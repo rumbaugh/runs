@@ -40,7 +40,6 @@ def plot_SDSS(band,cid,bandname=None,connectpoints=False):
     if connectpoints:
         gsort=np.argsort(SDSSmjd)
         plt.plot(SDSSmjd[gsort],SDSSmag[gsort],color=curcol,lw=2)
-    print SDSSmjd,SDSSmag,SDSSmagerr,curcol
     plt.errorbar(SDSSmjd,SDSSmag,yerr=SDSSmagerr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
     plt.scatter(SDSSmjd,SDSSmag,color=curcol,label='SDSS %s'%band,marker='d')
     
@@ -81,6 +80,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
         if plotSDSS==True:
             for b in POSSbands:
                 plot_SDSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
+                plot_POSS(b,cid,bandname=POSS_colnames[b],connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         plt.legend()
