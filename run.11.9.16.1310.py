@@ -40,6 +40,7 @@ def plot_SDSS(band,cid,bandname=None,connectpoints=False):
     if connectpoints:
         gsort=np.argsort(SDSSmjd)
         plt.plot(SDSSmjd[gsort],SDSSmag[gsort],color=curcol,lw=2)
+    print SDSSmjd,SDSSmag,SDSSmagerr,curcol
     plt.errorbar(SDSSmjd,SDSSmag,yerr=SDSSmagerr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
     plt.scatter(SDSSmjd,SDSSmag,color=curcol,label='SDSS %s'%band,marker='d')
     
