@@ -22,7 +22,7 @@ def plot_POSS(band,cid,bandname=None,connectpoints=False):
     POSSmjd=POSSmjddict[band]
     gcid=np.where(cID==cid)[0][0]
     gPOSSid=np.where(POSScid==cid)[0]
-    curcol=SDSS_cols[band]
+    curcol=POSS_cols[band]
     if connectpoints:
         gsort=np.argsort(POSSmjd)
         plt.plot(POSSmjd[gsort],POSSmag[gsort],color=curcol,lw=2)
