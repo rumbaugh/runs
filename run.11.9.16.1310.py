@@ -103,10 +103,10 @@ for curid in IDs:
     mjd,mag,magerr,cID,bands,yra,ydec=cry['mjd'][gidy],cry['mag'][gidy],cry['magerr'][gidy],cry['cid'][gidy],cry['band'][gidy],cry['ra'][gidy],cry['dec'][gidy]
     SDSSmjd,SDSScid=cr['mjd_SDSS'][gid],cr['cid'][gid]
     SDSSra,SDSSdec=cr['ra'][gid],cr['dec'][gid]
-    SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())] for b in POSSbands}
+    SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())][gid] for b in POSSbands}
     POSScid=cr['cid'][gid]
     POSSra,POSSdec=cr['ra'][gid],cr['dec'][gid]
-    POSSmagdict,POSSmagerrdict,POSSmjddict={b: cr['%s_POSS'%(b.upper())] for b in POSSbands},{b: cr['%s_POSS_err'%(b.upper())] for b in POSSbands},{b: 2450448.5+365.25*(cr['EPOCH%s'%(b.upper())]-1997) for b in POSSbands}
+    POSSmagdict,POSSmagerrdict,POSSmjddict={b: cr['%s_POSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_POSS_err'%(b.upper())][gid] for b in POSSbands},{b: 2450448.5+365.25*(cr['EPOCH%s'%(b.upper())][gid]-1997) for b in POSSbands}
 
 
     plot_lightcurve(curid,plotSDSS=True,fname='/home/rumbaugh/var_database/plots/DES+SDSS+POSS_lightcurve_%s.png'%curid)
