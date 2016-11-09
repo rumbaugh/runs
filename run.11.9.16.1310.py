@@ -78,7 +78,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
         for b in coldict.keys():
             plot_band(g,b,connectpoints=connectpoints)
         if plotSDSS==True:
-            for b in SDSSbands:
+            for b in POSSbands:
                 plot_SDSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
