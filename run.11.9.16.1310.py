@@ -16,7 +16,7 @@ ge=np.argsort(exps)[::-1]
 con=ea.connect()
 
 def plot_POSS(band,cid,bandname=None,connectpoints=False):
-    POSS_cols={'g': '003300', 'r': 'ffb3ff', 'i': 'cccc00'}
+    POSS_cols={'g': '#003300', 'r': '#ffb3ff', 'i': '#cccc00'}
     if bandname==None: bandname=band
     POSSmag,POSSmagerr=POSSmagdict[band],POSSmagerrdict[band]
     POSSmjd=POSSmjddict[band]
@@ -30,7 +30,7 @@ def plot_POSS(band,cid,bandname=None,connectpoints=False):
     plt.scatter(POSSmjd,POSSmag,color=curcol,label='POSS %s'%band,marker='d')
     
 def plot_SDSS(band,cid,bandname=None,connectpoints=False):
-    SDSS_cols={'g': '66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
+    SDSS_cols={'g': '#66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
     if bandname==None: bandname=band
     SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
     gcid=np.where(cID==cid)[0][0]
