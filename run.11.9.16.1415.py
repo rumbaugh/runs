@@ -2,7 +2,7 @@ import easyaccess as ea
 import numpy as np
 
 yt='aaa'
-cr=np.loadtxt('/home/rumbaugh/SDSSPOSS_lightcurve_entries_y1a1.tab',skiprows=1,dtype={'names':('cid','SPRN'),'formats':('i8','i8')},usecols=(0,1))
+cr=np.loadtxt('/home/rumbaugh/SDSSPOSS_lightcurve_entries_Y1A1.tab',skiprows=1,dtype={'names':('cid','SPRN'),'formats':('i8','i8')},usecols=(0,1))
 IDs=np.unique(cr['cid'])
 exps=np.zeros(len(IDs))
 for i in range(0,len(IDs)): exps[i]=len(np.where(cr['cid']==IDs[i])[0])

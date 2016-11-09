@@ -3,4 +3,4 @@ FROM des_admin.Y1A1_COADD_OBJECTS y, des_admin.y1a1_objects o, des_admin.y1a1_im
 where o.imageid=i.id 
 and i.exposureid=e.id 
 and ms.coadd_objects_id=y.coadd_objects_id 
-and y.coadd_objects_id=o.coadd_objects_id; > milliquas_lightcurve_entries_y1a1.tab
+and y.coadd_objects_id=o.coadd_objects_id; > SDSSPOSS_lightcurve_entries_y1a1.tab
