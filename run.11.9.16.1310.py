@@ -13,7 +13,6 @@ POSSbands=np.array(['g','r','i'])
 
 ge=np.argsort(exps)[::-1]
 
-con=ea.connect()
 
 def plot_POSS(band,cid,bandname=None,connectpoints=False):
     POSS_cols={'g': '#003300', 'r': '#ffb3ff', 'i': '#cccc00'}
@@ -80,7 +79,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
         if plotSDSS==True:
             for b in POSSbands:
                 plot_SDSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
-                plot_POSS(b,cid,bandname=POSS_colnames[b],connectpoints=connectpoints)
+                plot_POSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         plt.legend()
