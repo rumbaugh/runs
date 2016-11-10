@@ -45,7 +45,7 @@ def plot_SDSS(ax,band,cid,bandname=None,connectpoints=False):
     ax.scatter(SDSSmjd,SDSSmag,color=curcol,label='SDSS %s'%band,marker='d')
     
 
-def plot_band(ax,gid,band,connectpoints=True):
+def plot_band(ax,gid,band,connectpoints=True,nolabels=False):
     gband=np.where(bands[gid]==band)[0]
     magplot=mag[gid][gband]
     magploterr=magerr[gid][gband]
@@ -59,7 +59,10 @@ def plot_band(ax,gid,band,connectpoints=True):
         gsort=np.argsort(mjd[gid][gband][g100])
         ax.plot(mjd[gid][gband][g100][gsort],magplot[g100][gsort],color=curcol,lw=2)
     ax.errorbar(mjd[gid][gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    ax.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol,label=band)
+    if nolabels:
+        ax.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol)
+    else:
+        ax.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol,label=band)
     #return
 
 
@@ -85,7 +88,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
     ax=fig.add_subplot(2,1,1)
     if band=='all':
         for b in coldict.keys():
-            plot_band(ax,g,b,connectpoints=connectpoints)
+            plot_band(ax,g,b,connectpoints=connectpoints,nolabels=True)
         if plotSDSS==True:
             for b in POSSbands:
                 plot_SDSS(ax,b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
