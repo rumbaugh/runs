@@ -46,7 +46,7 @@ for curid in IDs[:10]:
     else:
         DBID=maxdbid
         maxdbid+=1
-        os.sys('mkdir -p %s/%i'%(DB_path,DBID))
+        os.system('mkdir -p %s/%i'%(DB_path,DBID))
         db_outcr=np.zeros((len(gidy),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
         db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',idcur,np.array(cry['OBJECT_ID'])[gidy],yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,0
         outcr=np.append(db_outcr,outcr)
