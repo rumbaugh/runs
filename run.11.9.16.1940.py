@@ -41,7 +41,7 @@ for curid in IDs:
             cur_cID=cID[0]
     if cur_cID in crdb[:,1]:
         gdb=np.where(cur_cID==crdb[:,1])[0]
-        DBID=crdb[gdb[0]]
+        DBID=crdb[gdb[0]][0]
         dbi_out[gdb[0]][3]=cr['sdr7id'][gid][0]
         crLC=np.loadtxt('%s/%i/LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S20','|S20','f8','f8','i8')},skiprows=1)
         outcr=np.append(crLC,outcr)
