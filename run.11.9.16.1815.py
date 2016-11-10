@@ -16,7 +16,7 @@ POSSbands=np.array(['g','r','i'])
 ge=np.argsort(exps)[::-1]
 
 
-def plot_POSS(band,cid,bandname=None,connectpoints=False):
+def plot_POSS(ax,band,cid,bandname=None,connectpoints=False):
     POSS_cols={'g': '#003300', 'r': '#ffb3ff', 'i': '#cccc00'}
     if bandname==None: bandname=band
     POSSmag,POSSmagerr=POSSmagdict[band],POSSmagerrdict[band]
@@ -30,7 +30,7 @@ def plot_POSS(band,cid,bandname=None,connectpoints=False):
     ax.errorbar(POSSmjd,POSSmag,yerr=POSSmagerr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
     ax.scatter(POSSmjd,POSSmag,color=curcol,label='POSS %s'%band,marker='d')
     
-def plot_SDSS(band,cid,bandname=None,connectpoints=False):
+def plot_SDSS(ax,band,cid,bandname=None,connectpoints=False):
     SDSS_cols={'g': '#66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
     if bandname==None: bandname=band
     SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
@@ -45,7 +45,7 @@ def plot_SDSS(band,cid,bandname=None,connectpoints=False):
     ax.scatter(SDSSmjd,SDSSmag,color=curcol,label='SDSS %s'%band,marker='d')
     
 
-def plot_band(gid,band,connectpoints=True):
+def plot_band(ax,gid,band,connectpoints=True):
     gband=np.where(bands[gid]==band)[0]
     magplot=mag[gid][gband]
     magploterr=magerr[gid][gband]
@@ -78,11 +78,11 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
     ax=fig.add_subplot(1,1,1)
     if band=='all':
         for b in coldict.keys():
-            plot_band(g,b,connectpoints=connectpoints)
+            plot_band(ax,g,b,connectpoints=connectpoints)
         if plotSDSS==True:
             for b in POSSbands:
-                plot_SDSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
-                plot_POSS(b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
+                plot_SDSS(ax,b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
+                plot_POSS(ax,b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         plt.legend()
