@@ -81,7 +81,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
             plot_band(ax,g,b,connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
-        plt.legend()
+        ax.legend()
     ax=fig.add_subplot(2,1,1)
     if band=='all':
         for b in coldict.keys():
@@ -92,7 +92,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
                 plot_POSS(ax,b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
-        plt.legend()
+        ax.legend()
     else:
         plot_band(ax,g,band,connectpoints=connectpoints)
     ax.set_xlabel('MJD')
