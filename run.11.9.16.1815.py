@@ -7,7 +7,7 @@ DB_path='/home/rumbaugh/var_database'
 psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/DES+SDSS+POSS_plots.pdf')
 cre=np.loadtxt('/home/rumbaugh/SDSSPOSS_Y1A1_num_epochs.dat',dtype='i8')
 IDs,exps=cre[:,0],cre[:,1]
-IDs=IDs[:10]
+#IDs=IDs[:10]
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
 SDSS_colnames={b:'%s_SDSS'%b for b in SDSSbands}
