@@ -75,7 +75,7 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
-    ax=fig.add_subplot(2,1,1)
+    ax=fig.add_subplot(1,1,2)
     if band=='all':
         for b in coldict.keys():
             plot_band(ax,g,b,connectpoints=connectpoints)
