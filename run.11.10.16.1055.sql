@@ -1,4 +1,4 @@
-SELECT e.mjd_obs,o.imageid,y.COADD_OBJECTS_ID,ms.SP_ROWNUM,y.RA,y.DEC,o.mag_psf+i.zeropoint as mag_psf,o.magerr_psf+i.sigma_zeropoint as magerr_psf,o.band,i.exptime,y.objid
+SELECT e.mjd_obs,o.imageid,y.COADD_OBJECTS_ID,ms.SP_ROWNUM,y.RA,y.DEC,o.mag_psf+i.zeropoint as mag_psf,o.magerr_psf+i.sigma_zeropoint as magerr_psf,o.band,i.exptime,o.object_id
 FROM des_admin.Y1A1_COADD_OBJECTS y, des_admin.y1a1_objects o, des_admin.y1a1_image i,des_admin.y1a1_exposure e,RUMBAUGH.sdssposs_y1a1_match ms 
 where o.imageid=i.id 
 and i.exposureid=e.id 
