@@ -13,7 +13,7 @@ outcr=np.zeros((numrows,3))
 
 for DBID in np.arange(0,numrows):
     outputdir='/home/rumbaugh/var_database'
-    db_cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
+    db_cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     gDES,gSDSS=np.where(db_cr['Survey']=='DES')[0],np.where(db_cr['Survey']=='SDSS')[0]
     if len(gDES)>0:
         cid=db_cr['SurveyCoaddID'][gDES[0]]
