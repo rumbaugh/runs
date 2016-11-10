@@ -17,7 +17,7 @@ crdb=np.loadtxt('/home/rumbaugh/var_database/database_index.dat')
 maxdbid=len(crdb)
 dbi_out=np.zeros((maxdbid,4),dtype='i8')
 dbi_out[:,:3]=np.copy(crdb)
-for curid in IDs[:10]:
+for curid in IDs:
     gid,gidy=np.where(cr['cid']==curid)[0],np.where(cry['cid']==curid)[0]
     mjd,mag,magerr,cID,bands,yra,ydec=cry['mjd'][gidy],cry['mag'][gidy],cry['magerr'][gidy],cry['cid'][gidy],cry['band'][gidy],cry['ra'][gidy],cry['dec'][gidy]
     SDSSmjd,SDSScid=cr['mjd_SDSS'][gid],cr['cid'][gid]
