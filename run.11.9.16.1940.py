@@ -15,7 +15,7 @@ cry=np.loadtxt('SDSSPOSS_lightcurve_entries_Y1A1.tab',skiprows=1,dtype={'names':
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/database_index.dat')
 maxdbid=len(crdb)
-for curid in IDs:
+for curid in IDs[:10]:
     gid,gidy=np.where(cr['cid']==curid)[0],np.where(cry['cid']==curid)[0]
     mjd,mag,magerr,cID,bands,yra,ydec=cry['mjd'][gidy],cry['mag'][gidy],cry['magerr'][gidy],cry['cid'][gidy],cry['band'][gidy],cry['ra'][gidy],cry['dec'][gidy]
     SDSSmjd,SDSScid=cr['mjd_SDSS'][gid],cr['cid'][gid]
@@ -49,3 +49,4 @@ for curid in IDs:
         np.savetxt('%s/%i/LC.tab'%(DB_path,DBID),outcr,fmt=('%12i %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
         np.savetxt('%s/%i/DES_data.tab'%(DB_path,DBID),db_outcr,fmt='%f %i %i %i %f %f %f %f %f %f %s %f',header=('MJD IMAGEID OBJECTID COADD_OBJECTS_ID RA DEC MAG_AUTO MAGERR_AUTO MAG_PSF MAGERR_PSF BAND EXPTIME'),comments='')
         #np.savetxt('%s/%i/SDSS_data.tab'%(DB_path,DBID),np.array(SDF)[gsci],fmt=('%f %f %f %i %i %f %f %f %f %f %f %f %f %f %f%i %i %i %i %i %i %i'),header=('MJD RA DEC OBJID NUMROW PSFMAG_U  PSFMAG_G  PSFMAG_R  PSFMAG_I  PSFMAG_Z  PSFMAGERR_U  PSFMAGERR_G  PSFMAGERR_R  PSFMAGERR_I  PSFMAGERR_Z RUN RERUN STRIPE THINGID MQ_ROWNUM COADD_OBJECTS_UD HPIX'),comments='')
+    print DBID, curid
