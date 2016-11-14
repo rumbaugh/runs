@@ -35,7 +35,7 @@ print 'loaded milliquas+healpix'
 execfile('pythonscripts/find_Y1A1_tile.py')
 
 crout=np.zeros(len(crm),dtype={'names':('mID','ra','dec','tname'),'formats':('i8','f8','f8','|S50')})
-crout['mID'],crout['ra'],croit['dec']=crm['mID'],crm['ra'],crm['dec']
+crout['mID'],crout['ra'],crout['dec']=crm['mID'],crm['ra'],crm['dec']
 
 for i in range(0,len(crm)):
     crout['tname'][i]=find_tile(crm['ra'][i],crm['dec'][i])
