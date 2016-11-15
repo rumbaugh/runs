@@ -22,11 +22,12 @@ def plot_POSS(ax,band,bandname=None,connectpoints=False):
     POSSmag,POSSmagerr=POSSmagdict[band],POSSmagerrdict[band]
     POSSmjd=POSSmjddict[band]
     curcol=POSS_cols[band]
-    if connectpoints:
-        gsort=np.argsort(POSSmjd)
-        ax.plot(POSSmjd[gsort],POSSmag[gsort],color=curcol,lw=2)
-    ax.errorbar(POSSmjd,POSSmag,yerr=POSSmagerr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    ax.scatter(POSSmjd,POSSmag,color=curcol,label='POSS %s'%band,marker='d')
+    if ((POSSmag>-20)&(POSSmag<40)):
+        if connectpoints:
+            gsort=np.argsort(POSSmjd)
+            ax.plot(POSSmjd[gsort],POSSmag[gsort],color=curcol,lw=2)
+        ax.errorbar(POSSmjd,POSSmag,yerr=POSSmagerr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
+        ax.scatter(POSSmjd,POSSmag,color=curcol,label='POSS %s'%band,marker='d')
     
 def plot_SDSS(ax,band,bandname=None,connectpoints=False):
     SDSS_cols={'g': '#66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
