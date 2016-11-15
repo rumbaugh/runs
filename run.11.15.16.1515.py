@@ -16,13 +16,11 @@ POSSbands=np.array(['g','r','i'])
 ge=np.argsort(exps)[::-1]
 
 
-def plot_POSS(ax,band,cid,bandname=None,connectpoints=False):
+def plot_POSS(ax,band,bandname=None,connectpoints=False):
     POSS_cols={'g': '#003300', 'r': '#ffb3ff', 'i': '#cccc00'}
     if bandname==None: bandname=band
     POSSmag,POSSmagerr=POSSmagdict[band],POSSmagerrdict[band]
     POSSmjd=POSSmjddict[band]
-    gcid=np.where(cID==cid)[0][0]
-    gPOSSid=np.where(POSScid==cid)[0]
     curcol=POSS_cols[band]
     if connectpoints:
         gsort=np.argsort(POSSmjd)
@@ -30,13 +28,10 @@ def plot_POSS(ax,band,cid,bandname=None,connectpoints=False):
     ax.errorbar(POSSmjd,POSSmag,yerr=POSSmagerr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
     ax.scatter(POSSmjd,POSSmag,color=curcol,label='POSS %s'%band,marker='d')
     
-def plot_SDSS(ax,band,cid,bandname=None,connectpoints=False):
+def plot_SDSS(ax,band,bandname=None,connectpoints=False):
     SDSS_cols={'g': '#66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
     if bandname==None: bandname=band
     SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
-    gcid=np.where(cID==cid)[0][0]
-    gSDSSid=np.where(SDSScid==cid)[0]
-    #print SDF['THINGID']
     curcol=SDSS_cols[band]
     if connectpoints:
         gsort=np.argsort(SDSSmjd)
@@ -68,10 +63,10 @@ def plot_band(ax,gid,band,connectpoints=True,nolabels=False):
 
 def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True):
     band=band.lower()
-    g=np.where(cID==cid)[0]
-    if len(g)==0:
-        print 'No matches for %i'%cid
-        return
+    #g=np.where(cID==cid)[0]
+    #if len(g)==0:
+    #    print 'No matches for %i'%cid
+    #    return
     fig=plt.figure(1)
     fig.clf()
     #ax=fig.add_subplot(2,1,2)
@@ -88,12 +83,12 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
     #    ax.legend()
     #ax=fig.add_subplot(2,1,1)
     if band=='all':
-        for b in coldict.keys():
-            plot_band(ax,g,b,connectpoints=connectpoints,nolabels=True)
+        #for b in coldict.keys():
+        #    plot_band(ax,g,b,connectpoints=connectpoints,nolabels=True)
         if plotSDSS==True:
             for b in POSSbands:
-                plot_SDSS(ax,b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
-                plot_POSS(ax,b,cid,bandname=SDSS_colnames[b],connectpoints=connectpoints)
+                plot_SDSS(ax,b,bandname=SDSS_colnames[b],connectpoints=connectpoints)
+                plot_POSS(ax,b,bandname=SDSS_colnames[b],connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         ax.legend()
@@ -110,9 +105,9 @@ outputdir='/home/rumbaugh/var_database'
 crt=np.loadtxt('/home/rumbaugh/SDSSPOSS_INY1A1TILE.tab',dtype={'names':('SP_ROWNUM','RA','DEC','TILENAME'),'formats':('i8','f8','f8','|S30')},skiprows=1)
 cr=np.loadtxt('SDSSPOSS_lightcurve_entries.tab',dtype={'names':('cid','SP_ROWNUM','ra_y1a1','dec_y1a1','sdr7id','mjd_SDSS','EPOCHG','EPOCHR','EPOCHI','ra','dec','G_POSS','R_POSS','I_POSS','G_POSS_err','R_POSS_err','I_POSS_err','G_SDSS','R_SDSS','I_SDSS','G_SDSS_err','R_SDSS_err','I_SDSS_err'),'formats':('i8','i8','f8','f8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1)
 cry=np.loadtxt('SDSSPOSS_lightcurve_entries_Y1A1.tab',skiprows=1,dtype={'names':('mjd','imageid','cid','SPid','ra','dec','mag','magerr','band','exp'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','|S12','f8')})
-
 for curid in crt['SP_ROWNUM']:
     gid=np.where(cr['SP_ROWNUM']==curid)[0]
+    SPRN=cr['SP_ROWNUM'][gid]
     SDSSmjd,SDSScid=cr['mjd_SDSS'][gid],cr['cid'][gid]
     SDSSra,SDSSdec=cr['ra'][gid],cr['dec'][gid]
     SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())][gid] for b in POSSbands}
