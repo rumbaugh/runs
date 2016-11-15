@@ -109,7 +109,6 @@ cry=np.loadtxt('SDSSPOSS_lightcurve_entries_Y1A1.tab',skiprows=1,dtype={'names':
 for curid in crt['SP_ROWNUM']:
     gid=np.array([curid])
     #gid=np.where(cr['SP_ROWNUM']==curid)[0]
-    SPRN=cr['SP_ROWNUM'][gid]
     SDSSmjd=cr['mjd_SDSS'][gid]
     SDSSra,SDSSdec=cr['ra'][gid],cr['dec'][gid]
     SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())][gid] for b in POSSbands}
