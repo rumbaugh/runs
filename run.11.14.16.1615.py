@@ -37,4 +37,4 @@ crout['mID'],crout['ra'],crout['dec']=crm['mID'],crm['ra'],crm['dec']
 for i in range(0,len(crm)):
     crout['tname'][i]=find_tile(crm['ra'][i],crm['dec'][i])
 
-np.savetxt('/home/rumbaugh/milliquas_Y1A1_tiles.csv',crout,fmt='%i,%f,%f,%s',header='SP_ROWNUM,RA,DEC,TILENAME',comments='')
+np.savetxt('/home/rumbaugh/sdss-poss_Y1A1_tiles.csv',crout,fmt='%i,%f,%f,%s',header='SP_ROWNUM,RA,DEC,TILENAME',comments='')

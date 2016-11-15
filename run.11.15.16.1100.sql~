@@ -1,0 +1,2 @@
+
+SELECT e.mjd_obs,o.imageid,ms.Y1A1_COADD_OBJECTS_ID,y.CATALOGID,y.RA,y.DEC,o.mag_model,o.magerr_model,o.band,i.exptime FROM des_admin.SVA1_COADD_OBJECTS y, des_admin.y1a1_objects o, des_admin.y1a1_image i,des_admin.y1a1_exposure e,rumbaugh.match_ozdes_y1a1 ms where o.imageid=i.id and i.exposureid=e.id and ms.sva1_coadd_objects_id=y.CATALOGID and y.CATALOGID=o.CATALOGID; > ozdes_lightcurve_entries_sva1.tab
