@@ -100,6 +100,10 @@ def plot_lightcurve(cid,band='all',plotSDSS=False,fname=None,connectpoints=True)
     ax.set_xlabel('MJD')
     ax.set_ylabel('Mag_PSF')
     ax.set_title(cid)
+    ylims=plt.ylim()
+    if ylims[1]>25:ylims[1]=25
+    if ylims[0]<14:ylims[0]=14
+    plt.ylim(ylims)
     if fname!=None: plt.savefig(psfpdf,format='pdf')
     return
   
