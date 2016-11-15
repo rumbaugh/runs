@@ -32,12 +32,13 @@ def plot_SDSS(ax,band,bandname=None,connectpoints=False):
     SDSS_cols={'g': '#66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
     if bandname==None: bandname=band
     SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
-    curcol=SDSS_cols[band]
-    if connectpoints:
-        gsort=np.argsort(SDSSmjd)
-        ax.plot(SDSSmjd[gsort],SDSSmag[gsort],color=curcol,lw=2)
-    ax.errorbar(SDSSmjd,SDSSmag,yerr=SDSSmagerr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    ax.scatter(SDSSmjd,SDSSmag,color=curcol,label='SDSS %s'%band,marker='d')
+    if ((SDSSmag>-20)&(SDSSmag<40)):
+        curcol=SDSS_cols[band]
+        if connectpoints:
+            gsort=np.argsort(SDSSmjd)
+            ax.plot(SDSSmjd[gsort],SDSSmag[gsort],color=curcol,lw=2)
+        ax.errorbar(SDSSmjd,SDSSmag,yerr=SDSSmagerr,color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
+        ax.scatter(SDSSmjd,SDSSmag,color=curcol,label='SDSS %s'%band,marker='d')
     
 
 def plot_band(ax,gid,band,connectpoints=True,nolabels=False):
@@ -50,14 +51,15 @@ def plot_band(ax,gid,band,connectpoints=True,nolabels=False):
     except KeyError:
         print '%s is not a valid band'%band
         return
-    if connectpoints:
-        gsort=np.argsort(mjd[gid][gband][g100])
-        ax.plot(mjd[gid][gband][g100][gsort],magplot[g100][gsort],color=curcol,lw=2)
-    ax.errorbar(mjd[gid][gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    if nolabels:
-        ax.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol)
-    else:
-        ax.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol,label=band)
+    if ((magplot>-20)&(magplot<40)):
+        if connectpoints:
+            gsort=np.argsort(mjd[gid][gband][g100])
+            ax.plot(mjd[gid][gband][g100][gsort],magplot[g100][gsort],color=curcol,lw=2)
+        ax.errorbar(mjd[gid][gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
+        if nolabels:
+            ax.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol)
+        else:
+            ax.scatter(mjd[gid][gband][g100],magplot[g100],color=curcol,label=band)
     #return
 
 
