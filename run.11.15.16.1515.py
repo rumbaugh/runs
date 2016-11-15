@@ -111,9 +111,9 @@ for curid in crt['SP_ROWNUM']:
     #gid=np.where(cr['SP_ROWNUM']==curid)[0]
     SDSSmjd=cr['mjd_SDSS'][gid]
     SDSSra,SDSSdec=cr['ra'][gid],cr['dec'][gid]
-    SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())][gid] for b in POSSbands}
+    SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_ERR'%(b.upper())][gid] for b in POSSbands}
     POSSra,POSSdec=cr['ra'][gid],cr['dec'][gid]
-    POSSmagdict,POSSmagerrdict,POSSmjddict={b: cr['%s_POSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_POSS_err'%(b.upper())][gid] for b in POSSbands},{b: 50448.+365.25*(cr['EPOCH%s'%(b.upper())][gid]-1997) for b in POSSbands}
+    POSSmagdict,POSSmagerrdict,POSSmjddict={b: cr['%s_POSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_ERR'%(b.upper())][gid] for b in POSSbands},{b: 50448.+365.25*(cr['EPOCH%s'%(b.upper())][gid]-1997) for b in POSSbands}
 
 
     plot_lightcurve(curid,plotSDSS=True,fname='/home/rumbaugh/var_database/plots/SDSS+POSS_lightcurve_%s.png'%curid)
