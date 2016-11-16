@@ -14,8 +14,8 @@ POSSbands=np.array(['g','r','i'])
 def plot_SDSS(ax,band,bandname=None,connectpoints=False):
     SDSS_cols={'g': '#66ff66','u': 'purple', 'r': 'pink', 'i': 'brown', 'z': 'silver'}
     if bandname==None: bandname=band
-    SDSSmag,SDSSmagerr=SDSSmagdict[band],SDSSmagerrdict[band]
-    if ((SDSSmag>-20)&(SDSSmag<40)):
+    SDSSmag,SDSSmagerr=SDSSmagdict[band][(SDSSmagdict[band]>-20)&(SDSSmagdict[band]<40)],SDSSmagerrdict[band][(SDSSmagdict[band]>-20)&(SDSSmagdict[band]<40)]
+    if len(SDSSmag)>0:
         curcol=SDSS_cols[band]
         if connectpoints:
             gsort=np.argsort(SDSSmjd)
