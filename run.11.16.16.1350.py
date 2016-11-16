@@ -1,7 +1,7 @@
 import numpy as np
 import angconvert as ang
 
-cr = np.loadtxt('/home/rumbaugh/MILLIQUAS_INY1A1TILE.csv',skiprows=1,dtype={'names':('NUMROW','MQ_ROWNUM','RA','DEC','TILENAME'),'formats':('i8','i8','f8','f8','|S30')})
+cr = np.loadtxt('/home/rumbaugh/MILLIQUAS_INY1A1TILE.csv',skiprows=1,delimiter=',',dtype={'names':('NUMROW','MQ_ROWNUM','RA','DEC','TILENAME'),'formats':('i8','i8','f8','f8','|S30')})
 
 rah,ram,ras=ang.deg2hms(cr['RA'])
 decd,decm,decs=ang.deg2dms(cr['DEC'])
