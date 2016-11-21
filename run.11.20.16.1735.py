@@ -3,6 +3,7 @@ import pyfits as py
 DB_path='/home/rumbaugh/var_database'
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/database_index.dat',dtype={'names':('DBID','CID','thingid'),'formats':('i8','i8','i8')})
+crdb=crdb[:100]
 
 dblen=len(crdb)
 
