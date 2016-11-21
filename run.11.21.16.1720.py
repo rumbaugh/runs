@@ -67,7 +67,7 @@ for curid in IDs:
         dbi_out=np.append(dbi_out,np.array([[DBID,curid,0,cr['sdr7id'][gid][0]]]),axis=0)
     #print DBID, curid
 for curid in nextIDs:
-    gid=np.where(crsp['SDR7ID']==sid)[0]
+    gid=np.where(crsp['SDR7ID']==curid)[0]
     SDSSmjd=crsp['mjd_r_SDSS'][gid]
     SDSSra,SDSSdec=crsp['ra'][gid],crsp['dec'][gid]
     SDSSmagdict,SDSSmagerrdict={b: crsp['%s_SDSS'%(b.lower())][gid] for b in POSSbands},{b: crsp['%s_err'%(b.lower())][gid] for b in POSSbands}
