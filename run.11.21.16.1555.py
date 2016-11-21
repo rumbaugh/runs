@@ -31,8 +31,8 @@ for curid in IDs:
     p_outcr=np.zeros((3,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
     SDSS_outcr=np.zeros((3,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
     for b,ib in zip(POSSbands,np.arange(len(POSSbands))):
-        p_outcr['DatabaseID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['Survey'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['SurveyCoaddID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['SurveyObjectID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['RA'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['DEC'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MJD'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['TAG'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['BAND'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAGTYPE'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAG'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAGERR'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['FLAG'][len(gid)*ib:len(gid)*(ib+1)]=DBID,'POSS','0','0',POSSra,POSSdec,POSSmjddict[b],'None',b,'PSF',POSSmagdict[b],POSSmagerrdict[b],0
-        SDSS_outcr['DatabaseID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['Survey'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['SurveyCoaddID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['SurveyObjectID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['RA'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['DEC'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MJD'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['TAG'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['BAND'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAGTYPE'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAG'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAGERR'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['FLAG'][len(gid)*ib:len(gid)*(ib+1)]=DBID,'SDSS','0','0',SDSSra,SDSSdec,SDSSmjd,'None',b,'PSF',SDSSmagdict[b],SDSSmagerrdict[b],0
+        p_outcr['DatabaseID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['Survey'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['SurveyCoaddID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['SurveyObjectID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['RA'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['DEC'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MJD'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['TAG'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['BAND'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAGTYPE'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAG'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAGERR'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['FLAG'][len(gid)*ib:len(gid)*(ib+1)]=0,'POSS','0','0',POSSra,POSSdec,POSSmjddict[b],'None',b,'PSF',POSSmagdict[b],POSSmagerrdict[b],0
+        SDSS_outcr['DatabaseID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['Survey'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['SurveyCoaddID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['SurveyObjectID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['RA'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['DEC'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MJD'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['TAG'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['BAND'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAGTYPE'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAG'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAGERR'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['FLAG'][len(gid)*ib:len(gid)*(ib+1)]=0,'SDSS','0','0',SDSSra,SDSSdec,SDSSmjd,'None',b,'PSF',SDSSmagdict[b],SDSSmagerrdict[b],0
     outcr=np.append(p_outcr,SDSS_outcr)
     cur_cID=cID
     if np.shape(cur_cID)!=():
@@ -43,12 +43,14 @@ for curid in IDs:
     if cur_cID in crdb[:,1]:
         gdb=np.where(cur_cID==crdb[:,1])[0]
         DBID=crdb[gdb[0]][0]
+        outcr['DatabaseID']=DBID
         dbi_out[gdb[0]][3]=cr['sdr7id'][gid][0]
         crLC=np.loadtxt('%s/%i/LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S20','|S20','f8','f8','i8')},skiprows=1)
         outcr=np.append(crLC,outcr)
         #np.savetxt('%s/%i/LC.tab'%(DB_path,DBID),outcr,fmt=('%12i %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
     else:
         DBID=maxdbid
+        outcr['DatabaseID']=DBID
         maxdbid+=1
         os.system('mkdir -p %s/%i'%(DB_path,DBID))
         db_outcr=np.zeros((len(gidy),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
