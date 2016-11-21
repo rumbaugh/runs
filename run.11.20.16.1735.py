@@ -18,9 +18,15 @@ for DBID in crdb['DBID']:
     db_cr=np.loadtxt('%s/%i/LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     MJDrange[DBID]=np.max(db_cr['MJD'])-np.max(db_cr['MJD'])
     gdes=np.where(db_cr['Survey']=='DES')[0]
-    numDES_g[DBID],numDES_r[DBID],numDES_i[DBID],numDES_z[DBID],numDES_Y[DBID]=len(gdes[db_cr['BAND'][gdes]=='g']),len(gdes[db_cr['BAND'][gdes]=='r']),len(gdes[db_cr['BAND'][gdes]=='i']),len(gdes[db_cr['BAND'][gdes]=='z']),len(gdes[db_cr['BAND'][gdes]=='Y'])
-    medDES_g[DBID],medDES_r[DBID],medDES_i[DBID],medDES_z[DBID],medDES_Y[DBID]=np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='g']),np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='r']),np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='i']),np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='z']),np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='Y'])
-    raDES[DBID],decDES[DBID]=np.mean(db_cr['RA'][gdes]),np.mean(db_cr['DEC'][gdes])
+    try:
+        numDES_g[DBID],numDES_r[DBID],numDES_i[DBID],numDES_z[DBID],numDES_Y[DBID]=len(gdes[db_cr['BAND'][gdes]=='g']),len(gdes[db_cr['BAND'][gdes]=='r']),len(gdes[db_cr['BAND'][gdes]=='i']),len(gdes[db_cr['BAND'][gdes]=='z']),len(gdes[db_cr['BAND'][gdes]=='Y'])
+        medDES_g[DBID],medDES_r[DBID],medDES_i[DBID],medDES_z[DBID],medDES_Y[DBID]=np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='g']),np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='r']),np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='i']),np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='z']),np.median(db_cr['MAG'][gdes][db_cr['BAND'][gdes]=='Y'])
+        raDES[DBID],decDES[DBID]=np.mean(db_cr['RA'][gdes]),np.mean(db_cr['DEC'][gdes])
+    except IndexError:
+        numDES_g[DBID],numDES_r[DBID],numDES_i[DBID],numDES_z[DBID],numDES_Y[DBID]=len(gdes[np.array([db_cr['BAND']])[gdes]=='g']),len(gdes[np.array([db_cr['BAND']])[gdes]=='r']),len(gdes[np.array([db_cr['BAND']])[gdes]=='i']),len(gdes[np.array([db_cr['BAND']])[gdes]=='z']),len(gdes[np.array([db_cr['BAND']])[gdes]=='Y'])
+        medDES_g[DBID],medDES_r[DBID],medDES_i[DBID],medDES_z[DBID],medDES_Y[DBID]=np.median(np.array([db_cr['MAG']])[gdes][np.array([db_cr['BAND']])[gdes]=='g']),np.median(np.array([db_cr['MAG']])[gdes][np.array([db_cr['BAND']])[gdes]=='r']),np.median(np.array([db_cr['MAG']])[gdes][np.array([db_cr['BAND']])[gdes]=='i']),np.median(np.array([db_cr['MAG']])[gdes][np.array([db_cr['BAND']])[gdes]=='z']),np.median(np.array([db_cr['MAG']])[gdes][np.array([db_cr['BAND']])[gdes]=='Y'])
+        raDES[DBID],decDES[DBID]=np.mean(np.array([db_cr['RA']])[gdes]),np.mean(np.array([db_cr['DEC']])[gdes])
+        
     if crdb['thingid'][DBID]>0:
         gsdss=np.where(db_cr['Survey']=='SDSS')[0]
         numSDSS_g,numSDSS_r,numSDSS_i,numSDSS_z,numSDSS_Y=len(gsdss[db_cr['BAND'][gsdss]=='g']),len(gsdss[db_cr['BAND'][gsdss]=='r']),len(gsdss[db_cr['BAND'][gsdss]=='i']),len(gsdss[db_cr['BAND'][gsdss]=='z']),len(gsdss[db_cr['BAND'][gsdss]=='u'])
