@@ -12,7 +12,7 @@ mdict={'names':('RA','DEC','Name','Descrip','Rmag','Bmag','Comment','R','B','Z',
 delims=(11,12,27,5,5,5,4,2,2,7,7,7,4,23,23,23,23)
 crmq2=np.genfromtxt(fname,dtype=mdict,delimiter=delims,filling_values=-1)
 
-crf=np.loadtxt('/home/rumbaugh/MQ_Y1A1_MATCH_WGOLDFLAGS.tab',dtype={'names':('MQ_ROWNUM','ra','dec','CID','FLAGSG','FLAGSBR'),'dtype':('i8','f8','f8','i8','i8','i8')},skiprows=1)
+crf=np.loadtxt('/home/rumbaugh/MQ_Y1A1_MATCH_WGOLDFLAGS.tab',dtype={'names':('MQ_ROWNUM','ra','dec','CID','FLAGSG','FLAGSBR'),'formats':('i8','f8','f8','i8','i8','i8')},skiprows=1)
 
 crsp=np.loadtxt('/home/rumbaugh/sdss-poss_release.dat',dtype={'names':('ra','dec','plateID','EpochG','EpochR','EpochI','G_POSS','G_ERR','G_GOOD','R_POSS','R_ERR','R_GOOD','I_POSS','I_ERR','I_GOOD','SDR7ID','M_i','redshift','mbh','lbol','A_u','nobs','s82flag','mjd_r_SDSS','g_SDSS','g_ERR','r_SDSS','r_ERR','i_SDSS','i_ERR'),'formats':('f8','f8','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','f8','f8','|S12','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8')})
 
