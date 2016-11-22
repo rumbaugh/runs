@@ -63,7 +63,7 @@ for DBID in crdb['DBID']:
             numSDSS_g[DBID],numSDSS_r[DBID],numSDSS_i[DBID]=1,1,1
             medSDSS_g,medSDSS_r,medSDSS_i=db_cr['MAG'][gsdss][db_cr['BAND'][gsdss]=='g'][0],db_cr['MAG'][gsdss][db_cr['BAND'][gsdss]=='r'][0],db_cr['MAG'][gsdss][db_cr['BAND'][gsdss]=='i'][0]
             medPOSS_g[DBID],medPOSS_r[DBID],medPOSS_i[DBID]=db_cr['MAG'][gposs][db_cr['BAND'][gposs]=='g'][0],db_cr['MAG'][gposs][db_cr['BAND'][gposs]=='r'][0],db_cr['MAG'][gposs][db_cr['BAND'][gposs]=='i'][0]
-            s82[DBID]=crdb['s82flag'][gsp]
+            s82[DBID]=crsp['s82flag'][gsp]
         if crdb['CID'][DBID]<=0:
             redshifts[DBID]=crsp['redshift'][gsp]
         raPOSS[DBID],decPOSS[DBID]=crsp['ra'][gsp],crsp['dec'][gsp]
