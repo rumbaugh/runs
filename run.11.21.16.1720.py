@@ -11,6 +11,8 @@ POSSbands=np.array(['g','r','i'])
 
 ge=np.argsort(exps)[::-1]
 
+double_count_indexes=np.zeros(0,dtype='|S30')
+
 crsp=np.loadtxt('/home/rumbaugh/sdss-poss_release.dat',dtype={'names':('ra','dec','plateID','EpochG','EpochR','EpochI','G_POSS','G_ERR','G_GOOD','R_POSS','R_ERR','R_GOOD','I_POSS','I_ERR','I_GOOD','SDR7ID','M_i','redshift','mbh','lbol','A_u','nobs','s82flag','mjd_r_SDSS','g_SDSS','g_ERR','r_SDSS','r_ERR','i_SDSS','i_ERR'),'formats':('f8','f8','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S12','f8','f8','|S12','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8')})
 cr=np.loadtxt('SDSSPOSS_lightcurve_entries.tab',dtype={'names':('cid','SP_ROWNUM','ra_y1a1','dec_y1a1','sdr7id','mjd_SDSS','EPOCHG','EPOCHR','EPOCHI','ra','dec','G_POSS','R_POSS','I_POSS','G_POSS_err','R_POSS_err','I_POSS_err','G_SDSS','R_SDSS','I_SDSS','G_SDSS_err','R_SDSS_err','I_SDSS_err'),'formats':('i8','i8','f8','f8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1)
 cry=np.loadtxt('SDSSPOSS_lightcurve_entries_Y1A1.tab',skiprows=1,dtype={'names':('mjd','imageid','cid','SPid','ra','dec','mag','magerr','band','exp','OBJECT_ID'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','|S12','f8','i8')})
@@ -68,11 +70,21 @@ for curid in IDs:
     #print DBID, curid
 for curid in nextIDs:
     gid=np.where(crsp['SDR7ID']==curid)[0]
+    if len(gid)>1:
+        if crsp['SDR7ID'][gid][0] in double_count_indexes:
+            curcnt=len(double_count_indexes[double_count_indexes==crsp['SDR7ID'][gid][0]])
+            gid=gid[curcnt]
+            double_count_indexes=np.append(double_count_indexes,crsp['SDR7ID'][gid])
+        else:
+            gid=gid[0]
+            double_count_indexes=np.append(double_count_indexes,crsp['SDR7ID'][gid])
+    else:
+        gid=gid[0]
     SDSSmjd=crsp['mjd_r_SDSS'][gid]
     SDSSra,SDSSdec=crsp['ra'][gid],crsp['dec'][gid]
     SDSSmagdict,SDSSmagerrdict={b: crsp['%s_SDSS'%(b.lower())][gid] for b in POSSbands},{b: crsp['%s_ERR'%(b.lower())][gid] for b in POSSbands}
     POSSra,POSSdec=crsp['ra'][gid],crsp['dec'][gid]
-    POSSmagdict,POSSmagerrdict,POSSmjddict={b: crsp['%s_POSS'%(b.upper())][gid][0] for b in POSSbands},{b: crsp['%s_ERR'%(b.upper())][gid][0] for b in POSSbands},{b: 50448.+365.25*(float(crsp['Epoch%s'%(b.upper())][gid][0])-1997) for b in POSSbands}
+    POSSmagdict,POSSmagerrdict,POSSmjddict={b: crsp['%s_POSS'%(b.upper())][gid] for b in POSSbands},{b: crsp['%s_ERR'%(b.upper())][gid] for b in POSSbands},{b: 50448.+365.25*(float(crsp['Epoch%s'%(b.upper())][gid])-1997) for b in POSSbands}
 
     p_outcr=np.zeros((3,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
     SDSS_outcr=np.zeros((3,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
