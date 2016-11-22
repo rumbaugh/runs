@@ -102,4 +102,4 @@ for curid in nextIDs:
     ##np.savetxt('%s/%i/SDSS_data.tab'%(DB_path,DBID),np.array(SDF)[gid],fmt=('%f %f %f %i %i %f %f %f %f %f %f %f %f %f %f%i %i %i %i %i %i %i'),header=('MJD RA DEC OBJID NUMROW PSFMAG_U  PSFMAG_G  PSFMAG_R  PSFMAG_I  PSFMAG_Z  PSFMAGERR_U  PSFMAGERR_G  PSFMAGERR_R  PSFMAGERR_I  PSFMAGERR_Z RUN RERUN STRIPE THINGID MQ_ROWNUM COADD_OBJECTS_UD HPIX'),comments='')
     dbi_out=np.append(dbi_out,np.array([[DBID,0,0,curid]]),axis=0)
 
-np.savetxt('/home/rumbaugh/var_database/database_index.dat',dbi_out,fmt='%i %i %i %i',header='DatabaseID Y1A1_COADD_OBJECTS_ID SDSS_DR13_thindid SDR7ID')
+np.savetxt('/home/rumbaugh/var_database/database_index.dat',dbi_out,fmt='%s %s %s %s',header='DatabaseID Y1A1_COADD_OBJECTS_ID SDSS_DR13_thindid SDR7ID')
