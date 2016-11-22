@@ -32,7 +32,7 @@ Survey[(crdb['CID']>0)&(crdb['sdr7id']!=0)]='DES;SDSS;POSS'
 Survey[(crdb['CID']<=0)&(crdb['sdr7id']!=0)]='SDSS;POSS'
 CIDout=np.copy(crdb['CID'])
 MJDrange,redshifts,s82=np.zeros(dblen),np.ones(dblen)*-1,np.zeros(dblen,dtype='i8')
-MQ_Descrip,MQ_QP=np.zeros(dblen),np.zeros(dblen)
+MQ_Descrip,MQ_QP=np.zeros(dblen,dtype='|S12'),np.zeros(dblen)
 raDES,decDES,raSDSS,decSDSS,raPOSS,decPOSS=np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen)
 numDES_g,numDES_r,numDES_i,numDES_z,numDES_Y,numSDSS_g,numSDSS_r,numSDSS_i,numSDSS_z,numSDSS_u=np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8'),np.zeros(dblen,dtype='i8')
 medDES_g,medDES_r,medDES_i,medDES_z,medDES_Y,medSDSS_g,medSDSS_r,medSDSS_i,medSDSS_z,medSDSS_u=np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen),np.zeros(dblen)
