@@ -9,7 +9,7 @@ inDES_SPs=np.array([18615,18644,32529,32528,32526,32534,18463,18322,18416])
 double_count_indexes=np.zeros(0,dtype='|S30')
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/database_index.dat',dtype={'names':('DBID','CID','thingid','sdr7id'),'formats':('i8','i8','i8','i8')})
-crdb=crdb[:100]
+#crdb=crdb[:100]
 
 dblen=len(crdb)
 
