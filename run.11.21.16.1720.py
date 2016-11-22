@@ -70,7 +70,7 @@ for curid in nextIDs:
     gid=np.where(crsp['SDR7ID']==curid)[0]
     SDSSmjd=crsp['mjd_r_SDSS'][gid]
     SDSSra,SDSSdec=crsp['ra'][gid],crsp['dec'][gid]
-    SDSSmagdict,SDSSmagerrdict={b: crsp['%s_SDSS'%(b.lower())][gid] for b in POSSbands},{b: crsp['%s_err'%(b.lower())][gid] for b in POSSbands}
+    SDSSmagdict,SDSSmagerrdict={b: crsp['%s_SDSS'%(b.lower())][gid] for b in POSSbands},{b: crsp['%s_ERR'%(b.lower())][gid] for b in POSSbands}
     POSSra,POSSdec=crsp['ra'][gid],crsp['dec'][gid]
     POSSmagdict,POSSmagerrdict,POSSmjddict={b: crsp['%s_POSS'%(b.upper())][gid] for b in POSSbands},{b: crsp['%s_ERR'%(b.upper())][gid] for b in POSSbands},{b: 50448.+365.25*(crsp['Epoch%s'%(b.upper())][gid]-1997) for b in POSSbands}
 
