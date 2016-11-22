@@ -72,7 +72,7 @@ for curid in nextIDs:
     SDSSra,SDSSdec=crsp['ra'][gid],crsp['dec'][gid]
     SDSSmagdict,SDSSmagerrdict={b: crsp['%s_SDSS'%(b.lower())][gid] for b in POSSbands},{b: crsp['%s_ERR'%(b.lower())][gid] for b in POSSbands}
     POSSra,POSSdec=crsp['ra'][gid],crsp['dec'][gid]
-    POSSmagdict,POSSmagerrdict,POSSmjddict={b: crsp['%s_POSS'%(b.upper())][gid][0] for b in POSSbands},{b: crsp['%s_ERR'%(b.upper())][gid][0] for b in POSSbands},{b: 50448.+365.25*(crsp['Epoch%s'%(b.upper())][gid][0]-1997) for b in POSSbands}
+    POSSmagdict,POSSmagerrdict,POSSmjddict={b: crsp['%s_POSS'%(b.upper())][gid][0] for b in POSSbands},{b: crsp['%s_ERR'%(b.upper())][gid][0] for b in POSSbands},{b: 50448.+365.25*(float(crsp['Epoch%s'%(b.upper())][gid][0])-1997) for b in POSSbands}
 
     p_outcr=np.zeros((3,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
     SDSS_outcr=np.zeros((3,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
