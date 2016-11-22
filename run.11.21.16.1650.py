@@ -45,7 +45,7 @@ for DBID in crdb['DBID']:
         if 82 in crsdss['STRIPE']: s82[DBID]=1
         raSDSS[DBID],decSDSS[DBID]=np.mean(db_cr['RA'][gsdss]),np.mean(db_cr['DEC'][gsdss])
     if crdb['sdr7id'][DBID]!=0:
-        gsp=np.where(crsp['SDR7ID']==crdb['sdr7id'][DBID])[0][0]
+        gsp=np.where(crsp['SDR7ID']==crdb['sdr7id'][DBID])[0]
         if len(gsp)>1:
             if crsp['SDR7ID'][gsp][0] in double_count_indexes:
                 curcnt=len(double_count_indexes[double_count_indexes==crsp['SDR7ID'][gsp][0]])
