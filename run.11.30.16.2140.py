@@ -42,16 +42,20 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,gdes,plotSDSS=False,fname=None,con
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
-    for b in coldict.keys():
+    for b in ['g','r','i','z','Y']:
         plot_band(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
     xlim=plt.xlim()
     plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
+    ylim=plt.ylim()
+    plt.ylim(ylim[1],ylim[0])
     ax.legend()
     ax=fig.add_subplot(2,1,1)
-    for b in coldict.keys():
+    for b in ['g','r','i','z','Y']:
         plot_band(ax,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
     xlim=plt.xlim()
     plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
+    ylim=plt.ylim()
+    plt.ylim(ylim[1],ylim[0])
     ax.legend()
     ax.set_xlabel('MJD')
     ax.set_ylabel('Mag_PSF')
