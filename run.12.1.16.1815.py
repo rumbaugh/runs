@@ -15,9 +15,12 @@ outcr=np.zeros((maxDBID+1,17))
 outcr[:,0]=np.arange(0,maxDBID+1)
 for i in range(0,maxDBID+1):
     cr=np.loadtxt('/home/rumbaugh/var_database/%i/LC.tab'%i,dtype={'names':('DBID','Survey','CoaddID','ObjID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','Flag'),'formats':('i8','|S6','i8','i8','f8','f8','f8','|S12','|S4','|S8','f8','f8','i8')},skiprows=1)
-    ggoodmag=np.where((cr['MAG']>0)&(cr['MAG']<31))[0]
-    cr=cr[ggoodmag]
-    if np.shape(cr)!=():
+    try:
+        ggoodmag=np.where((cr['MAG']>0)&(cr['MAG']<31))[0]
+        cr=cr[ggoodmag]
+    except:
+        pass
+    if ((np.shape(cr)!=())&(np.shape(cr)!=(0,))):
         gDES,gSDSS,gPOSS=np.where(cr['Survey']=='DES')[0],np.where(cr['Survey']=='SDSS')[0],np.where(cr['Survey']=='POSS')[0]
         outcr[i][1]=cr['CoaddID'][gDES][0]
         for ib,band in zip(np.arange(len(bands)),bands):
@@ -45,4 +48,7 @@ np.savetxt('/home/rumbaugh/var_database/mag_changes.POSS+SDSS+DES.dat',newoutcr,
 plt.figure(1)
 plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
-
+plt.hist(maxes)
+plt.xlabel('Max Difference')
+plt.ylabel('Number of objects')
+plt.savefig('/home/rumbaugh/var_database/plots/max_diffs.hist.png')
