@@ -23,6 +23,10 @@ for i in range(0,maxDBID+1):
     except:
         pass
     if ((np.shape(cr)!=())&(np.shape(cr)!=(0,))):
+        goodbands=np.zeros(0,dtype='|S2')
+        for ib,band in zip(np.arange(len(bands)),bands):
+            gb=np.where((cr['BAND']==band)&(np.isnan(cr['MAG'])==False))[0]
+            if len(gb)>0: goodbands=np.append(goodbands,band)
         totmagdict={b: np.zeros(0) for b in bands}
         gDES,gSDSS,gPOSS=np.where(cr['Survey']=='DES')[0],np.where(cr['Survey']=='SDSS')[0],np.where(cr['Survey']=='POSS')[0]
         if len(gDES)>0:
@@ -60,8 +64,8 @@ for i in range(0,maxDBID+1):
                     outcr[i][7+ib]=np.median(cr['MAG'][gSDSS][gb])
                     if outcr[i][3+ib]!=0:
                         outcr[i][11+ib]=outcr[i][3+ib]-outcr[i][7+ib]
-        totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in bands}
-        totdiffarr=[np.max(totmagdict[b])-np.min(totmagdict[b]) for b in bands]
+        totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in goodbands}
+        totdiffarr=[np.max(totmagdict[b])-np.min(totmagdict[b]) for b in goodbands]
         totdiffs=np.append(totdiffs,np.max([totdiffarr]))
 maxes=np.max(np.abs(outcr[:,-6:-2]),axis=1)
 newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,-6:-2]),axis=1))[::-1]]
