@@ -84,3 +84,5 @@ plt.hist(totdiffs,range=(0,6),bins=12)
 plt.xlabel('Max Difference')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/var_database/plots/max_diffs.hist.png')
+
+print 87846,len(totdiffs),len(totdiffs[totdiffs>2])*1./len(totdiffs)
