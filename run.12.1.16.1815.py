@@ -42,13 +42,18 @@ for i in range(0,maxDBID+1):
             for band in POSSbands:
                 gb=np.where((cr['BAND'][gPOSS]==band)&(np.isnan(cr['MAG'][gPOSS])==False))[0]
                 POSSmagdict[band]=np.append(POSSmagdict[band],cr['MAG'][gPOSS][gb])
-                POSSmjddict[band]=np.append(POSSmjddict[band],cr['MJD'][gPOSS][gb])
                 mjdstmp=np.append(mjdstmp,cr['MJD'][gPOSS][gb])
             allmjds=np.sort(np.unique(mjdstmp))
             for band in POSSbands:
-                if len(POSSmagdict[band])!=len(allmjds):
-                    POSSmagdict[band]=np.interp(allmjds,POSSmjddict[band],POSSmagdict[band])
-            POSSmagdict['g'],POSSmagdict['r'],POSSmagdict['i']=POSSmagdict['g']+0.392*(POSSmagdict['g']-POSSmagdict['r'])-0.28,  POSSmagdict['r']+0.127*(POSSmagdict['g']-POSSmagdict['r'])+0.1,  POSSmagdict['i']+0.27*(POSSmagdict['r']-POSSmagdict['i'])+0.32
+                if len(POSSmagdict[band])>0:POSSmagdict[band]=np.median(POSSmagdict[band])
+            if (len(POSSmagdict['g')>0))&(len(POSSmagdict['r')>0)):
+                POSSmagdict['g'],POSSmagdict['r']=POSSmagdict['g']+0.392*(POSSmagdict['g']-POSSmagdict['r'])-0.28,  POSSmagdict['r']+0.127*(POSSmagdict['g']-POSSmagdict['r'])+0.1
+            else: 
+                POSSmagdict['g'],POSSmagdict['r']=np.zeros(0),np.zeros(0)
+            if (len(POSSmagdict['i')>0))&(len(POSSmagdict['r')>0)):   
+                POSSmagdict['i']=POSSmagdict['i']+0.27*(POSSmagdict['r']-POSSmagdict['i'])+0.32
+            else:
+                POSSmagdict['i']=np.zeros(0)
             for band in POSSbands: totmagdict[band]=np.append(totmagdict[band],POSSmagdict[band])
         if len(gSDSS)>0: 
             raDES,decDES,mjdDES,raSDSS,decSDSS,mjdSDSS=cr['RA'][gDES],cr['DEC'][gDES],cr['MJD'][gDES],cr['RA'][gSDSS],cr['DEC'][gSDSS],cr['MJD'][gSDSS]
