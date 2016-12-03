@@ -71,7 +71,7 @@ for i in range(0,maxDBID+1):
                         outcr[i][11+ib]=outcr[i][3+ib]-outcr[i][7+ib]
         totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in goodbands}
         totdiffarr=[np.max(totmagdict[b])-np.min(totmagdict[b]) for b in goodbands]
-        totdiffs=np.append(totdiffs,np.max([totdiffarr]))
+        if len(totdiffar)>0:totdiffs=np.append(totdiffs,np.max([totdiffarr]))
 maxes=np.max(np.abs(outcr[:,-6:-2]),axis=1)
 newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,-6:-2]),axis=1))[::-1]]
 newoutcr=newoutcr[(np.max(newoutcr[:,-6:-2],axis=1)<30)&(newoutcr[:,-2]<1)]
