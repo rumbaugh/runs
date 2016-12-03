@@ -45,7 +45,7 @@ for i in range(0,maxDBID+1):
                 mjdstmp=np.append(mjdstmp,cr['MJD'][gPOSS][gb])
             allmjds=np.sort(np.unique(mjdstmp))
             for band in POSSbands:
-                if len(POSSmagdict[band])>0:POSSmagdict[band]=[np.median(POSSmagdict[band])]
+                if len(POSSmagdict[band])>0:POSSmagdict[band]=np.array([np.median(POSSmagdict[band])])
             if (len(POSSmagdict['g'])>0)&(len(POSSmagdict['r'])>0):
                 POSSmagdict['g'],POSSmagdict['r']=POSSmagdict['g']+0.392*(POSSmagdict['g']-POSSmagdict['r'])-0.28,  POSSmagdict['r']+0.127*(POSSmagdict['g']-POSSmagdict['r'])+0.1
             else: 
