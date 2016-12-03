@@ -80,7 +80,7 @@ np.savetxt('/home/rumbaugh/var_database/mag_changes.POSS+SDSS+DES.dat',newoutcr,
 plt.figure(1)
 plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
-plt.hist(totdiffs)
+plt.hist(totdiffs,range=(0,6),bins=12)
 plt.xlabel('Max Difference')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/var_database/plots/max_diffs.hist.png')
