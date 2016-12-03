@@ -11,7 +11,7 @@ SDSS_colnames={b:'psfmag_%s'%b for b in SDSSbands}
 bands = np.array(['g','r','i','z'])
 POSSbands = np.array(['g','r','i'])
 
-maxDBID=8888
+maxDBID=87846
 outcr=np.zeros((maxDBID+1,17))
 outcr[:,0]=np.arange(0,maxDBID+1)
 totdiffs=np.zeros(0)
