@@ -62,10 +62,13 @@ for i in range(0,maxDBID+1):
             raSDSScen,decSDSScen=np.mean(raSDSS),np.mean(decSDSS)
             outcr[i][2]=cr['CoaddID'][gSDSS][0]
             outcr[i][-2]=np.sqrt(((raDEScen-raSDSScen)*np.cos(decDEScen*np.pi/180))**2+(decDEScen-decSDSScen)**2)*3600
+            distflag=True
+            if len(gDES)>0:
+                if np.sqrt(((raDEScen-raSDSScen)*np.cos(decDEScen*np.pi/180))**2+(decDEScen-decSDSScen)**2)*3600>1: distflag=False
             for ib,band in zip(np.arange(len(bands)),bands):
                 gb=np.where(cr['BAND'][gSDSS]==band)[0]
                 if len(gb)>0:
-                    totmagdict[band]=np.append(totmagdict[band],cr['MAG'][gSDSS][gb])
+                    if distflag: totmagdict[band]=np.append(totmagdict[band],cr['MAG'][gSDSS][gb])
                     outcr[i][7+ib]=np.median(cr['MAG'][gSDSS][gb])
                     if outcr[i][3+ib]!=0:
                         outcr[i][11+ib]=outcr[i][3+ib]-outcr[i][7+ib]
