@@ -72,8 +72,11 @@ for i in range(0,maxDBID+1):
                     outcr[i][7+ib]=np.median(cr['MAG'][gSDSS][gb])
                     if outcr[i][3+ib]!=0:
                         outcr[i][11+ib]=outcr[i][3+ib]-outcr[i][7+ib]
-        #totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in goodbands}
-        totdiffarr=[np.max(totmagdict[b])-np.min(totmagdict[b]) for b in goodbands]
+        stillgoodbands=np.zeros(0)
+        for b in goodbands: 
+            if len(totmagdict[b])>0: stillgoodbands=np.append(stillgoodbands,b)
+        totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in stillgoodbands}
+        totdiffarr=[np.max(totmagdict[b])-np.min(totmagdict[b]) for b in stillgoodbands]
         if len(totdiffarr)>0:totdiffs=np.append(totdiffs,np.max([totdiffarr]))
 maxes=np.max(np.abs(outcr[:,-6:-2]),axis=1)
 newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,-6:-2]),axis=1))[::-1]]
