@@ -19,7 +19,7 @@ totDBIDs=np.zeros(0,dtype='i8')
 for i in range(0,maxDBID+1):
     cr=np.loadtxt('/home/rumbaugh/var_database/%i/LC.tab'%i,dtype={'names':('DBID','Survey','CoaddID','ObjID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','Flag'),'formats':('i8','|S6','i8','i8','f8','f8','f8','|S12','|S4','|S8','f8','f8','i8')},skiprows=1)
     try:
-        ggoodmag=np.where((cr['MAG']>0)&(cr['MAG']<31))[0]
+        ggoodmag=np.where((cr['MAG']>0)&(cr['MAG']<31)&(cr['MAGERR']<0.5))[0]
         cr=cr[ggoodmag]
     except:
         pass
