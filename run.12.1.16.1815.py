@@ -64,7 +64,7 @@ for i in range(0,maxDBID+1):
             outcr[i][-2]=np.sqrt(((raDEScen-raSDSScen)*np.cos(decDEScen*np.pi/180))**2+(decDEScen-decSDSScen)**2)*3600
             distflag=True
             if len(gDES)>0:
-                if np.sqrt(((raDEScen-raSDSScen)*np.cos(decDEScen*np.pi/180))**2+(decDEScen-decSDSScen)**2)*3600>1: distflag=False
+                if np.sqrt(((raDEScen-raSDSScen)*np.cos(decDEScen*np.pi/180))**2+(decDEScen-decSDSScen)**2)*3600>0.6: distflag=False
             for ib,band in zip(np.arange(len(bands)),bands):
                 gb=np.where(cr['BAND'][gSDSS]==band)[0]
                 if len(gb)>0:
