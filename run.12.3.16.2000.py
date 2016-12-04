@@ -9,9 +9,9 @@ for i,DBID in zip(np.arange(len(good_dbids)),good_dbids):
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     gdes,gsdss=np.where(cr['Survey']=='DES')[0],np.where(cr['Survey']=='SDSS')[0]
     if len(gdes)>0:
-        DESras[i],DESdecs[i]=np.mean(np.array([cr['RA'][gdes]]),np.mean(np.array([cr['DEC'][gdes]])
+        DESras[i],DESdecs[i]=np.mean(np.array([cr['RA'][gdes]])),np.mean(np.array([cr['DEC'][gdes]]))
     if len(gsdss)>0:
-        SDSSras[i],SDSSdecs[i]=np.mean(np.array([cr['RA'][gsdss]]),np.mean(np.array([cr['DEC'][gsdss]])
+        SDSSras[i],SDSSdecs[i]=np.mean(np.array([cr['RA'][gsdss]])),np.mean(np.array([cr['DEC'][gsdss]]))
 
 
 gooddes,goodsdss=np.where((DESras!=0)&(DESdecs!=0))[0],np.where((SDSSras!=0)&(SDSSdecs!=0))[0]
