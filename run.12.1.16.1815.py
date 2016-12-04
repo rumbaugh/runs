@@ -15,6 +15,7 @@ maxDBID=87846
 outcr=np.zeros((maxDBID+1,17))
 outcr[:,0]=np.arange(0,maxDBID+1)
 totdiffs=np.zeros(0)
+totDBIDs=np.zeros(0,dtype='i8')
 for i in range(0,maxDBID+1):
     cr=np.loadtxt('/home/rumbaugh/var_database/%i/LC.tab'%i,dtype={'names':('DBID','Survey','CoaddID','ObjID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','Flag'),'formats':('i8','|S6','i8','i8','f8','f8','f8','|S12','|S4','|S8','f8','f8','i8')},skiprows=1)
     try:
@@ -54,7 +55,8 @@ for i in range(0,maxDBID+1):
                 POSSmagdict['i']=POSSmagdict['i']+0.27*(POSSmagdict['r']-POSSmagdict['i'])+0.32
             else:
                 POSSmagdict['i']=np.zeros(0)
-            for band in POSSbands: totmagdict[band]=np.append(totmagdict[band],POSSmagdict[band])
+            for band in POSSbands: 
+                totmagdict[band]=np.append(totmagdict[band],POSSmagdict[band])
         if len(gSDSS)>0: 
             raDES,decDES,mjdDES,raSDSS,decSDSS,mjdSDSS=cr['RA'][gDES],cr['DEC'][gDES],cr['MJD'][gDES],cr['RA'][gSDSS],cr['DEC'][gSDSS],cr['MJD'][gSDSS]
             raDES,decDES,raSDSS,decSDSS=raDES[np.argsort(mjdDES)],decDES[np.argsort(mjdDES)],raSDSS[np.argsort(mjdSDSS)],decSDSS[np.argsort(mjdSDSS)]
@@ -68,7 +70,8 @@ for i in range(0,maxDBID+1):
             for ib,band in zip(np.arange(len(bands)),bands):
                 gb=np.where(cr['BAND'][gSDSS]==band)[0]
                 if len(gb)>0:
-                    if distflag: totmagdict[band]=np.append(totmagdict[band],cr['MAG'][gSDSS][gb])
+                    if distflag: 
+                        totmagdict[band]=np.append(totmagdict[band],cr['MAG'][gSDSS][gb])
                     outcr[i][7+ib]=np.median(cr['MAG'][gSDSS][gb])
                     if outcr[i][3+ib]!=0:
                         outcr[i][11+ib]=outcr[i][3+ib]-outcr[i][7+ib]
@@ -77,12 +80,14 @@ for i in range(0,maxDBID+1):
             if len(totmagdict[b])>0: stillgoodbands=np.append(stillgoodbands,b)
         totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in stillgoodbands}
         totdiffarr=[np.max(totmagdict[b])-np.min(totmagdict[b]) for b in stillgoodbands]
-        if len(totdiffarr)>0:totdiffs=np.append(totdiffs,np.max([totdiffarr]))
+        if len(totdiffarr)>0:
+            totdiffs=np.append(totdiffs,np.max([totdiffarr]))
+            totDBIDs=np.append(totDBIDs,i)
 maxes=np.max(np.abs(outcr[:,-6:-2]),axis=1)
 newoutcr=outcr[np.argsort(np.max(np.abs(outcr[:,-6:-2]),axis=1))[::-1]]
 newoutcr=newoutcr[(np.max(newoutcr[:,-6:-2],axis=1)<30)&(newoutcr[:,-2]<1)]
 np.savetxt('/home/rumbaugh/var_database/mag_changes.POSS+SDSS+DES.dat',newoutcr,fmt='%5i %15i %15i %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f %5.3f %2i',header='DBID COADD_OBJECTS_ID THINGID DES_g DES_r DES_i DES_z SDSS_g SDSS_r SDSS_i SDSS_z MAGDIFF_g MAGDIFF_r MAGDIFF_i MAGDIFF_z DISTANCE INTERESTING_FLAG',comments='')
-    
+
 plt.figure(1)
 plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
@@ -90,5 +95,9 @@ plt.hist(totdiffs,range=(0,6),bins=12)
 plt.xlabel('Max Difference')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/var_database/plots/max_diffs.hist.png')
+
+tcr=np.zeros((len(totdiffs),2),dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
+tcr['DBID'],tcr['maxdiff']=totDBIDs,totdiffs
+np.savetxt('/home/rumbaugh/var_database/maxdiffs_DBID.12.1.16.txt',tcr,fmt='%7i %f',header='DatabasedID  Max_Mag_Difference')
 
 print 87846,len(totdiffs),len(totdiffs[totdiffs>2])*1./len(totdiffs)
