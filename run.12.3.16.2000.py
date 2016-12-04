@@ -16,14 +16,14 @@ for i,DBID in zip(np.arange(len(good_dbids)),good_dbids):
 
 gooddes,goodsdss=np.where((DESras!=0)&(DESdecs!=0))[0],np.where((SDSSras!=0)&(SDSSdecs!=0))[0]
 
-outcr=np.zeros((len(gooddes,)),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S20')})
+outcr=np.zeros((len(gooddes,)),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','i8')})
 outcr_radec=np.zeros((len(gooddes),2))
 outcr['RA'],outcr['DEC'],outcr['Name']=DESras[gooddes],DESdecs[gooddes],good_dbids[gooddes]
 outcr_radec[:,1],outcr_radec[:,1]=DESras[gooddes],DESdecs[gooddes]
 np.savetxt('/home/rumbaugh/radecname_forDEScutouts.csv',outcr,fmt='%f,%f,DEScutout_DBID_%06i')
 np.savetxt('/home/rumbaugh/radec_forDEScutouts.csv',outcr_radec,fmt='%f,%f')
 
-outcr=np.zeros((len(goodsdss,)),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S20')})
+outcr=np.zeros((len(goodsdss,)),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','i8')})
 outcr_radec=np.zeros((len(goodsdss),2))
 outcr['RA'],outcr['DEC'],outcr['Name']=SDSSras[goodsdss],SDSSdecs[goodsdss],good_dbids[goodsdss]
 outcr_radec[:,1],outcr_radec[:,1]=SDSSras[goodsdss],SDSSdecs[goodsdss]
