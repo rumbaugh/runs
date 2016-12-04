@@ -96,8 +96,9 @@ plt.xlabel('Max Difference')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/var_database/plots/max_diffs.hist.png')
 
-tcr=np.zeros((len(totdiffs),2),dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
-tcr['DBID'],tcr['maxdiff']=totDBIDs,totdiffs
+tcr=np.zeros((len(totdiffs),2))#,dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
+#tcr['DBID'],tcr['maxdiff']=totDBIDs,totdiffs
+tcr[:,0],tcr[:,1]=totDBIDs,totdiffs
 np.savetxt('/home/rumbaugh/var_database/maxdiffs_DBID.12.1.16.txt',tcr,fmt='%7i %f',header='DatabasedID  Max_Mag_Difference')
 
 print 87846,len(totdiffs),len(totdiffs[totdiffs>2])*1./len(totdiffs)
