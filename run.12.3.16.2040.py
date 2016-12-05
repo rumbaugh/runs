@@ -11,5 +11,5 @@ def save_image(ra, dec,DBID):
 
 cr=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts.csv',dtype={'names':('ra','dec','name'),'formats':('f8','f8','|S20')},delimiter=',')
 
-for ra,dec,DBID in zip(cr['ra'],cr['dec'],cr['DBID']):
+for ra,dec,DBID in zip(cr['ra'],cr['dec'],cr['name']):
     save_image(ra,dec,DBID)
