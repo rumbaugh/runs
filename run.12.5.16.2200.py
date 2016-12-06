@@ -8,7 +8,8 @@ import matplotlib.backends.backend_pdf as bpdf
 psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_plots.12.5.16.pdf')
 DB_path='/home/rumbaugh/var_database'
 
-lsdict={'names':('DESJ','rah','ram','ras','decd','decm','decs','tif'),'formats'('|S4','i8','i8','f8','i8','i8','f8','|S4')}
+lsdict={'names':('DESJ','rah','ram','ras','decd','decm','decs','tif'),'formats':
+('|S4','i8','i8','f8','i8','i8','f8','|S4')}
 delims=(4,2,2,4,3,2,4,4)
 crls=np.genfromtxt('',dtype=lsdict,delimiter=delims)
 lsfilenames=np.loadtxt('',dtype='|S30')
