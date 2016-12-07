@@ -80,6 +80,12 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         ylim=plt.ylim()
         plt.ylim(ylim[1],ylim[0])
+        if ylim[1]>30:
+            ylim[1]=np.max(mag)+0.1
+        if ylim[1]>30: ylim[1]=30
+        if ylim[0]<15:
+            ylim[0]=np.min(mag)-0.1
+        if ylim[0]<15: ylim[0]=15
         ax3.set_ylabel('Mag_PSF')
         ax3.set_xlabel('MJD')
         ax3.legend()
