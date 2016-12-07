@@ -25,7 +25,7 @@ crids=np.loadtxt('/home/rumbaugh/var_database/maxdiffs_DBID.12.1.16.txt',dtype={
 
 good_dbids=crids['DBID'][crids['maxdiff']>2]
 
-cr_rids=np.loadtxt('/home/rumbaugh/changlinglookAGNcandidates_index.12.6.16.dat',dtype={'names':('DBID','CID','tid','sdr7id','ra','dec','IntFlag'),'formats':('i8','i8','i8','i8','f8','f8','i8')})
+cr_rids=np.loadtxt('/home/rumbaugh/changinglookAGNcandidates_index.12.6.16.dat',dtype={'names':('DBID','CID','tid','sdr7id','ra','dec','IntFlag'),'formats':('i8','i8','i8','i8','f8','f8','i8')})
 
 good_dbids=cr_rids['DBID'][cr_rids['IntFlag']==1]
 
