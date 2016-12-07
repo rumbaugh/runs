@@ -100,7 +100,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
             if gdescutout['fname'][gdc[0]]!='False':
                 DESfname='%s.tif'%(gdescutout['fname'][gdc[0]])
                 ax4=subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
-                ax4.imshow('%s/%s'%(,DESfname))
+                ax4.imshow('/home/rumbaugh/descuts/results/12-5-16/%s'%(DESfname))
     plt.savefig(psfpdf,format='pdf')
     return
 
