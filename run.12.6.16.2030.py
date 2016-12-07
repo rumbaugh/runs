@@ -66,7 +66,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
             mag[gposs][bands[gposs]=='i']=np.zeros(0)
     fig=plt.figure(1)
     fig.clf()
-    ax3=subplot2grid((2,10),(1,0),colspan=6)
+    ax3=plt.subplot2grid((2,10),(1,0),colspan=6)
     plt.rc('axes',linewidth=2)
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
@@ -78,7 +78,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     ylim=plt.ylim()
     plt.ylim(ylim[1],ylim[0])
     ax3.legend()
-    ax1=subplot2grid((2,10),(0,0),colspan=6)
+    ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
     for b in ['g','r','i','z','Y']:
         plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
     xlim=plt.xlim()
@@ -90,7 +90,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     ax1.set_ylabel('Mag_PSF')
     ax.set_title(dbid)
     if len(gsdss)>0:
-        ax3=subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
+        ax3=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
         SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i'%(dbid)
         ax3.imshow(SDSSfname)
     if len(gdes)>0:
@@ -98,7 +98,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         if len(gdc)>0:
             if gdescutout['fname'][gdc[0]]!='False':
                 DESfname='%s.tif'%(gdescutout['fname'][gdc[0]])
-                ax4=subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
+                ax4=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
                 ax4.imshow('/home/rumbaugh/descuts/results/12-5-16/%s'%(DESfname))
     plt.savefig(psfpdf,format='pdf')
     return
