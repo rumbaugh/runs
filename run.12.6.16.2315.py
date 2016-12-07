@@ -54,7 +54,7 @@ for DBID,i in zip(good_dbids,np.arange(len(good_dbids))):
         outcr['sdr7ID'][i]=cid
     try:
         mRA,mDec=np.median(cr['RA']),np.median(cr['DEC'])
-    else:
+    except:
         mRA,mDec=np.array([cr['RA']])[0],np.array([cr['DEC']])[0]
     outcr['ra'][i],outcr['dec'][i]=mRA,mDec
 np.savetxt('/home/rumbaugh/changinglookAGNcandidates_index.dat',outcr,fmt='%6i %16i %16i %10i %9.5f %9.5f %2i',header='DatabaseID CoaddObjectsID thingid sdr7id RA Dec IntFlag')
