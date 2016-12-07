@@ -71,24 +71,35 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+    plt.locator_params(nbins=4)
     for b in ['g','r','i','z','Y']:
         plot_band(ax3,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
     xlim=plt.xlim()
     plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
     plt.ylim(ylim[1],ylim[0])
+    ax3.set_ylabel('Mag_PSF')
+    ax3.set_xlabel('MJD')
     ax3.legend()
-    ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
-    for b in ['g','r','i','z','Y']:
-        plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
-    xlim=plt.xlim()
-    plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
-    ylim=plt.ylim()
-    plt.ylim(ylim[1],ylim[0])
-    ax1.legend()
-    ax1.set_xlabel('MJD')
-    ax1.set_ylabel('Mag_PSF')
-    ax1.set_title(dbid)
+    if len(gdes)>0:
+        ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
+        plt.rc('axes',linewidth=2)
+        plt.fontsize = 14
+        plt.tick_params(which='major',length=8,width=2,labelsize=14)
+        plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+        plt.locator_params(nbins=4)
+        for b in ['g','r','i','z','Y']:
+            plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
+        xlim=plt.xlim()
+        plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
+        ylim=plt.ylim()
+        plt.ylim(ylim[1],ylim[0])
+        ax1.legend()
+        #ax1.set_xlabel('MJD')
+        ax1.set_ylabel('Mag_PSF')
+        ax1.set_title(dbid)
+    else:
+        ax3.legend()
     if len(gdes)>0:
         gdc=np.where(crdescutin['DBID']==DBID)[0]
         if len(gdc)>0:
@@ -98,14 +109,14 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
                 img4=mpimg.imread('/home/rumbaugh/descuts/results/12-5-16/%s'%(DESfname))
                 ax4.imshow(img4)
     if len(gsdss)>0:
-        ax3=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
+        ax3=plt.subplot2grid((2,10),(0,6),colspan=4,xticks=[],yticks=[])
         SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i.jpeg'%(dbid)
         img3=mpimg.imread(SDSSfname)
         ax3.imshow(img3)
     plt.savefig(psfpdf,format='pdf')
     return
 
-
+good_dbids=good_dbids[:10]
 for DBID in good_dbids:
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
