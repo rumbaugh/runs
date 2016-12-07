@@ -89,10 +89,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     ax1.set_xlabel('MJD')
     ax1.set_ylabel('Mag_PSF')
     ax1.set_title(dbid)
-    if len(gsdss)>0:
-        ax3=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
-        SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i'%(dbid)
-        ax3.imshow(SDSSfname)
     if len(gdes)>0:
         gdc=np.where(gdescutin['DBID']==DBID)[0]
         if len(gdc)>0:
@@ -100,6 +96,10 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
                 DESfname='%s.tif'%(gdescutout['fname'][gdc[0]])
                 ax4=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
                 ax4.imshow('/home/rumbaugh/descuts/results/12-5-16/%s'%(DESfname))
+    if len(gsdss)>0:
+        ax3=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
+        SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i'%(dbid)
+        ax3.imshow(SDSSfname)
     plt.savefig(psfpdf,format='pdf')
     return
 
