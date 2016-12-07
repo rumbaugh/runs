@@ -99,7 +99,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
                 ax4.imshow(img4)
     if len(gsdss)>0:
         ax3=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
-        SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i'%(dbid)
+        SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_SDSScutout_DBID_%06i'%(dbid)
         img3=mpimg.imread(SDSSfname)
         ax3.imshow(img3)
     plt.savefig(psfpdf,format='pdf')
