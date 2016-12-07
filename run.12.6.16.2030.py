@@ -67,40 +67,42 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
             mag[gposs][bands[gposs]=='i']=np.zeros(0)
     fig=plt.figure(1)
     fig.clf()
-    ax3=plt.subplot2grid((2,10),(1,0),colspan=6)
-    plt.rc('axes',linewidth=2)
-    plt.fontsize = 14
-    plt.tick_params(which='major',length=8,width=2,labelsize=14)
-    plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
-    plt.locator_params(nbins=4)
-    for b in ['g','r','i','z','Y']:
-        plot_band(ax3,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
-    xlim=plt.xlim()
-    plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
-    ylim=plt.ylim()
-    plt.ylim(ylim[1],ylim[0])
-    ax3.set_ylabel('Mag_PSF')
-    ax3.set_xlabel('MJD')
-    ax3.legend()
     if len(gdes)>0:
-        ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
+        ax3=plt.subplot2grid((2,10),(1,0),colspan=6)
         plt.rc('axes',linewidth=2)
         plt.fontsize = 14
         plt.tick_params(which='major',length=8,width=2,labelsize=14)
         plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
         plt.locator_params(nbins=4)
         for b in ['g','r','i','z','Y']:
-            plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
+            plot_band(ax3,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         ylim=plt.ylim()
         plt.ylim(ylim[1],ylim[0])
-        ax1.legend()
-        #ax1.set_xlabel('MJD')
-        ax1.set_ylabel('Mag_PSF')
-        ax1.set_title(dbid)
-    else:
+        ax3.set_ylabel('Mag_PSF')
+        ax3.set_xlabel('MJD')
         ax3.legend()
+    ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
+    plt.rc('axes',linewidth=2)
+    plt.fontsize = 14
+    plt.tick_params(which='major',length=8,width=2,labelsize=14)
+    plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+    plt.locator_params(nbins=4)
+    for b in ['g','r','i','z','Y']:
+        if len(gdes)>0:
+            plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
+        else:
+            plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=False)
+    xlim=plt.xlim()
+    plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
+    ylim=plt.ylim()
+    plt.ylim(ylim[1],ylim[0])
+    ax1.legend()
+    #ax1.set_xlabel('MJD')
+    ax1.set_ylabel('Mag_PSF')
+    ax1.set_title(dbid)
+    if len(gdes==0):ax1.legend()
     if len(gdes)>0:
         gdc=np.where(crdescutin['DBID']==DBID)[0]
         if len(gdc)>0:
