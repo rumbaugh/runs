@@ -51,7 +51,7 @@ for DBID,i in zip(good_dbids,np.arange(len(good_dbids))):
             cid=cr['SurveyCoaddID'][gsdss[0]]
         except:
             cid=cr['SurveyCoaddID'][gsdss]
-        outcr['sdr7ID'][i]=cid
+        outcr['dr7ID'][i]=cid
     try:
         mRA,mDec=np.median(cr['RA']),np.median(cr['DEC'])
     except:
