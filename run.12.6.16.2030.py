@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 execfile('/home/rumbaugh/pythonscripts/angconvert.py')
 import matplotlib.backends.backend_pdf as bpdf
-
+outputdir='/home/rumbaugh/var_database'
 psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_plots.12.5.16.pdf')
 DB_path='/home/rumbaugh/var_database'
 
