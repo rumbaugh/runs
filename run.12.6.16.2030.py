@@ -6,6 +6,7 @@ import matplotlib.backends.backend_pdf as bpdf
 outputdir='/home/rumbaugh/var_database'
 psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_plots.12.5.16.pdf')
 DB_path='/home/rumbaugh/var_database'
+maxdb=None
 
 #lsdict={'names':('DESJ','rah','ram','ras','decd','decm','decs','tif'),'formats':
 #('|S4','i8','i8','f8','i8','i8','f8','|S4')}
@@ -116,7 +117,8 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     plt.savefig(psfpdf,format='pdf')
     return
 
-good_dbids=good_dbids[:10]
+if maxdb!=None:
+    good_dbids=good_dbids[:maxdb]
 for DBID in good_dbids:
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
