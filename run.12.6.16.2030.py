@@ -17,7 +17,8 @@ DB_path='/home/rumbaugh/var_database'
 crdescutin=np.loadtxt('/home/rumbaugh/radecname_forDEScutouts.csv',delimiter=',DEScutout_DBID_',dtype={'names':('radec','DBID'),'formats':('|S20','i8')})
 crdescutout=np.loadtxt('/home/rumbaugh/descuts/results/12-5-16/matched_12-5-16.csv',skiprows=1,delimiter=',',dtype={'names':('ra','dec','tile','fname'),'formats':('f8','f8','|S12','|S20')})
 
-lsras,lsdecs=hms2deg(crls['rah'],crls['ram'],crls['ras']),dms2deg(crls['decd'],crls['decm'],crls['decs'])
+
+#lsras,lsdecs=hms2deg(crls['rah'],crls['ram'],crls['ras']),dms2deg(crls['decd'],crls['decm'],crls['decs'])
 
 
 crids=np.loadtxt('/home/rumbaugh/var_database/maxdiffs_DBID.12.1.16.txt',dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
@@ -91,11 +92,15 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     ax.set_title(dbid)
     if len(gsdss)>0:
         ax3=subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
-        SDSSfname='%s/SDSScutout_DBID_%06i'%(,dbid)
+        SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i'%(dbid)
         ax3.imshow(SDSSfname)
-    if DESfname!=None:
-        ax4=subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
-        ax4.imshow('%s/%s'%(,DESfname))
+    if len(gdes)>0:
+        gdc=np.where(gdescutin['DBID']==DBID)[0]
+        if len(gdc)>0:
+            if gdescutout['fname'][gdc[0]]!='False':
+                DESfname='%s.tif'%(gdescutout['fname'][gdc[0]])
+                ax4=subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
+                ax4.imshow('%s/%s'%(,DESfname))
     plt.savefig(psfpdf,format='pdf')
     return
 
@@ -104,17 +109,6 @@ for DBID in good_dbids:
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     curid=int(cr['SurveyCoaddID'][gdes[0]])
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
-    gdes=np.where(survey=='DES')
-    if len(gdes)>0:
-        mRA,mDec=np.mean(np.array([cr['RA'][gdes]])),np.mean(np.array([cr['Dec'][gdes]]))
-        glsinit=np.where(np.abs(lsdecs-mDec)<.3/3600.)[0]
-        DES_imagestamp_fname=None
-        if len(glsinit)>0:
-            tdists=SphDist(mRa,mDec,lsras[glsinit],lsras[glsinit])/60.
-            gclose=np.argsort(tdists)
-            if ((tdists[gclose[0]]<.3/3600.)|(tdist[gclose[0]]<0.000417*3*np.cos(mDec*np.pi/180.))):
-                gls=glsinit[gclose[0]]
-                DES_imagestamp_fname=lsfilenames[gls]
-    plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False,DESfname=DES_imagestamp_fname)
+    plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
 
 psfpdf.close()
