@@ -88,7 +88,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     ax1.legend()
     ax1.set_xlabel('MJD')
     ax1.set_ylabel('Mag_PSF')
-    ax.set_title(dbid)
+    ax1.set_title(dbid)
     if len(gsdss)>0:
         ax3=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
         SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i'%(dbid)
