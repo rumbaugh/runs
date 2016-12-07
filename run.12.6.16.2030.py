@@ -95,11 +95,13 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
             if crdescutout['fname'][gdc[0]]!='False':
                 DESfname='%s.tif'%(crdescutout['fname'][gdc[0]])
                 ax4=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
-                ax4.imshow('/home/rumbaugh/descuts/results/12-5-16/%s'%(DESfname))
+                img4=mpimg.imread('/home/rumbaugh/descuts/results/12-5-16/%s'%(DESfname))
+                ax4.imshow(img4)
     if len(gsdss)>0:
         ax3=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
         SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i'%(dbid)
-        ax3.imshow(SDSSfname)
+        img3=mpimg.imread(SDSSfname)
+        ax3.imshow(img3)
     plt.savefig(psfpdf,format='pdf')
     return
 
