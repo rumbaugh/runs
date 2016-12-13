@@ -159,7 +159,10 @@ for DBID in good_dbids:
             else:
                 medr=np.median(cr['MAG'][gdes][gr])
             newg,dum1=DES2SDSS_gr(cr['MAG'][gdes][gg],medr)
-            print DBID,cr['MAG'][gdes][gi],newi
+            try:
+                print DBID,cr['MAG'][gdes][gi],newi
+            except:
+                pass
             dum2,newr=DES2SDSS_gr(medg,cr['MAG'][gdes][gr])
             cr['MAG'][gdes][gg],cr['MAG'][gdes][gr]=newg,newr
         gi,gz=np.where(cr['BAND'][gdes]=='i')[0],np.where(cr['BAND'][gdes]=='z')[0]
