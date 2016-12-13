@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 execfile('/home/rumbaugh/pythonscripts/angconvert.py')
 import matplotlib.backends.backend_pdf as bpdf
 outputdir='/home/rumbaugh/var_database'
-#psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_plots.12.13.16.pdf')
+psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_plots.12.13.16.pdf')
 DB_path='/home/rumbaugh/var_database'
 maxdb=None
 
@@ -132,7 +132,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i.jpeg'%(dbid)
         img3=mpimg.imread(SDSSfname)
         ax3.imshow(img3)
-    #plt.savefig(psfpdf,format='pdf')
+    plt.savefig(psfpdf,format='pdf')
     return
 
 def DES2SDSS_gr(g,r):
@@ -143,7 +143,7 @@ def DES2SDSS_iz(i,z):
 
 if maxdb!=None:
     good_dbids=good_dbids[:maxdb]
-for DBID in good_dbids[:10]:
+for DBID in good_dbids:
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     cr=cr[(cr['MAG']>0)&(cr['MAG']<30)&(cr['MAGERR']<5)]
     gdes=np.where(cr['Survey']=='DES')[0]
@@ -175,7 +175,6 @@ for DBID in good_dbids[:10]:
             dum2,newz=DES2SDSS_iz(medi,cr['MAG'][gdes][gz])
             cr['MAG'][gdes][gi],cr['MAG'][gdes][gz]=newi,newz
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
-    print mag
     plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
 
-#psfpdf.close()
+psfpdf.close()
