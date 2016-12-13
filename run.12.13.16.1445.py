@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 execfile('/home/rumbaugh/pythonscripts/angconvert.py')
 import matplotlib.backends.backend_pdf as bpdf
 outputdir='/home/rumbaugh/var_database'
-#psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_plots.12.13.16.pdf')
+psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_plots.12.13.16.pdf')
 DB_path='/home/rumbaugh/var_database'
 maxdb=None
 
@@ -132,7 +132,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i.jpeg'%(dbid)
         img3=mpimg.imread(SDSSfname)
         ax3.imshow(img3)
-    #plt.savefig(psfpdf,format='pdf')
+    plt.savefig(psfpdf,format='pdf')
     return
 
 def DES2SDSS_gr(g,r):
@@ -143,46 +143,38 @@ def DES2SDSS_iz(i,z):
 
 if maxdb!=None:
     good_dbids=good_dbids[:maxdb]
-for DBID in good_dbids[:10]:
+for DBID in good_dbids:
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     cr=cr[(cr['MAG']>0)&(cr['MAG']<30)&(cr['MAGERR']<5)]
     gdes=np.where(cr['Survey']=='DES')[0]
-    mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],bands,cr['Survey']
     if len(gdes)>1:
-        gg,gr=np.where(bands[gdes]=='g')[0],np.where(bands[gdes]=='r')[0]
+        gg,gr=np.where(cr['BAND'][gdes]=='g')[0],np.where(cr['BAND'][gdes]=='r')[0]
         if (len(gg)>0)&(len(gr)>0):
             if len(gg)==1:
-                medg=mag[gdes][gg]
+                medg=cr['MAG'][gdes][gg]
             else:
-                medg=np.median(mag[gdes][gg])
+                medg=np.median(cr['MAG'][gdes][gg])
             if len(gr)==1:
-                medr=mag[gdes][gr]
+                medr=cr['MAG'][gdes][gr]
             else:
-                medr=np.median(mag[gdes][gr])
-            newg,dum1=DES2SDSS_gr(mag[gdes][gg],medr)
-            dum2,newr=DES2SDSS_gr(medg,mag[gdes][gr])
-            mag[gdes][gg],mag[gdes][gr]=newg,newr
-        gi,gz=np.where(bands[gdes]=='i')[0],np.where(bands[gdes]=='z')[0]
+                medr=np.median(cr['MAG'][gdes][gr])
+            newg,dum1=DES2SDSS_gr(cr['MAG'][gdes][gg],medr)
+            dum2,newr=DES2SDSS_gr(medg,cr['MAG'][gdes][gr])
+            cr['MAG'][gdes[gg]],cr['MAG'][gdes[gr]]=newg,newr
+        gi,gz=np.where(cr['BAND'][gdes]=='i')[0],np.where(cr['BAND'][gdes]=='z')[0]
         if (len(gi)>0)&(len(gz)>0):
             if len(gi)==1:
-                medi=mag[gdes][gi]
+                medi=cr['MAG'][gdes][gi]
             else:
-                medi=np.median(mag[gdes][gi])
+                medi=np.median(cr['MAG'][gdes][gi])
             if len(gz)==1:
-                medz=mag[gdes][gz]
+                medz=cr['MAG'][gdes][gz]
             else:
-                medz=np.median(mag[gdes][gz])
-            newi,dum1=DES2SDSS_iz(mag[gdes][gi],medz)
-            try:
-                print DBID,mag[gdes][gi],newi
-            except:
-                pass
-            dum2,newz=DES2SDSS_iz(medi,mag[gdes][gz])
-            mag[gdes][gi],mag[gdes][gz]=newi,newz
-            mag[gdes][gi]=newi
-            for ji,j in zip(gdes[gi],np.arange(len(gi))): mag[ji]=newi[j]
-            print mag[gdes][gi]
-    print mag
-    #plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
+                medz=np.median(cr['MAG'][gdes][gz])
+            newi,dum1=DES2SDSS_iz(cr['MAG'][gdes][gi],medz)
+            dum2,newz=DES2SDSS_iz(medi,cr['MAG'][gdes][gz])
+            cr['MAG'][gdes[gi]],cr['MAG'][gdes[gz]]=newi,newz
+    mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
+    plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
 
-#psfpdf.close()
+psfpdf.close()
