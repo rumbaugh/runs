@@ -178,6 +178,7 @@ for DBID in good_dbids[:10]:
             newi,dum1=DES2SDSS_iz(cr['MAG'][gdes][gi],medz)
             dum2,newz=DES2SDSS_iz(medi,cr['MAG'][gdes][gz])
             cr['MAG'][gdes][gi],cr['MAG'][gdes][gz]=newi,newz
+            print cr['MAG'][gdes][gi]
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
     print mag
     #plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
