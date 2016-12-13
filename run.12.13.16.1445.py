@@ -158,7 +158,9 @@ for DBID in good_dbids:
                 medr=cr['MAG'][gdes][gr]
             else:
                 medr=np.median(cr['MAG'][gdes][gr])
-            cr['MAG'][gdes][gg],dum1,dum2,cr['MAG'][gdes][gr]=DES2SDSS_gr(cr['MAG'][gdes][gg],medr),DES2SDSS_gr(medg,cr['MAG'][gdes][gr])
+            newg,dum1=DES2SDSS_gr(cr['MAG'][gdes][gg],medr)
+            dum2,newr=DES2SDSS_gr(medg,cr['MAG'][gdes][gr])
+            cr['MAG'][gdes][gg],cr['MAG'][gdes][gr]=newg,newr
         gi,gz=np.where(cr['BAND'][gdes]=='i')[0],np.where(cr['BAND'][gdes]=='z')[0]
         if (len(gi)>0)&(len(gz)>0):
             if len(gi)==1:
@@ -169,7 +171,9 @@ for DBID in good_dbids:
                 medz=cr['MAG'][gdes][gz]
             else:
                 medz=np.median(cr['MAG'][gdes][gz])
-            cr['MAG'][gdes][gi],dum1,dum2,cr['MAG'][gdes][gz]=DES2SDSS_iz(cr['MAG'][gdes][gi],medz),DES2SDSS_iz(medi,cr['MAG'][gdes][gz])
+            newi,dum1=DES2SDSS_iz(cr['MAG'][gdes][gi],medz)
+            dum2,newz=DES2SDSS_iz(medi,cr['MAG'][gdes][gz])
+            cr['MAG'][gdes][gi],cr['MAG'][gdes][gz]=newi,newz
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
     plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
 
