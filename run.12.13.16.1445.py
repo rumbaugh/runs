@@ -180,6 +180,7 @@ for DBID in good_dbids[:10]:
             dum2,newz=DES2SDSS_iz(medi,mag[gdes][gz])
             mag[gdes][gi],mag[gdes][gz]=newi,newz
             mag[gdes][gi]=newi
+            for ji,j in zip(gdes[gi],np.arange(len(gi))): mag[ji]=newi[j]
             print mag[gdes][gi]
     print mag
     #plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
