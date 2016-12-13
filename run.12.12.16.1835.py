@@ -41,7 +41,6 @@ if istest:
         HPlist=HPlist[:testruns]
 print 'starting loop'
 st=time.time()
-HPlist=[1234597371]
 for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
     if iHP%100==0: 
         chktime=time.time()
