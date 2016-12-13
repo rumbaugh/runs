@@ -172,7 +172,6 @@ for DBID in good_dbids:
             else:
                 medz=np.median(cr['MAG'][gdes][gz])
             newi,dum1=DES2SDSS_iz(cr['MAG'][gdes][gi],medz)
-            print cr['MAG'][gdes][gi],newi
             dum2,newz=DES2SDSS_iz(medi,cr['MAG'][gdes][gz])
             cr['MAG'][gdes][gi],cr['MAG'][gdes][gz]=newi,newz
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
