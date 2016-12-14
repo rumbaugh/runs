@@ -118,16 +118,17 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         ax.set_ylabel('Wavelength (A)')
         ax.set_xlabel('Flux (Arb. Units)')
         ax.legend()
-    ax=plt.subplot2grid((2,10),(0,0),colspan=6)
-    plt.rc('axes',linewidth=2)
-    plt.fontsize = 14
-    plt.tick_params(which='major',length=8,width=2,labelsize=14)
-    plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
-    plt.locator_params(nbins=4)
+    else:
+        ax=fig.add_subplot(1,1,1)
+        plt.rc('axes',linewidth=2)
+        plt.fontsize = 14
+        plt.tick_params(which='major',length=8,width=2,labelsize=14)
+        plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+        plt.locator_params(nbins=4)
     if len(gndes)>0:
         fluxes=np.zeros(len(['g','r','i','z']))
         for ib,b in zip(np.arange(4),['g','r','i','z']):
-            fluxes[ib],calc_flux(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,connectpoints=connectpoints)
+            fluxes[ib]=calc_flux(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,connectpoints=connectpoints)
             if np.isnan(fluxes[ib]): fluxes[ib]=0
         if np.max(fluxes)!=0:
             fluxes*=VBmax/np.max(fluxes)
