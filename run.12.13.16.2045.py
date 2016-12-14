@@ -147,8 +147,8 @@ def DES2SDSS_iz(i,z):
 if maxdb!=None:
     good_dbids=good_dbids[:maxdb]
 for DBID in good_dbids:
-    gmf=np.where(d['DatabaseID']==DBID)[0][0]
-    redshift=d['Redshift'][gmf]
+    gmf=np.where(data['DatabaseID']==DBID)[0][0]
+    redshift=data['Redshift'][gmf]
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     cr=cr[(cr['MAG']>0)&(cr['MAG']<30)&(cr['MAGERR']<5)]
     gdes=np.where(cr['Survey']=='DES')[0]
