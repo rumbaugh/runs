@@ -59,6 +59,7 @@ def plot_band(ax,mjd,mag,magerr,cbands,band,band2,survey,connectpoints=True,nola
         print mjd[gisort][gallndes]
         print mjd[gisort][gband2][gndes]
         print mag[gisort][gband2][gndes]
+        print magplot2[gisort[gallndes]]
         magplot2[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],mag[gisort][gband2][gndes])
         magplot2err[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],magerr[gisort][gband2][gndes])
         magplot2[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband2][gdes],mag[gisort][gband2][gdes])
