@@ -35,7 +35,8 @@ SDSS_colnames={b:'%s_SDSS'%b for b in SDSSbands}
 POSSbands=np.array(['g','r','i'])
 
 def plot_band(ax,mjd,mag,magerr,cbands,band,band2,survey,connectpoints=True,nolabels=False):
-    gisort=np.argsort(mjd)
+    gbands=np.where((cbands==band)|(cbands==band2))[0]
+    gisort=gbands[np.argsort(mjd[gbands])]
     gband=np.where(cbands[gisort]==band)[0]
     gdes,gndes=np.where(survey[gisort][gband]=='DES')[0],np.where(survey[gisort][gband]!='DES')[0]
     if (len(gdes)>0)&(len(gndes)>0):
