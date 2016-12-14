@@ -138,7 +138,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     #if ylim[0]<15:
     #    ylim=(np.min(mag)-0.1,ylim[1])
     #if ylim[0]<15: ylim=(15,ylim[1])
-    plt.ylim(ylim[1],ylim[0])
+    #plt.ylim(ylim[1],ylim[0])
 
     plt.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=2)
     ax.legend()
