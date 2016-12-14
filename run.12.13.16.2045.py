@@ -133,7 +133,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
             fluxes*=VBmax/np.max(fluxes)
         label='SDSS'
         if len(gposs)>0: label='SDSS+POSS'
-        fluxes*=VBmax/np.max(fluxes)
         plot_flux(ax,fluxes,label=label,curcol='b')
         print 'SDSS',fluxes
     #xlim=plt.xlim()
