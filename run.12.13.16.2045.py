@@ -72,7 +72,9 @@ def calc_flux(ax,mjd,mag,magerr,cbands,band,connectpoints=True):
     return 10**(medmag/-2.5)
 
 
-def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,DESfname=None,connectpoints=True):
+def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False,fname=None,DESfname=None,connectpoints=True):
+    redshift=np.copy(trueredshift)
+    if redshift<0:redshift=0
     gdes,gsdss,gposs,gndes=np.where(survey=='DES')[0],np.where(survey=='SDSS')[0],np.where(survey=='POSS')[0],np.where(survey!='DES')[0]
     if len(gposs)>0:
         POSSmagdict={b: mag[gposs][bands[gposs]==b] for b in POSSbands}
@@ -144,7 +146,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     ax.set_ylabel('Flux (Arb. Units)')
     plt.xlim(WavLL,WavUL)
     if redshift>0:
-        ax.set_title('%i - z=%.4f'%(dbid,redshift))
+        ax.set_title('%i, z=%.4f'%(dbid,trueredshift))
     else:
         ax.set_title(dbid)
     if len(gdes==0):ax.legend()
@@ -161,8 +163,9 @@ if maxdb!=None:
     good_dbids=good_dbids[:maxdb]
 for DBID in good_dbids:
     gmf=np.where(data['DatabaseID']==DBID)[0][0]
-    redshift=data['Redshift'][gmf]
-    
+    trueredshift=data['Redshift'][gmf]
+    redshift=np.copy(trueredshift)
+    if redshift<0: redshift=0
     VBmax=np.max(crv[:,1][(crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL)])
 
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
@@ -196,6 +199,6 @@ for DBID in good_dbids:
             dum2,newz=DES2SDSS_iz(medi,cr['MAG'][gdes][gz])
             cr['MAG'][gdes[gi]],cr['MAG'][gdes[gz]]=newi,newz
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
-    plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
+    plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False)
 
 psfpdf.close()
