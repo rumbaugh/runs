@@ -104,7 +104,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         if np.max(fluxes)!=0:
             fluxes*=VBmax/np.max(fluxes)
         plot_flux(ax,fluxes,label='DES',curcol='r')
-        print 'DES',fluxes
+        #print 'DES',fluxes
         #xlim=plt.xlim()
         #plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         #ylim=plt.ylim()
@@ -135,7 +135,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         label='SDSS'
         if len(gposs)>0: label='SDSS+POSS'
         plot_flux(ax,fluxes,label=label,curcol='b')
-        print 'SDSS',fluxes
+        #print 'SDSS',fluxes
     #xlim=plt.xlim()
     #plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     #ylim=plt.ylim()
