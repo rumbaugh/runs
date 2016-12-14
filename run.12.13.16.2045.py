@@ -128,6 +128,9 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         fluxes=np.zeros(len(['g','r','i','z']))
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             fluxes[ib],calc_flux(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,connectpoints=connectpoints)
+            if np.isnan(fluxes[ib]): fluxes[ib]=0
+        if np.max(fluxes)!=0:
+            fluxes*=VBmax/np.max(fluxes)
         label='SDSS'
         if len(gposs)>0: label='SDSS+POSS'
         fluxes*=VBmax/np.max(fluxes)
