@@ -43,7 +43,18 @@ SDSSbands=np.array(['u','g','r','i','z'])
 SDSS_colnames={b:'%s_SDSS'%b for b in SDSSbands}
 POSSbands=np.array(['g','r','i'])
 
-def plot_band(ax,mjd,mag,magerr,cbands,band,curcol,connectpoints=True,label=None):
+def plot_flux(fluxes,label=None,curcol='k',bands=np.array(['g','r','i','z'])):
+    if len(fluxes)!=len(bands):
+        print 'Lengths of fluxes and bands must be equal'
+        return
+    cens=np.zeros(len(bands))
+    for ib,b in zip(np.arange(len(bands)),bands): cens[ib]=bcens[b] 
+    if label==None:
+        ax.scatter(cens,fluxes,color=curcol)
+    else:
+        ax.scatter(cens,fluxes,color=curcol,label=label)
+
+def calc_flux(ax,mjd,mag,magerr,cbands,band,connectpoints=True):
     gband=np.where(cbands==band)[0]
     magplot=mag[gband]
     magploterr=magerr[gband]
@@ -54,14 +65,7 @@ def plot_band(ax,mjd,mag,magerr,cbands,band,curcol,connectpoints=True,label=None
         #medmagerr=np.mean(
     else:
         medmag=magplot[g100]
-    #ax.errorbar(mjd[gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    print len(g100)
-    if len(g100)>0:
-        if label==None:
-            ax.scatter(np.array([bcens[band]]),10**(np.array([medmag])/-2.5),color=curcol)
-        else:
-            ax.scatter(np.array([bcens[band]]),10**(np.array([medmag])/-2.5),color=curcol,label=label)
-    #return
+    return 10**(medmag/-2.5)
 
 
 def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,DESfname=None,connectpoints=True):
@@ -87,11 +91,11 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         plt.tick_params(which='major',length=8,width=2,labelsize=14)
         plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
         plt.locator_params(nbins=4)
-        for b in ['g','r','i','z']:
-            if b=='g':
-                plot_band(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,'r',connectpoints=connectpoints,label='DES')
-            else:
-                plot_band(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,'r',connectpoints=connectpoints)
+        fluxes=np.zeros(len(['g','r','i','z']))
+        for ib,b in zip(np.arange(4),['g','r','i','z']):
+            fluxes[ib]=calc_flux(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
+        fluxes*=VBmax/np.max(fluxes)
+        plot_fluxes(fluxes,label='DES',curcol='r')
         xlim=plt.xlim()
         #plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         ylim=plt.ylim()
@@ -111,14 +115,14 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     plt.locator_params(nbins=4)
-    for b in ['g','r','i','z']:
-        if len(gndes)>0:
-            if b=='g':
-                label='SDSS'
-                if len(gposs)>0: label='SDSS+POSS'
-                plot_band(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,'b',connectpoints=connectpoints,label=label)
-            else:
-                plot_band(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,'b',connectpoints=connectpoints,label=None)
+    if len(gndes)>0:
+        fluxes=np.zeros(len(['g','r','i','z']))
+        for ib,b in zip(np.arange(4),['g','r','i','z']):
+            fluxes[ib],calc_flux(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,connectpoints=connectpoints)
+        label='SDSS'
+        if len(gposs)>0: label='SDSS+POSS'
+        fluxes*=VBmax/np.max(fluxes)
+        plot_flux(fluxes,label=label,curcol='b')
     xlim=plt.xlim()
     #plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
@@ -154,6 +158,9 @@ if maxdb!=None:
 for DBID in good_dbids:
     gmf=np.where(data['DatabaseID']==DBID)[0][0]
     redshift=data['Redshift'][gmf]
+    
+    VBmax=np.max(crv[:,1][(crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL)])
+
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     cr=cr[(cr['MAG']>0)&(cr['MAG']<30)&(cr['MAGERR']<5)]
     gdes=np.where(cr['Survey']=='DES')[0]
