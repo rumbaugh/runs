@@ -55,11 +55,12 @@ def plot_band(ax,mjd,mag,magerr,cbands,band,curcol,connectpoints=True,label=None
     else:
         medmag=magplot[g100]
     #ax.errorbar(mjd[gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
+    print len(g100)
     if len(g100)>0:
         if label==None:
-            ax.scatter(np.array([bcens[band]]),np.array([medmag]),color=curcol)
+            ax.scatter(np.array([bcens[band]]),10**(np.array([medmag])/-2.5),color=curcol)
         else:
-            ax.scatter(np.array([bcens[band]]),np.array([medmag]),color=curcol,label=label)
+            ax.scatter(np.array([bcens[band]]),10**(np.array([medmag])/-2.5),color=curcol,label=label)
     #return
 
 
@@ -92,15 +93,15 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
             else:
                 plot_band(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,'r',connectpoints=connectpoints)
         xlim=plt.xlim()
-        plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
+        #plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         ylim=plt.ylim()
-        if ylim[1]>30:
-            ylim=(ylim[0],np.max(mag)+0.1)
-        if ylim[1]>30: ylim=(ylim[0],30)
-        if ylim[0]<15:
-            ylim=(np.min(mag)-0.1,ylim[1])
-        if ylim[0]<15: ylim=(15,ylim[1])
-        plt.ylim(ylim[1],ylim[0])
+        #if ylim[1]>30:
+        #    ylim=(ylim[0],np.max(mag)+0.1)
+        #if ylim[1]>30: ylim=(ylim[0],30)
+        #if ylim[0]<15:
+        #    ylim=(np.min(mag)-0.1,ylim[1])
+        #if ylim[0]<15: ylim=(15,ylim[1])
+        #plt.ylim(ylim[1],ylim[0])
         ax.set_ylabel('Wavelength (A)')
         ax.set_xlabel('Flux (Arb. Units)')
         ax.legend()
@@ -117,16 +118,16 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
                 if len(gposs)>0: label='SDSS+POSS'
                 plot_band(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,'b',connectpoints=connectpoints,label=label)
             else:
-                plot_band(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,'b',connectpoints=connectpoints,label='None')
+                plot_band(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,'b',connectpoints=connectpoints,label=None)
     xlim=plt.xlim()
-    plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
+    #plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
-    if ylim[1]>30:
-        ylim=(ylim[0],np.max(mag)+0.1)
-    if ylim[1]>30: ylim=(ylim[0],30)
-    if ylim[0]<15:
-        ylim=(np.min(mag)-0.1,ylim[1])
-    if ylim[0]<15: ylim=(15,ylim[1])
+    #if ylim[1]>30:
+    #    ylim=(ylim[0],np.max(mag)+0.1)
+    #if ylim[1]>30: ylim=(ylim[0],30)
+    #if ylim[0]<15:
+    #    ylim=(np.min(mag)-0.1,ylim[1])
+    #if ylim[0]<15: ylim=(15,ylim[1])
     plt.ylim(ylim[1],ylim[0])
 
     plt.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=2)
@@ -134,7 +135,10 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     ax.set_xlabel('Wavelength (A)')
     ax.set_ylabel('Flux (Arb. Units)')
     plt.xlim(WavLL,WavUL)
-    ax.set_title(dbid)
+    if redshift>0:
+        ax.set_title('%i - z=%.4f'%(dbid,redshift))
+    else:
+        ax.set_title(dbid)
     if len(gdes==0):ax.legend()
     plt.savefig(psfpdf,format='pdf')
     return
