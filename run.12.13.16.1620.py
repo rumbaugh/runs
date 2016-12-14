@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 execfile('/home/rumbaugh/pythonscripts/angconvert.py')
 import matplotlib.backends.backend_pdf as bpdf
 outputdir='/home/rumbaugh/var_database'
-psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_plots.12.13.16.pdf')
+psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidates_colplots.12.13.16.pdf')
 DB_path='/home/rumbaugh/var_database'
 maxdb=None
 
@@ -34,24 +34,50 @@ SDSSbands=np.array(['u','g','r','i','z'])
 SDSS_colnames={b:'%s_SDSS'%b for b in SDSSbands}
 POSSbands=np.array(['g','r','i'])
 
-def plot_band(ax,mjd,mag,magerr,cbands,band,connectpoints=True,nolabels=False):
-    gband=np.where(cbands==band)[0]
-    magplot=mag[gband]
-    magploterr=magerr[gband]
-    g100=np.where(magplot<100)[0]
+def plot_band(ax,mjd,mag,magerr,cbands,band,band2,survey,connectpoints=True,nolabels=False):
+    gisort=np.argsort(mjd)
+    gband=np.where(cbands[gisort]==band)[0]
+    gdes,gndes=np.where(survey[gisort][gband]=='DES')[0],np.where(survey[gisort][gband]!='DES')[0]
+    if (len(gdes)>0)&(len(gndes)>0):
+        magplot,magploterr=np.zeros(len(gband)),np.zeros(len(gband))
+        gallndes,galldes=np.where(survey[gisort]!='DES')[0],np.where(survey[gisort]=='DES')[0]
+        magplot[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband][gndes],mag[gisort][gband][gndes])
+        magploterr[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband][gndes],magerr[gisort][gband][gndes])
+        magplot[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband][gdes],mag[gisort][gband][gdes])
+        magploterr[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband][gdes],magerr[gisort][gband][gdes])
+    else:
+        magplot=np.interp(mjd[gisort],mjd[gisort][gband],mag[gisort][gband])
+        magploterr=np.interp(mjd[gisort],mjd[gisort][gband],magerr[gisort][gband])
+    g100_1=np.where(magplot<100)[0]
+
+    gband2=np.where(cbands[gisort]==band2)[0]
+    gdes,gndes=np.where(survey[gisort][gband2]=='DES')[0],np.where(survey[gisort][gband2]!='DES')[0]
+    if (len(gdes)>0)&(len(gndes)>0):
+        magplot2,magplot2err=np.zeros(len(gband2)),np.zeros(len(gband2))
+        gallndes,galldes=np.where(survey[gisort]!='DES')[0],np.where(survey[gisort]=='DES')[0]
+        magplot2[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],mag[gisort][gband2][gndes])
+        magplot2err[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],magerr[gisort][gband2][gndes])
+        magplot2[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband2][gdes],mag[gisort][gband2][gdes])
+        magplot2err[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband2][gdes],magerr[gisort][gband2][gdes])
+    else:
+        magplot2=np.interp(mjd[gisort],mjd[gisort][gband2],mag[gisort][gband2])
+        magplot2err=np.interp(mjd[gisort],mjd[gisort][gband2],magerr[gisort][gband2])
+    g100_2=np.where(magplot2<100)[0]
+    g100=np.intersect1d(g100_1,g100_2)
+    colplot,colploterr=magplot-magplot2,np.sqrt(magploterr**2+magplot2err**2)
     try:
         curcol=coldict[band]
     except KeyError:
         print '%s is not a valid band'%band
         return
     if connectpoints:
-        gsort=np.argsort(mjd[gband][g100])
-        ax.plot(mjd[gband][g100][gsort],magplot[g100][gsort],color=curcol,lw=2)
-    ax.errorbar(mjd[gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
+        #gsort=np.argsort(mjd[gband][g100])
+        ax.plot(mjd[gisort][g100],colplot[g100],color=curcol,lw=2)
+    ax.errorbar(mjd[gisort][g100],colplot[g100],yerr=colploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
     if nolabels:
-        ax.scatter(mjd[gband][g100],magplot[g100],color=curcol)
+        ax.scatter(mjd[gisort][g100],colplot[g100],color=curcol)
     else:
-        ax.scatter(mjd[gband][g100],magplot[g100],color=curcol,label=band)
+        ax.scatter(mjd[gisort][g100],colplot[g100],color=curcol,label='%s-%s'%(band,band2))
     #return
 
 
@@ -78,8 +104,8 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         plt.tick_params(which='major',length=8,width=2,labelsize=14)
         plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
         plt.locator_params(nbins=4)
-        for b in ['g','r','i','z','Y']:
-            plot_band(ax3,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
+        for b,b2 in zip(['g','r','i'],['r','i','z']):
+            if (b in bands[gdes])&(b2 in bands[gdes]):plot_band(ax3,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,b2,survey,connectpoints=connectpoints)
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         ylim=plt.ylim()
@@ -90,7 +116,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
             ylim=(np.min(mag)-0.1,ylim[1])
         if ylim[0]<15: ylim=(15,ylim[1])
         plt.ylim(ylim[1],ylim[0])
-        ax3.set_ylabel('Mag_PSF')
+        ax3.set_ylabel('Color')
         ax3.set_xlabel('MJD')
         ax3.legend()
     ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
@@ -99,11 +125,12 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     plt.locator_params(nbins=4)
-    for b in ['g','r','i','z','Y']:
-        if len(gdes)>0:
-            plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
-        else:
-            plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=False)
+    for b,b2 in zip(['g','r','i'],['r','i','z']):
+        if (b in bands)&(b2 in bands):
+            if len(gdes)>0:
+                plot_band(ax1,mjd,mag,magerr,bands,b,b2,survey,connectpoints=connectpoints,nolabels=True)
+            else:
+                plot_band(ax1,mjd,mag,magerr,bands,b,b2,survey,connectpoints=connectpoints,nolabels=False)
     xlim=plt.xlim()
     plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
@@ -116,7 +143,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     plt.ylim(ylim[1],ylim[0])
     ax1.legend()
     #ax1.set_xlabel('MJD')
-    ax1.set_ylabel('Mag_PSF')
+    ax1.set_ylabel('Color')
     ax1.set_title(dbid)
     if len(gdes==0):ax1.legend()
     if len(gdes)>0:
@@ -160,7 +187,7 @@ for DBID in good_dbids:
                 medr=np.median(cr['MAG'][gdes][gr])
             newg,dum1=DES2SDSS_gr(cr['MAG'][gdes][gg],medr)
             dum2,newr=DES2SDSS_gr(medg,cr['MAG'][gdes][gr])
-            cr['MAG'][gdes][gg],cr['MAG'][gdes][gr]=newg,newr
+            cr['MAG'][gdes[gg]],cr['MAG'][gdes[gr]]=newg,newr
         gi,gz=np.where(cr['BAND'][gdes]=='i')[0],np.where(cr['BAND'][gdes]=='z')[0]
         if (len(gi)>0)&(len(gz)>0):
             if len(gi)==1:
@@ -173,7 +200,7 @@ for DBID in good_dbids:
                 medz=np.median(cr['MAG'][gdes][gz])
             newi,dum1=DES2SDSS_iz(cr['MAG'][gdes][gi],medz)
             dum2,newz=DES2SDSS_iz(medi,cr['MAG'][gdes][gz])
-            cr['MAG'][gdes][gi],cr['MAG'][gdes][gz]=newi,newz
+            cr['MAG'][gdes[gi]],cr['MAG'][gdes[gz]]=newi,newz
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
     plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
 
