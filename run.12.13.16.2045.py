@@ -164,6 +164,7 @@ def DES2SDSS_gr(g,r):
 def DES2SDSS_iz(i,z):
     return (-89*np.sqrt(-96000*i+96000*z+181561)+8000*z+37827)/8000.,(-17*np.sqrt(-96000*i+96000*z+181561)+24000*z+6731)/24000.
 
+wtol=50.
 if maxdb!=None:
     good_dbids=good_dbids[:maxdb]
 for DBID in good_dbids:
@@ -171,7 +172,11 @@ for DBID in good_dbids:
     trueredshift=data['Redshift'][gmf]
     redshift=np.copy(trueredshift)
     if redshift<0: redshift=0
-    VBmax=np.max(crv[:,1][(crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL)])
+    gx=np.where((np.abs(bcens['g']-crv[:,0]/(1.+redshift))<wtol)|(np.abs(bcens['r']-crv[:,0]/(1.+redshift))<wtol)|(np.abs(bcens['i']-crv[:,0]/(1.+redshift))<wtol)|(np.abs(bcens['z']-crv[:,0]/(1.+redshift))<wtol))[0]
+    if len(gx)==0:
+        VBmax=np.max(crv[:,1][(crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL)])
+    else:
+        VBmax=np.max(crv[:,1][gx])
 
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     cr=cr[(cr['MAG']>0)&(cr['MAG']<30)&(cr['MAGERR']<5)]
