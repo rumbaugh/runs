@@ -117,7 +117,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         #plt.ylim(ylim[1],ylim[0])
         ax.set_ylabel('Wavelength (A)')
         ax.set_xlabel('Flux (Arb. Units)')
-        ax.legend(loc='upper left')
     else:
         ax=fig.add_subplot(1,1,1)
         plt.rc('axes',linewidth=2)
@@ -148,7 +147,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     #plt.ylim(ylim[1],ylim[0])
 
     plt.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=2)
-    ax.legend()
+    ax.legend(loc='upper left')
     ax.set_xlabel('Wavelength (A)')
     ax.set_ylabel('Flux (Arb. Units)')
     plt.xlim(WavLL,WavUL)
@@ -156,7 +155,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         ax.set_title('%i, z=%.4f'%(dbid,trueredshift))
     else:
         ax.set_title(dbid)
-    if len(gdes==0):ax.legend()
     plt.savefig(psfpdf,format='pdf')
     return
 
