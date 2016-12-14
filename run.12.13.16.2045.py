@@ -43,7 +43,7 @@ SDSSbands=np.array(['u','g','r','i','z'])
 SDSS_colnames={b:'%s_SDSS'%b for b in SDSSbands}
 POSSbands=np.array(['g','r','i'])
 
-def plot_flux(fluxes,label=None,curcol='k',bands=np.array(['g','r','i','z'])):
+def plot_flux(ax,fluxes,label=None,curcol='k',bands=np.array(['g','r','i','z'])):
     if len(fluxes)!=len(bands):
         print 'Lengths of fluxes and bands must be equal'
         return
@@ -99,7 +99,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             fluxes[ib]=calc_flux(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
         fluxes*=VBmax/np.max(fluxes)
-        plot_flux(fluxes,label='DES',curcol='r')
+        plot_flux(ax,fluxes,label='DES',curcol='r')
         xlim=plt.xlim()
         #plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         ylim=plt.ylim()
@@ -126,7 +126,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         label='SDSS'
         if len(gposs)>0: label='SDSS+POSS'
         fluxes*=VBmax/np.max(fluxes)
-        plot_flux(fluxes,label=label,curcol='b')
+        plot_flux(ax,fluxes,label=label,curcol='b')
     xlim=plt.xlim()
     #plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
