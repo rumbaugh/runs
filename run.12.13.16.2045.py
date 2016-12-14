@@ -101,8 +101,8 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             fluxes[ib]=calc_flux(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
             if np.isnan(fluxes[ib]): fluxes[ib]=0
-        if np.max(fluxes)!=0:
-            fluxes*=VBmax/np.max(fluxes)
+        if np.mean(fluxes)!=0:
+            fluxes*=VBmean/np.mean(fluxes[fluxes>0])
         plot_flux(ax,fluxes,label='DES',curcol='r')
         #print 'DES',fluxes
         #xlim=plt.xlim()
@@ -129,8 +129,8 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             fluxes[ib]=calc_flux(ax,mjd[gndes],mag[gndes],magerr[gndes],bands[gndes],b,connectpoints=connectpoints)
             if np.isnan(fluxes[ib]): fluxes[ib]=0
-        if np.max(fluxes)!=0:
-            fluxes*=VBmax/np.max(fluxes)
+        if np.mean(fluxes)!=0:
+            fluxes*=VBmean/np.mean(fluxes[fluxes>0])
         label='SDSS'
         if len(gposs)>0: label='SDSS+POSS'
         plot_flux(ax,fluxes,label=label,curcol='b')
@@ -174,9 +174,9 @@ for DBID in good_dbids:
     if redshift<0: redshift=0
     gx=np.where((np.abs(bcens['g']-crv[:,0]/(1.+redshift))<wtol)|(np.abs(bcens['r']-crv[:,0]/(1.+redshift))<wtol)|(np.abs(bcens['i']-crv[:,0]/(1.+redshift))<wtol)|(np.abs(bcens['z']-crv[:,0]/(1.+redshift))<wtol))[0]
     if len(gx)==0:
-        VBmax=np.max(crv[:,1][(crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL)])
+        VBmean=np.mean(crv[:,1][(crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL)])
     else:
-        VBmax=np.max(crv[:,1][gx])
+        VBmean=np.mean(crv[:,1][gx])
 
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     cr=cr[(cr['MAG']>0)&(cr['MAG']<30)&(cr['MAGERR']<5)]
