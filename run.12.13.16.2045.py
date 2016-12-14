@@ -58,7 +58,7 @@ def calc_flux(ax,mjd,mag,magerr,cbands,band,connectpoints=True):
     gband=np.where(cbands==band)[0]
     magplot=mag[gband]
     magploterr=magerr[gband]
-    g100=np.where(magplot<100)[0]
+    g100=np.where((magplot<100)&(np.isnan(magplot)==False))[0]
     if len(g100)>1:
         medmag=np.median(magplot[g100])
         
@@ -100,6 +100,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         fluxes=np.zeros(len(['g','r','i','z']))
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             fluxes[ib]=calc_flux(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
+            if isnan(fluxes[ib]): 
         fluxes*=VBmax/np.max(fluxes)
         plot_flux(ax,fluxes,label='DES',curcol='r')
         print 'DES',fluxes
