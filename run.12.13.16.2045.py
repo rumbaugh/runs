@@ -101,7 +101,8 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             fluxes[ib]=calc_flux(ax,mjd[gdes],mag[gdes],magerr[gdes],bands[gdes],b,connectpoints=connectpoints)
             if np.isnan(fluxes[ib]): fluxes[ib]=0
-        fluxes*=VBmax/np.max(fluxes)
+        if np.max(fluxes)!=0:
+            fluxes*=VBmax/np.max(fluxes)
         plot_flux(ax,fluxes,label='DES',curcol='r')
         print 'DES',fluxes
         #xlim=plt.xlim()
