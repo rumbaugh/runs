@@ -115,12 +115,12 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         xlim=plt.xlim()
         plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
         ylim=plt.ylim()
-        if ylim[1]>30:
-            ylim=(ylim[0],np.max(mag)+0.1)
-        if ylim[1]>30: ylim=(ylim[0],30)
-        if ylim[0]<15:
-            ylim=(np.min(mag)-0.1,ylim[1])
-        if ylim[0]<15: ylim=(15,ylim[1])
+        #if ylim[1]>30:
+        #    ylim=(ylim[0],np.max(mag)+0.1)
+        #if ylim[1]>30: ylim=(ylim[0],30)
+        #if ylim[0]<15:
+        #    ylim=(np.min(mag)-0.1,ylim[1])
+        #if ylim[0]<15: ylim=(15,ylim[1])
         plt.ylim(ylim[1],ylim[0])
         ax3.set_ylabel('Color')
         ax3.set_xlabel('MJD')
@@ -140,12 +140,12 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     xlim=plt.xlim()
     plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
-    if ylim[1]>30:
-        ylim=(ylim[0],np.max(mag)+0.1)
-    if ylim[1]>30: ylim=(ylim[0],30)
-    if ylim[0]<15:
-        ylim=(np.min(mag)-0.1,ylim[1])
-    if ylim[0]<15: ylim=(15,ylim[1])
+    #if ylim[1]>30:
+    #    ylim=(ylim[0],np.max(mag)+0.1)
+    #if ylim[1]>30: ylim=(ylim[0],30)
+    #if ylim[0]<15:
+    #    ylim=(np.min(mag)-0.1,ylim[1])
+    #if ylim[0]<15: ylim=(15,ylim[1])
     plt.ylim(ylim[1],ylim[0])
     ax1.legend()
     #ax1.set_xlabel('MJD')
