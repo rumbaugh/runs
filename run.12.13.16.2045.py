@@ -55,10 +55,11 @@ def plot_band(ax,mjd,mag,magerr,cbands,band,curcol,connectpoints=True,label=None
     else:
         medmag=magplot[g100]
     #ax.errorbar(mjd[gband][g100],magplot[g100],yerr=magploterr[g100],color=curcol,fmt='ro',lw=2,capsize=3,mew=1)
-    if label==None:
-        ax.scatter(np.array([bcens[band]]),np.array([medmag]),color=curcol)
-    else:
-        ax.scatter(np.array([bcens[band]]),np.array([medmag]),color=curcol,label=label)
+    if len(g100)>0:
+        if label==None:
+            ax.scatter(np.array([bcens[band]]),np.array([medmag]),color=curcol)
+        else:
+            ax.scatter(np.array([bcens[band]]),np.array([medmag]),color=curcol,label=label)
     #return
 
 
