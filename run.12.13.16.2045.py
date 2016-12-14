@@ -79,7 +79,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     fig=plt.figure(1)
     fig.clf()
     if len(gdes)>0:
-        ax=plt.figure(1)
+        ax=fig.add_subplot(1,1,1)
         plt.rc('axes',linewidth=2)
         plt.fontsize = 14
         plt.tick_params(which='major',length=8,width=2,labelsize=14)
