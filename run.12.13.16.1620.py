@@ -40,12 +40,12 @@ def plot_band(ax,mjd,mag,magerr,cbands,band,band2,survey,connectpoints=True,nola
     gband=np.where(cbands[gisort]==band)[0]
     gdes,gndes=np.where(survey[gisort][gband]=='DES')[0],np.where(survey[gisort][gband]!='DES')[0]
     if (len(gdes)>0)&(len(gndes)>0):
-        magplot,magploterr=np.zeros(len(gband)),np.zeros(len(gband))
+        magplot,magploterr=np.zeros(len(gisort)),np.zeros(len(gisort))
         gallndes,galldes=np.where(survey[gisort]!='DES')[0],np.where(survey[gisort]=='DES')[0]
-        magplot[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband][gndes],mag[gisort][gband][gndes])
-        magploterr[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband][gndes],magerr[gisort][gband][gndes])
-        magplot[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband][gdes],mag[gisort][gband][gdes])
-        magploterr[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband][gdes],magerr[gisort][gband][gdes])
+        magplot[gallndes]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband][gndes],mag[gisort][gband][gndes])
+        magploterr[gallndes]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband][gndes],magerr[gisort][gband][gndes])
+        magplot[galldes]=np.interp(mjd[gisort][galldes],mjd[gisort][gband][gdes],mag[gisort][gband][gdes])
+        magploterr[galldes]=np.interp(mjd[gisort][galldes],mjd[gisort][gband][gdes],magerr[gisort][gband][gdes])
     else:
         magplot=np.interp(mjd[gisort],mjd[gisort][gband],mag[gisort][gband])
         magploterr=np.interp(mjd[gisort],mjd[gisort][gband],magerr[gisort][gband])
@@ -54,17 +54,17 @@ def plot_band(ax,mjd,mag,magerr,cbands,band,band2,survey,connectpoints=True,nola
     gband2=np.where(cbands[gisort]==band2)[0]
     gdes,gndes=np.where(survey[gisort][gband2]=='DES')[0],np.where(survey[gisort][gband2]!='DES')[0]
     if (len(gdes)>0)&(len(gndes)>0):
-        magplot2,magplot2err=np.zeros(len(gband2)),np.zeros(len(gband2))
+        magplot2,magplot2err=np.zeros(len(gisort)),np.zeros(len(gisort))
         gallndes,galldes=np.where(survey[gisort]!='DES')[0],np.where(survey[gisort]=='DES')[0]
         #print len(gisort),len(gallndes),len(gband2),len(gndes)
         #print mjd[gisort][gallndes]
         #print mjd[gisort][gband2][gndes]
         #print mag[gisort][gband2][gndes]
         #print magplot2[gisort[gallndes]]
-        magplot2[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],mag[gisort][gband2][gndes])
-        magplot2err[gisort[gallndes]]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],magerr[gisort][gband2][gndes])
-        magplot2[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband2][gdes],mag[gisort][gband2][gdes])
-        magplot2err[gisort[galldes]]=np.interp(mjd[gisort][galldes],mjd[gisort][gband2][gdes],magerr[gisort][gband2][gdes])
+        magplot2[gallndes]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],mag[gisort][gband2][gndes])
+        magplot2err[gallndes]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],magerr[gisort][gband2][gndes])
+        magplot2[galldes]=np.interp(mjd[gisort][galldes],mjd[gisort][gband2][gdes],mag[gisort][gband2][gdes])
+        magplot2err[galldes]=np.interp(mjd[gisort][galldes],mjd[gisort][gband2][gdes],magerr[gisort][gband2][gdes])
     else:
         magplot2=np.interp(mjd[gisort],mjd[gisort][gband2],mag[gisort][gband2])
         magplot2err=np.interp(mjd[gisort],mjd[gisort][gband2],magerr[gisort][gband2])
