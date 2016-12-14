@@ -15,7 +15,7 @@ WavLL,WavUL=300,1050
 
 bands=np.array(['g','r','i','z'])
 bcens={'u': 387.663943790537, 'g': 484.183358196563, 'r': 643.8534828217, 'i': 782.099282740933, 'z': 917.234266385718, 'Y': 987.780238651117}
-cr=np.loadtxt('/home/rumbaugh/Downloads/VanderBerk_datafile1.txt',skiprows=23)
+crv=np.loadtxt('/home/rumbaugh/Downloads/VanderBerk_datafile1.txt',skiprows=23)
 
 #lsdict={'names':('DESJ','rah','ram','ras','decd','decm','decs','tif'),'formats':
 #('|S4','i8','i8','f8','i8','i8','f8','|S4')}
@@ -129,7 +129,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     if ylim[0]<15: ylim=(15,ylim[1])
     plt.ylim(ylim[1],ylim[0])
 
-    plt.plot(cr[:,0]/(1.+redshift),cr[:,1],color='k',lw=2)
+    plt.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=2)
     ax.legend()
     ax.set_xlabel('Wavelength (A)')
     ax.set_ylabel('Flux (Arb. Units)')
