@@ -64,7 +64,7 @@ def calc_flux(ax,mjd,mag,magerr,cbands,band,connectpoints=True):
         
         #medmagerr=np.mean(
     else:
-        medmag=magplot[g100]
+        medmag=magplot[g100][0]
     return 10**(medmag/-2.5)
 
 
