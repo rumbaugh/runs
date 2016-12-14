@@ -117,7 +117,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         #plt.ylim(ylim[1],ylim[0])
         ax.set_ylabel('Wavelength (A)')
         ax.set_xlabel('Flux (Arb. Units)')
-        ax.legend()
+        ax.legend(loc='upper left')
     else:
         ax=fig.add_subplot(1,1,1)
         plt.rc('axes',linewidth=2)
