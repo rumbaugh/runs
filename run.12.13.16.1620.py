@@ -56,11 +56,6 @@ def plot_band(ax,mjd,mag,magerr,cbands,band,band2,survey,connectpoints=True,nola
     if (len(gdes)>0)&(len(gndes)>0):
         magplot2,magplot2err=np.zeros(len(gisort)),np.zeros(len(gisort))
         gallndes,galldes=np.where(survey[gisort]!='DES')[0],np.where(survey[gisort]=='DES')[0]
-        #print len(gisort),len(gallndes),len(gband2),len(gndes)
-        #print mjd[gisort][gallndes]
-        #print mjd[gisort][gband2][gndes]
-        #print mag[gisort][gband2][gndes]
-        #print magplot2[gisort[gallndes]]
         magplot2[gallndes]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],mag[gisort][gband2][gndes])
         magplot2err[gallndes]=np.interp(mjd[gisort][gallndes],mjd[gisort][gband2][gndes],magerr[gisort][gband2][gndes])
         magplot2[galldes]=np.interp(mjd[gisort][galldes],mjd[gisort][gband2][gdes],mag[gisort][gband2][gdes])
@@ -121,7 +116,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         #if ylim[0]<15:
         #    ylim=(np.min(mag)-0.1,ylim[1])
         #if ylim[0]<15: ylim=(15,ylim[1])
-        plt.ylim(ylim[1],ylim[0])
+        #plt.ylim(ylim[1],ylim[0])
         ax3.set_ylabel('Color')
         ax3.set_xlabel('MJD')
         ax3.legend()
@@ -146,7 +141,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
     #if ylim[0]<15:
     #    ylim=(np.min(mag)-0.1,ylim[1])
     #if ylim[0]<15: ylim=(15,ylim[1])
-    plt.ylim(ylim[1],ylim[0])
+    #plt.ylim(ylim[1],ylim[0])
     ax1.legend()
     #ax1.set_xlabel('MJD')
     ax1.set_ylabel('Color')
