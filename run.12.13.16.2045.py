@@ -66,7 +66,8 @@ def calc_flux(ax,mjd,mag,magerr,cbands,band,connectpoints=True):
     else:
         medmag=magplot[g100]
     if np.shape(medmag)!=(): 
-        print medmag
+        if len(medmag)==0:
+            return 0
         medmag=medmag[0]
     return 10**(medmag/-2.5)
 
