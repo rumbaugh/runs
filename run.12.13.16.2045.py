@@ -82,7 +82,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
-    plt.locator_params(nbins=4)
+    #plt.locator_params(nbins=4)
     plt.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=2)
     gdes,gsdss,gposs,gndes=np.where(survey=='DES')[0],np.where(survey=='SDSS')[0],np.where(survey=='POSS')[0],np.where(survey!='DES')[0]
     if len(gposs)>0:
