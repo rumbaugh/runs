@@ -50,9 +50,9 @@ def plot_flux(ax,fluxes,label=None,curcol='k',bands=np.array(['g','r','i','z']))
     cens=np.zeros(len(bands))
     for ib,b in zip(np.arange(len(bands)),bands): cens[ib]=bcens[b] 
     if label==None:
-        ax.scatter(cens,fluxes,color=curcol)
+        ax.scatter(cens,fluxes,color=curcol,s=36)
     else:
-        ax.scatter(cens,fluxes,color=curcol,label=label)
+        ax.scatter(cens,fluxes,color=curcol,s=36,label=label)
 
 def calc_flux(ax,mjd,mag,magerr,cbands,band,connectpoints=True):
     gband=np.where(cbands==band)[0]
@@ -75,6 +75,7 @@ def calc_flux(ax,mjd,mag,magerr,cbands,band,connectpoints=True):
 def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False,fname=None,DESfname=None,connectpoints=True):
     redshift=np.copy(trueredshift)
     if redshift<0:redshift=0
+    plt.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=2)
     gdes,gsdss,gposs,gndes=np.where(survey=='DES')[0],np.where(survey=='SDSS')[0],np.where(survey=='POSS')[0],np.where(survey!='DES')[0]
     if len(gposs)>0:
         POSSmagdict={b: mag[gposs][bands[gposs]==b] for b in POSSbands}
@@ -146,7 +147,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     #if ylim[0]<15: ylim=(15,ylim[1])
     #plt.ylim(ylim[1],ylim[0])
 
-    plt.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=2)
     ax.legend(loc='lower right')
     ax.set_xlabel('Wavelength (A)')
     ax.set_ylabel('Flux (Arb. Units)')
