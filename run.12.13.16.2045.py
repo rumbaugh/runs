@@ -147,7 +147,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     #plt.ylim(ylim[1],ylim[0])
 
     plt.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=2)
-    ax.legend(loc='upper left')
+    ax.legend(loc='lower right')
     ax.set_xlabel('Wavelength (A)')
     ax.set_ylabel('Flux (Arb. Units)')
     plt.xlim(WavLL,WavUL)
