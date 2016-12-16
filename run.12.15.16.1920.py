@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 DB_path='/home/rumbaugh/var_database'
 #cre=np.loadtxt('/home/rumbaugh/milliquas_num_epochs.dat',dtype='i8')
 #IDs,exps=cre[:,0],cre[:,1]
-cre=np.loadtxt('/home/rumbaugh/milliquas_y1a1_match_only.tab',usecols=(5,),skiprows=1)
+cre=np.loadtxt('/home/rumbaugh/milliquas_y1a1_match_only.tab',usecols=(5,),skiprows=1,dtype='i8')
 IDs=np.unique(cre)
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
