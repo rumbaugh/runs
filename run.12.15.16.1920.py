@@ -18,7 +18,7 @@ IDsteplen=10
 curIDstep=0
 laststep=len(IDs)
 steps_arr=np.arange(0,laststep,IDsteplen,dtype='i8')
-for curIDstep in steps_arr:
+for curIDstep in steps_arr[:5]:
     idsstr=''
     if curIDstep!=steps_arr[-1]:
         for s in IDs[curIDstep:curIDstep+10]: idsstr='%s, %i'%(idsstr,s)
@@ -45,7 +45,7 @@ for curIDstep in steps_arr:
 
     #cr=np.loadtxt('/home/rumbaugh/milliquas_lightcurve_entries_y1a1.tab',skiprows=1,dtype={'names':('mjd','imageid','cid','MGid','ra','dec','mag','magerr','band','exp'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','|S12','f8')})
     mjd,mag,magerr,cID,bands,yra,ydec=np.array(DF['MJD_OBS']),np.array(DF['MAGPSF']),np.array(DF['MAGERR_PSF']),np.array(DF['COADD_OBJECTS_ID']),np.array(DF['BAND']),np.array(DF['RA']),np.array(DF['DEC'])
-    MQrownum,MQcid=np.array(MDF['MQ_ROWNUM']),np.array(['COADD_OBJECTS_ID'])
+    MQrownum,MQcid=np.array(MDF['MQ_ROWNUM']),np.array(MDF['COADD_OBJECTS_ID'])
     SDSSmjd,SDSScid=np.array(SDF['MJD']),np.array(SDF['CID'])
     SDSSra,SDSSdec=np.array(SDF['RA']),np.array(SDF['DEC'])
     SDSSmagdict,SDSSmagerrdict={b: np.array(SDF['PSFMAG_%s'%(b.upper())]) for b in SDSSbands},{b: np.array(SDF['PSFMAGERR_%s'%(b.upper())]) for b in SDSSbands}
