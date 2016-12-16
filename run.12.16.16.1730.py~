@@ -1,0 +1,3 @@
+import numpy as np
+
+cr=np.loadtxt('/home/rumbaugh/MQ_SDSS_platemjdfiber.csv',delimiter=',',dtype='i8')
