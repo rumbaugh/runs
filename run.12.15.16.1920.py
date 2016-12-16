@@ -20,7 +20,7 @@ IDsteplen=10
 curIDstep=0
 laststep=len(IDs)
 steps_arr=np.arange(0,laststep,IDsteplen,dtype='i8')
-for curIDstep in steps_arr[:5]:
+for curIDstep in steps_arr:
     idsstr=''
     if curIDstep!=steps_arr[-1]:
         for s in IDs[curIDstep:curIDstep+10]: idsstr='%s, %i'%(idsstr,s)
