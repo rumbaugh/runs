@@ -2,6 +2,7 @@ import easyaccess as ea
 import numpy as np
 import os
 import matplotlib.pyplot as plt
+os.chdir('/home/rumbaugh')
 DB_path='/home/rumbaugh/var_database'
 cre=np.loadtxt('/home/rumbaugh/SDSSPOSS_Y1A1_num_epochs.dat',dtype='i8')
 IDs,exps=cre[:,0],cre[:,1]
