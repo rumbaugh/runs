@@ -54,7 +54,7 @@ for curid in IDs:
         dbi_out[gdb[0]][3]=cr['sdr7id'][gid][0]
         crLC=np.loadtxt('%s/%i/LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
         outcr=np.append(crLC,outcr)
-        np.savetxt('%s/%i/LC.tab'%(DB_path,DBID),outcr,fmt=('%12i %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
+        if not('POSS' in crLC['Survey']):np.savetxt('%s/%i/LC.tab'%(DB_path,DBID),outcr,fmt=('%12i %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
     else:
         #DBID=maxdbid
         DBID=3000000+cur_dr7
@@ -97,7 +97,7 @@ for curid in nextIDs:
     
     outcr=np.append(p_outcr,SDSS_outcr)
     #DBID=maxdbid
-    DBID=3000000+curid
+    DBID=3000000+int(curid)
     outcr['DatabaseID']=DBID
     #maxdbid+=1
 
