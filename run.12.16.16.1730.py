@@ -14,5 +14,5 @@ for i in range(0,len(outcr)):
     else:
         redux='v5_7_0'
     outcr[i]='wget https://dr12.sdss.org/sas/dr12/sdss/spectro/redux/%s/spectra/%i/spec-%i-%i-%i.fits'%(redux,cr[i][0],cr[i][0],cr[i][1],cr[i][2])
-np.savetxt('/home/rumbaugh/runs/run.12.16.16.1730.sh',outcr,fmt='|S200')
+np.savetxt('/home/rumbaugh/runs/run.12.16.16.1730.sh',outcr,fmt='%s')
 os.system('chmod +x /home/rumbaugh/runs/run.12.16.16.1730.sh')
