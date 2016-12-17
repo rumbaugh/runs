@@ -8,5 +8,5 @@ np.savetxt('/home/rumbaugh/milliquas_y1a1_match_only.tab',outcr,fmt='%i %i %f %f
 np.savetxt('/home/rumbaugh/milliquas_y1a1_match_only.csv',outcr,fmt='%i,%i,%f,%f,%i,%i',header='NUMROW,MQ_ROWNUM,RA,DEC,HPIX,COADD_OBJECTS_ID',comments='')
 outcr2=np.zeros((len(outcr),4))
 outcr2[:,0],outcr2[:,1],outcr2[:,2],outcr2[:,3]=np.arange(len(outcr)),outcr['MQ'],outcr['ra'],outcr['dec']
-np.savetxt('/home/rumbaugh/MQ_radec_monly.tab',outcr2,fmt='%i %i %f %f',header='NUMROW MQ_ROWNUM RA DEC',comments=''
+np.savetxt('/home/rumbaugh/MQ_radec_monly.tab',outcr2,fmt='%i %i %f %f',header='NUMROW MQ_ROWNUM RA DEC',comments='')
 np.savetxt('/home/rumbaugh/MQ_radec_monly.csv',outcr2,fmt='%i,%i,%f,%f',header='NUMROW,MQ_ROWNUM,RA,DEC',comments='')
