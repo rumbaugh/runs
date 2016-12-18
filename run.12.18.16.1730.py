@@ -19,7 +19,7 @@ cry=np.loadtxt('SDSSPOSS_lightcurve_entries_Y1A1.tab',skiprows=1,dtype={'names':
 
 nextIDs=np.setdiff1d(crsp['SDR7ID'],cr['sdr7id'],True)
 
-crdb=np.loadtxt('/home/rumbaugh/database_index.dat')
+crdb=np.loadtxt('/home/rumbaugh/var_database/database_index.dat')
 maxdbid=len(crdb)
 dbi_out=np.zeros((maxdbid,4),dtype='i8')
 dbi_out[:,:3]=np.copy(crdb)
