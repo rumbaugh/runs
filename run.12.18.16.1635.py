@@ -12,12 +12,12 @@ POSSbands = np.array(['g','r','i'])
 crdb=np.loadtxt('%s/database_index.dat'%DB_path,dtype='i8')
 #maxDBID=87846
 maxDBID=np.shape(crdb)[0]
-outcr=np.zeros((maxDBID+1,17))
+outcr=np.zeros((maxDBID,17))
 #outcr[:,0]=np.arange(0,maxDBID+1)
 outcr[:,0]=crdb[:,0]
 totdiffs=np.zeros(0)
 totDBIDs=np.zeros(0,dtype='i8')
-for i,DBID in zip(np.arange(0,maxDBID+1),crdb[:,0]):
+for i,DBID in zip(np.arange(0,maxDBID),crdb[:,0]):
     cr=np.loadtxt('/home/rumbaugh/var_database/%i/LC.tab'%DBID,dtype={'names':('DBID','Survey','CoaddID','ObjID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','Flag'),'formats':('i8','|S6','i8','i8','f8','f8','f8','|S12','|S4','|S8','f8','f8','i8')},skiprows=1)
     try:
         ggoodmag=np.where((cr['MAG']>0)&(cr['MAG']<31)&(cr['MAGERR']<0.5))[0]
