@@ -11,7 +11,7 @@ POSSbands = np.array(['g','r','i'])
 
 crdb=np.loadtxt('%s/database_index.dat'%DB_path,dtype='i8')
 #maxDBID=87846
-maxDBID=np.shape(crdb[0])
+maxDBID=np.shape(crdb)[0]
 outcr=np.zeros((maxDBID+1,17))
 #outcr[:,0]=np.arange(0,maxDBID+1)
 outcr[:,0]=crdb[:,0]
