@@ -90,7 +90,7 @@ for i,DBID in zip(np.arange(0,maxDBID),crdb[:,0]):
         #totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in stillgoodbands}
         totdiffar=[]
         for b in stillgoodbands:
-            combis=np.array(list(it.combinations(np.arange(len(totmagdict[b]),2))))
+            combis=np.array(list(it.combinations(np.arange(len(totmagdict[b])),2)))
             i1,i2=combis[:,0],combis[:,1]
             sigma=np.abs((totmagdict[b][i1]-totmagdict[b][i2])/np.sqrt(totmagerrdict[b][i1]**2+totmagerrdict[b][i2]**2))
             totdiffs=np.abs(totmagdict[b][i1]-totmagdict[b][i2])
