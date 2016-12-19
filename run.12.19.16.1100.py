@@ -132,6 +132,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
             sigma=np.abs((mag[gb][i1]-mag[gb][i2])/np.sqrt(magerr[gb][i1]**2+magerr[gb][i2]**2))
             totdiffstmp=np.abs(mag[gb][i1]-mag[gb][i2])
             ggooddiff=np.where((sigma>=3)&(mag[gb][i1]>1)&(mag[gb][i1]<30)&(mag[gb][i2]>1)&(mag[gb][i2]<30))[0]
+            print ggooddiff
             if len(ggooddiff)>0:
                 bestdiff[b]['value']=np.max(totdiffstmp[ggooddiff])
                 gsort=np.argsort(totdiffstmp[ggooddiff])
