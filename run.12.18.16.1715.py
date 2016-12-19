@@ -2,7 +2,6 @@ import numpy as np
 execfile('/home/rumbaugh/pythonscripts/angconvert.py')
 outputdir='/home/rumbaugh/var_database'
 DB_path='/home/rumbaugh/var_database'
-maxdb=None
 
 #lsdict={'names':('DESJ','rah','ram','ras','decd','decm','decs','tif'),'formats':
 #('|S4','i8','i8','f8','i8','i8','f8','|S4')}
@@ -17,7 +16,7 @@ maxdb=None
 #lsras,lsdecs=hms2deg(crls['rah'],crls['ram'],crls['ras']),dms2deg(crls['decd'],crls['decm'],crls['decs'])
 
 
-crids=np.loadtxt('/home/rumbaugh/var_database/maxdiffs_DBID.12.18.16.txt',dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
+crids=np.loadtxt('/home/rumbaugh/var_database/maxdiffs_sig_DBID.12.18.16.txt',dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
 
 good_dbids=crids['DBID'][crids['maxdiff']>2]
 
@@ -28,8 +27,6 @@ POSSbands=np.array(['g','r','i'])
 
 outcr=np.zeros((len(good_dbids),),dtype={'names':('DBID','CID','tID','dr7ID','RA','DEC','Intflag'),'formats':('i8','i8','i8','i8','f8','f8','i8')})
 outcr['DBID']=good_dbids
-if maxdb!=None:
-    good_dbids=good_dbids[:maxdb]
 for DBID,i in zip(good_dbids,np.arange(len(good_dbids))):
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
