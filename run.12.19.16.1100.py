@@ -40,7 +40,7 @@ good_dbids=cr_rids['DBID'][cr_rids['IntFlag']==1]
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/database_index.dat',dtype={'names':('DBID','CID','tID','dr7id'),'formats':('i8','i8','i8','i8')})
 
-crpmf=np.loadtxt('/home/rumbaugh/MQ_SDSS_tidplatemjdfiber.csv',delimiter=',',skiprows=1,dtpye={'names':('tid','plate','mjd','fiber'),'formats':('i8','i8','i8','i8')})
+crpmf=np.loadtxt('/home/rumbaugh/MQ_SDSS_tidplatemjdfiber.csv',delimiter=',',skiprows=1,dtype={'names':('tid','plate','mjd','fiber'),'formats':('i8','i8','i8','i8')})
 
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
