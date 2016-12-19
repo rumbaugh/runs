@@ -138,6 +138,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
                 gsortis=np.argsort([mag[gb][i1][ggooddiff][gsort[-1]],mag[gb][i2][ggooddiff][gsort[-1]]])
                 imax,imin=[i1,i2][gsortis[0]][ggooddiff][gsort[-1]],[i1,i2][gsortis[1]][ggooddiff][gsort[-1]]
                 bestdiff[b]['ihi'],bestdiff[b]['ilo']=imax,imin
+                if DBID in [2251258,1017243]: print imax,imin,i1,i2
     fig=plt.figure(1)
     fig.clf()
     ax3=plt.subplot2grid((2,10),(1,0),colspan=6)
@@ -163,14 +164,17 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         specdata=shdu[1].data
         sflux,swav=specdata['flux'],10**(specdata['loglam']-1)
         s_closei=np.where(np.abs(swav-bcens['i'])<20)[0]
-        ax3.plot(swav,sflux/np.mean(sflux[s_closei]),lw=1,color='magenta')
+        swav=swab[2:-2]
+        normflux=sflux/np.mean(sflux[s_closei])
+        smoothflux=[np.mean(normflux[x-2:x+3]) for x in np.arange(2,len(normflux)-2)]
+        ax3.plot(swav,smoothflux,lw=1,color='magenta')
     v_closei=np.where(np.abs(crv[:,0]/(1.+redshift)-bcens['i'])<20)[0]
     gvrange=np.where((crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL))[0]
     vmax=np.max(crv[:,1][gvrange]/np.mean(crv[:,1][v_closei]))
     ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1)
     plot_flux(ax3,maxfluxes,label='Max',curcol='r')
     plot_flux(ax3,minfluxes,label='Min',curcol='b')
-    print DBID,maxfluxes,minfluxes
+    if DBID in [2251258,1017243]:print DBID,maxfluxes,minfluxes
     ax3.set_ylabel('Wavelength (A)')
     ax3.set_xlabel('Flux (Arb. Units)')
     survmax,survmin=survey[gbbest][imax],survey[gbbest][imin]
