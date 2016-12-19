@@ -163,7 +163,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         specdata=shdu[1].data
         sflux,swav=specdata['flux'],10**(specdata['loglam']-1)
         s_closei=np.where(np.abs(swav-bcens['i'])<20)[0]
-        smwid=6
+        smwid=10
         swav=swav[smwid:-smwid]
         normflux=sflux/np.mean(sflux[s_closei])
         smoothflux=[np.mean(normflux[x-smwid:x+smwid+1]) for x in np.arange(smwid,len(normflux)-smwid)]
@@ -173,7 +173,9 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     vmax=np.max(crv[:,1][gvrange]/np.mean(crv[:,1][v_closei]))
     if trueredshift>0:ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1)
     plot_flux(ax3,maxfluxes,label='Max',curcol='r')
+    maxplot=np.max(maxfluxes)
     plot_flux(ax3,minfluxes,label='Min',curcol='b')
+    if np.max(minfluxes)>maxplot:maxplot=np.max(minfluxes)
     ax3.set_ylabel('Wavelength (A)')
     ax3.set_xlabel('Flux (Arb. Units)')
     survmax,survmin=survey[gbbest][imax],survey[gbbest][imin]
@@ -185,9 +187,11 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
             gbt=np.where(bands==b)[0]
             DESexfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[(bands==bbest)&(survey=='DES')][iDESex])
         plot_flux(ax3,DESexfluxes,label='DES %s'%['Max','Min'][-sortmjdcens[0]],curcol='cyan')
+        if np.max(DESexfluxes)>maxplot:maxplot=np.max(DESexfluxes)
     #ax3.legend(loc='lower right')
     plt.xlim(WavLL,WavUL)
     plt.ylim(-0.05,vmax*1.05)
+    if trueredshift==0: plt.ylim(-0.05,1.15*maxplot)
     ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
     plt.rc('axes',linewidth=2)
     plt.fontsize = 14
