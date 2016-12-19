@@ -132,7 +132,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
             sigma=np.abs((mag[gb][i1]-mag[gb][i2])/np.sqrt(magerr[gb][i1]**2+magerr[gb][i2]**2))
             totdiffstmp=np.abs(mag[gb][i1]-mag[gb][i2])
             ggooddiff=np.where((sigma>=3)&(mag[gb][i1]>1)&(mag[gb][i1]<30)&(mag[gb][i2]>1)&(mag[gb][i2]<30))[0]
-            #print ggooddiff
+            print ggooddiff
             if len(ggooddiff)>0:
                 bestdiff[b]['value']=np.max(totdiffstmp[ggooddiff])
                 gsort=np.argsort(totdiffstmp[ggooddiff])
@@ -150,10 +150,10 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     gbbest=np.where(bands==bbest)[0]
     imax,imin=bestdiff[bbest]['ihi'],bestdiff[bbest]['ilo']
     maxfluxes=np.zeros(0)
-    #print bestdiff
+    print bestdiff
     for ib,b in zip(np.arange(4),['g','r','i','z']):
         gbt=np.where(bands==b)[0]
-        #print bbest,gbbest,imax,imin
+        print bbest,gbbest,imax,imin
         maxfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imax])
         minfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imin])
     plt.rc('axes',linewidth=2)
