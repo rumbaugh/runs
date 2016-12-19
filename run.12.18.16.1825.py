@@ -51,7 +51,9 @@ for i,DBID in zip(np.arange(0,maxDBID),crdb[:,0]):
                 mjdstmp=np.append(mjdstmp,cr['MJD'][gPOSS][gb])
             allmjds=np.sort(np.unique(mjdstmp))
             for band in POSSbands:
-                if len(POSSmagdict[band])>0:POSSmagdict[band]=np.array([np.median(POSSmagdict[band])])
+                if len(POSSmagdict[band])>0:
+                    POSSmagdict[band]=np.array([np.median(POSSmagdict[band])])
+                    POSSmagerrdict[band]=np.array([np.mean(POSSmagerrdict[band])])
             if (len(POSSmagdict['g'])>0)&(len(POSSmagdict['r'])>0):
                 POSSmagdict['g'],POSSmagdict['r']=POSSmagdict['g']+0.392*(POSSmagdict['g']-POSSmagdict['r'])-0.28,  POSSmagdict['r']+0.127*(POSSmagdict['g']-POSSmagdict['r'])+0.1
                 POSSmagerrdict['g'],POSSmagerrdict['r']=np.sqrt(1.392**2*POSSmagerrdict['g']**2+0.392**2*POSSmagerrdict['r']**2),  np.sqrt(POSSmagerrdict['r']**2+0.127**2*(POSSmagerrdict['g']**2+POSSmagerrdict['r']**2))
@@ -88,7 +90,7 @@ for i,DBID in zip(np.arange(0,maxDBID),crdb[:,0]):
         for b in goodbands: 
             if len(totmagdict[b])>0: stillgoodbands=np.append(stillgoodbands,b)
         #totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in stillgoodbands}
-        totdiffar=[]
+        totdiffarr=[]
         for b in stillgoodbands:
             if len(totmagdict[b])>1:
                 combis=np.array(list(it.combinations(np.arange(len(totmagdict[b])),2)))
