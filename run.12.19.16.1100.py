@@ -151,7 +151,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     maxfluxes=np.zeros(0)
     for ib,b in zip(np.arange(4),['g','r','i','z']):
         gbt=np.where(bands==b)[0]
-        print bbest,imax,imin
+        print bbest,gbbest,imax,imin
         maxfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imax])
         minfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imin])
     plt.rc('axes',linewidth=2)
