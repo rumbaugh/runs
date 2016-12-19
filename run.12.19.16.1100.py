@@ -126,21 +126,18 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     bestdiff={b: {'diff': 0, 'ihi': 0, 'ilo': 0} for b in ['g','r','i','z']}
     for b in ['g','r','i','z']:
         gb=np.where(bands==b)[0]
-        if DBID in [2251258,1017243]:print b,len(gb)
         if len(gb)>1:
             combis=np.array(list(it.combinations(np.arange(len(mag[gb])),2)))
             i1,i2=combis[:,0],combis[:,1]
             sigma=np.abs((mag[gb][i1]-mag[gb][i2])/np.sqrt(magerr[gb][i1]**2+magerr[gb][i2]**2))
             totdiffstmp=np.abs(mag[gb][i1]-mag[gb][i2])
             ggooddiff=np.where((sigma>=3)&(mag[gb][i1]>1)&(mag[gb][i1]<30)&(mag[gb][i2]>1)&(mag[gb][i2]<30))[0]
-            if DBID in [2251258,1017243]:print ggooddiff
             if len(ggooddiff)>0:
                 bestdiff[b]['diff']=np.max(totdiffstmp[ggooddiff])
                 gsort=np.argsort(totdiffstmp[ggooddiff])
                 gsortis=np.argsort([mag[gb][i1][ggooddiff][gsort[-1]],mag[gb][i2][ggooddiff][gsort[-1]]])
                 imax,imin=[i1,i2][gsortis[0]][ggooddiff][gsort[-1]],[i1,i2][gsortis[1]][ggooddiff][gsort[-1]]
                 bestdiff[b]['ihi'],bestdiff[b]['ilo']=imax,imin
-                if DBID in [2251258,1017243]: print b,imax,imin,i1,i2
     fig=plt.figure(1)
     fig.clf()
     ax3=plt.subplot2grid((2,10),(1,0),colspan=6)
@@ -177,7 +174,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     if trueredshift>0:ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1)
     plot_flux(ax3,maxfluxes,label='Max',curcol='r')
     plot_flux(ax3,minfluxes,label='Min',curcol='b')
-    if DBID in [2251258,1017243]:print DBID,bbest,bestdiff,maxfluxes,minfluxes,totdiffs
     ax3.set_ylabel('Wavelength (A)')
     ax3.set_xlabel('Flux (Arb. Units)')
     survmax,survmin=survey[gbbest][imax],survey[gbbest][imin]
