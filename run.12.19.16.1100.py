@@ -126,14 +126,14 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     bestdiff={b: {'diff': 0, 'ihi': 0, 'ilo': 0} for b in ['g','r','i','z']}
     for b in ['g','r','i','z']:
         gb=np.where(bands==b)[0]
-        print b,len(gb)
+        if DBID in [2251258,1017243]:print b,len(gb)
         if len(gb)>1:
             combis=np.array(list(it.combinations(np.arange(len(mag[gb])),2)))
             i1,i2=combis[:,0],combis[:,1]
             sigma=np.abs((mag[gb][i1]-mag[gb][i2])/np.sqrt(magerr[gb][i1]**2+magerr[gb][i2]**2))
             totdiffstmp=np.abs(mag[gb][i1]-mag[gb][i2])
             ggooddiff=np.where((sigma>=3)&(mag[gb][i1]>1)&(mag[gb][i1]<30)&(mag[gb][i2]>1)&(mag[gb][i2]<30))[0]
-            print ggooddiff
+            if DBID in [2251258,1017243]:print ggooddiff
             if len(ggooddiff)>0:
                 bestdiff[b]['value']=np.max(totdiffstmp[ggooddiff])
                 gsort=np.argsort(totdiffstmp[ggooddiff])
