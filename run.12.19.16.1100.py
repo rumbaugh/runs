@@ -164,7 +164,8 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         sflux,swav=specdata['flux'],10**(specdata['loglam']-1)
         s_closei=np.where(np.abs(swav-bcens['i'])<20)[0]
         ax3.plot(swav,sflux/np.mean(sflux[s_closei]),lw=1,color='magenta')
-    ax3.plot(crv[:,0]/(1.+redshift),crv[:,1],color='k',lw=1)
+    v_closei=np.where(np.abs(crv[:,0]/(1.+redshift)-bcens['i'])<20)[0]
+    ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1)
     plot_flux(ax3,maxfluxes,label='Max',curcol='r')
     plot_flux(ax3,minfluxes,label='Min',curcol='b')
     ax3.set_ylabel('Wavelength (A)')
