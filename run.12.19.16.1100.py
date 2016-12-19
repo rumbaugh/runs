@@ -47,7 +47,7 @@ SDSSbands=np.array(['u','g','r','i','z'])
 SDSS_colnames={b:'%s_SDSS'%b for b in SDSSbands}
 POSSbands=np.array(['g','r','i'])
 
-def plot_flux(ax,fluxes,label=None,curcol='k',bands=np.array(['g','r','i','z'])):
+def plot_flux(ax,fluxes,fluxerrs,label=None,curcol='k',bands=np.array(['g','r','i','z'])):
     if len(fluxes)!=len(bands):
         print 'Lengths of fluxes and bands must be equal'
         return
@@ -62,9 +62,9 @@ def plot_flux(ax,fluxes,label=None,curcol='k',bands=np.array(['g','r','i','z']))
     else:
         return
     if label==None:
-        ax.scatter(cens,fluxes,color=curcol,s=36)
+        ax.scatter(cens,fluxes,color=curcol,s=36,zorder=3)
     else:
-        ax.scatter(cens,fluxes,color=curcol,s=36,label=label)
+        ax.scatter(cens,fluxes,color=curcol,s=36,label=label,zorder=3)
 
 def calc_flux(mjd,mag,magerr,cbands,band,mjdcen):
     gband=np.where(cbands==band)[0]
@@ -78,7 +78,7 @@ def calc_flux(mjd,mag,magerr,cbands,band,mjdcen):
         medmag=magplot[g100]
     if np.shape(medmag)!=(): 
         if len(medmag)==0:
-            return 0
+            return 0,0
         medmag=medmag[0]
     return 10**(medmag/-2.5)
 
@@ -167,11 +167,11 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         swav=swav[smwid:-smwid]
         normflux=sflux/np.mean(sflux[s_closei])
         smoothflux=[np.mean(normflux[x-smwid:x+smwid+1]) for x in np.arange(smwid,len(normflux)-smwid)]
-        ax3.plot(swav,smoothflux,lw=1,color='magenta')
+        ax3.plot(swav,smoothflux,lw=1,color='magenta',zorder=1)
     v_closei=np.where(np.abs(crv[:,0]/(1.+redshift)-bcens['i'])<20)[0]
     gvrange=np.where((crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL))[0]
     vmax=np.max(crv[:,1][gvrange]/np.mean(crv[:,1][v_closei]))
-    if trueredshift>0:ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1)
+    if trueredshift>0:ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1,zorder=2)
     plot_flux(ax3,maxfluxes,label='Max',curcol='r')
     maxplot=np.max(maxfluxes)
     plot_flux(ax3,minfluxes,label='Min',curcol='b')
