@@ -174,7 +174,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1)
     plot_flux(ax3,maxfluxes,label='Max',curcol='r')
     plot_flux(ax3,minfluxes,label='Min',curcol='b')
-    if DBID in [2251258,1017243]:print DBID,bbest,bestdiffs,maxfluxes,minfluxes
+    if DBID in [2251258,1017243]:print DBID,bbest,bestdiff,maxfluxes,minfluxes
     ax3.set_ylabel('Wavelength (A)')
     ax3.set_xlabel('Flux (Arb. Units)')
     survmax,survmin=survey[gbbest][imax],survey[gbbest][imin]
