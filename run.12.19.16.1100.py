@@ -166,14 +166,15 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         specdata=shdu[1].data
         sflux,swav=specdata['flux'],10**(specdata['loglam']-1)
         s_closei=np.where(np.abs(swav-bcens['i'])<20)[0]
-        swav=swav[2:-2]
+        smwid=6
+        swav=swav[smwid:-smwid]
         normflux=sflux/np.mean(sflux[s_closei])
-        smoothflux=[np.mean(normflux[x-2:x+3]) for x in np.arange(2,len(normflux)-2)]
+        smoothflux=[np.mean(normflux[x-smwid:x+smwid+1]) for x in np.arange(smwid,len(normflux)-smwid)]
         ax3.plot(swav,smoothflux,lw=1,color='magenta')
     v_closei=np.where(np.abs(crv[:,0]/(1.+redshift)-bcens['i'])<20)[0]
     gvrange=np.where((crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL))[0]
     vmax=np.max(crv[:,1][gvrange]/np.mean(crv[:,1][v_closei]))
-    ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1)
+    if trueredshift>0:ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1)
     plot_flux(ax3,maxfluxes,label='Max',curcol='r')
     plot_flux(ax3,minfluxes,label='Min',curcol='b')
     if DBID in [2251258,1017243]:print DBID,bbest,bestdiff,maxfluxes,minfluxes,totdiffs
