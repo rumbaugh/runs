@@ -135,7 +135,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
             ggooddiff=np.where((sigma>=3)&(mag[gb][i1]>1)&(mag[gb][i1]<30)&(mag[gb][i2]>1)&(mag[gb][i2]<30))[0]
             if DBID in [2251258,1017243]:print ggooddiff
             if len(ggooddiff)>0:
-                bestdiff[b]['value']=np.max(totdiffstmp[ggooddiff])
+                bestdiff[b]['diff']=np.max(totdiffstmp[ggooddiff])
                 gsort=np.argsort(totdiffstmp[ggooddiff])
                 gsortis=np.argsort([mag[gb][i1][ggooddiff][gsort[-1]],mag[gb][i2][ggooddiff][gsort[-1]]])
                 imax,imin=[i1,i2][gsortis[0]][ggooddiff][gsort[-1]],[i1,i2][gsortis[1]][ggooddiff][gsort[-1]]
