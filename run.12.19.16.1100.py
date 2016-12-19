@@ -193,7 +193,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     ylim=plt.ylim()
     plt.axvline(mjd[gbbest][imax],ls='dashed',lw=1,color='r')
     plt.axvline(mjd[gbbest][imin],ls='dashed',lw=1,color='b')
-    if not('DES' in [survmax,survmin]):plt.axvline(mjd[gbbest][iDESex],ls='dashed',lw=1,color='cyan')
+    if ((not('DES' in [survmax,survmin]))&('DES' in survey[bands==bbest])):plt.axvline(mjd[gbbest][iDESex],ls='dashed',lw=1,color='cyan')
     if ylim[1]>30:
         ylim=(ylim[0],np.max(mag)+0.1)
     if ylim[1]>30: ylim=(ylim[0],30)
