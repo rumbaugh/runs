@@ -170,15 +170,15 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     ax3.set_ylabel('Wavelength (A)')
     ax3.set_xlabel('Flux (Arb. Units)')
     survmax,survmin=survey[gbbest][imax],survey[gbbest][imin]
-    if not('DES' in [survmax,survmin]):
+    if ((not('DES' in [survmax,survmin]))&('DES' in survey)):
         sortmjdcens=np.argsort([mjd[gbbest][imax],mjd[gbbest][imin]])
-        iDESex=np.argsort(mag[bands==bbest])[-sortmjdcens[0]]
+        iDESex=np.argsort(mag[(bands==bbest)&(survey=='DES')])[-sortmjdcens[0]]
         DESexfluxes=np.zeros(4)
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             gbt=np.where(bands==b)[0]
-            DESexfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][iDESex])
+            DESexfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[(bands==bbest)&(survey=='DES')][iDESex])
         plot_flux(ax3,DESexfluxes,label='DES %s'%['Max','Min'][-sortmjdcens[0]],curcol='cyan')
-    ax3.legend(loc='lower right')
+    #ax3.legend(loc='lower right')
     plt.xlim(WavLL,WavUL)
     ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
     plt.rc('axes',linewidth=2)
@@ -187,10 +187,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     plt.locator_params(nbins=4)
     for b in ['g','r','i','z','Y']:
-        if len(gdes)>0:
-            plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
-        else:
-            plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=False)
+        plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
     xlim=plt.xlim()
     plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
@@ -211,7 +208,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         ax1.set_title('%i, z=%.4f'%(dbid,trueredshift))
     else:
         ax1.set_title(dbid)
-    if len(gdes==0):ax1.legend()
     if len(gdes)>0:
         gdc=np.where(crdescutin['DBID']==DBID)[0]
         if len(gdc)>0:
