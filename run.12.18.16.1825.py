@@ -90,14 +90,15 @@ for i,DBID in zip(np.arange(0,maxDBID),crdb[:,0]):
         #totdiffdict={b: np.max(totmagdict[b])-np.min(totmagdict[b]) for b in stillgoodbands}
         totdiffar=[]
         for b in stillgoodbands:
-            combis=np.array(list(it.combinations(np.arange(len(totmagdict[b])),2)))
-            i1,i2=combis[:,0],combis[:,1]
-            sigma=np.abs((totmagdict[b][i1]-totmagdict[b][i2])/np.sqrt(totmagerrdict[b][i1]**2+totmagerrdict[b][i2]**2))
-            totdiffs=np.abs(totmagdict[b][i1]-totmagdict[b][i2])
-            ggooddiff=np.where((sigma>=3)&(totmagdict[b][i1]>1)&(totmagdict[b][i1]<30)&(totmagdict[b][i2]>1)&(totmagdict[b][i2]<30))[0]
-            bestdiff=0
-            if len(ggooddiff)>0:
-                totdiffarr=np.append(totdiffarr,np.max(totdiffs[ggooddiff]))
+            if len(totmagdict[b])>1:
+                combis=np.array(list(it.combinations(np.arange(len(totmagdict[b])),2)))
+                i1,i2=combis[:,0],combis[:,1]
+                sigma=np.abs((totmagdict[b][i1]-totmagdict[b][i2])/np.sqrt(totmagerrdict[b][i1]**2+totmagerrdict[b][i2]**2))
+                totdiffs=np.abs(totmagdict[b][i1]-totmagdict[b][i2])
+                ggooddiff=np.where((sigma>=3)&(totmagdict[b][i1]>1)&(totmagdict[b][i1]<30)&(totmagdict[b][i2]>1)&(totmagdict[b][i2]<30))[0]
+                bestdiff=0
+                if len(ggooddiff)>0:
+                    totdiffarr=np.append(totdiffarr,np.max(totdiffs[ggooddiff]))
         #totdiffarr=[np.max(totmagdict[b])-np.min(totmagdict[b]) for b in stillgoodbands]
         if len(totdiffarr)>0:
             totdiffs=np.append(totdiffs,np.max([totdiffarr]))
