@@ -47,7 +47,7 @@ for i,DBID in zip(np.arange(0,maxDBID),crdb[:,0]):
             for band in POSSbands:
                 gb=np.where((cr['BAND'][gPOSS]==band)&(np.isnan(cr['MAG'][gPOSS])==False))[0]
                 POSSmagdict[band]=np.append(POSSmagdict[band],cr['MAG'][gPOSS][gb])
-                POSSerrmagdict[band]=np.append(POSSmagdict[band],cr['MAGERR'][gPOSS][gb])
+                POSSmagerrdict[band]=np.append(POSSmagdict[band],cr['MAGERR'][gPOSS][gb])
                 mjdstmp=np.append(mjdstmp,cr['MJD'][gPOSS][gb])
             allmjds=np.sort(np.unique(mjdstmp))
             for band in POSSbands:
