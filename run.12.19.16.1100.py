@@ -164,7 +164,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         specdata=shdu[1].data
         sflux,swav=specdata['flux'],10**(specdata['loglam']-1)
         s_closei=np.where(np.abs(swav-bcens['i'])<20)[0]
-        swav=swab[2:-2]
+        swav=swav[2:-2]
         normflux=sflux/np.mean(sflux[s_closei])
         smoothflux=[np.mean(normflux[x-2:x+3]) for x in np.arange(2,len(normflux)-2)]
         ax3.plot(swav,smoothflux,lw=1,color='magenta')
