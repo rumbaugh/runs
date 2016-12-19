@@ -39,4 +39,4 @@ for iDB,DBID in zip(np.arange(0,numrows),crls):
     if len(gPOSS)>0:
         dr7id=DBID-3000000
     outcr[iDB]=[DBID,cid,tid,dr7id]
-np.savetxt('%s/database_index.dat'%outputdir,outcr,fmt='%i %i %i',header='DatabaseID Y1A1_COADD_OBJECTS_ID DR13_thingid')
+np.savetxt('%s/database_index.dat'%outputdir,outcr,fmt='%i %i %i %i',header='DatabaseID Y1A1_COADD_OBJECTS_ID SDSS_DR13_thingid SDR7ID')
