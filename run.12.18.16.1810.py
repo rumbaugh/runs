@@ -8,7 +8,7 @@ DB_path='/home/rumbaugh/var_database'
 #os.system('ls -d *[0-9][0-9][0-9][0-9][0-9][0-9][0-9] > tmpls.dat')
 #crls=np.loadtxt('tmpls.dat',dtype='i8')
 #os.system('rm tmpls.dat')
-crls=np.loadtxt('%s/crls.dat'%DB_path,dtype='i8')
+crls=np.loadtxt('%s/crls.txt'%DB_path,dtype='i8')
 
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
