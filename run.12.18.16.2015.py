@@ -1,6 +1,6 @@
 import numpy as np
 
-crids=np.loadtxt('/home/rumbaugh/var_database/maxdiffs_sig_DBID.12.1.16.txt',dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
+crids=np.loadtxt('/home/rumbaugh/var_database/maxdiffs_sig_DBID.12.18.16.txt',dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
 
 good_dbids=crids['DBID'][crids['maxdiff']>2]
 DESras,DESdecs=np.zeros(len(good_dbids)),np.zeros(len(good_dbids))
