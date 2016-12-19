@@ -146,13 +146,14 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         totdiffs[ib]=bestdiff[b]['diff']
     ibest=np.argsort(totdiffs)[-1]
     bbest=['g','r','i','z'][ibest]
+    gbbest=np.where(bands==bbest)[0]
     imax,imin=bestdiff[bbest]['ihi'],bestdiff[bbest]['ilo']
     maxfluxes=np.zeros(0)
     for ib,b in zip(np.arange(4),['g','r','i','z']):
         gbt=np.where(bands==b)[0]
         print bbest,imax,imin
-        maxfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[bbest][imax])
-        minfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[bbest][imin])
+        maxfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imax])
+        minfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imin])
     plt.rc('axes',linewidth=2)
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
@@ -169,14 +170,14 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     plot_flux(ax3,minfluxes,label='Min',curcol='b')
     ax3.set_ylabel('Wavelength (A)')
     ax3.set_xlabel('Flux (Arb. Units)')
-    survmax,survmin=survey[bbest][imax],survey[bbest][imin]
+    survmax,survmin=survey[gbbest][imax],survey[gbbest][imin]
     if not('DES' in [survmax,survmin]):
-        sortmjdcens=np.argsort([mjd[bbest][imax],mjd[bbest][imin]])
+        sortmjdcens=np.argsort([mjd[gbbest][imax],mjd[gbbest][imin]])
         iDESex=np.argsort(mag[bands==bbest])[-sortmjdcens[0]]
         DESexfluxes=np.zeros(0)
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             gbt=np.where(bands==b)[0]
-            DESexfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[bbest][iDESex])
+            DESexfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][iDESex])
         plot_flux(ax3,DESexfluxes,label='DES %s'%['Max','Min'][-sortmjdcens[0]],curcol='cyan')
     ax3.legend(loc='lower right')
     plt.xlim(WavLL,WavUL)
@@ -194,9 +195,9 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     xlim=plt.xlim()
     plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
-    plt.axvline(mjd[bbest][imax],ls='dashed',lw=1,color='r')
-    plt.axvline(mjd[bbest][imin],ls='dashed',lw=1,color='b')
-    if not('DES' in [survmax,survmin]):plt.axvline(mjd[bbest][iDESex],ls='dashed',lw=1,color='cyan')
+    plt.axvline(mjd[gbbest][imax],ls='dashed',lw=1,color='r')
+    plt.axvline(mjd[gbbest][imin],ls='dashed',lw=1,color='b')
+    if not('DES' in [survmax,survmin]):plt.axvline(mjd[gbbest][iDESex],ls='dashed',lw=1,color='cyan')
     if ylim[1]>30:
         ylim=(ylim[0],np.max(mag)+0.1)
     if ylim[1]>30: ylim=(ylim[0],30)
