@@ -170,7 +170,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     ax3.set_ylabel('Wavelength (A)')
     ax3.set_xlabel('Flux (Arb. Units)')
     survmax,survmin=survey[gbbest][imax],survey[gbbest][imin]
-    if ((not('DES' in [survmax,survmin]))&('DES' in survey)):
+    if ((not('DES' in [survmax,survmin]))&('DES' in survey[bands==bbest])):
         sortmjdcens=np.argsort([mjd[gbbest][imax],mjd[gbbest][imin]])
         iDESex=np.argsort(mag[(bands==bbest)&(survey=='DES')])[-sortmjdcens[0]]
         DESexfluxes=np.zeros(4)
