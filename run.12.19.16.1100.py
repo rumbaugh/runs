@@ -191,7 +191,9 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     #ax3.legend(loc='lower right')
     plt.xlim(WavLL,WavUL)
     plt.ylim(-0.05,vmax*1.05)
-    if trueredshift==0: plt.ylim(-0.05,1.15*maxplot)
+    if trueredshift<=0: 
+        print DBID,trueredshift,maxplot
+        plt.ylim(-0.05,1.15*maxplot)
     ax1=plt.subplot2grid((2,10),(0,0),colspan=6)
     plt.rc('axes',linewidth=2)
     plt.fontsize = 14
