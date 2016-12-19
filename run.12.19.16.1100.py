@@ -173,7 +173,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     if not('DES' in [survmax,survmin]):
         sortmjdcens=np.argsort([mjd[gbbest][imax],mjd[gbbest][imin]])
         iDESex=np.argsort(mag[bands==bbest])[-sortmjdcens[0]]
-        DESexfluxes=np.zeros(0)
+        DESexfluxes=np.zeros(4)
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             gbt=np.where(bands==b)[0]
             DESexfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][iDESex])
