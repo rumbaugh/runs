@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 import matplotlib.backends.backend_pdf as bpdf
 
-crids=np.loadtxt('/home/rumbaugh/var_database/maxdiffs_DBID.12.18.16.txt',dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
+crids=np.loadtxt('/home/rumbaugh/var_database/maxdiffs_sig_DBID.12.18.16.txt',dtype={'names':('DBID','maxdiff'),'formats':('i8','f8')})
 
 good_dbids=crids['DBID'][crids['maxdiff']>2]
 

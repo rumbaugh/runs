@@ -39,7 +39,7 @@ for i,DBID in zip(np.arange(0,maxDBID),crdb[:,0]):
                 gb=np.where((cr['BAND'][gDES]==band)&(np.isnan(cr['MAG'][gDES])==False))[0]
                 if len(gb)>0:
                     totmagdict[band]=np.append(totmagdict[band],cr['MAG'][gDES][gb])
-                    totmagerrdict[band]=np.append(totmagdict[band],cr['MAGERR'][gDES][gb])
+                    totmagerrdict[band]=np.append(totmagerrdict[band],cr['MAGERR'][gDES][gb])
                     outcr[i][3+ib]=np.median(cr['MAG'][gDES][gb])
         if len(gPOSS)>0:
             mjdstmp=np.zeros(0)
