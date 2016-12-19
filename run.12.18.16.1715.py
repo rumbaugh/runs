@@ -30,7 +30,7 @@ outcr['DBID']=good_dbids
 for DBID,i in zip(good_dbids,np.arange(len(good_dbids))):
     cr=np.loadtxt('%s/%i/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
-    gdes,gsdss,gposs=np.where(survey=='DES')[0],np.where(survey=='DES')[0],np.where(survey=='DES')[0]
+    gdes,gsdss,gposs=np.where(survey=='DES')[0],np.where(survey=='SDSS')[0],np.where(survey=='POSS')[0]
     if len(gdes)>0:
         try:
             cid=cr['SurveyCoaddID'][gdes[0]]
