@@ -42,6 +42,8 @@ medDES_g,medDES_r,medDES_i,medDES_z,medDES_Y,medSDSS_g,medSDSS_r,medSDSS_i,medSD
 medPOSS_g,medPOSS_r,medPOSS_i=np.zeros(dblen),np.zeros(dblen),np.zeros(dblen)
 for iDB,DBID in zip(np.arange(len(crdb['DBID'])),crdb['DBID']):
     db_cr=np.loadtxt('%s/%i/LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
+    if len(db_cr)==0:
+        continue
     MJDrange[iDB]=np.max(db_cr['MJD'])-np.min(db_cr['MJD'])
     if crdb['CID'][iDB]>0:
         gdes=np.where(db_cr['Survey']=='DES')[0]
