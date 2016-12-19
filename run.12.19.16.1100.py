@@ -223,7 +223,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     if ylim[0]<15: ylim=(15,ylim[1])
     plt.ylim(ylim[1],ylim[0])
     ax1.legend()
-    #ax1.set_xlabel('MJD')
+    ax1.set_xlabel('MJD')
     ax1.set_ylabel('Mag_PSF')
     if redshift>0:
         ax1.set_title('%i, z=%.4f'%(dbid,trueredshift))
