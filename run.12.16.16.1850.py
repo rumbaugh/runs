@@ -69,7 +69,7 @@ for iDB,DBID in zip(np.arange(len(crdb['DBID'])),crdb['DBID']):
         crsdss=np.loadtxt('%s/%i/SDSS_data.tab'%(DB_path,DBID),dtype={'names':('MJD','RA','DEC','OBJID','NUMROW','PSFMAG_U','PSFMAG_G','PSFMAG_R','PSFMAG_I','PSFMAG_Z','PSFMAGERR_U','PSFMAGERR_G','PSFMAGERR_R','PSFMAGERR_I','PSFMAGERR_Z','RUN','STRIPE','THINGID','MQ_ROWNUM','COADD_OBJECTS_ID','HPIX'),'formats':('f8','f8','f8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','i8','i8','i8','i8','i8')},skiprows=1)
         if 82 in crsdss['STRIPE']: s82[iDB]=1
         raSDSS[iDB],decSDSS[iDB]=np.mean(db_cr['RA'][gsdss]),np.mean(db_cr['DEC'][gsdss])
-    if crdb['sdr7id'][iDB]!=0:
+    if ((crdb['sdr7id'][iDB]!=0)&(crdb['sdr7id'][iDB]>-50000)):
         gsp=np.where(crsp['SDR7ID']==crdb['sdr7id'][iDB])[0]
         if len(gsp)>1:
             if crsp['SDR7ID'][gsp][0] in double_count_indexes:
