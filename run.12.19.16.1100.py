@@ -47,7 +47,7 @@ SDSSbands=np.array(['u','g','r','i','z'])
 SDSS_colnames={b:'%s_SDSS'%b for b in SDSSbands}
 POSSbands=np.array(['g','r','i'])
 
-def plot_flux(ax,fluxes,fluxerrs,label=None,curcol='k',bands=np.array(['g','r','i','z'])):
+def plot_flux(ax,fluxes,fluxerrs=None,label=None,curcol='k',bands=np.array(['g','r','i','z'])):
     if len(fluxes)!=len(bands):
         print 'Lengths of fluxes and bands must be equal'
         return
@@ -56,15 +56,19 @@ def plot_flux(ax,fluxes,fluxerrs,label=None,curcol='k',bands=np.array(['g','r','
     if 'i' in bands:
         gi=np.where(bands=='i')[0][0]
         fluxes/=fluxes[gi]
+        if fluxerrs!=None:fluxerrs/=fluxerrs[gi]
     elif 'r' in bands:
         gi=np.where(bands=='r')[0][0]
         fluxes/=fluxes[gi]
+        if fluxerrs!=None:fluxerrs/=fluxerrs[gi]
     else:
         return
     if label==None:
-        ax.scatter(cens,fluxes,color=curcol,s=36,zorder=3)
+        if fluxerrs!=None:ax.errorbar(cens,fluxes,yerr=fluxerrs,color=curcol,fmt='ro',lw=2,capsize=3,mew=1,zorder=3,label=None)
+        ax.scatter(cens,fluxes,color=curcol,s=36,zorder=4)
     else:
-        ax.scatter(cens,fluxes,color=curcol,s=36,label=label,zorder=3)
+        ax.scatter(cens,fluxes,color=curcol,s=36,label=label,zorder=4)
+        if fluxerrs!=None:ax.errorbar(cens,fluxes,yerr=fluxerrs,color=curcol,fmt='ro',lw=2,capsize=3,mew=1,zorder=3,label=None)
 
 def calc_flux(mjd,mag,magerr,cbands,band,mjdcen):
     gband=np.where(cbands==band)[0]
@@ -73,14 +77,17 @@ def calc_flux(mjd,mag,magerr,cbands,band,mjdcen):
     g100=np.where((magplot<100)&(np.isnan(magplot)==False))[0]
     if len(g100)>1:
         gcen=np.argsort(np.abs(mjd[gband][g100]-mjdcen))[0]
-        medmag=(magplot[g100][gcen])
+        medmag=magplot[g100][gcen]
+        mederr=magploterr[g100][gcen]
     else:
         medmag=magplot[g100]
+        mederr=magploterr[g100]
     if np.shape(medmag)!=(): 
         if len(medmag)==0:
             return 0,0
         medmag=medmag[0]
-    return 10**(medmag/-2.5)
+        mederr=mederr[0]
+    return 10**(medmag/-2.5),np.log(2)/-2.5*10**(mederr/-2.5)
 
 def plot_band(ax,mjd,mag,magerr,cbands,band,connectpoints=True,nolabels=False):
     gband=np.where(cbands==band)[0]
@@ -149,10 +156,11 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     gbbest=np.where(bands==bbest)[0]
     imax,imin=bestdiff[bbest]['ihi'],bestdiff[bbest]['ilo']
     maxfluxes,minfluxes=np.zeros(4),np.zeros(4)
+    maxfluxerrs,minfluxerrs=np.zeros(4),np.zeros(4)
     for ib,b in zip(np.arange(4),['g','r','i','z']):
         gbt=np.where(bands==b)[0]
-        maxfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imax])
-        minfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imin])
+        maxfluxes[ib],maxfluxerrs[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imax])
+        minfluxes[ib],minfluxerrs[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imin])
     plt.rc('axes',linewidth=2)
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
@@ -172,9 +180,9 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     gvrange=np.where((crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL))[0]
     vmax=np.max(crv[:,1][gvrange]/np.mean(crv[:,1][v_closei]))
     if trueredshift>0:ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1,zorder=2)
-    plot_flux(ax3,maxfluxes,label='Max',curcol='r')
+    plot_flux(ax3,maxfluxes,maxfluxerrs,label='Max',curcol='r')
     maxplot=np.max(maxfluxes)
-    plot_flux(ax3,minfluxes,label='Min',curcol='b')
+    plot_flux(ax3,minfluxes,minfluxerrs,label='Min',curcol='b')
     if np.max(minfluxes)>maxplot:maxplot=np.max(minfluxes)
     ax3.set_ylabel('Wavelength (A)')
     ax3.set_xlabel('Flux (Arb. Units)')
@@ -182,11 +190,11 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     if ((not('DES' in [survmax,survmin]))&('DES' in survey[bands==bbest])):
         sortmjdcens=np.argsort([mjd[gbbest][imax],mjd[gbbest][imin]])
         iDESex=np.argsort(mag[(bands==bbest)&(survey=='DES')])[-sortmjdcens[0]]
-        DESexfluxes=np.zeros(4)
+        DESexfluxes,DESexfluxerrs=np.zeros(4),np.zeros(4)
         for ib,b in zip(np.arange(4),['g','r','i','z']):
             gbt=np.where(bands==b)[0]
-            DESexfluxes[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[(bands==bbest)&(survey=='DES')][iDESex])
-        plot_flux(ax3,DESexfluxes,label='DES %s'%['Max','Min'][-sortmjdcens[0]],curcol='cyan')
+            DESexfluxes[ib],DESexfluxerrs[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[(bands==bbest)&(survey=='DES')][iDESex])
+        plot_flux(ax3,DESexfluxes,DESexfluxerrs,label='DES %s'%['Max','Min'][-sortmjdcens[0]],curcol='cyan')
         if np.max(DESexfluxes)>maxplot:maxplot=np.max(DESexfluxes)
     #ax3.legend(loc='lower right')
     plt.xlim(WavLL,WavUL)
