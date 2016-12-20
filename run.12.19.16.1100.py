@@ -208,7 +208,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
     plt.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     plt.locator_params(nbins=4)
     for b in ['g','r','i','z','Y']:
-        plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=True)
+        plot_band(ax1,mjd,mag,magerr,bands,b,connectpoints=connectpoints,nolabels=False)
     xlim=plt.xlim()
     plt.xlim(xlim[0],xlim[1]+0.33*(xlim[1]-xlim[0]))
     ylim=plt.ylim()
