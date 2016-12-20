@@ -55,15 +55,16 @@ def plot_flux(ax,fluxes,fluxerrs=None,label=None,curcol='k',bands=np.array(['g',
     for ib,b in zip(np.arange(len(bands)),bands): cens[ib]=bcens[b] 
     if 'i' in bands:
         gi=np.where(bands=='i')[0][0]
-        fluxes/=fluxes[gi]
+        refpnt=fluxes[gi]
         if fluxerrs!=None:fluxerrs/=fluxes[gi]
+        fluxes/=fluxes[gi]
     elif 'r' in bands:
         gi=np.where(bands=='r')[0][0]
-        fluxes/=fluxes[gi]
+        refpnt=fluxes[gi]
         if fluxerrs!=None:fluxerrs/=fluxes[gi]
+        fluxes/=fluxes[gi]
     else:
         return
-    print fluxes,fluxerrs
     if label==None:
         if fluxerrs!=None:ax.errorbar(cens,fluxes,yerr=fluxerrs,color=curcol,fmt='ro',lw=2,capsize=3,mew=1,zorder=3,label=None)
         ax.scatter(cens,fluxes,color=curcol,s=36,zorder=4)
@@ -162,8 +163,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         gbt=np.where(bands==b)[0]
         maxfluxes[ib],maxfluxerrs[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imax])
         minfluxes[ib],minfluxerrs[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imin])
-        
-    print minfluxes,minfluxerrs
     plt.rc('axes',linewidth=2)
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
