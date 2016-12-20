@@ -162,6 +162,8 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         gbt=np.where(bands==b)[0]
         maxfluxes[ib],maxfluxerrs[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imax])
         minfluxes[ib],minfluxerrs[ib]=calc_flux(mjd,mag,magerr,bands,b,mjd[gbbest][imin])
+        
+    print minfluxes,minfluxerrs
     plt.rc('axes',linewidth=2)
     plt.fontsize = 14
     plt.tick_params(which='major',length=8,width=2,labelsize=14)
