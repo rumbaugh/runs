@@ -56,11 +56,11 @@ def plot_flux(ax,fluxes,fluxerrs=None,label=None,curcol='k',bands=np.array(['g',
     if 'i' in bands:
         gi=np.where(bands=='i')[0][0]
         fluxes/=fluxes[gi]
-        if fluxerrs!=None:fluxerrs/=fluxerrs[gi]
+        if fluxerrs!=None:fluxerrs/=fluxes[gi]
     elif 'r' in bands:
         gi=np.where(bands=='r')[0][0]
         fluxes/=fluxes[gi]
-        if fluxerrs!=None:fluxerrs/=fluxerrs[gi]
+        if fluxerrs!=None:fluxerrs/=fluxes[gi]
     else:
         return
     if label==None:
