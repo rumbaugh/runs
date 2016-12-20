@@ -87,7 +87,7 @@ def calc_flux(mjd,mag,magerr,cbands,band,mjdcen):
             return 0,0
         medmag=medmag[0]
         mederr=mederr[0]
-    return 10**(medmag/-2.5),np.log(2)/-2.5*10**(medmag/-2.5)*mederr
+    return 10**(medmag/-2.5),np.log(10)/-2.5*10**(medmag/-2.5)*mederr
 
 def plot_band(ax,mjd,mag,magerr,cbands,band,connectpoints=True,nolabels=False):
     gband=np.where(cbands==band)[0]
