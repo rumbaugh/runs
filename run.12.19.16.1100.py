@@ -63,6 +63,7 @@ def plot_flux(ax,fluxes,fluxerrs=None,label=None,curcol='k',bands=np.array(['g',
         if fluxerrs!=None:fluxerrs/=fluxes[gi]
     else:
         return
+    print fluxes,fluxerrs
     if label==None:
         if fluxerrs!=None:ax.errorbar(cens,fluxes,yerr=fluxerrs,color=curcol,fmt='ro',lw=2,capsize=3,mew=1,zorder=3,label=None)
         ax.scatter(cens,fluxes,color=curcol,s=36,zorder=4)
