@@ -58,7 +58,7 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
     rascale,decscale=np.std(ra_mtmp),np.std(dec_mtmp)
     if rascale<=0:rascale=5*tol
     if decscale<=0:decscale=5*tol
-    ra_ytmp,dec_ytmp=ra_mtmp+np.random.normal(np.mean(ra_mtmp),rascale,len(YDF)),dec_mtmp+np.random.normal(np.mean(dec_mtmp),decscale,len(YDF))
+    ra_ytmp,dec_ytmp=np.random.normal(np.mean(ra_mtmp),rascale,len(YDF)),np.random.normal(np.mean(dec_mtmp),decscale,len(YDF))
     crtmp=np.zeros((len(ra_mtmp),5))
     crtmp[:,0],crtmp[:,1],crtmp[:,2],crtmp[:,3]=MDF['MQ_ROWNUM'],MDF['RA'],MDF['DEC'],MDF['HPIX']
     #nearinds=np.ones(len(ra_mtmp),dtype='i8')*-1
