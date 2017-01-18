@@ -47,7 +47,7 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
         chktime=time.time()
         print '%.1f%% done. %.0f seconds elapsed. ETA: %.0f seconds'%(iHP*100./len(HPlist),chktime-st,(len(HPlist)-iHP)*(chktime-st)/iHP) 
     nearHPs=hp.get_all_neighbours(nsides,HP,nest=True)
-    hps='%i, %s'%(HP,', '.join(np.array(nearHPS,dtype='|S30')))
+    hps='%i, %s'%(HP,', '.join(np.array(nearHPs,dtype='|S30')))
     #for h in nearHPs: hps='%s, %i'%(hps,h)
     YQ0='SELECT COADD_OBJECT_ID FROM DES_ADMIN.Y3A1_COADD_OBJECT_HPIX WHERE HPIX_16384 in (%s)'%hps
     YDF0=con.query_to_pandas(YQ0)
