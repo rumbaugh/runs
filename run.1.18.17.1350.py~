@@ -1,0 +1,7 @@
+import numpy as np
+import healpy as hp
+import easyaccess as ea
+
+con=ea.connect()
+
+hps='4445, 4446, 4447, 4444, 5130, 5128, 5122, 4439, 4438'
