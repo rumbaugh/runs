@@ -5,7 +5,8 @@ import time
 
 con=ea.connect()
 
-hps='4445, 4446, 4447, 4444, 5130, 5128, 5122, 4439, 4438'
+hps='1140847567, 2317879808, 2324209832, 1140800575, 2292228264, 2317879432, 2325875242, 2315264546, 2317492384'
+#hps='4445, 4446, 4447, 4444, 5130, 5128, 5122, 4439, 4438'
 st=time.time()
 for i in range(0,1):
     YQ='SELECT * FROM MCARRAS2.Y1A1_HPIX WHERE HPIX in (%s)'%hps
@@ -18,3 +19,4 @@ for i in range(0,1):
 et=time.time()
 
 print 'Y3A1 time taken: %f seconds'%(et-mt)
+
