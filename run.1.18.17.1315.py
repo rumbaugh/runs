@@ -55,7 +55,10 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
     MDF=con.query_to_pandas(MQ)
     #gmHP,gyHP=np.where(crm['HP']==HP)[0],np.in1d(cr['HP'],np.append(nearHPs,HP))
     ra_mtmp,dec_mtmp=MDF['RA'],MDF['DEC']
-    ra_ytmp,dec_ytmp=ra_mtmp+np.random.normal(np.mean(ra_mtmp),np.std(ra_mtmp),len(YDF)),dec_mtmp+np.random.normal(np.mean(dec_mtmp),np.std(dec_mtmp),len(YDF))
+    rascale,decscale=np.std(ra_mtmp),np.std(dec_mtmp)
+    if rascale<=0:rascale=5*tol
+    if decscale<=0:decscale=5*tol
+    ra_ytmp,dec_ytmp=ra_mtmp+np.random.normal(np.mean(ra_mtmp),rascale,len(YDF)),dec_mtmp+np.random.normal(np.mean(dec_mtmp),decscale,len(YDF))
     crtmp=np.zeros((len(ra_mtmp),5))
     crtmp[:,0],crtmp[:,1],crtmp[:,2],crtmp[:,3]=MDF['MQ_ROWNUM'],MDF['RA'],MDF['DEC'],MDF['HPIX']
     #nearinds=np.ones(len(ra_mtmp),dtype='i8')*-1
