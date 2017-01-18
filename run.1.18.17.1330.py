@@ -31,7 +31,7 @@ print 'loaded milliquas+healpix'
 #matchinds=np.ones(len(cr),dtype='i8')*-1
 outcr=np.zeros((0,5))
 HPlist=np.unique(crm['HP'])
-HPlist=HPist[:1000]
+HPlist=HPlist[:1000]
 #newst=746954
 #HPlist=HPlist[newst:]
 if istest:
