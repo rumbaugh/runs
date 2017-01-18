@@ -43,13 +43,16 @@ if istest:
 print 'starting loop'
 st=time.time()
 for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
-    if iHP%100==0: 
+    if iHP%1000==1: 
         chktime=time.time()
         print '%.1f%% done. %.0f seconds elapsed. ETA: %.0f seconds'%(iHP*100./len(HPlist),chktime-st,(len(HPlist)-iHP)*(chktime-st)/iHP) 
     nearHPs=hp.get_all_neighbours(nsides,HP,nest=True)
     hps='%i'%HP
     for h in nearHPs: hps='%s, %i'%(hps,h)
-    YQ='SELECT H.COADD_OBJECT_ID,Y.RA,Y.DEC FROM DES_ADMIN.Y3A1_COADD_OBJECT_HPIX H,DES_ADMIN.Y3A1_COADD_OBJECT_SUMMARY Y WHERE H.COADD_OBJECT_ID=Y.COADD_OBJECT_ID and H.HPIX_16384 in (%s)'%hps
+    YQ0='SELECT COADD_OBJECT_ID FROM DES_ADMIN.Y3A1_COADD_OBJECT_HPIX WHERE HPIX_16384 in (%s)'%hps
+    YDF0=con.query_to_pandas(YQ0)
+    hcids=','.join(YDF0['COADD_OBJECT_ID'])
+    YQ='SELECT COADD_OBJECT_ID,RA,DEC FROM DES_ADMIN.Y3A1_COADD_OBJECT_SUMMARY WHERE COADD_OBJECT_ID in (%s)'%hcids
     MQ='SELECT * FROM RUMBAUGH.MILLIQUAS_HPIX WHERE HPIX=%i'%HP
     YDF=con.query_to_pandas(YQ)
     MDF=con.query_to_pandas(MQ)
