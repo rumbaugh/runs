@@ -47,11 +47,11 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
         chktime=time.time()
         print '%.1f%% done. %.0f seconds elapsed. ETA: %.0f seconds'%(iHP*100./len(HPlist),chktime-st,(len(HPlist)-iHP)*(chktime-st)/iHP) 
     nearHPs=hp.get_all_neighbours(nsides,HP,nest=True)
-    hps='%i'%HP
-    for h in nearHPs: hps='%s, %i'%(hps,h)
+    hps='%i, %s'%(HP,', '.join(np.array(nearHPS,dtype='|S30')))
+    #for h in nearHPs: hps='%s, %i'%(hps,h)
     YQ0='SELECT COADD_OBJECT_ID FROM DES_ADMIN.Y3A1_COADD_OBJECT_HPIX WHERE HPIX_16384 in (%s)'%hps
     YDF0=con.query_to_pandas(YQ0)
-    hcids=','.join(YDF0['COADD_OBJECT_ID'])
+    hcids=','.join(np.array(YDF0['COADD_OBJECT_ID'],dtype='|S20'))
     YQ='SELECT COADD_OBJECT_ID,RA,DEC FROM DES_ADMIN.Y3A1_COADD_OBJECT_SUMMARY WHERE COADD_OBJECT_ID in (%s)'%hcids
     MQ='SELECT * FROM RUMBAUGH.MILLIQUAS_HPIX WHERE HPIX=%i'%HP
     YDF=con.query_to_pandas(YQ)
