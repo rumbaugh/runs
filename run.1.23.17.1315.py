@@ -14,14 +14,19 @@ for i in range(0,1):
 mt=time.time()
 print 'Y1A1 time taken: %f seconds'%(mt-st)
 for i in range(0,1):
-    YQ='SELECT * FROM MCARRAS2.Y3A1_HPIX WHERE HPIX in (%s)'%hps
+    YQ='SELECT COADD_OBJECT_ID,HPIX_16384 FROM MCARRAS2.Y3A1_HPIX WHERE HPIX_16384 in (%s)'%hps
     ydf=con.query_to_pandas(YQ)
 mt2=time.time()
 print 'Y3A1 time taken: %f seconds'%(mt2-mt)
+for i in range(0,1):
+    YQ='SELECT * FROM MCARRAS2.Y3A1_HPIX WHERE HPIX_16384 in (%s)'%hps
+    ydf=con.query_to_pandas(YQ)
+mt3=time.time()
+print 'Y3A1 time taken (full): %f seconds'%(mt3-mt2)
 for i in range(0,1):
     YQ='SELECT * FROM DES_ADMIN.Y3A1_COADD_OBJECT_HPIX WHERE HPIX_16384 in (%s)'%hps
     ydf=con.query_to_pandas(YQ)
 et=time.time()
 
-print 'Y3A1 time taken: %f seconds'%(et-mt2)
+print 'Y3A1 time taken: %f seconds'%(et-mt3)
 
