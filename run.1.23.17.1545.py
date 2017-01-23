@@ -31,7 +31,7 @@ print 'loaded milliquas+healpix'
 #matchinds=np.ones(len(cr),dtype='i8')*-1
 outcr=np.zeros((0,5))
 HPlist=np.unique(crm['HP'])
-HPlist=HPlist[:1000]
+#HPlist=HPlist[:1000]
 #newst=746954
 #HPlist=HPlist[newst:]
 if istest:
@@ -72,7 +72,7 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
 endt=time.time()
 lptime=endt-st
 print 'loop done. Took %.2f seconds'%(endt-st)
-np.savetxt('/home/rumbaugh/test_milliquas_y3a1_match.csv',outcr,fmt='%i,%f,%f,%i,%i',header='MQ_ROWNUM,RA,DEC,HPIX,COADD_OJECTS_ID',comments='')
+np.savetxt('/home/rumbaugh/milliquas_y3a1_match.csv',outcr,fmt='%i,%f,%f,%i,%i',header='MQ_ROWNUM,RA,DEC,HPIX,COADD_OJECTS_ID',comments='')
 print 'file saved'
 trend=time.time()
 print 'Total time taken: %.2f seconds. Expected time for full run: %.0f seconds.'%(trend-trst,trend-trst+((len(crm)-testruns)*lptime/testruns))
