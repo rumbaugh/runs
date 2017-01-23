@@ -65,9 +65,9 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
             gd=np.where(tmpdist<tol)[0]
             if len(gd)>1:
                 #nearinds[i]=gn[np.argsort(tmpdist[gd])[0]]
-                crtmp[:,4][i]=YDF['COADD_OBJECTS_ID'][gn[np.argsort(np.array(tmpdist[gd]))[0]]]
+                crtmp[:,4][i]=YDF['COADD_OBJECT_ID'][gn[np.argsort(np.array(tmpdist[gd]))[0]]]
             elif len(gd)==1:
-                crtmp[:,4][i]=YDF['COADD_OBJECTS_ID'][gn[gd[0]]]
+                crtmp[:,4][i]=YDF['COADD_OBJECT_ID'][gn[gd[0]]]
     outcr=np.concatenate((outcr,crtmp),axis=0)
 endt=time.time()
 lptime=endt-st
