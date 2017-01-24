@@ -13,11 +13,11 @@ psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidate
 DB_path='/home/rumbaugh/var_database'
 maxdb=None
 
-WavLL,WavUL=3000,10500
+WavLL,WavUL=300,1050
 
 bands=np.array(['g','r','i','z'])
-#bcens={'u': 387.663943790537, 'g': 484.183358196563, 'r': 643.8534828217, 'i': 782.099282740933, 'z': 917.234266385718, 'Y': 987.780238651117}
-bcens={'u': 3876.63943790537, 'g': 4841.83358196563, 'r': 6438/534828217, 'i': 7820.99282740933, 'z': 9172.34266385718, 'Y': 9877.80238651117}
+bcens={'u': 387.663943790537, 'g': 484.183358196563, 'r': 643.8534828217, 'i': 782.099282740933, 'z': 917.234266385718, 'Y': 987.780238651117}
+#bcens={'u': 3876.63943790537, 'g': 4841.83358196563, 'r': 6438/534828217, 'i': 7820.99282740933, 'z': 9172.34266385718, 'Y': 9877.80238651117}
 crv=np.loadtxt('/home/rumbaugh/Downloads/VanderBerk_datafile1.txt',skiprows=23)
 
 #lsdict={'names':('DESJ','rah','ram','ras','decd','decm','decs','tif'),'formats':
