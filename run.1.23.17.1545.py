@@ -7,7 +7,7 @@ con=ea.connect()
 try:
     istest
 except NameError:
-    istest=True
+    istest=False
 try:
     testruns
 except NameError:
