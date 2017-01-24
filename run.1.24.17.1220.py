@@ -13,11 +13,11 @@ psfpdf=bpdf.PdfPages('/home/rumbaugh/var_database/plots/changinglookAGNcandidate
 DB_path='/home/rumbaugh/var_database'
 maxdb=None
 
-WavLL,WavUL=300,1050
+WavLL,WavUL=3000,10500
 
 bands=np.array(['g','r','i','z'])
-bcens={'u': 387.663943790537, 'g': 484.183358196563, 'r': 643.8534828217, 'i': 782.099282740933, 'z': 917.234266385718, 'Y': 987.780238651117}
-#bcens={'u': 3876.63943790537, 'g': 4841.83358196563, 'r': 6438/534828217, 'i': 7820.99282740933, 'z': 9172.34266385718, 'Y': 9877.80238651117}
+#bcens={'u': 387.663943790537, 'g': 484.183358196563, 'r': 643.8534828217, 'i': 782.099282740933, 'z': 917.234266385718, 'Y': 987.780238651117}
+bcens={'u': 3876.63943790537, 'g': 4841.83358196563, 'r': 6438/534828217, 'i': 7820.99282740933, 'z': 9172.34266385718, 'Y': 9877.80238651117}
 crv=np.loadtxt('/home/rumbaugh/Downloads/VanderBerk_datafile1.txt',skiprows=23)
 
 #lsdict={'names':('DESJ','rah','ram','ras','decd','decm','decs','tif'),'formats':
@@ -183,7 +183,10 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         ax3.plot(swav,smoothflux,lw=1,color='magenta',zorder=1)
     v_closei=np.where(np.abs(crv[:,0]/(1.+redshift)-bcens['i'])<20)[0]
     gvrange=np.where((crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL))[0]
-    vmax=np.max(crv[:,1][gvrange]/np.mean(crv[:,1][v_closei]))
+    if len(gvrange)>0:
+        vmax=np.max(crv[:,1][gvrange]/np.mean(crv[:,1][v_closei]))
+    else:
+        vmax=np.max(crv[:,1])
     if trueredshift>0:ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1,zorder=2)
     plot_flux(ax3,maxfluxes,maxfluxerrs,label='Max',curcol='r')
     maxplot=np.max(maxfluxes)
