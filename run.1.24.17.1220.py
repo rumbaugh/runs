@@ -181,13 +181,13 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,trueredshift,plotSDSS=False
         normflux=sflux/np.mean(sflux[s_closei])
         smoothflux=[np.mean(normflux[x-smwid:x+smwid+1]) for x in np.arange(smwid,len(normflux)-smwid)]
         ax3.plot(swav,smoothflux,lw=1,color='magenta',zorder=1)
-    v_closei=np.where(np.abs(crv[:,0]/(1.+redshift)-bcens['i'])<20)[0]
-    gvrange=np.where((crv[:,0]/(1.+redshift)>WavLL)&(crv[:,0]/(1.+redshift)<WavUL))[0]
+    v_closei=np.where(np.abs(crv[:,0]*(1.+redshift)-bcens['i'])<20)[0]
+    gvrange=np.where((crv[:,0]*(1.+redshift)>WavLL)&(crv[:,0]*(1.+redshift)<WavUL))[0]
     if len(gvrange)>0:
         vmax=np.max(crv[:,1][gvrange]/np.mean(crv[:,1][v_closei]))
     else:
         vmax=np.max(crv[:,1])
-    if trueredshift>0:ax3.plot(crv[:,0]/(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1,zorder=2)
+    if trueredshift>0:ax3.plot(crv[:,0]*(1.+redshift),crv[:,1]/np.mean(crv[:,1][v_closei]),color='k',lw=1,zorder=2)
     plot_flux(ax3,maxfluxes,maxfluxerrs,label='Max',curcol='r')
     maxplot=np.max(maxfluxes)
     plot_flux(ax3,minfluxes,minfluxerrs,label='Min',curcol='b')
