@@ -79,7 +79,7 @@ if istest:
 print 'starting loop'
 st=time.time()
 for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
-    if iHP%1000==0: 
+    if iHP%10000==0: 
         chktime=time.time()
         print '%.1f%% done. %.0f seconds elapsed. ETA: %.0f seconds'%(iHP*1000./len(HPlist),chktime-st,(len(HPlist)-iHP)*(chktime-st)/iHP) 
     nearHPs=hp.get_all_neighbours(nsides,HP,nest=True)
