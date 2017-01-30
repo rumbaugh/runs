@@ -11,7 +11,7 @@ dists=np.zeros(len(crm))
 for i in range(0,len(crm)):
     cid,ra,dec=crm['COADD_OBJECTS_ID'][i],crm['RA'][i],crm['DEC'][i]
     qry='SELECT * FROM MCARRAS2.Y3A1_HPIX WHERE COADD_OBJECT_ID=%i'%cid
-    DF=con.query_to_pandas(qryza)
+    DF=con.query_to_pandas(qry)
     dists[i]=np.sqrt((ra-qry['RA'][0])**2+(dec-qry['DEC'][0])**2)
 
 plt.figure(1)
