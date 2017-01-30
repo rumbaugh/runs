@@ -9,7 +9,7 @@ except NameError:
     crmd=np.loadtxt('/home/rumbaugh/milliquas_y3a1_match_pass2.csv',dtype={'names':('MQ_ROWNUM','RA','DEC','HPIX','COADD_OBJECTS_ID'),'formats':('i8','f8','f8','i8','i8')},delimiter=',',skiprows=1)
 
 crm=crmd[crmd['COADD_OBJECTS_ID']!=0]
-
+crm=crm[:100]
 dists=np.zeros(len(crm))
 for i in range(0,len(crm)):
     cid,ra,dec=crm['COADD_OBJECTS_ID'][i],crm['RA'][i],crm['DEC'][i]
