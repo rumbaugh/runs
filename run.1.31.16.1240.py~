@@ -1,0 +1,4 @@
+import numpy as np
+import healpy as hp
+
+cr=np.loadtxt('/home/rumbaugh/y3a1_hpix_radec.tab',dtype={'names':('cid','ra','dec','hpix'),'formats':('i8','f8','f8','i8')},skiprows=1)
