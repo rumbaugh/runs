@@ -1,5 +1,5 @@
 import numpy as np
-cr=np.loadtxt('milliquas_y3a1_match_pass2.tab',dtype={'names':('MQ','ra','dec','hpix','cid'),'formats':('i8','f8','f8','i8','i8')},skiprows=1)
+cr=np.loadtxt('milliquas_y3a1_match_pass2.csv',dtype={'names':('MQ','ra','dec','hpix','cid'),'formats':('i8','f8','f8','i8','i8')},skiprows=1,delimiter=',')
 #outcr=cr[cr['cid']!=0]
 cr=cr[cr['cid']!=0]
 outcr=np.zeros(len(cr),dtype=[('numrow', '<i8'),('MQ', '<i8'), ('ra', '<f8'), ('dec', '<f8'), ('hpix', '<i8'), ('cid', '<i8')])
