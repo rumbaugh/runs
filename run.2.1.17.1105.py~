@@ -1,0 +1,7 @@
+import numpy as np
+import matplotlib.pyplot as plt
+execfile('/home/rumbaugh/set_spec_dict.py')
+plt.figure(1)
+plt.clf()
+
+execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
