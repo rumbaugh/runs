@@ -52,7 +52,7 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
     nearHPs=hp.get_all_neighbours(nsides,HP,nest=True)
     hps='%i'%HP
     for h in nearHPs: hps='%s, %i'%(hps,h)
-    YQ='SELECT * FROM MCARRAS2.Y3A1_HPIX WHERE HPIX in (%s)'%hps
+    YQ='SELECT * FROM MCARRAS2.Y3A1_HPIX WHERE HPIX_16384 in (%s)'%hps
     MQ='SELECT * FROM RUMBAUGH.SDSSPOSS_HPIX WHERE HPIX=%i'%HP
     YDF=con.query_to_pandas(YQ)
     MDF=con.query_to_pandas(MQ)
