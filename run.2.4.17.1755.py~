@@ -1,0 +1,17 @@
+import numpy as np
+import matplotlib.pyplot as plt
+execfile('/home/rumbaugh/set_spec_dict.py')
+execfile('/home/rumbaugh/brian_veldisp/CalcVelDisp.bcl.edit.py')
+execfile('/home/rumbaugh/cosmocalc.py')
+execfile('/home/rumbaugh/SphDist.py')
+
+def read_spec_file(field):
+    fname='/home/rumbaugh/Chandra/speccats/%s'%spec_dict[field]['file']
+    if field=='cl1604':
+        loaddict=ACSspecloaddictwnotes
+        uc=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)
+    else:
+        loaddict=specloaddictwnotes
+        uc=(0,1,2,3,4,5,6,7,8,9,10,11)
+    crspec=np.genfromtxt(fname,dtype=loaddict,usecols=uc)
+    return crspec
