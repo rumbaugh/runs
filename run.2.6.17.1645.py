@@ -11,14 +11,10 @@ double_count_indexes=np.zeros(0,dtype='|S30')
 
 crsp=np.loadtxt('/home/rumbaugh/sdss-poss_release.dat',dtype={'names':('ra','dec','plateID','EpochG','EpochR','EpochI','G_POSS','G_ERR','G_GOOD','R_POSS','R_ERR','R_GOOD','I_POSS','I_ERR','I_GOOD','SDR7ID','M_i','redshift','mbh','lbol','A_u','nobs','s82flag','mjd_r_SDSS','g_SDSS','g_ERR','r_SDSS','r_ERR','i_SDSS','i_ERR'),'formats':('f8','f8','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S12','f8','f8','|S12','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8')})
 cr=np.loadtxt('SDSSPOSS_lightcurve_entries.tab',dtype={'names':('cid','SP_ROWNUM','ra_y1a1','dec_y1a1','sdr7id','mjd_SDSS','EPOCHG','EPOCHR','EPOCHI','ra','dec','G_POSS','R_POSS','I_POSS','G_POSS_err','R_POSS_err','I_POSS_err','G_SDSS','R_SDSS','I_SDSS','G_SDSS_err','R_SDSS_err','I_SDSS_err'),'formats':('i8','i8','f8','f8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1)
-cry=np.loadtxt('SDSSPOSS_lightcurve_entries_y3a1.tab',skiprows=1,dtype={'names':('mjd','imageid','cid','SPid','ra','dec','mag','magerr','band','exp','OBJECT_ID'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','|S12','f8','i8')})
-
+cry=np.loadtxt('SDSSPOSS_lightcurve_entries_y3a1.tab',skiprows=1,dtype={'names':('SPid','cid','mjd','ra','dec','imageid','ofile','OBJECT_ID','mag','magerr','band'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','|S12','f8','i8')})
+IDs=np.unique(cr['sdr7id'])
 nextIDs=np.setdiff1d(crsp['SDR7ID'],cr['sdr7id'],True)
 
-crdb=np.loadtxt('/home/rumbaugh/var_database/database_index.dat')
-maxdbid=len(crdb)
-dbi_out=np.zeros((maxdbid,4),dtype='i8')
-dbi_out[:,:3]=np.copy(crdb)
 for curid in IDs:
     gid,gidy=np.where(cr['cid']==curid)[0],np.where(cry['cid']==curid)[0]
     cur_dr7=cr['sdr7id'][gid]
@@ -43,29 +39,20 @@ for curid in IDs:
             cur_cID=0
         else:
             cur_cID=cID[0]
-    if cur_cID in crdb[:,1]:
-        gdb=np.where(cur_cID==crdb[:,1])[0]
-        DBID=crdb[gdb[0]][0]
-        outcr['DatabaseID']=DBID
-        dbi_out[gdb[0]][3]=cr['sdr7id'][gid][0]
-        crLC=np.loadtxt('%s/%i/LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
-        outcr=np.append(crLC,outcr)
-        if not('POSS' in crLC['Survey']):np.savetxt('%s/%i/LC.tab'%(DB_path,DBID),outcr,fmt=('%12i %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
-    else:
-        #DBID=maxdbid
-        DBID=3000000+cur_dr7
-        outcr['DatabaseID']=DBID
-        #maxdbid+=1
-        os.system('mkdir -p %s/%i'%(DB_path,DBID))
-        db_outcr=np.zeros((len(gidy),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
-        db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',curid,np.array(cry['OBJECT_ID'])[gidy],yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,0
-        outcr=np.append(db_outcr,outcr)
-        des_outcr=np.zeros((len(gidy),),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND','EXPTIME'),'formats':('i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2','f8')})
-        des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND'],des_outcr['EXPTIME']=mjd,cry['imageid'][gidy],cry['OBJECT_ID'][gidy],curid,yra,ydec,0,0,mag,magerr,bands,cry['exp'][gidy]
-        np.savetxt('%s/%i/LC.tab'%(DB_path,DBID),outcr,fmt=('%12i %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
-        np.savetxt('%s/%i/DES_data.tab'%(DB_path,DBID),des_outcr,fmt='%f %i %i %i %f %f %f %f %f %f %s %f',header=('MJD IMAGEID OBJECTID COADD_OBJECTS_ID RA DEC MAG_AUTO MAGERR_AUTO MAG_PSF MAGERR_PSF BAND EXPTIME'),comments='')
-        ##np.savetxt('%s/%i/SDSS_data.tab'%(DB_path,DBID),np.array(SDF)[gid],fmt=('%f %f %f %i %i %f %f %f %f %f %f %f %f %f %f%i %i %i %i %i %i %i'),header=('MJD RA DEC OBJID NUMROW PSFMAG_U  PSFMAG_G  PSFMAG_R  PSFMAG_I  PSFMAG_Z  PSFMAGERR_U  PSFMAGERR_G  PSFMAGERR_R  PSFMAGERR_I  PSFMAGERR_Z RUN RERUN STRIPE THINGID MQ_ROWNUM COADD_OBJECTS_UD HPIX'),comments='')
-        dbi_out=np.append(dbi_out,np.array([[DBID,curid,0,cr['sdr7id'][gid][0]]]),axis=0)
+    #DBID=maxdbid
+    DBID=3000000+cur_dr7
+    outcr['DatabaseID']=DBID
+    #maxdbid+=1
+    os.system('mkdir -p %s/%i'%(DB_path,DBID))
+    db_outcr=np.zeros((len(gidy),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('i8','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
+    db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',curid,np.array(cry['OBJECT_ID'])[gidy],yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,0
+    outcr=np.append(db_outcr,outcr)
+    des_outcr=np.zeros((len(gidy),),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND','EXPTIME'),'formats':('i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2','f8')})
+    des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND'],des_outcr['EXPTIME']=mjd,cry['imageid'][gidy],cry['OBJECT_ID'][gidy],curid,yra,ydec,0,0,mag,magerr,bands,cry['exp'][gidy]
+    np.savetxt('%s/%i/LC.tab'%(DB_path,DBID),outcr,fmt=('%12i %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
+    np.savetxt('%s/%i/DES_data.tab'%(DB_path,DBID),des_outcr,fmt='%f %i %i %i %f %f %f %f %f %f %s %f',header=('MJD IMAGEID OBJECTID COADD_OBJECTS_ID RA DEC MAG_AUTO MAGERR_AUTO MAG_PSF MAGERR_PSF BAND EXPTIME'),comments='')
+    ##np.savetxt('%s/%i/SDSS_data.tab'%(DB_path,DBID),np.array(SDF)[gid],fmt=('%f %f %f %i %i %f %f %f %f %f %f %f %f %f %f%i %i %i %i %i %i %i'),header=('MJD RA DEC OBJID NUMROW PSFMAG_U  PSFMAG_G  PSFMAG_R  PSFMAG_I  PSFMAG_Z  PSFMAGERR_U  PSFMAGERR_G  PSFMAGERR_R  PSFMAGERR_I  PSFMAGERR_Z RUN RERUN STRIPE THINGID MQ_ROWNUM COADD_OBJECTS_UD HPIX'),comments='')
+    dbi_out=np.append(dbi_out,np.array([[DBID,curid,0,cr['sdr7id'][gid][0]]]),axis=0)
     #print DBID, curid
 for curid in nextIDs:
     gid=np.where(crsp['SDR7ID']==curid)[0]
