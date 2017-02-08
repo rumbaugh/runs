@@ -40,7 +40,7 @@ for curid in IDs:
         else:
             cur_cID=cID[0]
     #DBID=maxdbid
-    DBID='SDSSPOSS%i'%icur_dr7
+    DBID='SDSSPOSS%i'%cur_dr7
     outcr['DatabaseID']=DBID
     #maxdbid+=1
     os.system('mkdir -p %s/%s'%(DB_path,DBID))
