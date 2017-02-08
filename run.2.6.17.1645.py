@@ -83,7 +83,7 @@ for curid in nextIDs:
     
     outcr=np.append(p_outcr,SDSS_outcr)
     #DBID=maxdbid
-    DBID='SDSSPOSS%i'%int(curid)
+    DBID='SDSSPOSS%i'%curid
     outcr['DatabaseID']=DBID
     #maxdbid+=1
 
