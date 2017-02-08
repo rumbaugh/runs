@@ -19,7 +19,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     magerrpairs[:,0],magerrpairs[:,1]=np.repeat(SDSSmagerrs,len(DESmagerrs)),np.tile(DESmagerrs,len(SDSSmagerrs))
     magdiffs,differrs=magpairs[:,0]-magpairs[:,1],np.sqrt(np.sum(magerrpairs**2,axis=1))
     diffsigs=magdiffs/differrs
-    gsig=np.where((magdiffs>2)&*(diffsigs>3))[0]
+    gsig=np.where((magdiffs>2)&(diffsigs>3))[0]
     if len(gsig)>0: candidate_flag[idb]=True
 outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','CandidateFlag'),'formats':('|S64','i8')})
 outcr[:,0],outcr[:,1]=crdb['DatabaseID'],candidate_flag
