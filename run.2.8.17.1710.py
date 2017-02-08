@@ -1,6 +1,6 @@
 import numpy as np
 
-
+outputdir='/home/rumbaugh/var_database/Y3A1'
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'names':('DatabaseID','Y3A1_COADD_OBJECTS_ID','SDSS_DR13_thingid','SDR7ID'),'formats':('|S64','|S64','|S64','|S64')})
 
 crf=np.loadtxt('/home/rumbaugh/var_database/CLQ_candidate_flags.dat',dtype={'names':('DBID','Flag'),'formats':('|S64','i8')},skiprows=1)
