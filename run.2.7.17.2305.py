@@ -22,5 +22,5 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     gsig=np.where((magdiffs>2)&(diffsigs>3))[0]
     if len(gsig)>0: candidate_flag[idb]=True
 outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','CandidateFlag'),'formats':('|S64','i8')})
-outcr[:,0],outcr[:,1]=crdb['DatabaseID'],candidate_flag
+outcr['DatabaseID'],outcr['CandidateFlag']=crdb['DatabaseID'],candidate_flag
 np.savetxt('/home/rumbaugh/var_database/CLQ_candidate_flags.dat',outcr,fmt='%s %i',header='DatabaseID CandidateFlag',comments='')
