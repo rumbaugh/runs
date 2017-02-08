@@ -19,7 +19,7 @@ for curid in IDs:
     gid,gidy=np.where(cr['cid']==curid)[0],np.where(cry['cid']==curid)[0]
     cur_dr7=cr['sdr7id'][gid]
     if np.shape(cur_dr7)!=(): cur_dr7=cur_dr7[0]
-    mjd,mag,magerr,magauto,magautoerr,cID,bands,yra,ydec,flags=cry['mjd'][gidy],cry['mag'][gidy],cry['magerr'][gidy],cry['mag_auto'][gidy],cry['mag_auto_err'][gidy],cry['cid'][gidy],cry['band'][gidy],cry['ra'][gidy],cry['dec'][gidy],cry['flag'][gidy]
+    mjd,mag,magerr,magauto,magautoerr,cID,bands,yra,ydec,flags=cry['mjd'][gidy],cry['mag'][gidy],cry['magerr'][gidy],cry['mag_auto'][gidy],cry['mag_auto_err'][gidy],cry['cid'][gidy],cry['band'][gidy],cry['ra'][gidy],cry['dec'][gidy],cry['flags'][gidy]
     SDSSmjd,SDSScid=cr['mjd_SDSS'][gid],cr['cid'][gid]
     SDSSra,SDSSdec=cr['ra'][gid],cr['dec'][gid]
     SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())][gid] for b in POSSbands}
