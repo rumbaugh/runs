@@ -36,12 +36,6 @@ for curid in IDs:
         p_outcr['DatabaseID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['Survey'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['SurveyCoaddID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['SurveyObjectID'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['RA'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['DEC'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MJD'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['TAG'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['BAND'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAGTYPE'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAG'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['MAGERR'][len(gid)*ib:len(gid)*(ib+1)],p_outcr['FLAG'][len(gid)*ib:len(gid)*(ib+1)]='0','POSS','0','0',POSSra,POSSdec,POSSmjddict[b],'None',b,'PSF',POSSmagdict[b],POSSmagerrdict[b],0
         SDSS_outcr['DatabaseID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['Survey'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['SurveyCoaddID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['SurveyObjectID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['RA'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['DEC'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MJD'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['TAG'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['BAND'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAGTYPE'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAG'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAGERR'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['FLAG'][len(gid)*ib:len(gid)*(ib+1)]='0','SDSS','0','0',SDSSra,SDSSdec,SDSSmjd,'None',b,'PSF',SDSSmagdict[b],SDSSmagerrdict[b],0
     outcr=np.append(p_outcr,SDSS_outcr)
-    cur_cID=cID
-    if np.shape(cur_cID)!=():
-        if len(cur_cID)==0:
-            cur_cID=0
-        else:
-            cur_cID=cID[0]
     #DBID=maxdbid
     DBID='SDSSPOSS%i'%cur_dr7
     outcr['DatabaseID']=DBID
