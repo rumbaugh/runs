@@ -141,7 +141,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
 
 good_dbids=crf['DatabaseID'][crf['Flag']==1]
 outcr=np.zeros((len(good_dbids),),dtype={'names':('DatabaseID','cid','sdr7id','ra','dec','flag'),'formats':('|S24','i8','i8','f8','f8','i8')})
-outcr['flag'],outcr['DatabaseID']=good_dbids
+outcr['flag'],outcr['DatabaseID']=0,good_dbids
 for DBID,idb in zip(good_dbids,np.arange(len(good_dbids))):
     cr=np.loadtxt('%s/Y3A1/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
