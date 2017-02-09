@@ -15,9 +15,9 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         SDSSmags,DESmags=mag[bands==band][gSDSS],mag[bands==band][gDES]
         SDSSmagerrs,DESmagerrs=magerr[bands==band][gSDSS],magerr[bands==band][gDES]
         magpairs=np.zeros([len(SDSSmags)*len(DESmags),2])
-        magpairs[:,0],magpairs[:,1]=np.repeat(SDSSmags,len(DESmags)),np.tile(DESmags,len(SDSSmags))
+        magpairs[:,1],magpairs[:,0]=np.repeat(SDSSmags,len(DESmags)),np.tile(DESmags,len(SDSSmags))
         magerrpairs=np.zeros([len(SDSSmagerrs)*len(DESmagerrs),2])
-        magerrpairs[:,0],magerrpairs[:,1]=np.repeat(SDSSmagerrs,len(DESmagerrs)),np.tile(DESmagerrs,len(SDSSmagerrs))
+        magerrpairs[:,1],magerrpairs[:,0]=np.repeat(SDSSmagerrs,len(DESmagerrs)),np.tile(DESmagerrs,len(SDSSmagerrs))
         magdiffs,differrs=magpairs[:,0]-magpairs[:,1],np.sqrt(np.sum(magerrpairs**2,axis=1))
         diffsigs=magdiffs/differrs
         gsig=np.where((magdiffs>2)&(diffsigs>3))[0]
