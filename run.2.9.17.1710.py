@@ -2,7 +2,7 @@ import numpy as np
 
 cr=np.loadtxt('/home/rumbaugh/MQ_SDSS_DR13_match_y3a1.csv',skiprows=1,dtype={'names':('numrow','thingid','objid','ra','dec','mjd_g','run','rerun','stripe','psfmag_u','psfmag_g','psfmag_r','psfmag_i','psfmag_z','psfmagerr_u','psfmagerr_g','psfmagerr_r','psfmagerr_i','psfmagerr_z'),'formats':('i8','i8','i8','f8','f8','f8','i8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')},delimiter=',')
 
-crms=np.loadtxt('/home/rumbaugh/milliquas_y3a1_match_only.csv',skiprows=1,delimiter=',',dtype={'names':('numrow','mq_rownum','ra','dec','hpix','cid')})
+crms=np.loadtxt('/home/rumbaugh/milliquas_y3a1_match_only.csv',skiprows=1,delimiter=',',dtype={'names':('numrow','mq_rownum','ra','dec','hpix','cid'),'formats':('i8','i8','f8','f8','i8','i8')})
 
 MQdict={crms['numrow'][x]: crms['mq_rownum'][x] for x in np.arange(len(crms))}
 CIDdict={crms['numrow'][x]: crms['cid'][x] for x in np.arange(len(crms))}
