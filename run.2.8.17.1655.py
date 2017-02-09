@@ -68,6 +68,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         if (len(POSSmagdict['g'])>0)&(len(POSSmagdict['r'])>0):
             mag[gposs][bands[gposs]=='g'],mag[gposs][bands[gposs]=='r']=mag[gposs][bands[gposs]=='g']+0.392*(POSSmagdict['g']-POSSmagdict['r'])-0.28, mag[gposs][bands[gposs]=='r'] +0.127*(POSSmagdict['g']-POSSmagdict['r'])+0.1
         else: 
+            print len(mag[gposs][bands[gposs]=='g']),len(mag[gposs][bands[gposs]=='r'])
             mag[gposs][bands[gposs]=='g'],mag[gposs][bands[gposs]=='r']=np.zeros(0),np.zeros(0)
         if (len(POSSmagdict['i'])>0)&(len(POSSmagdict['r'])>0):   
             mag[gposs][bands[gposs]=='i']=mag[gposs][bands[gposs]=='i']+0.27*(POSSmagdict['r']-POSSmagdict['i'])+0.32
