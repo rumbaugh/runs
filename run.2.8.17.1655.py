@@ -68,7 +68,6 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
         if (len(POSSmagdict['g'])>0)&(len(POSSmagdict['r'])>0):
             mag[gposs][bands[gposs]=='g'],mag[gposs][bands[gposs]=='r']=mag[gposs][bands[gposs]=='g']+0.392*(POSSmagdict['g']-POSSmagdict['r'])-0.28, mag[gposs][bands[gposs]=='r'] +0.127*(POSSmagdict['g']-POSSmagdict['r'])+0.1
         else: 
-            print len(mag[gposs][bands[gposs]=='g']),len(mag[gposs][bands[gposs]=='r'])
             mag[gposs][bands[gposs]=='g'],mag[gposs][bands[gposs]=='r']=np.zeros(0),np.zeros(0)
         if (len(POSSmagdict['i'])>0)&(len(POSSmagdict['r'])>0):   
             mag[gposs][bands[gposs]=='i']=mag[gposs][bands[gposs]=='i']+0.27*(POSSmagdict['r']-POSSmagdict['i'])+0.32
@@ -145,7 +144,7 @@ outcr=np.zeros((len(good_dbids),),dtype={'names':('DatabaseID','cid','sdr7id','r
 outcr['flag'],outcr['DatabaseID']=0,good_dbids
 for DBID,idb in zip(good_dbids,np.arange(len(good_dbids))):
     cr=np.loadtxt('%s/Y3A1/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
-    ggood=np.where((cr['MAG']>15)&(cr['MAG']<30))[0]#&(cr['FLAG']<16))[0]
+    ggood=np.where(((cr['MAG']>15)&(cr['MAG']<30))|(cr['Survey']=='POSS'))[0]#&(cr['FLAG']<16))[0]
     cr=cr[ggood]
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
     gdb=np.where(crdb['DatabaseID']==DBID)[0][0]
