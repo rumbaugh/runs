@@ -149,5 +149,21 @@ for DBID,idb in zip(good_dbids,np.arange(len(good_dbids))):
     gdb=np.where(crdb['DatabaseID']==DBID)[0][0]
     plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
     outcr['cid'][idb],outcr['sdr7id'][idb],outcr['ra'][idb],outcr['dec'][idb]=crdb['Y3A1_COADD_OBJECTS_ID'][gdb],crdb['SDR7ID'][gdb],np.mean(cr['RA']),np.mean(cr['DEC'])
+    ggood=np.where((cr['MAG']>15)&(cr['MAG']<30))[0]#&(cr['FLAG']<16))[0]
+    cr=cr[ggood]
+    mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
+    for band in ['g','r','i','z']:
+        gSDSS,gDES=np.where(survey[bands==band]=='SDSS')[0],np.where(survey[bands==band]=='DES')[0]
+        if ((len(gSDSS)==0)|(len(gDES)==0)): continue
+        SDSSmags,DESmags=mag[bands==band][gSDSS],mag[bands==band][gDES]
+        SDSSmagerrs,DESmagerrs=magerr[bands==band][gSDSS],magerr[bands==band][gDES]
+        magpairs=np.zeros([len(SDSSmags)*len(DESmags),2])
+        magpairs[:,0],magpairs[:,1]=np.repeat(SDSSmags,len(DESmags)),np.tile(DESmags,len(SDSSmags))
+        magerrpairs=np.zeros([len(SDSSmagerrs)*len(DESmagerrs),2])
+        magerrpairs[:,0],magerrpairs[:,1]=np.repeat(SDSSmagerrs,len(DESmagerrs)),np.tile(DESmagerrs,len(SDSSmagerrs))
+        magdiffs,differrs=magpairs[:,0]-magpairs[:,1],np.sqrt(np.sum(magerrpairs**2,axis=1))
+        diffsigs=magdiffs/differrs
+        gsig=np.where((magdiffs>2)&(diffsigs>3))[0]
+        print band,magdiffs
+        if len(gsig)>0: candidate_flag[idb]=True
 psfpdf.close()
-np.savetxt('/home/rumbaugh/CLQ_candidate_list.2.8.17.dat',outcr,fmt='%24s %16s %12s %9.5f %9.5f %2s',header='DatabaseID CID SDR7ID RA DEC FLAG')
