@@ -1,0 +1,7 @@
+import numpy as np
+import healpy as hp
+
+
+lsdict={'names':('DBID','rah','ram','ras','decd','decm','decs','tif'),'formats':('|S4','i8','i8','f8','i8','i8','f8','|S4')}
+delims=(4,2,2,4,3,2,4,4)
+crls=np.genfromtxt('',dtype=lsdict,delimiter=delims)
