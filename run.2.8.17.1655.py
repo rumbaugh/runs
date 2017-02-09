@@ -131,18 +131,22 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
                 ax4=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
                 img4=mpimg.imread('/home/rumbaugh/descuts/results/12-5-16/%s'%(DESfname))
                 ax4.imshow(img4)
-    if len(gsdss)>99999999999999999999990:
+    if len(gsdss)>0:
         ax3=plt.subplot2grid((2,10),(0,6),colspan=4,xticks=[],yticks=[])
-        SDSSfname='/home/rumbaugh/var_database/plots/SDSScutout_DBID_%06i.jpeg'%(dbid)
+        SDSSfname='/home/rumbaugh/var_database/plots/%s_SDSScutout.jpeg'%(dbid)
         img3=mpimg.imread(SDSSfname)
         ax3.imshow(img3)
     plt.savefig(psfpdf,format='pdf')
     return
 
 good_dbids=crf['DatabaseID'][crf['Flag']==1]
-for DBID in good_dbids:
+outcr=np.zeros((len(good_dbids),),dtype={'names':('DatabaseID','cid','sdr7id','ra','dec','flag'),'formats':('|S24','i8','i8','f8','f8','i8')})
+outcr['flag'],outcr['DatabaseID']=good_dbids
+for DBID,idb in zip(good_dbids,np.arange(len(good_dbids))):
     cr=np.loadtxt('%s/Y3A1/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
+    gdb=np.where(crdb['DatabaseID']==DBID)[0][0]
     plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
-
+    outcr['cid'][idb],outcr['sdr7id'][idb],outcr['ra'][idb],outcr['dec'][idb]=crdb['Y3A1_COADD_OBJECTS_ID'][gdb],crdb['SDR7ID'][gdb],np.mean(cr['RA']),np.mean(cr['DEC'])
 psfpdf.close()
+np.savetxt('/home/rumbaugh/CLQ_candidate_list.2.8.17.dat',outcr,fmt='%24s %16s %12s %9.5f %9.5f %2s',header='DatabaseID CID SDR7ID RA DEC FLAG')
