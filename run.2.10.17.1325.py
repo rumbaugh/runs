@@ -4,7 +4,7 @@ import healpy as hp
 
 hdu=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 data=hdu[1].data
-names,ra,dec=hdu['SDSS_NAME'],hdu['RA'],hdu['DEC']
+names,ra,dec=data['SDSS_NAME'],data['RA'],data['DEC']
 
 hpix=hp.ang2pix(64,(90-dec)*np.pi/180.,ra*np.pi/180)
 outcr=np.zeros((len(data),),dtype={'names':('SDSS_NAME','RA','DEC','HPIX'),'formats':('|S24','f8','f8','i8')})
