@@ -132,7 +132,7 @@ def plot_lightcurve(dbid,mjd,mag,magerr,bands,survey,plotSDSS=False,fname=None,D
                 ax4=plt.subplot2grid((2,10),(1,6),colspan=4,xticks=[],yticks=[])
                 img4=mpimg.imread('/home/rumbaugh/descuts/results/12-5-16/%s'%(DESfname))
                 ax4.imshow(img4)
-    if len(gsdss)>9999999999999999990:
+    if len(gsdss)>0:
         ax3=plt.subplot2grid((2,10),(0,6),colspan=4,xticks=[],yticks=[])
         SDSSfname='/home/rumbaugh/var_database/plots/%s_SDSScutout.jpeg'%(dbid)
         img3=mpimg.imread(SDSSfname)
