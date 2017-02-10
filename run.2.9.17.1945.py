@@ -164,6 +164,6 @@ for DBID,idb in zip(good_dbids,np.arange(len(good_dbids))):
         magdiffs,differrs=magpairs[:,0]-magpairs[:,1],np.sqrt(np.sum(magerrpairs**2,axis=1))
         diffsigs=magdiffs/differrs
         gsig=np.where((magdiffs>2)&(diffsigs>3))[0]
-        print band,magdiffs
+        #print band,magdiffs
         if len(gsig)>0: candidate_flag[idb]=True
 psfpdf.close()
