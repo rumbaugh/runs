@@ -13,4 +13,4 @@ for b in bands:
     outcr_dict[b]['MJD'],outcr_dict[b]['MAG_PSF'],outcr_dict[b]['MAG_PSF_ERROR'],outcr_dict[b]['MAG_AUTO'],outcr_dict[b]['MAG_AUTO_ERROR']=data['LC_MJD_%s'%b.upper()].flatten(),data['LC_MAG_PSF_%s'%b.upper()].flatten(),data['LC_MAGERR_PSF_%s'%b.upper()].flatten(),data['LC_MAG_AUTO_%s'%b.upper()].flatten(),data['LC_MAGERR_AUTO_%s'%b.upper()].flatten()
     outcr_dict[b]=outcr_dict[b][outcr_dict[b]['MJD']!=0]
 outcr=np.concatenate((outcr_dict['g'],outcr_dict['r'],outcr_dict['i'],outcr_dict['z']),axis=0)
-np.savetxt('/home/rumbaugh/Eric_LC.Y3A1.dat',outcr,fmt='%i %f %f %f %f %f %f %f %4s %i',header='COADD_OBJECT_ID RA DEC MJD MAG_PSF MAG_PSF_ERROR MAG_AUTO MAG_AUTO_ERROR BAND FLAGS',comments='')
+np.savetxt('/home/rumbaugh/Eric_LC_Y3A1.tab',outcr,fmt='%i %f %f %f %f %f %f %f %4s %i',header='COADD_OBJECT_ID RA DEC MJD MAG_PSF MAG_PSF_ERROR MAG_AUTO MAG_AUTO_ERROR BAND FLAGS',comments='')
