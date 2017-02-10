@@ -21,7 +21,7 @@ nsides=16384
 
 tol=2./3600 
 
-crm=np.loadtxt('/home/rumbaugh/dr7_bh_hpix.tab',dtype={'names':('SDSSname','ra','dec','HP'),'formats':('|S24','f8','f8','i8')})
+crm=np.loadtxt('/home/rumbaugh/dr7_bh_hpix.tab',dtype={'names':('SDSSname','ra','dec','HP'),'formats':('|S24','f8','f8','i8')},skiprows=1)
 
 outcr=np.zeros((0,5),dtype='object')
 HPlist=np.unique(crm['HP'])
