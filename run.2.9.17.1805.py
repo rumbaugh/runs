@@ -9,7 +9,7 @@ POSSbands=np.array(['g','r','i'])
 
 double_count_indexes=np.zeros(0,dtype='|S30')
 
-cr=np.loadtxt('milliquas_lightcurve_entries_y3a1.tab',dtype={'names':('MQrownum','cid','mjd','ra','dec','imageid','ofilename','mag','magerr','magauto','magautoerr','band','flags','flags_detmodel','flags_model','flags_weight'),'formats':('i8','i8','f8','f8','f8','i8','|S64','f8','f8','f8','f8','|S12','i8','i8','i8','i8')},skiprows=1)
+cr=np.loadtxt('milliquas_lightcurve_entries_y3a1.tab',dtype={'names':('MQrownum','cid','mjd','ra','dec','imageid','ofilename','objid','mag','magerr','magauto','magautoerr','band','flags','flags_detmodel','flags_model','flags_weight'),'formats':('i8','i8','f8','f8','f8','i8','|S64','i8','f8','f8','f8','f8','|S12','i8','i8','i8','i8')},skiprows=1)
 crs=np.loadtxt('milliquas_lightcurve_entries_SDSS.y3a1.tab',skiprows=1,dtype={'names':('numrow','cid','MQ','ray3a1','decy3a1','objid','thingid','mjd_g','ra','dec','run','rerun','stripe','psfmag_u','psfmag_g','psfmag_r','psfmag_i','psfmag_z','psfmagerr_u','psfmagerr_g','psfmagerr_r','psfmagerr_i','psfmagerr_z'),'formats':('i8','i8','i8','f8','f8','i8','i8','f8','f8','f8','i8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
 
 dbi_out=np.zeros((0,4),dtype='i8')
