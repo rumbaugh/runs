@@ -23,11 +23,11 @@ for curid in IDs:
     mjd,mag,magerr,magauto,magautoerr,cID,bands,yra,ydec,flags=cry['mjd'][gidy],cry['mag'][gidy],cry['magerr'][gidy],cry['mag_auto'][gidy],cry['mag_auto_err'][gidy],cry['cid'][gidy],cry['band'][gidy],cry['ra'][gidy],cry['dec'][gidy],cry['flags'][gidy]
     SDSSmjd,SDSScid=cr['mjd_g'][gid],cr['cid'][gid]
     SDSSra,SDSSdec=cr['ra'][gid],cr['dec'][gid]
-    SDSSmagdict,SDSSmagerrdict={b: cr['psfmag_%s'%(b.lower())][gid] for b in POSSbands},{b: cr['psfmagerr_%s'%(b.lower())][gid] for b in POSSbands}
+    SDSSmagdict,SDSSmagerrdict={b: cr['psfmag_%s'%(b.lower())][gid] for b in SDSSbands},{b: cr['psfmagerr_%s'%(b.lower())][gid] for b in SDSSbands}
 
-    SDSS_outcr=np.zeros((3,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
-    for b,ib in zip(POSSbands,np.arange(len(POSSbands))):
-        SDSS_outcr['DatabaseID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['Survey'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['SurveyCoaddID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['SurveyObjectID'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['RA'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['DEC'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MJD'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['TAG'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['BAND'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAGTYPE'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAG'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['MAGERR'][len(gid)*ib:len(gid)*(ib+1)],SDSS_outcr['FLAG'][len(gid)*ib:len(gid)*(ib+1)]='0','SDSS','0','0',SDSSra,SDSSdec,SDSSmjd,'None',b,'PSF',SDSSmagdict[b],SDSSmagerrdict[b],0
+    SDSS_outcr=np.zeros((5*len(gid),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
+    for b,ib in zip(SDSSbands,np.arange(len(SDSSbands))):
+        SDSS_outcr['DatabaseID'][ib::5],SDSS_outcr['Survey'][ib::5],SDSS_outcr['SurveyCoaddID'][ib::5],SDSS_outcr['SurveyObjectID'][ib::5],SDSS_outcr['RA'][ib::5],SDSS_outcr['DEC'][ib::5],SDSS_outcr['MJD'][ib::5],SDSS_outcr['TAG'][ib::5],SDSS_outcr['BAND'][ib::5],SDSS_outcr['MAGTYPE'][ib::5],SDSS_outcr['MAG'][ib::5],SDSS_outcr['MAGERR'][ib::5],SDSS_outcr['FLAG'][ib::5]='0','SDSS','0','0',SDSSra,SDSSdec,SDSSmjd,'None',b,'PSF',SDSSmagdict[b],SDSSmagerrdict[b],0
     DBID='MQ%i'%cur_MQ
     SDSS_outcr['DatabaseID']=DBID
     os.system('mkdir -p %s/%s'%(DB_path,DBID))
