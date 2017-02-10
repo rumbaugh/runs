@@ -1,0 +1,4 @@
+import pyfits as py
+import numpy as np
+
+hdu=py.open('/home/rumbaugh/C1_lc.fits')
