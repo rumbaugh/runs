@@ -21,7 +21,7 @@ for curid in IDs:
     cur_MQ=cr['MQ'][gid]
     if np.shape(cur_MQ)!=(): cur_MQ=cur_MQ[0]
     mjd,mag,magerr,magauto,magautoerr,cID,bands,yra,ydec,flags=cry['mjd'][gidy],cry['mag'][gidy],cry['magerr'][gidy],cry['mag_auto'][gidy],cry['mag_auto_err'][gidy],cry['cid'][gidy],cry['band'][gidy],cry['ra'][gidy],cry['dec'][gidy],cry['flags'][gidy]
-    SDSSmjd,SDSScid=cr['mjd_SDSS'][gid],cr['cid'][gid]
+    SDSSmjd,SDSScid=cr['mjd_g'][gid],cr['cid'][gid]
     SDSSra,SDSSdec=cr['ra'][gid],cr['dec'][gid]
     SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())][gid] for b in POSSbands}
 
