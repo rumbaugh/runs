@@ -46,7 +46,7 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
     MDF=con.query_to_pandas(BH)
     #gmHP,gyHP=np.where(crm['HP']==HP)[0],np.in1d(cr['HP'],np.append(nearHPs,HP))
     ra_mtmp,dec_mtmp,ra_ytmp,dec_ytmp=MDF['RA'],MDF['DEC'],YDF['RA'],YDF['DEC']
-    crtmp=np.zeros((len(ra_mtmp),5))
+    crtmp=np.zeros((len(ra_mtmp),5),dtype='object')
     crtmp[:,0],crtmp[:,1],crtmp[:,2],crtmp[:,3]=MDF['SDSS_NAME'],MDF['RA'],MDF['DEC'],MDF['HPIX']
     #nearinds=np.ones(len(ra_mtmp),dtype='i8')*-1
     for i in range(0,len(ra_mtmp)):
