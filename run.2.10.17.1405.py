@@ -1,7 +1,7 @@
 import numpy as np
 import os
 
-cr=np.loadtxt('/home/rumbaugh/MQ_SDSS_y3a1_tidplatemjdfiber.csv',delimiter=',',dtype='i8')
+cr=np.loadtxt('/home/rumbaugh/MQ_SDSS_y3a1_tidplatemjdfiber.csv',delimiter=',',dtype='i8',skiprows=1)
 
 outcr=np.zeros(np.shape(cr)[0],dtype='|S120')
 for i in range(0,len(outcr)):
