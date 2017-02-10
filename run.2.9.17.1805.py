@@ -39,7 +39,7 @@ for curid in IDs:
     np.savetxt('%s/%s/LC.tab'%(DB_path,DBID),outcr,fmt=('%20s %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
     np.savetxt('%s/%s/DES_data.tab'%(DB_path,DBID),des_outcr,fmt='%f %i %i %i %f %f %f %f %f %f %s',header=('MJD IMAGEID OBJECTID COADD_OBJECTS_ID RA DEC MAG_AUTO MAGERR_AUTO MAG_PSF MAGERR_PSF BAND'),comments='')
     #np.savetxt('%s/%s/SDSS_data.tab'%(DB_path,DBID),np.array(SDF)[gid],fmt=('%f %f %f %i %i %f %f %f %f %f %f %f %f %f %f%i %i %i %i %i %i %i'),header=('MJD RA DEC OBJID NUMROW PSFMAG_U  PSFMAG_G  PSFMAG_R  PSFMAG_I  PSFMAG_Z  PSFMAGERR_U  PSFMAGERR_G  PSFMAGERR_R  PSFMAGERR_I  PSFMAGERR_Z RUN RERUN STRIPE THINGID MQ_ROWNUM COADD_OBJECTS_UD HPIX'),comments='')
-    dbi_out=np.append(dbi_out,np.array([[DBID,curid,0,cr['sdr7id'][gid][0]]]),axis=0)
+    dbi_out=np.append(dbi_out,np.array([[DBID,curid,cr['thingid'][gid][0],0]]),axis=0)
     #print DBID, curid
 
 f=open('/home/rumbaugh/var_database/Y3A1/database_index.dat','ab')
