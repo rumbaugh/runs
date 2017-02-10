@@ -2,7 +2,7 @@ import numpy as np
 import pyfits as py
 import healpy as hp
 
-hdu=py.open('/home/rumbaugh/dr7_bh_nov19_2013.fits')
+hdu=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 data=hdu[1]
 names,ra,dec=hdu['SDSS_NAME'],hdu['RA'],hdu['DEC']
 
