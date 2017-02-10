@@ -23,7 +23,7 @@ for curid in IDs:
     mjd,mag,magerr,magauto,magautoerr,cID,bands,yra,ydec,flags=cry['mjd'][gidy],cry['mag'][gidy],cry['magerr'][gidy],cry['mag_auto'][gidy],cry['mag_auto_err'][gidy],cry['cid'][gidy],cry['band'][gidy],cry['ra'][gidy],cry['dec'][gidy],cry['flags'][gidy]
     SDSSmjd,SDSScid=cr['mjd_g'][gid],cr['cid'][gid]
     SDSSra,SDSSdec=cr['ra'][gid],cr['dec'][gid]
-    SDSSmagdict,SDSSmagerrdict={b: cr['%s_SDSS'%(b.upper())][gid] for b in POSSbands},{b: cr['%s_SDSS_err'%(b.upper())][gid] for b in POSSbands}
+    SDSSmagdict,SDSSmagerrdict={b: cr['psfmag_%s'%(b.lower())][gid] for b in POSSbands},{b: cr['psfmagerr_%s'%(b.lower())][gid] for b in POSSbands}
 
     SDSS_outcr=np.zeros((3,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
     for b,ib in zip(POSSbands,np.arange(len(POSSbands))):
