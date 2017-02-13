@@ -32,7 +32,7 @@ for curid in IDs:
     SDSS_outcr['DatabaseID']=DBID
     os.system('mkdir -p %s/%s'%(DB_path,DBID))
     db_outcr=np.zeros((len(gidy),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
-    db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',curid,np.array(cry['OBJECT_ID'])[gidy],yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,flags
+    db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',curid,yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,flags
     outcr=np.append(db_outcr,SDSS_outcr)
     des_outcr=np.zeros((len(gidy),),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND'),'formats':('i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2')})
     des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,cry['imageid'][gidy],cry['OBJECT_ID'][gidy],curid,yra,ydec,magauto,magautoerr,mag,magerr,bands
