@@ -15,5 +15,5 @@ cr['MAG_PSF'][np.isnan(cr['MAG_PSF'])]=0
 cr['MAG_PSF_ERROR'][np.isnan(cr['MAG_PSF_ERROR'])]=0
 cr['MAG_AUTO'][np.isnan(cr['MAG_AUTO'])]=0
 cr['MAG_AUTO_ERROR'][np.isnan(cr['MAG_AUTO_ERROR'])]=0
-np.savetxt('/home/rumbaugh/Eric_LC_Y3A1.csv',cr,header=('COADD_OBJECT_ID RA DEC MJD MAG_PSF MAG_PSF_ERROR MAG_AUTO MAG_AUTO_ERROR BAND FLAGS'),fmt=('%i,%f,%f,%f,%f,%f,%f,%f,%s,%i'),comments='')
+np.savetxt('/home/rumbaugh/Eric_LC_Y3A1.tab',cr,header=('COADD_OBJECT_ID RA DEC MJD MAG_PSF MAG_PSF_ERROR MAG_AUTO MAG_AUTO_ERROR BAND FLAGS'),fmt=('%i %f %f %f %f %f %f %f %s %i'),comments='')
 py.PrimaryHDU(cr).writeto('/home/rumbaugh/Eric_LC_Y3A1.fits',clobber=True)
