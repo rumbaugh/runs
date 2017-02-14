@@ -31,15 +31,18 @@ matchcr['COADD_OBJECTS_ID']=cidlist
 matchcr['TILENAME']='None'
 
 for cid,i in zip(cidlist,np.arange(len(cidlist))):
-    gmq,gsp,gbh=np.where(crmq['COADD_OBJECTS_ID']==cid)[0][0],np.where(crsp['COADD_OBJECTS_ID']==cid)[0][0],np.where(crbh['COADD_OBJECTS_ID']==cid)[0][0]
+    gmq,gsp,gbh=np.where(crmq['COADD_OBJECTS_ID']==cid)[0],np.where(crsp['COADD_OBJECTS_ID']==cid)[0],np.where(crbh['COADD_OBJECTS_ID']==cid)[0]
     if len(gsp)>0:
+        gsp=gsp[0]
         matchcr['RA'][i],matchcr['DEC'][i],matchcr['HPIX'][i],matchcr['TILENAME'][i]=crsp['RA'][gsp],crsp['DEC'][gsp],crsp['HPIX'][gsp],crsp['TILENAME'][gsp]
         matchcr['SP_ROWNUM'][i]=crsp['SP_ROWNUM'][gsp]
     if len(gbh)>0:
+        gbh=gbh[0]
         matchcr['RA'][i],matchcr['DEC'][i],matchcr['HPIX'][i]=crbh['RA'][gbh],crbh['DEC'][gbh],crbh['HPIX'][gbh]
         if matchcr['TILENAME'][i]=='None':matchcr['TILENAME'][i]=crbh['TILENAME'][gbh]
         matchcr['SDSS_NAME'][i]=crbh['SDSS_NAME'][gbh]
     if len(gmq)>0:
+        gmq=gmq[0]
         matchcr['RA'][i],matchcr['DEC'][i],matchcr['HPIX'][i]=crmq['RA'][gmq],crmq['DEC'][gmq],crmq['HPIX'][gmq]
         if matchcr['TILENAME'][i]=='None':matchcr['TILENAME'][i]=crmq['TILENAME'][gmq]
         matchcr['MQ_ROWNUM'][i]=crmq['MQ_ROWNUM'][gmq]
