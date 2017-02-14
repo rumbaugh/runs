@@ -59,9 +59,9 @@ if calcmatchlist:
         else:
             print 'Impossible!',cid
             break
-    np.savetxt('/home/rumbaugh/matchlist_12.14.16.dat',matchlist,fmt='%i')
+    np.savetxt('/home/rumbaugh/matchlist_1.28.17.dat',matchlist,fmt='%i')
 else:
-    matchlist=np.loadtxt('/home/rumbaugh/matchlist_10.17.16.dat',dtype='bool')
+    matchlist=np.loadtxt('/home/rumbaugh/matchlist_1.28.17.dat',dtype='bool')
 #matchinds=np.ones(len(cr),dtype='i8')*-1
 HPlist=np.unique(crmd['HPIX'][matchlist])
 gnom=np.in1d(np.array(crmd['COADD_OBJECTS_ID']),HPlist,invert=True)
