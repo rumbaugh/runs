@@ -51,8 +51,11 @@ if calcmatchlist:
 else:
     matchlist=np.loadtxt('/home/rumbaugh/matchlist_2.13.17.dat',dtype='bool')
 
-outcr=np.zeros((0,5),dtype='object')
-HPlist=np.unique(crm['HP'])
+#outcr=np.zeros((0,5),dtype='object')
+HPlist=np.unique(crmd['HPIX'][matchlist])
+outcr=np.zeros((len(crmd[matchlist==False]),5))
+outcr[:,0],outcr[:,1],outcr[:,2],outcr[:,3],outcr[:,4]=crmd['MQ_ROWNUM'][matchlist==False],crmd['RA'][matchlist==False],crmd['DEC'][matchlist==False],crmd['HPIX'][matchlist==False],crmd['COADD_OBJECTS_ID'][matchlist==False]
+incr=crmd[matchlist]
 if istest:
     if testID:
         nearHPs=hp.get_all_neighbours(nsides,testID,nest=True)
@@ -68,25 +71,25 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
     nearHPs=hp.get_all_neighbours(nsides,HP,nest=True)
     hps='%i'%HP
     for h in nearHPs: hps='%s, %i'%(hps,h)
+    MDF=incr[incr['HPIX']==HP]
     YQ='SELECT * FROM MCARRAS2.Y3A1_HPIX WHERE HPIX_16384 in (%s)'%hps
-    BH='SELECT * FROM RUMBAUGH.DR7_BH_HPIX WHERE HPIX=%i'%HP
     YDF=con.query_to_pandas(YQ)
-    MDF=con.query_to_pandas(BH)
     #gmHP,gyHP=np.where(crm['HP']==HP)[0],np.in1d(cr['HP'],np.append(nearHPs,HP))
     ra_mtmp,dec_mtmp,ra_ytmp,dec_ytmp=MDF['RA'],MDF['DEC'],YDF['RA'],YDF['DEC']
     crtmp=np.zeros((len(ra_mtmp),5),dtype='object')
     crtmp[:,0],crtmp[:,1],crtmp[:,2],crtmp[:,3]=MDF['SDSS_NAME'],MDF['RA'],MDF['DEC'],MDF['HPIX']
     #nearinds=np.ones(len(ra_mtmp),dtype='i8')*-1
-    for i in range(0,len(ra_mtmp)):
-        gn=np.where((np.abs(ra_mtmp[i]-ra_ytmp)*np.cos(dec_mtmp[i]*np.pi/180.)<tol)&(np.abs(dec_mtmp[i]-dec_ytmp)<tol))[0]
-        if len(gn)>0:
-            tmpdist=np.sqrt(((ra_mtmp[i]-ra_ytmp[gn])*np.cos(dec_mtmp[i]*np.pi/180.))**2+(dec_mtmp[i]-dec_ytmp[gn])**2)
-            gd=np.where(tmpdist<tol)[0]
-            if len(gd)>1:
-                #nearinds[i]=gn[np.argsort(tmpdist[gd])[0]]
-                crtmp[:,4][i]=YDF['COADD_OBJECT_ID'][gn[np.argsort(np.array(tmpdist[gd]))[0]]]
-            elif len(gd)==1:
-                crtmp[:,4][i]=YDF['COADD_OBJECT_ID'][gn[gd[0]]]
+    gk=np.in1d(YDF['COADD_OBJECT_ID'],mCIDs,invert=True)
+    if np.max(gk)>0:
+        ra_ytmp,dec_ytmp=YDF['RA'][gk],YDF['DEC'][gk]
+        for i in range(0,len(ra_mtmp)):
+            gn=np.where((np.abs(ra_mtmp[i]-ra_ytmp)*np.cos(dec_mtmp[i]*np.pi/180.)<tol)&(np.abs(dec_mtmp[i]-dec_ytmp)<tol))[0]
+            if len(gn)>0:
+                tmpdist=np.sqrt(((ra_mtmp[i]-ra_ytmp[gn])*np.cos(dec_mtmp[i]*np.pi/180.))**2+(dec_mtmp[i]-dec_ytmp[gn])**2)
+                gd=np.where(tmpdist<tol)[0]
+                if len(gd)>1:
+                    #nearinds[i]=gn[np.argsort(tmpdist[gd])[0]]
+                    crtmp[:,4][i]=YDF['COADD_OBJECT_ID'][gn[np.argsort(np.array(tmpdist[gd]))[0]]]
     outcr=np.concatenate((outcr,crtmp),axis=0)
 endt=time.time()
 lptime=endt-st
