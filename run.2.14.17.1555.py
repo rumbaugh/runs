@@ -6,17 +6,17 @@ crbh=np.loadtxt('/home/rumbaugh/dr7_bh_y3a1_match_wtiles.csv',dtype={'names':('S
 
 crout=np.zeros((0,),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S32','|S32','f8','f8','i8','i8','|S32')})
 
-gnm=np.where(crmq['COADD_OBJECT_ID']==0)[0]
+gnm=np.where(crmq['COADD_OBJECTS_ID']==0)[0]
 crmqnomatch=np.zeros((len(gnm),),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S32','|S32','f8','f8','i8','i8','|S32')})
 crmqnomatch['MQ_ROWNUM'],crmqnomatch['RA'],crmqnomatch['DEC'],crmqnomatch['TILENAME']=crmq['MQ_ROWNUM'][gnm],crmq['RA'][gnm],crmq['DEC'][gnm],crmq['TILENAME'][gnm]
 crout=np.concatenate((crout,crmqnomatch),axis=0)
 
-gnm=np.where(crsp['COADD_OBJECT_ID']==0)[0]
+gnm=np.where(crsp['COADD_OBJECTS_ID']==0)[0]
 crspnomatch=np.zeros((len(gnm),),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S32','|S32','f8','f8','i8','i8','|S32')})
 crspnomatch['SP_ROWNUM'],crspnomatch['RA'],crspnomatch['DEC'],crspnomatch['TILENAME']=crsp['SP_ROWNUM'][gnm],crsp['RA'][gnm],crsp['DEC'][gnm],crsp['TILENAME'][gnm]
 crout=np.concatenate((crout,crspnomatch),axis=0)
 
-gnm=np.where(crbh['COADD_OBJECT_ID']==0)[0]
+gnm=np.where(crbh['COADD_OBJECTS_ID']==0)[0]
 crbhnomatch=np.zeros((len(gnm),),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S32','|S32','f8','f8','i8','i8','|S32')})
 crbhnomatch['SDSS_NAME'],crbhnomatch['RA'],crbhnomatch['DEC'],crbhnomatch['TILENAME']=crbh['SDSS_NAME'][gnm],crbh['RA'][gnm],crbh['DEC'][gnm],crbh['TILENAME'][gnm]
 crout=np.concatenate((crout,crbhnomatch),axis=0)
