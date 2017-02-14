@@ -5,7 +5,7 @@ cr=np.loadtxt('/home/rumbaugh/milliquas_Y3A1_tilenames.csv',dtype={'names':('MQ_
 
 crm=np.loadtxt('/home/rumbaugh/milliquas_y3a1_match_pass2.csv',dtype={'names':('mID','ra','dec','HP','cid'),'formats':('i8','f8','f8','i8','i8')},skiprows=1,delimiter=',')
 
-cr=cr[np.argsort(cr[:,0])]
+cr=cr[np.argsort(cr['MQ_ROWNUM'])]
 crm=crm[np.argsort(crm['mID'])]
 
 outcr=np.zeros((len(cr),),dtype={'names':('mID','ra','dec','HP','cid','tilename'),'formats':('i8','f8','f8','i8','i8','|S32')})
