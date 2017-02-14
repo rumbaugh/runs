@@ -54,7 +54,7 @@ else:
 #outcr=np.zeros((0,5),dtype='object')
 HPlist=np.unique(crmd['HPIX'][matchlist])
 outcr=np.zeros((len(crmd[matchlist==False]),5))
-outcr[:,0],outcr[:,1],outcr[:,2],outcr[:,3],outcr[:,4]=crmd['MQ_ROWNUM'][matchlist==False],crmd['RA'][matchlist==False],crmd['DEC'][matchlist==False],crmd['HPIX'][matchlist==False],crmd['COADD_OBJECTS_ID'][matchlist==False]
+outcr[:,0],outcr[:,1],outcr[:,2],outcr[:,3],outcr[:,4]=crmd['SDSS_NAME'][matchlist==False],crmd['RA'][matchlist==False],crmd['DEC'][matchlist==False],crmd['HPIX'][matchlist==False],crmd['COADD_OBJECTS_ID'][matchlist==False]
 incr=crmd[matchlist]
 if istest:
     if testID:
