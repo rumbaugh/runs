@@ -8,16 +8,19 @@ crout=np.zeros((0,),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DE
 
 gnm=np.where(crmq['COADD_OBJECTS_ID']==0)[0]
 crmqnomatch=np.zeros((len(gnm),),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S32','|S32','f8','f8','i8','i8','|S32')})
+crmqnomatch['SP_ROWNUM'],crmqnomatch['SDSS_NAME']='0','0'
 crmqnomatch['MQ_ROWNUM'],crmqnomatch['RA'],crmqnomatch['DEC'],crmqnomatch['TILENAME']=crmq['MQ_ROWNUM'][gnm],crmq['RA'][gnm],crmq['DEC'][gnm],crmq['TILENAME'][gnm]
 crout=np.concatenate((crout,crmqnomatch),axis=0)
 
 gnm=np.where(crsp['COADD_OBJECTS_ID']==0)[0]
 crspnomatch=np.zeros((len(gnm),),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S32','|S32','f8','f8','i8','i8','|S32')})
+crmqnomatch['MQ_ROWNUM'],crmqnomatch['SDSS_NAME']='0','0'
 crspnomatch['SP_ROWNUM'],crspnomatch['RA'],crspnomatch['DEC'],crspnomatch['TILENAME']=crsp['SP_ROWNUM'][gnm],crsp['RA'][gnm],crsp['DEC'][gnm],crsp['TILENAME'][gnm]
 crout=np.concatenate((crout,crspnomatch),axis=0)
 
 gnm=np.where(crbh['COADD_OBJECTS_ID']==0)[0]
 crbhnomatch=np.zeros((len(gnm),),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S32','|S32','f8','f8','i8','i8','|S32')})
+crmqnomatch['SP_ROWNUM'],crmqnomatch['MQ_ROWNUM']='0','0'
 crbhnomatch['SDSS_NAME'],crbhnomatch['RA'],crbhnomatch['DEC'],crbhnomatch['TILENAME']=crbh['SDSS_NAME'][gnm],crbh['RA'][gnm],crbh['DEC'][gnm],crbh['TILENAME'][gnm]
 crout=np.concatenate((crout,crbhnomatch),axis=0)
 
@@ -29,6 +32,7 @@ cidlist=np.unique(np.concatenate((crmq['COADD_OBJECTS_ID'],crsp['COADD_OBJECTS_I
 matchcr=np.zeros((len(cidlist),),dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S32','|S32','f8','f8','i8','i8','|S32')})
 matchcr['COADD_OBJECTS_ID']=cidlist
 matchcr['TILENAME']='None'
+matchcr['SDSS_NAME'],matchcr['SP_ROWNUM'],matchcr['MQ_ROWNUM']='0','0','0'
 
 for cid,i in zip(cidlist,np.arange(len(cidlist))):
     gmq,gsp,gbh=np.where(crmq['COADD_OBJECTS_ID']==cid)[0],np.where(crsp['COADD_OBJECTS_ID']==cid)[0],np.where(crbh['COADD_OBJECTS_ID']==cid)[0]
