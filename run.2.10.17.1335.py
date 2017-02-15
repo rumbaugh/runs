@@ -63,7 +63,7 @@ for iHP,HP in zip(np.arange(len(HPlist)),HPlist):
 endt=time.time()
 lptime=endt-st
 print 'loop done. Took %.2f seconds'%(endt-st)
-np.savetxt('/home/rumbaugh/dr7_bh_y3a1_match.csv',outcr,fmt='%24s,%f,%f,%i,%i',header='SDSS_NAME,RA,DEC,HPIX,COADD_OJECTS_ID',comments='')
+np.savetxt('/home/rumbaugh/dr7_bh_y3a1_match.csv',outcr,fmt='%24s,%f,%f,%i,%i',header='SDSS_NAME,RA,DEC,HPIX,COADD_OBJECTS_ID',comments='')
 print 'file saved'
 trend=time.time()
 print 'Total time taken: %.2f seconds. Expected time for full run: %.0f seconds.'%(trend-trst,trend-trst+((len(crm)-testruns)*lptime/testruns))
