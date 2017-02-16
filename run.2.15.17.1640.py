@@ -96,11 +96,11 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
         curDBIDs=np.append(curDBIDs,'DR7BH%s'%curSN)
         DBID=curDBIDs[0]
         des_outcr=np.zeros((len(gBHy),),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND'),'formats':('i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2')})
-        mjd,mag,magerr,magauto,magautoerr,cIDs,bands,yra,ydec,flags=crbhy['mjd'][gBHy],crbhy['mag'][gBHy],crbhy['magerr'][gBHy],crbhy['mag_auto'][gBHy],crbhy['mag_auto_err'][gBHy],crbhy['cid'][gBHy],crbhy['band'][gBHy],crbhy['ra'][gBHy],crbhy['dec'][gBHy],crbhy['flags'][gBHy]
+        mjd,mag,magerr,magauto,magautoerr,cIDs,bands,yra,ydec,flags=crybh['mjd'][gBHy],crybh['mag'][gBHy],crybh['magerr'][gBHy],crybh['mag_auto'][gBHy],crybh['mag_auto_err'][gBHy],crybh['cid'][gBHy],crybh['band'][gBHy],crybh['ra'][gBHy],crybh['dec'][gBHy],crybh['flags'][gBHy]
         db_outcr=np.zeros((len(gBHy),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
-        db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',cid,np.array(crbhy['OBJECT_ID'])[gBHy],yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,flags
+        db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',cid,np.array(crybh['OBJECT_ID'])[gBHy],yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,flags
         outcr=np.append(outcr,db_outcr)
-        des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,crbhy['imageid'][gBHy],crbhy['OBJECT_ID'][gBHy],cid,yra,ydec,magauto,magautoerr,mag,magerr,bands
+        des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,crybh['imageid'][gBHy],crybh['OBJECT_ID'][gBHy],cid,yra,ydec,magauto,magautoerr,mag,magerr,bands
         if len(gBHs)>0:
             SDSSmjd,SDSScid=crbh['mjd_g'][gBHs],crbh['cid'][gBHs]
             SDSSra,SDSSdec=crbh['ra'][gBHs],crbh['dec'][gBHs]
