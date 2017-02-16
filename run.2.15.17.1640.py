@@ -22,7 +22,7 @@ crmi=np.loadtxt('/home/rumbaugh/var_database/Y3A1/match_index.dat',dtype={'names
 gcrmi_match=np.where(crmi['COADD_OBJECTS_ID']>0)[0]
 crmim=crmi[gcrmi_match]
 
-dbi_out=np.zeros((0,5),dtype='object')
+dbi_out=np.zeros((0,7),dtype='object')
 
 for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim))):
     outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
