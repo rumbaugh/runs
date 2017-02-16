@@ -35,7 +35,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
         gMQs=np.where(crmqs['cid']==cid)[0]
         gMQSN=np.where(crmqSN['cid']==cid)[0]
         curMQ=MQrn
-        curDBIDs=np.append(curDBIDs,'MQ%i'%crMQ)
+        curDBIDs=np.append(curDBIDs,'MQ%i'%curMQ)
         DBID=curDBIDs[0]
         des_outcr=np.zeros((len(gMQy),),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND'),'formats':('i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2')})
         if len(gMQy)>0:
