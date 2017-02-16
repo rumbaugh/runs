@@ -121,10 +121,12 @@ outcr=np.zeros((len(good_dbids),),dtype={'names':('DatabaseID','cid','sdr7id','r
 outcr['flag'],outcr['DatabaseID']=0,good_dbids
 for DBID,idb in zip(good_dbids,np.arange(len(good_dbids))):
     cr=np.loadtxt('%s/Y3A1/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
-    ggood=np.where(((cr['MAG']>15)&(cr['MAG']<30))|(cr['Survey']=='POSS'))[0]#&(cr['FLAG']<16))[0]
-    cr=cr[ggood]
-    gbad=np.where((cr['MAG']<15)|(cr['MAG']>30))[0]
-    if len(gbad)>0: cr=cr[cr['Survey']!='POSS']
+    ggood=np.where(((cr['MAG']>15)&(cr['MAG']<30)))[0]#&(cr['FLAG']<16))[0]
+    if np.shape(cr)==():
+        if len(ggood)==0:
+            continue
+    else:
+        cr=cr[ggood]
     mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
     gdb=np.where(crdb['DatabaseID']==DBID)[0][0]
     plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
