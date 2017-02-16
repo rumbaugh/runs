@@ -18,7 +18,7 @@ crmqy=np.loadtxt('milliquas_lightcurve_entries_y3a1.tab',dtype={'names':('MQrown
 crmqs=np.loadtxt('milliquas_lightcurve_entries_SDSS.y3a1.tab',skiprows=1,dtype={'names':('numrow','cid','MQ','ray3a1','decy3a1','objid','thingid','mjd_g','ra','dec','run','rerun','stripe','psfmag_u','psfmag_g','psfmag_r','psfmag_i','psfmag_z','psfmagerr_u','psfmagerr_g','psfmagerr_r','psfmagerr_i','psfmagerr_z'),'formats':('i8','i8','i8','f8','f8','i8','i8','f8','f8','f8','i8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
 crmqSN=np.loadtxt('milliquas_lightcurve_entries_y3a1_SN.tab',dtype={'names':('MQrownum','cid','mjd','ra','dec','mag','magerr','mag_auto','mag_auto_err','band','flags',),'formats':('i8','i8','f8','f8','f8','f8','f8','f8','f8','|S12','i8')},skiprows=1)
 
-crmi=np.loadtxt('/home/rumbaugh/var_database/Y3A1/match_index.dat',dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('i8','i8','|S32','f8','f8','i8','i8','|S32')})
+crmi=np.loadtxt('/home/rumbaugh/var_database/Y3A1/match_index.dat',dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('i8','i8','|S32','f8','f8','i8','i8','|S32')},skiprows=1)
 gcrmi_match=np.where(crmi['COADD_OBJECTS_ID']>0)[0]
 crmim=crmi[gcrmi_match]
 
