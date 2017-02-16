@@ -127,6 +127,6 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
     #print DBID, curid
 
     for curDBID in curDBIDs: dbi_out=np.append(dbi_out,np.array([[curDBID,cid,tid,cur_dr7,MQrn,SPrn,SDSSNAME]]),axis=0)
-#f=open('/home/rumbaugh/var_database/Y3A1/database_index.dat','ab')
+f='/home/rumbaugh/var_database/Y3A1/database_index.dat'
 np.savetxt(f,dbi_out,fmt='%s %s %s %s %s %s %s',header='DatabaseID Y3A1_COADD_OBJECTS_ID SDSS_DR13_thingid SDR7ID MQ_ROWNUM SP_ROWNUM DR7_BH_SDSSNAME')
 #f.close()
