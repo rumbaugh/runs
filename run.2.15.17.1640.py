@@ -44,12 +44,12 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
             db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',cid,np.array(crmqy['OBJECT_ID'])[gMQy],yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,flags
             outcr=np.append(outcr,db_outcr)
             des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,crmqy['imageid'][gMQy],crmqy['OBJECT_ID'][gMQy],cid,yra,ydec,magauto,magautoerr,mag,magerr,bands
-        if len(gMGSN)>0:
-            mjd,mag,magerr,magauto,magautoerr,cIDs,bands,yra,ydec,flags=crmqSN['mjd'][gMGSN],crmqSN['mag'][gMGSN],crmqSN['magerr'][gMGSN],crmqSN['mag_auto'][gMGSN],crmqSN['mag_auto_err'][gMGSN],crmqSN['cid'][gMGSN],crmqSN['band'][gMGSN],crmqSN['ra'][gMGSN],crmqSN['dec'][gMGSN],crmqSN['flags'][gMGSN]
-            db_outcr=np.zeros((len(gMGSN),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
+        if len(gMQSN)>0:
+            mjd,mag,magerr,magauto,magautoerr,cIDs,bands,yra,ydec,flags=crmqSN['mjd'][gMQSN],crmqSN['mag'][gMQSN],crmqSN['magerr'][gMQSN],crmqSN['mag_auto'][gMQSN],crmqSN['mag_auto_err'][gMQSN],crmqSN['cid'][gMQSN],crmqSN['band'][gMQSN],crmqSN['ra'][gMQSN],crmqSN['dec'][gMQSN],crmqSN['flags'][gMQSN]
+            db_outcr=np.zeros((len(gMQSN),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
             db_outcr['DatabaseID'],db_outcr['Survey'],db_outcr['SurveyCoaddID'],db_outcr['SurveyObjectID'],db_outcr['RA'],db_outcr['DEC'],db_outcr['MJD'],db_outcr['TAG'],db_outcr['BAND'],db_outcr['MAGTYPE'],db_outcr['MAG'],db_outcr['MAGERR'],db_outcr['FLAG']=DBID,'DES',cid,0,yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,flags
             outcr=np.append(outcr,db_outcr)
-            if len(des_outcr)==0: des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,crmqSN['imageid'][gMGSN],crmqSN['OBJECT_ID'][gMGSN],cid,yra,ydec,magauto,magautoerr,mag,magerr,bands
+            if len(des_outcr)==0: des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,crmqSN['imageid'][gMQSN],crmqSN['OBJECT_ID'][gMQSN],cid,yra,ydec,magauto,magautoerr,mag,magerr,bands
         SDSSmjd,SDSScid=crmqs['mjd_g'][gMQs],crmqs['cid'][gMQs]
         SDSSra,SDSSdec=crmqs['ra'][gMQs],crmqs['dec'][gMQs]
         SDSStid,SDSSobjid,stripe=crmqs['thingid'][gMQs],crmqs['objid'][gMQs],crmqs['stripe'][gMQs]
