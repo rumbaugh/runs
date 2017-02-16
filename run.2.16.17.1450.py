@@ -127,7 +127,7 @@ for DBID,idb in zip(good_dbids,np.arange(len(good_dbids))):
             continue
     else:
         cr=cr[ggood]
-    mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
+    mjd,mag,magerr,bands,survey=np.array([cr['MJD']]),np.array([cr['MAG']]),np.array([cr['MAGERR']]),np.array([cr['BAND']]),np.array([cr['Survey']])
     gdb=np.where(crdb['DatabaseID']==DBID)[0][0]
     plot_lightcurve(DBID,mjd,mag,magerr,bands,survey,plotSDSS=False)
 psfpdf.close()
