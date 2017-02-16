@@ -89,7 +89,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
             des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,cryse['imageid'][gSPy],cryse['OBJECT_ID'][gSPy],cid,yra,ydec,magauto,magautoerr,mag,magerr,bands
     else:
         gSPy,gSPs=np.zeros(0),np.zeros(0)
-    if BHrn!=-1:
+    if SDSSNAME!='-1':
         gBHy=np.where(crybh['cid']==cid)[0]
         gBHs=np.where(crbh['cid']==cid)[0]
         curSN=SDSSNAME
