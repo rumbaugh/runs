@@ -8,7 +8,7 @@ crmi=np.loadtxt('/home/rumbaugh/var_database/Y3A1/match_index.dat',dtype={'names
 ggood=np.where(crmi['COADD_OBJECTS_ID']>0)[0]
 crmi=crmi[ggood]
 
-sdr7ids=np.array(crsp[crmi['SP_ROWNUM']],dtype='|S24')
+sdr7ids=np.array(crsp['SDR7ID'][crmi['SP_ROWNUM']],dtype='|S24')
 sdr7ids[crmi['SP_ROWNUM']<0]='None'
 
 DBIDs,primDBID=np.zeros(len(crmi),dtype='|S128'),np.zeros(len(crmi),dtype='|S32')
