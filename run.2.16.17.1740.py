@@ -12,7 +12,7 @@ sdr7ids=np.array(crsp[crmi['SP_ROWNUM']],dtype='|S24')
 sdr7ids[crmi['SP_ROWNUM']<0]='None'
 
 DBIDs,primDBID=np.zeros(len(crmi),dtype='|S128'),np.zeros(len(crmi),dtype='|S32')
-for comparr,srcarr,prefix in zip([crmi['MQ_ROWNUM'],crmi['SP_ROWNUM'],crmi['SDSSMAME']],[crmi['MQ_ROWNUM'],sdr7ids,crmi['SDSSMAME']],['MQ','SDSSPOSS','DR7BH']):
+for comparr,srcarr,prefix in zip([crmi['MQ_ROWNUM'],crmi['SP_ROWNUM'],crmi['SDSSNAME']],[crmi['MQ_ROWNUM'],sdr7ids,crmi['SDSSNAME']],['MQ','SDSSPOSS','DR7BH']):
     for i in range(0,len(DBIDs)):
         if comparr[i]!=-1:
             if primDBID[i]=='': 
