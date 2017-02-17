@@ -26,6 +26,7 @@ inDES_SPs=np.array([18615,18644,32529,32528,32526,32534,18463,18322,18416])
 
 double_count_indexes=np.zeros(0,dtype='|S30')
 
+crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DBID','DBIDS','CID','thingid','sdr7id','MQrownum','SP_rownum','SDSSNAME'),'formats':('|S64','i8','i8','|S24','i8','i8','|S64')})
 #crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'names':('DBID','CID','thingid','sdr7id','MQrownum','SP_rownum','SDSSNAME'),'formats':('|S64','i8','i8','|S24','i8','i8','|S64')})
 #crdb=crdb[:100]
 
