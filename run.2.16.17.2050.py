@@ -2,7 +2,7 @@ import numpy as np
 
 outputdir='/home/rumbaugh/var_database/Y3A1'
 
-crf=np.loadtxt('/home/rumbaugh/var_database/max_mag_drop.dat',dtype={'names':('DBID','maxdrop'),'formats':('|S64','f8')},skiprows=1)
+crf=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop.dat',dtype={'names':('DBID','maxdrop'),'formats':('|S64','f8')},skiprows=1)
 
 good_dbids=crf['DBID'][crf['maxdrop']>=2]
 DESras,DESdecs=np.zeros(len(good_dbids)),np.zeros(len(good_dbids))
