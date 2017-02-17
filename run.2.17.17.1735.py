@@ -9,7 +9,7 @@ bhdata=hdubh[1].data
 bhz,bhname=bhdata['REDSHIFT'],bhdata['SDSS_NAME']
 numrow=np.zeros(len(outcr),dtype='i8')
 for i in range(0,len(outcr)):
-    gbh=np.where(bhname==cr['SDSSNAME'][i])[0][0]
+    gbh=np.where(bhname==cr['SDSSNAME'][i].strip())[0][0]
     numrow[i]=gbh
 outcr['numrow'],outcr['SDSSNAME'],outcr['ra'],outcr['dec'],outcr['cid']=numrow,cr['SDSSNAME'],cr['ra'],cr['dec'],cr['cid']
 np.savetxt('/home/rumbaugh/dr7_bh_match_only.csv',outcr,fmt='%i,%s,%f,%f,%i',header='NUMROW,SDSSNAME,RA,DEC,COADD_OBJECT_ID',comments='')
