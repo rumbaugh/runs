@@ -65,7 +65,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
     if SPrn!=-1:
         gSPy=np.where(cryse['cid']==cid)[0]
         gSPs=np.where(crse['cid']==cid)[0]
-        cur_dr7=crse['sdr7id'][gSPs[0 ]]
+        cur_dr7=crse['sdr7id'][gSPs[0]]
         curDBIDs=np.append(curDBIDs,'SDSSPOSS%i'%cur_dr7)
         DBID=curDBIDs[0]
         SDSSmjd,SDSScid=crse['mjd_SDSS'][gSPs],crse['cid'][gSPs]
