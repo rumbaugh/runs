@@ -14,7 +14,7 @@ sdr7ids[crmi['SP_ROWNUM']<0]='None'
 DBIDs,primDBID=np.zeros(len(crmi),dtype='|S128'),np.zeros(len(crmi),dtype='|S32')
 for comparr,srcarr,prefix in zip([crmi['MQ_ROWNUM'],crmi['SP_ROWNUM'],crmi['SDSSNAME']],[crmi['MQ_ROWNUM'],sdr7ids,crmi['SDSSNAME']],['MQ','SDSSPOSS','DR7BH']):
     for i in range(0,len(DBIDs)):
-        if comparr[i]!=-1:
+        if int(comparr[i])!=-1:
             if primDBID[i]=='': 
                 primDBID[i]='%s%s'%(prefix,str(srcarr[i]))
                 DBIDs[i]='%s%s'%(prefix,str(srcarr[i]))
