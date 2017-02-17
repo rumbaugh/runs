@@ -50,7 +50,6 @@ medPOSS_g,medPOSS_r,medPOSS_i=np.zeros(dblen),np.zeros(dblen),np.zeros(dblen)
 
 for idb,DBID,cid,tid,sdr7id,MQRN,SPRN,SDSSNAME,TILENAME in zip(np.arange(len(crdb)),crdb['DBID'],crdb['CID'],crdb['thingid'],crdb['sdr7id'],crdb['MQrownum'],crdb['SP_rownum'],crdb['SDSSNAME'],crdb['TILENAME']):
     db_cr=np.loadtxt('%s/%s/LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
-    MJDrange[idb]=np.max(db_cr['MJD'])-np.min(db_cr['MJD'])
     if MQRN>-1:
         redshifts[idb]=crmq2['Z'][MQRN]
         MQ_Descrip[idb],MQ_QP[idb]=crmq['Descrip'][MQRN].replace(' ',''),crmq['Qpct'][MQRN]
@@ -59,6 +58,9 @@ for idb,DBID,cid,tid,sdr7id,MQRN,SPRN,SDSSNAME,TILENAME in zip(np.arange(len(crd
     if SDSSNAME!='-1':
         gbh=np.where(bhname==SDSSNAME)[0][0]
         redshifts[idb]=bhz[gbh]
+    if len(db_cr)==0:
+        continue
+    MJDrange[idb]=np.max(db_cr['MJD'])-np.min(db_cr['MJD'])
     if cid>0:
         gdes=np.where(db_cr['Survey']=='DES')[0]
         #gmq=np.where(crMQP2['CID']==crdb['CID'][idb])[0]
