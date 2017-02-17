@@ -56,7 +56,7 @@ for idb,DBID,cid,tid,sdr7id,MQRN,SPRN,SDSSNAME,TILENAME in zip(np.arange(len(crd
         MQ_Descrip[idb],MQ_QP[idb]=crmq['Descrip'][MQRN].replace(' ',''),crmq['Qpct'][MQRN]
     if sdr7id!='None':
         redshifts[idb]=crsp['redshift'][SPRN]
-    if SDSSNAME!=-1:
+    if SDSSNAME!='-1':
         gbh=np.where(bhname==SDSSNAME)[0][0]
         redshifts[idb]=bhz[gbh]
     if cid>0:
