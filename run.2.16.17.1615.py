@@ -58,7 +58,7 @@ for idb,DBID,cid,tid,sdr7id,MQRN,SPRN,SDSSNAME,TILENAME in zip(np.arange(len(crd
     if SDSSNAME!='-1':
         gbh=np.where(bhname==SDSSNAME)[0][0]
         redshifts[idb]=bhz[gbh]
-    if len(db_cr)==0:
+    if np.shape(db_cr)==(0,):
         continue
     MJDrange[idb]=np.max(db_cr['MJD'])-np.min(db_cr['MJD'])
     if cid>0:
