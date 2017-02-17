@@ -10,7 +10,7 @@ cr=cr[gtid]
 
 outcr=np.zeros(np.shape(cr)[0]+2,dtype='|S120')
 outcr[0],outcr[1]='mkdir -p /home/rumbaugh/var_database/Y3A1/spec','cd /home/rumbaugh/var_database/Y3A1/spec'
-for i in range(0,len(outcr)):
+for i in range(0,len(outcr)-2):
     if cr[i][1]<1963:
         redux='26'
     elif cr[i][1]<3140:
