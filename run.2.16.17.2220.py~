@@ -1,0 +1,4 @@
+import numpy as np
+
+crc=np.loadtxt('/home/rumbaugh/radecname_forDEScutouts.2.9.17.csv',delimiter=',')
+crdt=np.loadtxt('/home/rumbaugh/var_database/Y3A1/imagestamps/matched_161c13c4-300f-4dc3-801e-682a0b7cc4db.csv',skiprows=1,delimiter=',',dtype={'names':('ra','dec','tile','fname'),'formats':('f8','f8','|S12','|S25')})
