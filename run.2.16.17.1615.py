@@ -81,7 +81,7 @@ for idb,DBID,cid,tid,sdr7id,MQRN,SPRN,SDSSNAME,TILENAME in zip(np.arange(len(crd
         numSDSS_g[idb],numSDSS_r[idb],numSDSS_i[idb],numSDSS_z[idb],numSDSS_u[idb]=len(gsdss[db_cr['BAND'][gsdss]=='g']),len(gsdss[db_cr['BAND'][gsdss]=='r']),len(gsdss[db_cr['BAND'][gsdss]=='i']),len(gsdss[db_cr['BAND'][gsdss]=='z']),len(gsdss[db_cr['BAND'][gsdss]=='u'])
         medSDSS_g[idb],medSDSS_r[idb],medSDSS_i[idb],medSDSS_z[idb],medSDSS_u[idb]=np.median(db_cr['MAG'][gsdss][db_cr['BAND'][gsdss]=='g']),np.median(db_cr['MAG'][gsdss][db_cr['BAND'][gsdss]=='r']),np.median(db_cr['MAG'][gsdss][db_cr['BAND'][gsdss]=='i']),np.median(db_cr['MAG'][gsdss][db_cr['BAND'][gsdss]=='z']),np.median(db_cr['MAG'][gsdss][db_cr['BAND'][gsdss]=='u'])
         #crsdss=np.loadtxt('%s/%s/SDSS_data.tab'%(DB_path,DBID),dtype={'names':('MJD','RA','DEC','OBJID','NUMROW','PSFMAG_U','PSFMAG_G','PSFMAG_R','PSFMAG_I','PSFMAG_Z','PSFMAGERR_U','PSFMAGERR_G','PSFMAGERR_R','PSFMAGERR_I','PSFMAGERR_Z','RUN','STRIPE','THINGID','MQ_ROWNUM','COADD_OBJECTS_ID','HPIX'),'formats':('f8','f8','f8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','i8','i8','i8','i8','i8')},skiprows=1)
-        if '82' in db_cr['Tag']: s82[idb]=1
+        if '82' in db_cr['TAG']: s82[idb]=1
         raSDSS[idb],decSDSS[idb]=np.mean(db_cr['RA'][gsdss]),np.mean(db_cr['DEC'][gsdss])
     if sdr7id!='None':
         #if gsp in inDES_SPs: CIDout[idb]=-1
