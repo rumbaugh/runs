@@ -7,9 +7,16 @@ crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names
 maxdrop=np.zeros(len(crdb))
 for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     cr=np.loadtxt('%s/Y3A1/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
+    if np.shape(cr)==(0,): continue
     ggood=np.where((cr['MAG']>15)&(cr['MAG']<30))[0]#&(cr['FLAG']<16))[0]
-    cr=cr[ggood]
-    mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
+    if np.shape(cr)==():
+        if len(ggood)<1:
+            continue
+        else:
+            mjd,mag,magerr,bands,survey=np.array([cr['MJD']]),np.array([cr['MAG']]),np.array([cr['MAGERR']]),np.array([cr['BAND']]),np.array([cr['Survey']])
+    else:
+        cr=cr[ggood]
+        mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
     for band in ['g','r','i','z']:
         gSDSS,gDES=np.where(survey[bands==band]=='SDSS')[0],np.where(survey[bands==band]=='DES')[0]
         if ((len(gSDSS)==0)|(len(gDES)==0)): continue
@@ -25,4 +32,4 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         if len(gsig)>0:maxdrop[idb]=np.max(magdiffs[gsig])
 outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','MaxDrop'),'formats':('|S64','f8')})
 outcr['DatabaseID'],outcr['MaxDrop']=crdb['DatabaseID'],maxdrop
-np.savetxt('/home/rumbaugh/var_database/max_mag_drop.dat',outcr,fmt='%s %f',header='DatabaseID MaxMagDrop',comments='')
+np.savetxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop.dat',outcr,fmt='%s %f',header='DatabaseID MaxMagDrop',comments='')
