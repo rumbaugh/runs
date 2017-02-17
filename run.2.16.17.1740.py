@@ -22,4 +22,4 @@ for comparr,srcarr,prefix in zip([crmi['MQ_ROWNUM'],crmi['SP_ROWNUM'],crmi['SDSS
                 DBIDs[i]='%s;%s%s'%(DBIDs[i],prefix,str(srcarr[i]))
 outcr=np.zeros((len(crmi),),dtype={'names':('DBID','DBIDS','MQ_ROWNUM','SP_ROWNUM','SDR7ID','SDSS_NAME','COADD_OBJECTS_ID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S32','|S32','i8','|S32')})
 outcr['DBID'],outcr['DBIDS'],outcr['MQ_ROWNUM'],outcr['SP_ROWNUM'],outcr['SDRyID'],outcr['SDSS_NAME'],outcr['COADD_OBJECTS_ID'],outcr['TILENAME']=primDBID,DBIDs,crmi['MQ_ROWNUM'],crmi['SP_ROWNUM'],sdr7ids,crmi['SDSS_NAME'],crmi['COADD_OBJECTS_ID'],crmi['TILENAME']
-np.savetxt('/home/rumbaugh/var_database/databaseIDs.dat',outcr,header=('PrimaryDatabaseID AllDatabaseIDs MQ_ROWNUM SP_ROWNUM SDR7ID SDSS_NAME COADD_OBJECTS_ID TILENAME'),fmt='%32s %128s %i %i %s %s %i %s',comments='') 
+np.savetxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',outcr,header=('PrimaryDatabaseID AllDatabaseIDs MQ_ROWNUM SP_ROWNUM SDR7ID SDSS_NAME COADD_OBJECTS_ID TILENAME'),fmt='%32s %128s %i %i %s %s %i %s',comments='') 
