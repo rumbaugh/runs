@@ -22,12 +22,12 @@ outcr=np.zeros((len(gooddes,)),dtype={'names':('RA','DEC','Name'),'formats':('f8
 outcr_radec=np.zeros((len(gooddes),2))
 outcr['RA'],outcr['DEC'],outcr['Name']=DESras[gooddes],DESdecs[gooddes],good_dbids[gooddes]
 outcr_radec[:,0],outcr_radec[:,1]=DESras[gooddes],DESdecs[gooddes]
-np.savetxt('/home/rumbaugh/radecname_forDEScutouts.2.9.17.csv',outcr,fmt='%f,%f,%s_DEScutout')
-np.savetxt('/home/rumbaugh/radec_forDEScutouts.2.9.17.csv',outcr_radec,fmt='%f,%f')
+np.savetxt('/home/rumbaugh/radecname_forDEScutouts.2.16.17.csv',outcr,fmt='%f,%f,%s_DEScutout')
+np.savetxt('/home/rumbaugh/radec_forDEScutouts.2.16.17.csv',outcr_radec,fmt='%f,%f')
 
 outcr=np.zeros((len(goodsdss,)),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S64')})
 outcr_radec=np.zeros((len(goodsdss),2))
 outcr['RA'],outcr['DEC'],outcr['Name']=SDSSras[goodsdss],SDSSdecs[goodsdss],good_dbids[goodsdss]
 outcr_radec[:,0],outcr_radec[:,1]=SDSSras[goodsdss],SDSSdecs[goodsdss]
-np.savetxt('/home/rumbaugh/radecname_forSDSScutouts.2.9.17.csv',outcr,fmt='%f,%f,%s_SDSScutout')
-np.savetxt('/home/rumbaugh/radec_forSDSScutouts.2.9.17.csv',outcr_radec,fmt='%f,%f')
+np.savetxt('/home/rumbaugh/radecname_forSDSScutouts.2.16.17.csv',outcr,fmt='%f,%f,%s_SDSScutout')
+np.savetxt('/home/rumbaugh/radec_forSDSScutouts.2.16.17.csv',outcr_radec,fmt='%f,%f')
