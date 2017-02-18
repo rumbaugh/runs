@@ -4,6 +4,7 @@ DB_path='/home/rumbaugh/var_database/Y3A1'
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
 POSSbands=np.array(['g','r','i'])
+execfile('/home/rumbaugh/SphDist.py')
 
 double_count_indexes=np.zeros(0,dtype='|S30')
 
@@ -23,7 +24,7 @@ gcrmi_match=np.where(crmi['COADD_OBJECTS_ID']>0)[0]
 crmim=crmi[gcrmi_match]
 
 dbi_out=np.zeros((0,7),dtype='object')
-
+maxdists=np.zeros(len(crmim))
 for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim))):
     outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
     Y3A1outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
@@ -79,7 +80,8 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
         for b,ib in zip(POSSbands,np.arange(len(POSSbands))):
             p_outcr['DatabaseID'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['Survey'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['SurveyCoaddID'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['SurveyObjectID'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['RA'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['DEC'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['MJD'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['TAG'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['BAND'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['MAGTYPE'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['MAG'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['MAGERR'][len(gSPs)*ib:len(gSPs)*(ib+1)],p_outcr['FLAG'][len(gSPs)*ib:len(gSPs)*(ib+1)]=DBID,'POSS','0','0',POSSra,POSSdec,POSSmjddict[b],'None',b,'PSF',POSSmagdict[b],POSSmagerrdict[b],0
             SDSS_outcr['DatabaseID'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['Survey'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['SurveyCoaddID'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['SurveyObjectID'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['RA'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['DEC'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['MJD'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['TAG'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['BAND'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['MAGTYPE'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['MAG'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['MAGERR'][len(gSPs)*ib:len(gSPs)*(ib+1)],SDSS_outcr['FLAG'][len(gSPs)*ib:len(gSPs)*(ib+1)]=DBID,'SDSS','DR7%i'%cur_dr7,'0',SDSSra,SDSSdec,SDSSmjd,'None',b,'PSF',SDSSmagdict[b],SDSSmagerrdict[b],0
-        outcr=np.append(p_outcr,SDSS_outcr)
+        sp_outcr=np.append(p_outcr,SDSS_outcr)
+        outcr=np.append(outcr,sp_outcr)
         if len(Y3A1outcr)==0:
             mjd,mag,magerr,magauto,magautoerr,cIDs,bands,yra,ydec,flags=cryse['mjd'][gSPy],cryse['mag'][gSPy],cryse['magerr'][gSPy],cryse['mag_auto'][gSPy],cryse['mag_auto_err'][gSPy],cryse['cid'][gSPy],cryse['band'][gSPy],cryse['ra'][gSPy],cryse['dec'][gSPy],cryse['flags'][gSPy]
             db_outcr=np.zeros((len(gSPy),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
@@ -124,9 +126,13 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
 
     np.savetxt('%s/%s/DES_data.tab'%(DB_path,DBID),des_outcr,fmt='%f %i %i %i %f %f %f %f %f %f %s',header=('MJD IMAGEID OBJECTID COADD_OBJECTS_ID RA DEC MAG_AUTO MAGERR_AUTO MAG_PSF MAGERR_PSF BAND'),comments='')
 
-    #print DBID, curid
-
+    maxra,maxdec,minra,mindec=np.max(outcr['RA']),np.max(outcr['DEC']),np.min(outcr['RA']),np.min(outcr['DEC'])
+    maxdists[imi]=SphDist(maxra,maxdec,minra,mindec)*60
+    if maxdists[imi]>100: print 'Maxdist of %.1f for %s'%(maxdists[imi],DBID)
     for curDBID in curDBIDs: dbi_out=np.append(dbi_out,np.array([[curDBID,cid,tid,cur_dr7,MQrn,SPrn,SDSSNAME]]),axis=0)
 f='/home/rumbaugh/var_database/Y3A1/database_index.dat'
 np.savetxt(f,dbi_out,fmt='%s %s %s %s %s %s %s',header='DatabaseID Y3A1_COADD_OBJECTS_ID SDSS_DR13_thingid SDR7ID MQ_ROWNUM SP_ROWNUM DR7_BH_SDSSNAME')
 #f.close()
+np.savetxt('/home/rumbaugh/database_maxdists_test.dat',maxdists)
+maxsortdists=np.sort(maxsortdists)
+print maxsortdists[-100:]

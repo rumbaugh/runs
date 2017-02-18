@@ -1,0 +1,8 @@
+import numpy as np
+cr=np.loadtxt('/home/rumbaugh/dr7_bh_y3a1_match.csv',dtype={'names':('SDSSNAME','ra','dec','hpix','cid'),'formats':('|S24','f8','f8','i8','i8')},skiprows=1,delimiter=',')
+for i in np.arange(len(cr)):cr['SDSSNAME'][i]=cr['SDSSNAME'][i].strip()
+cr=cr[np.argsort(cr['SDSSNAME']
+hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
+bhdata=hdubh[1].data
+bhz,bhname=bhdata['REDSHIFT'],bhdata['SDSS_NAME']
+numrow=np.zeros(len(outcr),dtype='i8')
