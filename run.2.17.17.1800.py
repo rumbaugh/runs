@@ -4,7 +4,7 @@ DB_path='/home/rumbaugh/var_database/Y3A1'
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
 POSSbands=np.array(['g','r','i'])
-execfile('/home/rumbaugh/SphDist.py')
+execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 
 double_count_indexes=np.zeros(0,dtype='|S30')
 
