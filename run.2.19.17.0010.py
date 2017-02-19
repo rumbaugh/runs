@@ -16,5 +16,5 @@ for DBID,idb in zip(cr['DatabaseID'][gdb],np.arange(len(gdb))):
     cr=cr[:maxid+1]
     np.savetxt('%s/%s/LC.tab'%(DB_path,DBID),cr,fmt=('%20s %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
     tarlist[idb]='Y3A1/%s/LC.tab'%DBID
-np.savetxt('/home/rumbaugh/var_database/tarlist.2.19.17.txt')
+np.savetxt('/home/rumbaugh/var_database/tarlist.2.19.17.txt',tarlist,fmt='%s')
     
