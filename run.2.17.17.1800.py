@@ -125,10 +125,10 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
     np.savetxt('%s/%s/LC.tab'%(DB_path,DBID),outcr,fmt=('%20s %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
 
     np.savetxt('%s/%s/DES_data.tab'%(DB_path,DBID),des_outcr,fmt='%f %i %i %i %f %f %f %f %f %f %s',header=('MJD IMAGEID OBJECTID COADD_OBJECTS_ID RA DEC MAG_AUTO MAGERR_AUTO MAG_PSF MAGERR_PSF BAND'),comments='')
-
-    maxra,maxdec,minra,mindec=np.max(outcr['RA']),np.max(outcr['DEC']),np.min(outcr['RA']),np.min(outcr['DEC'])
-    maxdists[imi]=SphDist(maxra,maxdec,minra,mindec)*60
-    if maxdists[imi]>100: print 'Maxdist of %.1f for %s'%(maxdists[imi],DBID)
+    if len(outcr)>0:
+        maxra,maxdec,minra,mindec=np.max(outcr['RA']),np.max(outcr['DEC']),np.min(outcr['RA']),np.min(outcr['DEC'])
+        maxdists[imi]=SphDist(maxra,maxdec,minra,mindec)*60
+        if maxdists[imi]>100: print 'Maxdist of %.1f for %s'%(maxdists[imi],DBID)
     for curDBID in curDBIDs: dbi_out=np.append(dbi_out,np.array([[curDBID,cid,tid,cur_dr7,MQrn,SPrn,SDSSNAME]]),axis=0)
 f='/home/rumbaugh/var_database/Y3A1/database_index.dat'
 np.savetxt(f,dbi_out,fmt='%s %s %s %s %s %s %s',header='DatabaseID Y3A1_COADD_OBJECTS_ID SDSS_DR13_thingid SDR7ID MQ_ROWNUM SP_ROWNUM DR7_BH_SDSSNAME')
