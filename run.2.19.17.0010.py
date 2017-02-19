@@ -11,7 +11,7 @@ tarlist=np.zeros(len(gdb),dtype='str')
 for DBID,idb in zip(cr['DatabaseID'][gdb],np.arange(len(gdb))):
     os.system('cp -r %s/%s %s/../bkup_2.19.17/.'%(DB_path,DBID,DB_path))
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
-    g=np.where(cr['Survey'] in ['POSS','SDSS'])[0]
+    g=np.where(cr['Survey']!='DES')[0]
     maxid=np.max(g)
     cr=cr[:maxid+1]
     np.savetxt('%s/%s/LC.tab'%(DB_path,DBID),cr,fmt=('%20s %20s %20s %20s %f %f %f %20s %12s %12s %f %f %i'),header=('DatabaseID Survey SurveyCoaddID SurveyObjectID RA DEC MJD TAG BAND MAGTYPE MAG MAGERR FLAG'),comments='')
