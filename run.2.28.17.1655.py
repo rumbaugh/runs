@@ -1,13 +1,13 @@
 import pyfits as py
 import numpy as np
 
-hdu=py.open('/home/rumbaugh/C1_lc.fits')
-data=hdu[1].data
 bands=['g','r','i','z']
 
 SNfields=np.array(['C1','C2','C3','E1','E2','S1','S2','X1','X2','X3'])
 outcr=np.zeros((0,),dtype={'names':('COADD_OBJECT_ID','RA','DEC','MJD','MAG_PSF','MAG_PSF_ERROR','MAG_AUTO','MAG_AUTO_ERROR','BAND','SN_FIELD','FLAGS'),'formats':('i8','f8','f8','f8','f8','f8','f8','f8','|S4','|S4','i8')})
 for SN in SNfields:
+    hdu=py.open('/home/rumbaugh/%s_lc.fits'%SN)
+    data=hdu[1].data
     outcr_dict= {b: np.zeros((len(data)*np.shape(data['LC_MJD_%s'%b.upper()])[1],),dtype={'names':('COADD_OBJECT_ID','RA','DEC','MJD','MAG_PSF','MAG_PSF_ERROR','MAG_AUTO','MAG_AUTO_ERROR','BAND','SN_FIELD','FLAGS'),'formats':('i8','f8','f8','f8','f8','f8','f8','f8','|S4','|S4','i8')}) for b in bands}
 
     for b in bands:
