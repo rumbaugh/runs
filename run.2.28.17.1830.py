@@ -6,7 +6,7 @@ try:
 except NameError:
     doload=True
 
-if doload: cr=np.loadtxt('/home/rumbaugh/Eric_LC_Y3A1_abridged.tab',dtype={'names':('COADD_OBJECT_ID','RA','DEC','MJD','MAG_PSF','MAG_PSF_ERROR','BAND','FLAGS'),'formats':('i8','f8','f8','f8','f8','f8','f8','f8','|S4','i8')},skiprows=1)
+if doload: cr=np.loadtxt('/home/rumbaugh/Eric_LC_Y3A1_abridged.tab',dtype={'names':('COADD_OBJECT_ID','RA','DEC','MJD','MAG_PSF','MAG_PSF_ERROR','BAND','FLAGS'),'formats':('i8','f8','f8','f8','f8','f8','|S4','i8')},skiprows=1)
 cr['MAG_PSF'][cr['MAG_PSF']==np.inf]=0
 cr['MAG_PSF'][cr['MAG_PSF']<-99]=0
 cr['MAG_PSF_ERROR'][cr['MAG_PSF_ERROR']>99]=0
