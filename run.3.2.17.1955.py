@@ -1,9 +1,12 @@
 import numpy as np
 DB_path='/home/rumbaugh/var_database/Y3A1'
 outputdir=DB_path
-#crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'names':('DatabaseID','Y3A1_COADD_OBJECTS_ID','SDSS_DR13_thingid','SDR7ID'),'formats':('|S64','|S64','|S64','|S64')})
+crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'names':('DatabaseID','Y3A1_COADD_OBJECTS_ID','SDSSNAME'),'formats':('|S64','|S64','|S64')},usecols=(0,1,6))
 
-crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
+name_prefs=np.array(crdb['DatabaseID'],dtype='|S2')
+crdb=crdb[name_prefs=='DR']
+
+#crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 maxdrop=np.zeros(len(crdb))
 for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
@@ -34,4 +37,4 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             if maxdiff>maxdrop[idb]:maxdrop[idb]=maxdiff
 outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','MaxDrop'),'formats':('|S64','f8')})
 outcr['DatabaseID'],outcr['MaxDrop']=crdb['DatabaseID'],maxdrop
-np.savetxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop.dat',outcr,fmt='%s %f',header='DatabaseID MaxMagDrop',comments='')
+np.savetxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.dat',outcr,fmt='%s %f',header='DatabaseID MaxMagDrop',comments='')
