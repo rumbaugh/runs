@@ -57,7 +57,8 @@ bhOIII,bhHB,bhFe=bhOIII[ggs],bhHB[ggs],bhFe[ggs]
 
 plt.figure(1)
 plt.clf()
-HBmin,HBmax,Femin,Femax=np.min(bhHB),np.max(bhHB),np.min(bhFe),np.max(bhFe)
+#HBmin,HBmax,Femin,Femax=np.min(bhHB),np.max(bhHB),np.min(bhFe),np.max(bhFe)
+HBmin,HBmax,Femin,Femax=0,10000,0,1000
 tsize=30
 HBbnds,Febnds=np.linspace(HBmin,HBmax,tsize+1),np.linspace(Femin,Femax,tsize+1)
 Fecens,HBcens=0.5*(Febnds[:-1]+Febnds[1:]),0.5*(HBbnds[:-1]+HBbnds[1:])
@@ -74,8 +75,8 @@ for i in np.arange(tsize):
 plt.contour(FeHB_pairs[0],FeHB_pairs[1],richness)
 plt.scatter(bhFeorig[ggd],bhHBorig[ggd],color='r',s=48)
 plt.scatter(bhFeorig[gegd],bhHBorig[gegd],color='magenta',marker='x',s=64)
-plt.xlabel('Redshift')
-plt.ylabel(r'$log\left(HB_{BOHB}\right)$')
+plt.xlabel('EW(Fe)')
+plt.ylabel(r'FWHM(H$\beta$)')
 #plt.xlim(Femin,Femax)
 #plt.ylim(HBmin,HBmax)
 plt.xlim(0,1000)
