@@ -1,0 +1,5 @@
+execfile('/home/rumbaugh/pythonscripts/plot_DB_lightcurves.py')
+
+crmd=np.loadtxt('/home/rumbaugh/DR7_CLQ_candidate_flags.dat',dtype={'names':('DBID','drop','flag'),'formats':('|S32','f8','i8')},skiprows=1)
+
+good_dbids=crmd['DBID'][crmd['flag']==1]
