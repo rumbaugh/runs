@@ -28,7 +28,7 @@ zcens,Lcens=0.5*(zbnds[:-1]+zbnds[1:]),0.5*(Lbnds[:-1]+Lbnds[1:])
 zsize,Lsize=zcens[1]-zcens[0],Lcens[1]-Lcens[0]
 zL_pairs=np.zeros((2,tsize**2))
 zL_pairs[0],zL_pairs[1]=np.repeat(zcens,len(Lcens)),np.tile(Lcens,len(zcens))
-richness=np.zeros(zL_pairs[0])
+richness=np.zeros(len(zL_pairs[0]))
 for i,z,L in zip(np.arange(len(richness)),zL_pairs[0],zL_pairs[1]):
     richness[i]=len(np.where((np.abs(bhz-z)<=0.5*zsize)&(np.abs(bhL-L)<=0.5*Lsize))[0])
 plt.contour(zL_pairs[0],zL_pairs[1],richness)
