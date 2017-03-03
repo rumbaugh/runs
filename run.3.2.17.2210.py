@@ -37,7 +37,7 @@ for i in np.arange(tsize):
         richness[i][j]=len(np.where((np.abs(cur_bhz-bhz)<=0.5*zsize)&(np.abs(cur_bhL-bhL)<=0.5*Lsize))[0])
 plt.contour(zL_pairs[0],zL_pairs[1],richness)
 plt.scatter(bhz[ggd],bhL[ggd],color='r',s=48)
-plt.scatter(bhz[gegd],bhL[gegd],color='magenta',marker='x',s=64)
+plt.scatter(bhz[gegd],bhL[gegd],color='magenta',marker='x',s=124)
 plt.xlabel('Redshift')
 plt.ylabel(r'$log\left(L_{BOL}\right)$')
 #plt.xlim(zmin,zmax)
@@ -73,8 +73,9 @@ for i in np.arange(tsize):
         cur_bhFe,cur_bhHB=FeHB_pairs[0][i][j],FeHB_pairs[1][i][j]
         richness[i][j]=len(np.where((np.abs(cur_bhFe-bhFe)<=0.5*Fesize)&(np.abs(cur_bhHB-bhHB)<=0.5*HBsize))[0])
 plt.contour(FeHB_pairs[0],FeHB_pairs[1],richness)
-plt.scatter(bhFeorig[ggd],bhHBorig[ggd],color='r',s=48)
-plt.scatter(bhFeorig[gegd],bhHBorig[gegd],color='magenta',marker='x',s=64)
+ggz,gegz=np.where((bhFeorig[ggd]>0)&(bhHBorig[ggd]>0))[0],np.where((bhFeorig[gegd]>0)&(bhHBorig[gegd]>0))[0]
+plt.scatter(bhFeorig[ggd[ggz]],bhHBorig[ggd[ggz]],color='r',s=48)
+plt.scatter(bhFeorig[gegd[gegz]],bhHBorig[gegd[gegz]],color='magenta',marker='x',s=124)
 plt.xlabel('EW(Fe)')
 plt.ylabel(r'FWHM(H$\beta$)')
 #plt.xlim(Femin,Femax)
