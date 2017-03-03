@@ -12,9 +12,9 @@ bhdata=bhdata[gl]
 bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
 
 ggd=np.zeros(len(good_dbids),dtype='i8')
-for i in range(0,len(ggd)): ggd[i]=np.where(bhname==good_dbids[i][4:])[0][0]
+for i in range(0,len(ggd)): ggd[i]=np.where(bhname==good_dbids[i][5:])[0][0]
 gegd=np.zeros(len(good_dbids),dtype='i8')
-for i in range(0,len(gegd)): gegd[i]=np.where(bhname==extra_good_dbids[i][4:])[0][0]
+for i in range(0,len(gegd)): gegd[i]=np.where(bhname==extra_good_dbids[i][5:])[0][0]
 
 
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
