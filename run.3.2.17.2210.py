@@ -26,11 +26,15 @@ tsize=30
 Lbnds,zbnds=np.linspace(Lmin,Lmax,tsize+1),np.linspace(zmin,zmax,tsize+1)
 zcens,Lcens=0.5*(zbnds[:-1]+zbnds[1:]),0.5*(Lbnds[:-1]+Lbnds[1:])
 zsize,Lsize=zcens[1]-zcens[0],Lcens[1]-Lcens[0]
-zL_pairs=np.zeros((2,tsize**2))
-zL_pairs[0],zL_pairs[1]=np.repeat(zcens,len(Lcens)),np.tile(Lcens,len(zcens))
-richness=np.zeros(len(zL_pairs[0]))
-for i,z,L in zip(np.arange(len(richness)),zL_pairs[0],zL_pairs[1]):
-    richness[i]=len(np.where((np.abs(bhz-z)<=0.5*zsize)&(np.abs(bhL-L)<=0.5*Lsize))[0])
+#zL_pairs=np.zeros((2,tsize**2))
+#zL_pairs[0],zL_pairs[1]=np.repeat(zcens,len(Lcens)),np.tile(Lcens,len(zcens))
+#richness=np.zeros(len(zL_pairs[0]))
+zL_pairs=np.meshgrid(zcens,Lcens)
+richness=np.zeros(np.shape(zL_pairs[0]))
+for i in np.arange(tsize):
+    for j in np.arange(tsize):
+        cur_bhz,cur_bhL=zL_pairs[0][i][j],zL_pairs[1][i][j]
+        richness[i][j]=len(np.where((np.abs(cur_bhz-z)<=0.5*zsize)&(np.abs(cur_bhL-L)<=0.5*Lsize))[0])
 plt.contour(zL_pairs[0],zL_pairs[1],richness)
 plt.scatter(bhz[ggd],bhL[ggd],color='r')
 plt.scatter(bhz[gegd],bhL[gegd],color='magenta',marker='x')
