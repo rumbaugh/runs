@@ -53,27 +53,27 @@ bhOIII,bhHB,bhFe=bhdata['EW_OIII_5007'],bhdata['FWHM_BROAD_HB'],bhdata['EW_FE_HB
 
 plt.figure(1)
 plt.clf()
-OIIImin,OIIImax,Femin,Femax=np.min(bhOIII),np.max(bhOIII),np.min(bhFe),np.max(bhFe)
+HBmin,HBmax,Femin,Femax=np.min(bhHB),np.max(bhHB),np.min(bhFe),np.max(bhFe)
 tsize=30
-OIIIbnds,Febnds=np.linspace(OIIImin,OIIImax,tsize+1),np.linspace(Femin,Femax,tsize+1)
-Fecens,OIIIcens=0.5*(Febnds[:-1]+Febnds[1:]),0.5*(OIIIbnds[:-1]+OIIIbnds[1:])
-Fesize,OIIIsize=Fecens[1]-Fecens[0],OIIIcens[1]-OIIIcens[0]
-#zOIII_pairs=np.zeros((2,tsize**2))
-#zOIII_pairs[0],zOIII_pairs[1]=np.repeat(zcens,len(OIIIcens)),np.tile(OIIIcens,len(zcens))
-#richness=np.zeros(len(zOIII_pairs[0]))
-FeOIII_pairs=np.meshgrid(Fecens,OIIIcens)
-richness=np.zeros(np.shape(FeOIII_pairs[0]))
+HBbnds,Febnds=np.linspace(HBmin,HBmax,tsize+1),np.linspace(Femin,Femax,tsize+1)
+Fecens,HBcens=0.5*(Febnds[:-1]+Febnds[1:]),0.5*(HBbnds[:-1]+HBbnds[1:])
+Fesize,HBsize=Fecens[1]-Fecens[0],HBcens[1]-HBcens[0]
+#zHB_pairs=np.zeros((2,tsize**2))
+#zHB_pairs[0],zHB_pairs[1]=np.repeat(zcens,len(HBcens)),np.tile(HBcens,len(zcens))
+#richness=np.zeros(len(zHB_pairs[0]))
+FeHB_pairs=np.meshgrid(Fecens,HBcens)
+richness=np.zeros(np.shape(FeHB_pairs[0]))
 for i in np.arange(tsize):
     for j in np.arange(tsize):
-        cur_bhFe,cur_bhOIII=FeOIII_pairs[0][i][j],FeOIII_pairs[1][i][j]
-        richness[i][j]=len(np.where((np.abs(cur_bhFe-bhFe)<=0.5*Fesize)&(np.abs(cur_bhOIII-bhOIII)<=0.5*OIIIsize))[0])
-plt.contour(FeOIII_pairs[0],FeOIII_pairs[1],richness)
-plt.scatter(bhFe[ggd],bhOIII[ggd],color='r')
-plt.scatter(bhFe[gegd],bhOIII[gegd],color='magenta',marker='x')
+        cur_bhFe,cur_bhHB=FeHB_pairs[0][i][j],FeHB_pairs[1][i][j]
+        richness[i][j]=len(np.where((np.abs(cur_bhFe-bhFe)<=0.5*Fesize)&(np.abs(cur_bhHB-bhHB)<=0.5*HBsize))[0])
+plt.contour(FeHB_pairs[0],FeHB_pairs[1],richness)
+plt.scatter(bhFe[ggd],bhHB[ggd],color='r')
+plt.scatter(bhFe[gegd],bhHB[gegd],color='magenta',marker='x')
 plt.xlabel('Redshift')
-plt.ylabel(r'$log\left(OIII_{BOOIII}\right)$')
+plt.ylabel(r'$log\left(HB_{BOHB}\right)$')
 plt.xlim(Femin,Femax)
-plt.ylim(OIIImin,OIIImax)
+plt.ylim(HBmin,HBmax)
 #plt.xlim(0,3.5)
 #plt.ylim(44.75,47.4)
-plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/OIII-Fe_plot.DR7_CLQ_candidates.3.2.17.png')
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/HB-Fe_plot.DR7_CLQ_candidates.3.2.17.png')
