@@ -58,7 +58,7 @@ bhOIII,bhHB,bhFe=bhOIII[ggs],bhHB[ggs],bhFe[ggs]
 plt.figure(1)
 plt.clf()
 #HBmin,HBmax,Femin,Femax=np.min(bhHB),np.max(bhHB),np.min(bhFe),np.max(bhFe)
-HBmin,HBmax,Femin,Femax=0,10000,0,1000
+HBmin,HBmax,Femin,Femax=0,10000,0,200
 tsize=30
 HBbnds,Febnds=np.linspace(HBmin,HBmax,tsize+1),np.linspace(Femin,Femax,tsize+1)
 Fecens,HBcens=0.5*(Febnds[:-1]+Febnds[1:]),0.5*(HBbnds[:-1]+HBbnds[1:])
@@ -80,6 +80,6 @@ plt.xlabel('EW(Fe)')
 plt.ylabel(r'FWHM(H$\beta$)')
 #plt.xlim(Femin,Femax)
 #plt.ylim(HBmin,HBmax)
-plt.xlim(0,1000)
+plt.xlim(0,200)
 plt.ylim(0,10000)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/HB-Fe_plot.DR7_CLQ_candidates.3.2.17.png')
