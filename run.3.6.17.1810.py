@@ -9,7 +9,7 @@ np.savetxt('/home/rumbaugh/Eric_LC_Y3A1_abridged.tab',outcr,header='COADD_OBJECT
 
 for SN in SNfields:
     FILE=open('/home/rumbaugh/runs/run.3.6.17.1810_%s.py'%SN,'w')
-    FILE.write('import numpy as np\nimport pyfits as py\nSN=%s\n'%SN)
+    FILE.write('import numpy as np\nimport pyfits as py\nSN="%s"\n'%SN)
     FILE.write("bands=['g','r','i','z']")
     FILE.write('\n')
     FILE.write("hdu=py.open('/home/rumbaugh/%s_lc.fits'%SN)")
