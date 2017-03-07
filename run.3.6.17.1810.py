@@ -16,8 +16,7 @@ for SN in SNfields:
     FILE.write('\n')
     FILE.write("data=hdu[1].data")
     FILE.write('\n')
-    FILE.write("outcr_dict= {b: np.zeros((len(data)*np.shape(data['LC_MJD_%s'%b.upper()])[1],),dtype={'names':('COADD_OBJECT_ID','RA','DEC','MJD','MAG_PSF','MAG_PSF_ERROR','BAND','FLAGS'),'formats':('i8','f8','f8','f8','f8','f8','|S4','i8')}) for b in bands}
-")
+    FILE.write("outcr_dict= {b: np.zeros((len(data)*np.shape(data['LC_MJD_%s'%b.upper()])[1],),dtype={'names':('COADD_OBJECT_ID','RA','DEC','MJD','MAG_PSF','MAG_PSF_ERROR','BAND','FLAGS'),'formats':('i8','f8','f8','f8','f8','f8','|S4','i8')}) for b in bands}")
     FILE.write('\n')
     FILE.write("for b in bands:")
     FILE.write('\n')
