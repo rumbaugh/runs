@@ -5,7 +5,7 @@ bands=['g','r','i','z']
 
 SNfields=np.array(['C1','C2','C3','E1','E2','S1','S2','X1','X2','X3'])
 outcr=np.zeros((0,),dtype={'names':('COADD_OBJECT_ID','RA','DEC','MJD','MAG_PSF','MAG_PSF_ERROR','MAG_AUTO','MAG_AUTO_ERROR','BAND','SN_FIELD','FLAGS'),'formats':('i8','f8','f8','f8','f8','f8','f8','f8','|S4','|S4','i8')})
-np.savetxt('/home/rumbaugh/Eric_LC_Y3A1_abridged.tab',outcr,header='COADD_OBJECT_ID RA DEC MJD MAG_PSF MAG_PSF_ERROR BAND FLAGS',comments='')
+np.savetxt('/home/rumbaugh/Eric_LC_Y3A1_abridged0.tab',outcr,header='COADD_OBJECT_ID RA DEC MJD MAG_PSF MAG_PSF_ERROR BAND FLAGS',comments='')
 
 for SN in SNfields:
     FILE=open('/home/rumbaugh/runs/run.3.6.17.1810_%s.py'%SN,'w')
@@ -40,7 +40,15 @@ for SN in SNfields:
     FILE.write('\n')
     FILE.write("outcr['MAG_PSF_ERROR'][np.isnan(outcr['MAG_PSF_ERROR'])]=0")
     FILE.write('\n')
-    FILE.write("outcr['MAG_PSF'][outcr['MAG_PSF']]=0")
+    FILE.write("outcr['MAG_AUTO'][outcr['MAG_AUTO']==np.inf]=0")
+    FILE.write('\n')
+    FILE.write("outcr['MAG_AUTO'][outcr['MAG_AUTO']<-99]=0")
+    FILE.write('\n')
+    FILE.write("outcr['MAG_AUTO_ERROR'][outcr['MAG_AUTO_ERROR']>99]=0")
+    FILE.write('\n')
+    FILE.write("outcr['MAG_AUTO'][np.isnan(outcr['MAG_AUTO'])]=0")
+    FILE.write('\n')
+    FILE.write("outcr['MAG_AUTO_ERROR'][np.isnan(outcr['MAG_AUTO_ERROR'])]=0")
     FILE.write('\n')
     FILE.write("np.savetxt('/home/rumbaugh/Eric_LC_%s.tab'%SN,outcr,fmt='%i %f %f %f %f %f %4s %i')")
     FILE.close()
