@@ -1,7 +1,6 @@
 import numpy as np
-import os
-os.chdir('/home/rumbaugh/pydl')
 import pydl
+pydl.test()
 
 fname='/home/rumbaugh/master_QSO_S82.dat'
 mdict={'names':('DR5ID','RA','DEC','Redshift','umag','umagerr','gmag','gmagerr','rmag','rmagerr','imag','imagerr','zmag','zmagerr','Au','lohHI','20mag','F-SN','S-Fsep','F1Flag','F2Flag','logX','X-SN','S-XSep','Jmag','Jmagerr','Hmag','Hmagerr','Kmag','Kmagerr','S-2Sep','iMag','D(g-i)','Morph','SPFlag','SMFlag','UTSFlag','B-TSFlag','Blowz','Bhiz','BFFlag','BRFlag','BSFlag','B-*Flag','BGFlag','RNum','PMJD','SMJD','SPNum','SFNum','rerun','CCol','Frame','ONum','TTsFlag','Tlowz','Thiz','TFFlag','TRFlag','TSFlag','T-*Flag','TGFlag','T-umag','T-umagerr','T-gmag','T-gmagerr','T-rmag','T-rmagerr','T-imag','T-imagerr','T-zmag','T-zmagerr','SpOID','OName'),'formats':('|S20','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','|S28')}
@@ -21,4 +20,6 @@ print len(gm)
 gm=np.where((crmi['COADD_OBJECTS_ID'][gs[sout[0]]]>0)&(crmi['TILENAME'][gs[sout[0]]]=='None'))[0]
 print len(gm)
 gm=np.where((crmi['COADD_OBJECTS_ID'][gs[sout[0]]]==0)&(crmi['TILENAME'][gs[sout[0]]]!='None'))[0]
+print len(gm)
+gm=np.where((crmi['COADD_OBJECTS_ID'][gs[sout[0]]]>=0)&(crmi['TILENAME'][gs[sout[0]]]!='None'))[0]
 print len(gm)
