@@ -1,0 +1,1 @@
+cat Eric_LC_Y3A1_abridged0.tab Eric_LC_C1.csv Eric_LC_C2.csv Eric_LC_C3.csv Eric_LC_E1.csv Eric_LC_E2.csv Eric_LC_S1.csv Eric_LC_S2.csv Eric_LC_X1.csv Eric_LC_X2.csv Eric_LC_X3.csv >> Eric_LC_Y3A1_abridged.csv
