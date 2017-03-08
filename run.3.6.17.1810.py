@@ -50,5 +50,5 @@ for SN in SNfields:
     FILE.write('\n')
     FILE.write("outcr['MAG_AUTO_ERROR'][np.isnan(outcr['MAG_AUTO_ERROR'])]=0")
     FILE.write('\n')
-    FILE.write("np.savetxt('/home/rumbaugh/Eric_LC_%s.tab'%SN,outcr,fmt='%i %f %f %f %f %f %4s %i')")
+    FILE.write("np.savetxt('/home/rumbaugh/Eric_LC_%s.tab'%SN,outcr,fmt='%i %f %f %f %f %f %f %f %4s %4s %i')")
     FILE.close()
