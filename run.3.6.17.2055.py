@@ -1,4 +1,6 @@
 import numpy as np
+import os
+os.chdir('/home/rumbaugh/pydl')
 import pydl
 
 fname='/home/rumbaugh/master_QSO_S82.dat'
