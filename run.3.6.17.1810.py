@@ -39,5 +39,5 @@ for SN in SNfields:
     FILE.write("outcr['MAG_PSF'][np.isnan(outcr['MAG_PSF'])]=0")
     FILE.write('\n')
     FILE.write("outcr['MAG_PSF_ERROR'][np.isnan(outcr['MAG_PSF_ERROR'])]=0")
-    FILE.write("np.savetxt('/home/rumbaugh/Eric_LC_%s.tab'%SN,outcr,fmt='%i %f %f %f %f %f %4s %i')")
+    FILE.write("np.savetxt('/home/rumbaugh/Eric_LC_%s.csv'%SN,outcr,fmt='%i,%f,%f,%f,%f,%f,%4s,%i')")
     FILE.close()
