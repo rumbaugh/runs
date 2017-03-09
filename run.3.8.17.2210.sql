@@ -1,0 +1,1 @@
+SELECT r.SDSS_NAME,e.COADD_OBJECT_ID,e.mjd,e.RA,e.DEC,e.mag_psf,e.MAG_PSF_ERROR as MAGERR_PSF,e.band,e.flags FROM rumbaugh.dr7_bh_y3a1_match_pass2 r,rumbaugh.ERIC_LC_Y3A1_ABRIDGED e where e.coadd_object_id=r.coadd_objects_id; >dr7_bh_lightcurve_entries_y3a1_SN.tab
