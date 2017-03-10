@@ -51,4 +51,6 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             surveys_max[idb]=np.array([surv_st,surv_end])
 outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','MaxDrop','SurvST','SurvEnd','S82'),'formats':('|S64','f8','|S8','|S8','i8')})
 outcr['DatabaseID'],outcr['MaxDrop'],outcr['SurvST'],outcr['SurvEnd'],outcr['S82']=crdb['DatabaseID'],maxdrop,surveys_max[:,0],surveys_max[:,1],s82flag
+outcr['SurvST'][outcr['SurvST']=='']='None'
+outcr['SurvEnd'][outcr['SurvEnd']=='']='None'
 np.savetxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.8.17.dat',outcr,fmt='%24s %6.3f %4s %4s %i',header='DatabaseID MaxMagDrop SurveyInit SurveyFinal Stripe82',comments='')
