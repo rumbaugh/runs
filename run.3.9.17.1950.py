@@ -13,7 +13,7 @@ surveys_max=np.zeros((len(crdb),2),dtype='|S8')
 for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     if np.shape(cr)==(0,): continue
-    ggood=np.where((cr['MAG']>15)&(cr['MAG']<30)&(cr['Survey')!='POSS'))[0]#&(cr['FLAG']<16))[0]
+    ggood=np.where((cr['MAG']>15)&(cr['MAG']<30)&(cr['Survey']!='POSS'))[0]#&(cr['FLAG']<16))[0]
     SNflag=False
     if np.shape(cr)==():
         if len(ggood)<1:
