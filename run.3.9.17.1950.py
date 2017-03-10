@@ -35,7 +35,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         magpairs[:,1],magpairs[:,0]=np.repeat(mag[gb],len(gb)),np.tile(mag[gb],len(gb))
         magerrpairs=np.zeros((len(gb)**2,2))
         magerrpairs[:,1],magerrpairs[:,0]=np.repeat(magerr[gb],len(gb)),np.tile(magerr[gb],len(gb))
-        gpairs=np.zeros((len(gb)**2,2))
+        gpairs=np.zeros((len(gb)**2,2),dtype='i8')
         gpairs[:,1],gpairs[:,0]=np.repeat(gb,len(gb)),np.tile(gb,len(gb))
         magdiffs,differrs,maxerrs=magpairs[:,0]-magpairs[:,1],np.sqrt(np.sum(magerrpairs**2,axis=1)),np.max(magerrpairs,axis=1)
         diffsigs=magdiffs/differrs
