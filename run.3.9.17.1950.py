@@ -23,7 +23,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     else:
         cr=cr[ggood]
         mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
-        gb=np.where(bands=='g')
+        gb=np.where(bands=='g')[0]
         if len(cr)>1:
             initdists=SphDist(cr['RA'][0],cr['DEC'][0],cr['RA'][1:],cr['DEC'][1:])
             if np.max(initdists)>0.3: SNflag=True
