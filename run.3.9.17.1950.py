@@ -44,7 +44,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             maxdiff=np.max(magdiffs[gsig])
             gmax=np.argsort(magdiffs[gsig])[-1]
             gst,gend=gpairs[:,1][gmax],gpairs[:,0][gmax]
-            mjd_st,mjd_end,surv_st,surv_end=mjd[gb[gst]],mjd[gb[gend]],survey[gb[gst]],survey[gb[gend]]
+            mjd_st,mjd_end,surv_st,surv_end=mjd[gst],mjd[gend],survey[gst],survey[gend]
             if mjd_st>mjd_end:
                 surv_st,surv_end,maxdiff=surv_end,surv_st,-maxdiff
             maxdrop[idb]=maxdiff
