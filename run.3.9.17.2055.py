@@ -1,10 +1,10 @@
 execfile('/home/rumbaugh/pythonscripts/plot_DB_lightcurves.py')
 
-crdb=np.loadtxt('%s/database_index.dat'%DBdir,dtype={'names':('DBID','CID','thingid','sdr7id','MQrownum','SPrownum','SDSSNAME'),'formats':('|S64','i8','i8','|S24','i8','i8','|S64')})
+crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat'%DBdir,dtype={'names':('DBID','CID','thingid','sdr7id','MQrownum','SPrownum','SDSSNAME'),'formats':('|S64','i8','i8','|S24','i8','i8','|S64')})
 
 crmd=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.8.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82'),'formats':('|S32','f8','|S8','|S8','i8')},skiprows=1)
 
-hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits'%DBdir)
+hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
 data=hdu[1].data
 good_dbids=crmd['DBID'][np.abs(crmd['drop'])>=1]
 realgood=np.zeros(len(good_dbids),dtype='i8')
