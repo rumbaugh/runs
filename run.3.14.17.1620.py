@@ -1,6 +1,7 @@
 import numpy as np
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 DB_path='/home/rumbaugh/var_database/Y3A1'
+DBdir='/home/rumbaugh/var_database/Y3A1'
 outputdir=DB_path
 #crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'names':('DatabaseID','Y3A1_COADD_OBJECTS_ID','SDSSNAME'),'formats':('|S64','|S64','|S64')},usecols=(0,1,6))
 
