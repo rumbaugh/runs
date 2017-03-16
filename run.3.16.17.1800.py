@@ -24,7 +24,7 @@ gmf_dr7=np.where(data['SDSSNAME']!='-1')[0]
 cr=np.loadtxt('/home/rumbaugh/var_database/Y3A1/CLQ_candidates_DR7.3.8.17.dat',dtype={'names':('DBID','drop','S1','S2','S82','flag'),'formats':('|S24','f8','|S4','|S4','i8','i8')},skiprows=1)
 gmf=np.zeros(len(cr),dtype='i8')
 for i in range(0,len(gmf)):
-    PDBID=PrimaryDBID_dict[cr['DBID']]
+    PDBID=PrimaryDBID_dict[cr['DBID'][gmf[i]]]
     gp=np.where(data['DatabaseID']==PDBID)[0]
     gmf[i]=gp[0]
 medu,medg,medr,medi,medz=data['med_SDSS_u'][gmf],data['med_SDSS_g'][gmf],data['med_SDSS_r'][gmf],data['med_SDSS_i'][gmf],data['med_SDSS_z'][gmf]
