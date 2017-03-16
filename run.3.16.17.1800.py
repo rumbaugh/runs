@@ -10,7 +10,7 @@ gdb=np.where(crdb['SDSSNAME']!='-1')[0]
 PrimaryDBID_dict={}
 for i in range(0,len(gdb)):
     PrimaryDBID=crdb['DatabaseID'][gdb[i]]
-    AllDBIDs = cr['DBIDs'][gdb[i]]
+    AllDBIDs = crdb['DBIDS'][gdb[i]]
     AllDBIDs=AllDBIDs.split(';')
     for DBID in AllDBIDs:
         if DBID[:2]=='DR': PrimaryDBID_dict[DBID]=PrimaryDBID
