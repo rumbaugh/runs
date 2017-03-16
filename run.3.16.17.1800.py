@@ -1,9 +1,37 @@
 execfile('/home/rumbaugh/pythonscripts/plot_DB_lightcurves.py')
 import pyfits as py
 
+hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
+data=hdu[1].data
+
+crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
+
+gdb=np.where(crdb['SDSSNAME']!='-1')[0]
+PrimaryDBID_dict={}
+for i in range(0,len(gdb)):
+    PrimaryDBID=crdb['DatabaseID'][gdb[i]]
+    AllDBIDs = cr['DBIDS'][gdb[i]]
+    AllDBIDs=AllDBIDs.split(';')
+    for DBID in AllDBIDs:
+        if DBID[:2]=='DR': PrimaryDBID_dict[DBID]=PrimaryDBID
+    try:
+        PrimaryDBID_dict[DBID]
+    except KeyError:
+        print "Couldn't find DBID for "+PrimaryDBID
+
+gmf_dr7=np.where(data['SDSSNAME']!='-1')[0]
+
 cr=np.loadtxt('/home/rumbaugh/var_database/Y3A1/CLQ_candidates_DR7.3.8.17.dat',dtype={'names':('DBID','drop','S1','S2','S82','flag'),'formats':('|S24','f8','|S4','|S4','i8','i8')},skiprows=1)
+gmf=np.zeros(len(cr),dtype='i8')
+for i in range(0,len(gmf)):
+    PDBID=PrimaryDBID_dict[cr['DBID']]
+    gp=np.where(data['DatabaseID']==PDBID)[0]
+    gmf[i]=gp[0]
+medu,medg,medr,medi,medz=data['med_SDSS_u'][gmf],data['med_SDSS_g'][gmf],data['med_SDSS_r'][gmf],data['med_SDSS_i'][gmf],data['med_SDSS_z'][gmf]
+medu_all,medg_all,medr_all,medi_all,medz_all=data['med_SDSS_u'][gmf_dr7],data['med_SDSS_g'][gmf_dr7],data['med_SDSS_r'][gmf_dr7],data['med_SDSS_i'][gmf_dr7],data['med_SDSS_z'][gmf_dr7]
 
 crmd=cr[cr['flag']==0]
+gmf_md=gmf[cr['flag']==0]
 
 good_dbids=crmd['DBID'][crmd['flag']==0]
 extra_good_dbids=crmd['DBID'][(crmd['flag']==0)&(crmd['drop']>1.5)]
@@ -91,3 +119,14 @@ plt.ylabel(r'FWHM(H$\beta$)')
 plt.xlim(0,200)
 plt.ylim(0,10000)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/HB-Fe_plot.DR7_CLQ_candidates.3.16.17.png')
+
+
+plt.figure(1)
+plt.clf()
+plt.scatter(medr_all-medi_all,medu_all-medg_all,color='k',s=6)
+plt.scatter(medr[cr['flag']==0]-medi[cr['flag']==0],medu[cr['flag']==0]-medg[cr['flag']==0],color='green',s=48)
+plt.scatter(medr[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medi[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],color='magenta',s=50)
+plt.scatter(medr[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medi[(cr['flag']==0)&(np.abs(cr['drop'])>2)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)],color='red',s=52)
+plt.xlabel('r-i')
+plt.ylabel('u-g')
+plt.savefig('home/rumbaugh/var_database/Y3A1/plots/u-g_vs_r-i.DR7_CLQ_candidates.3.16.17.png')
