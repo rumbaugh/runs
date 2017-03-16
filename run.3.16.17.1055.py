@@ -1,4 +1,5 @@
 import numpy as np
+import pyfits as py
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 DB_path='/home/rumbaugh/var_database/Y3A1'
 DBdir='/home/rumbaugh/var_database/Y3A1'
@@ -79,4 +80,4 @@ g_max[:,0][gswap],g_max[:,1][gswap],sig_max[:,0][gswap],sig_max[:,1][gswap],mjd_
 #outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','RA','DEC','Redshift','MJD_lo','g_lo','sig_lo','MJD_hi','g_hi','sig_hi'),'formats':('|S64','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
 outcr=np.zeros((len(crdb),),dtype={'names':('RA','DEC','Redshift','MJD_lo','g_lo','sig_lo','MJD_hi','g_hi','sig_hi'),'formats':('f8','f8','f8','f8','f8','f8','f8','f8','f8')})
 outcr['RA'],outcr['DEC'],outcr['Redshift'],outcr['MJD_lo'],outcr['g_lo'],outcr['sig_lo'],outcr['MJD_hi'],outcr['g_hi'],outcr['sig_hi']=ra,dec,redshifts,mjd_max[:,0],g_max[:,0],sig_max[:,0],mjd_max[:,1],g_max[:,1],sig_max[:,1]
-np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs.3.16.17.tab',outcr,header='RA DEC Redshift MJD_lo g_lo sig_lo MJD_hi g_hi sig_hi')
+np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs.3.16.17.tab',outcr,header='RA DEC Redshift MJD_lo g_lo sig_lo MJD_hi g_hi sig_hi',fmt='%f %f %f %f %f %f %f %f %f')
