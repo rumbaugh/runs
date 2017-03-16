@@ -7,7 +7,7 @@ cr=cr[cr['flag']==0]
 
 plt.figure(1)
 plt.clf()
-plt.hist(np.abs(cr['drop']),range=(0,3.25),bins=13)
+plt.hist(np.abs(cr['drop']),range=(1,3.125),bins=17)
 plt.xlabel('Magnitude Change')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MagDropPlot.CLQ_candidates.DR7.3.16.17.png')
