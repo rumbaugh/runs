@@ -152,3 +152,32 @@ plt.ylabel('u-g')
 plt.xlim(-0.5,1.2)
 plt.ylim(-0.5,4)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_r-i.DR7_CLQ_candidates.3.16.17.png')
+
+
+plt.figure(1)
+plt.clf()
+bhri,bhz=medr_all-medi_all,medu_all-medg_all
+plt.scatter(medg_all-medr_all,medu_all-medg_all,color='k',s=2,edgecolor='None',marker='.')
+rimin,rimax,zmin,zmax=np.min(medr_all-medi_all),np.max(medr_all-medi_all),np.min(medu_all-medg_all),np.max(medu_all-medg_all)
+tsize=30
+ribnds,zbnds=np.linspace(rimin,rimax,tsize+1),np.linspace(zmin,zmax,tsize+1)
+zcens,ricens=0.5*(zbnds[:-1]+zbnds[1:]),0.5*(ribnds[:-1]+ribnds[1:])
+zsize,risize=zcens[1]-zcens[0],ricens[1]-ricens[0]
+#zL_pairs=np.zeros((2,tsize**2))
+#zL_pairs[0],zL_pairs[1]=np.repeat(zcens,len(Lcens)),np.tile(Lcens,len(zcens))
+#richness=np.zeros(len(zL_pairs[0]))
+zri_pairs=np.meshgrid(zcens,ricens)
+richness=np.zeros(np.shape(zri_pairs[0]))
+for i in np.arange(tsize):
+    for j in np.arange(tsize):
+        cur_bhz,cur_bhri=zri_pairs[0][i][j],zri_pairs[1][i][j]
+        richness[i][j]=len(np.where((np.abs(cur_bhz-bhz)<=0.5*zsize)&(np.abs(cur_bhri-bhri)<=0.5*risize))[0])
+plt.contour(zri_pairs[0],zri_pairs[1],richness)
+plt.scatter(medr[cr['flag']==0]-medi[cr['flag']==0],medu[cr['flag']==0]-medg[cr['flag']==0],color='green',s=clqsize/2)
+plt.scatter(medr[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medi[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],color='magenta',s=clqsize/2+2)
+plt.scatter(medr[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medi[(cr['flag']==0)&(np.abs(cr['drop'])>2)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)],color='red',s=clqsize/2+4)
+plt.xlabel('g-r')
+plt.ylabel('u-g')
+plt.xlim(-0.5,1.2)
+plt.ylim(-0.5,4)
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_g-r.DR7_CLQ_candidates.3.16.17.png')
