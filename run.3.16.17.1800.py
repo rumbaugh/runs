@@ -57,6 +57,20 @@ execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 
 plt.figure(1)
 plt.clf()
+plt.scatter(np.abs(cr['drop'][cr['flag']==0]),bhL[ggd])
+plt.xlabel('Magnitude Drop')
+plt.ylabel(r'$log\left(L_{BOL}\right)$')
+#plt.xlim(zmin,zmax)
+#plt.ylim(Lmin,Lmax)
+plt.xlim(0.99,3.2)
+plt.ylim(44.75,47.4)
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/magdrop-lum_plot.DR7_CLQ_candidates.3.16.17.png')
+
+
+execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
+
+plt.figure(1)
+plt.clf()
 Lmin,Lmax,zmin,zmax=np.min(bhL),np.max(bhL),np.min(bhz),np.max(bhz)
 tsize=30
 Lbnds,zbnds=np.linspace(Lmin,Lmax,tsize+1),np.linspace(zmin,zmax,tsize+1)
