@@ -172,7 +172,7 @@ plt.figure(1)
 plt.clf()
 bhri,bhz=medr_all-medi_all,medu_all-medg_all
 plt.scatter(medg_all-medr_all,medu_all-medg_all,color='k',s=2,edgecolor='None',marker='.')
-rimin,rimax,zmin,zmax=np.min(medr_all-medi_all),np.max(medr_all-medi_all),np.min(medu_all-medg_all),np.max(medu_all-medg_all)
+rimin,rimax,zmin,zmax=np.min(medg_all-medr_all),np.max(medg_all-medr_all),np.min(medu_all-medg_all),np.max(medu_all-medg_all)
 tsize=30
 ribnds,zbnds=np.linspace(rimin,rimax,tsize+1),np.linspace(zmin,zmax,tsize+1)
 zcens,ricens=0.5*(zbnds[:-1]+zbnds[1:]),0.5*(ribnds[:-1]+ribnds[1:])
@@ -187,6 +187,33 @@ for i in np.arange(tsize):
         cur_bhz,cur_bhri=zri_pairs[0][i][j],zri_pairs[1][i][j]
         richness[i][j]=len(np.where((np.abs(cur_bhz-bhz)<=0.5*zsize)&(np.abs(cur_bhri-bhri)<=0.5*risize))[0])
 plt.contour(zri_pairs[0],zri_pairs[1],richness)
+plt.scatter(medg[cr['flag']==0]-medr[cr['flag']==0],medu[cr['flag']==0]-medg[cr['flag']==0],color='green',s=clqsize/2)
+plt.scatter(medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medr[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],color='magenta',s=clqsize/2+2)
+plt.scatter(medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medr[(cr['flag']==0)&(np.abs(cr['drop'])>2)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)],color='red',s=clqsize/2+4)
+plt.xlabel('g-r')
+plt.ylabel('u-g')
+plt.xlim(-0.5,1.2)
+plt.ylim(-0.5,4)
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_g-r.DR7_CLQ_candidates.3.16.17.png')
+
+
+
+plt.figure(1)
+plt.clf()
+bhL,bhug=medr_all-medi_all,medu_all-medg_all
+plt.scatter(bhug,bhL,color='k',s=2,edgecolor='None',marker='.')
+ugmin,ugmax,Lmin,Lmax=np.min(medu_all-medg_all),np.max(medu_all-medg_all),np.min(bhL),np.max(bhL)
+tsize=30
+ugbnds,Lbnds=np.linspace(ugmin,ugmax,tsize+1),np.linspace(Lmin,Lmax,tsize+1)
+Lcens,ugcens=0.5*(Lbnds[:-1]+Lbnds[1:]),0.5*(ugbnds[:-1]+ugbnds[1:])
+Lsize,ugsize=Lcens[1]-Lcens[0],ugcens[1]-ugcens[0]
+Lug_pairs=np.meshgrid(ugcens,Lcens)
+richness=np.zeros(np.shape(Lug_pairs[0]))
+for i in np.arange(tsize):
+    for j in np.arange(tsize):
+        cur_bhL,cur_bhug=Lug_pairs[0][i][j],Lug_pairs[1][i][j]
+        richness[i][j]=len(np.where((np.abs(cur_bhL-bhL)<=0.5*Lsize)&(np.abs(cur_bhug-bhug)<=0.5*ugsize))[0])
+plt.contour(Lug_pairs[0],Lug_pairs[1],richness)
 plt.scatter(medg[cr['flag']==0]-medr[cr['flag']==0],medu[cr['flag']==0]-medg[cr['flag']==0],color='green',s=clqsize/2)
 plt.scatter(medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medr[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],color='magenta',s=clqsize/2+2)
 plt.scatter(medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medr[(cr['flag']==0)&(np.abs(cr['drop'])>2)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)],color='red',s=clqsize/2+4)
