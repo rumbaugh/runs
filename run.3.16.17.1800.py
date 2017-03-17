@@ -150,5 +150,5 @@ plt.scatter(medr[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medi[(cr['flag']==0)&(n
 plt.xlabel('r-i')
 plt.ylabel('u-g')
 plt.xlim(-0.5,1.2)
-plt.ylim(-0.5,6)
+plt.ylim(-0.5,4)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_r-i.DR7_CLQ_candidates.3.16.17.png')
