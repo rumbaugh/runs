@@ -71,7 +71,7 @@ for i in np.arange(tsize):
     for j in np.arange(tsize):
         cur_bhz,cur_bhL=zL_pairs[0][i][j],zL_pairs[1][i][j]
         richness[i][j]=len(np.where((np.abs(cur_bhz-bhz)<=0.5*zsize)&(np.abs(cur_bhL-bhL)<=0.5*Lsize))[0])
-plt.scatter(bhz,bhL,s=2,marker='.',color='k')
+plt.scatter(bhz,bhL,s=2,edgecolor='None',marker='.',color='k')
 plt.contour(zL_pairs[0],zL_pairs[1],richness)
 plt.scatter(bhz[ggd],bhL[ggd],color='green',s=clqsize)
 plt.scatter(bhz[gegd],bhL[gegd],color='magenta',s=clqsize+2)
@@ -110,7 +110,7 @@ for i in np.arange(tsize):
     for j in np.arange(tsize):
         cur_bhFe,cur_bhHB=FeHB_pairs[0][i][j],FeHB_pairs[1][i][j]
         richness[i][j]=len(np.where((np.abs(cur_bhFe-bhFe)<=0.5*Fesize)&(np.abs(cur_bhHB-bhHB)<=0.5*HBsize))[0])
-plt.scatter(bhFe,bhHB,s=2,marker='.',color='k')
+plt.scatter(bhFe,bhHB,s=2,edgecolor='None',marker='.',color='k')
 plt.contour(FeHB_pairs[0],FeHB_pairs[1],richness)
 ggz,gegz,geegz=np.where((bhFeorig[ggd]>0)&(bhHBorig[ggd]>0))[0],np.where((bhFeorig[gegd]>0)&(bhHBorig[gegd]>0))[0],np.where((bhFeorig[geegd]>0)&(bhHBorig[geegd]>0))[0]
 plt.scatter(bhFeorig[ggd[ggz]],bhHBorig[ggd[ggz]],color='green',s=clqsize)
@@ -128,7 +128,7 @@ plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/HB-Fe_plot.DR7_CLQ_candidate
 plt.figure(1)
 plt.clf()
 bhri,bhz=medr_all-medi_all,medu_all-medg_all
-plt.scatter(medr_all-medi_all,medu_all-medg_all,color='k',s=2,marker='.')
+plt.scatter(medr_all-medi_all,medu_all-medg_all,color='k',s=2,edgecolor='None',marker='.')
 rimin,rimax,zmin,zmax=np.min(medr_all-medi_all),np.max(medr_all-medi_all),np.min(medu_all-medg_all),np.max(medu_all-medg_all)
 tsize=30
 ribnds,zbnds=np.linspace(rimin,rimax,tsize+1),np.linspace(zmin,zmax,tsize+1)
