@@ -173,9 +173,9 @@ for i in np.arange(tsize):
         cur_bhz,cur_bhri=zri_pairs[0][i][j],zri_pairs[1][i][j]
         richness[i][j]=len(np.where((np.abs(cur_bhz-bhz)<=0.5*zsize)&(np.abs(cur_bhri-bhri)<=0.5*risize))[0])
 plt.contour(zri_pairs[0],zri_pairs[1],richness)
-plt.scatter(medr[cr['flag']==0]-medi[cr['flag']==0],medu[cr['flag']==0]-medg[cr['flag']==0],color='green',s=clqsize/2)
-plt.scatter(medr[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medi[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],color='magenta',s=clqsize/2+2)
-plt.scatter(medr[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medi[(cr['flag']==0)&(np.abs(cr['drop'])>2)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)],color='red',s=clqsize/2+4)
+plt.scatter(medg[cr['flag']==0]-medr[cr['flag']==0],medu[cr['flag']==0]-medg[cr['flag']==0],color='green',s=clqsize/2)
+plt.scatter(medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medr[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>1.5)],color='magenta',s=clqsize/2+2)
+plt.scatter(medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medr[(cr['flag']==0)&(np.abs(cr['drop'])>2)],medu[(cr['flag']==0)&(np.abs(cr['drop'])>2)]-medg[(cr['flag']==0)&(np.abs(cr['drop'])>2)],color='red',s=clqsize/2+4)
 plt.xlabel('g-r')
 plt.ylabel('u-g')
 plt.xlim(-0.5,1.2)
