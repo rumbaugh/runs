@@ -125,6 +125,7 @@ plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/HB-Fe_plot.DR7_CLQ_candidate
 
 plt.figure(1)
 plt.clf()
+bhri,bhz=medr_all-medi_all,medu_all-medg_all
 plt.scatter(medr_all-medi_all,medu_all-medg_all,color='k',s=3)
 rimin,rimax,zmin,zmax=np.min(medr_all-medi_all),np.max(medr_all-medi_all),np.min(medu_all-medg_all),np.max(medu_all-medg_all)
 tsize=30
