@@ -13,8 +13,19 @@ matplotlib.rcParams['figure.figsize']=[20,7]
 
 crmd=np.loadtxt('/home/rumbaugh/var_database/Y3A1/CLQ_candidates_DR7.3.8.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','flag'),'formats':('|S32','f8','|S8','|S8','i8','i8')},skiprows=1)
 
+crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'names':('DBID','CID','thingid','sdr7id','MQrownum','SPrownum','SDSSNAME'),'formats':('|S64','i8','i8','|S24','i8','i8','|S64')})
+
+for i in range(0,len(crmd)):
+    DBID=crmd['DBID'][i]
+    gdb=np.where(DBID==crdb['DBID'][0][0]
+    if ((DBID[:2]!='SP')&(crdb['SPrownum'][gdb]>-1)):
+        crmd['DBID'][i]='SDSSPOSS%i'%crdb['SPrownum'][gdb])[0]
+    if ((DBID[:2]!='MQ')&(crdb['MQrownum'][gdb]>-1)):
+        crmd['DBID'][i]='MQ%i'%crdb['MQrownum'][gdb])[0]
+
 ggd=np.zeros(len(crmcm),dtype='bool')
 for i in range(0,len(ggd)): 
+
     if crmcm['DBID'][i] in crmd['DBID']: ggd[i]=True
 crmcm=crmcm[ggd]
 
