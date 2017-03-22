@@ -29,7 +29,7 @@ for i in range(0,len(outcr)):
         LCcr=np.zeros((len(crlc)*5,),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
         LCcr['DatabaseID']=outcr['MCID'][i]
         for b,ib in zip(['u','g','r','i','z'],np.arange(5)):
-            LCcr['MJD'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['BAND'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['MAG'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['MAGERR'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['RA'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['DEC'][ib*len(crlc):(ib+1)*len(crlc)]=crlc['MJD_%s'%b],crlc['mag_%s'%b],crlc['mag_%s_err'%b],crlc['ra'],crlc['dec']
+            LCcr['MJD'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['BAND'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['MAG'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['MAGERR'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['RA'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['DEC'][ib*len(crlc):(ib+1)*len(crlc)]=crlc['MJD_%s'%b],b,crlc['mag_%s'%b],crlc['mag_%s_err'%b],crlc['ra'],crlc['dec']
         np.savetxt('/home/rumbaugh/var_database/Y3A1/%s/Macleod_LC.tab'%DBID,LCcr,fmt='%i %f %f %f %2s %f %f %i',header='Macleod_DatabaseID RA DEC MJD BAND MAG MAGERR FLAG')
 np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_Macleod_S82_match.dat',outcr,fmt='%24s %i',header='DatabaseID Macleod_DatabaseID',comments='')
 
