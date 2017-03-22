@@ -15,4 +15,4 @@ data=hdu[1].data
 data=data[crdb['SDSSNAME']!='-1']
 crdb=crdb[crdb['SDSSNAME']!='-1']
 
-gdb,gmac,dists=pydl.pydutils.spheregroup.spherematch(crdb['
+#gdb,gmac,dists=pydl.pydutils.spheregroup.spherematch(crdb['
