@@ -17,7 +17,7 @@ crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'na
 
 for i in range(0,len(crmd)):
     DBID=crmd['DBID'][i]
-    gdb=np.where(DBID==crdb['DBID'][0][0]
+    gdb=np.where(DBID==crdb['DBID'])[0][0]
     if ((DBID[:2]!='SP')&(crdb['SPrownum'][gdb]>-1)):
         crmd['DBID'][i]='SDSSPOSS%i'%crdb['SPrownum'][gdb])[0]
     if ((DBID[:2]!='MQ')&(crdb['MQrownum'][gdb]>-1)):
