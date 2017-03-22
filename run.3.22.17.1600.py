@@ -24,7 +24,7 @@ for i in range(0,len(outcr)):
     g=np.where(DBID==outcr['DBID'][gdb])[0]
     if len(g)>0:
         outcr['MCID'][i]=crmc['DBID'][gmac[g[0]]]
-        mcLCdict={'names':('MJD_u','mag_u','mag_u_err','MJD_u','mag_u','mag_u_err','MJD_u','mag_u','mag_u_err','MJD_u','mag_u','mag_u_err','MJD_u','mag_u','mag_u_err','ra','dec'),'formats':('f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')}
+        mcLCdict={'names':('MJD_u','mag_u','mag_u_err','MJD_g','mag_g','mag_g_err','MJD_r','mag_r','mag_r_err','MJD_i','mag_i','mag_i_err','MJD_z','mag_z','mag_z_err','ra','dec'),'formats':('f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')}
         crlc=np.loadtxt('/home/rumbaugh/QSO_S82/%i'%(crmc['DBID'][gmac[g[0]]]),dtype=mcLCdict)
         LCcr=np.zeros((len(crlc)*5,),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
         LCcr['DatabaseID']=outcr['MCID'][i]
