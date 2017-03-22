@@ -15,7 +15,7 @@ data=hdu[1].data
 data=data[crdb['SDSSNAME']!='-1']
 crdb=crdb[crdb['SDSSNAME']!='-1']
 
-gdb,gmac,dists=pydl.pydutils.spheregroup.spherematch(data['RA_SDSS'],data['Dec_SDSS'],crmc['RA'],crmc['DEC'],0.2/3600)
+gdb,gmac,dists=pydl.pydlutils.spheregroup.spherematch(data['RA_SDSS'],data['Dec_SDSS'],crmc['RA'],crmc['DEC'],0.2/3600)
 
 outcr=np.zeros((len(data),),dtype={'names':('DBID','MCID'),'formats':('|S24','i8')})
 outcr['DBID'],outcr['MCID']=data['DatabaseID'],-1
