@@ -1,0 +1,3 @@
+import numpy as np
+
+np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_Macleod_S82_match.dat',outcr,fmt='%24s %i',header='DatabaseID Macleod_DatabaseID',comments=''
