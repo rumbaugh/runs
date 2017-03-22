@@ -19,9 +19,9 @@ for i in range(0,len(crmd)):
     DBID=crmd['DBID'][i]
     gdb=np.where(DBID==crdb['DBID'])[0][0]
     if ((DBID[:2]!='SP')&(crdb['SPrownum'][gdb]>-1)):
-        crmd['DBID'][i]='SDSSPOSS%i'%crdb['SPrownum'][gdb])[0]
+        crmd['DBID'][i]='SDSSPOSS%i'%crdb['SPrownum'][gdb]
     if ((DBID[:2]!='MQ')&(crdb['MQrownum'][gdb]>-1)):
-        crmd['DBID'][i]='MQ%i'%crdb['MQrownum'][gdb])[0]
+        crmd['DBID'][i]='MQ%i'%crdb['MQrownum'][gdb]
 
 ggd=np.zeros(len(crmcm),dtype='bool')
 for i in range(0,len(ggd)): 
