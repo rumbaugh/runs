@@ -15,7 +15,7 @@ crmd=np.loadtxt('/home/rumbaugh/var_database/Y3A1/CLQ_candidates_DR7.3.8.17.dat'
 
 ggd=np.zeros(len(crmcm),dtype='bool')
 for i in range(0,len(ggd)): 
-    if crmcm['DBID'] in crmd['DBID']: ggd[i]=True
+    if crmcm['DBID'][i] in crmd['DBID']: ggd[i]=True
 crmcm=crmcm[ggd]
 
 for DBID,MCID in zip(crmcm['DBID'],crmcm['MCID']):
