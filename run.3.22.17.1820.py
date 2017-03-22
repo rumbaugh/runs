@@ -6,8 +6,17 @@ psfpage=bpdf.PdfPages('/home/rumbaugh/DR7_Macleod_comp.g_closeup.3.22.17.pdf')
 DBdir='/home/rumbaugh/var_database/Y3A1'
 crmcm=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_Macleod_S82_match.dat',dtype={'names':('DBID','MCID'),'formats':('|S24','i8')},skiprows=1)
 
+
 crmcm=crmcm[crmcm['MCID']>-1]
 matplotlib.rcParams['figure.figsize']=[20,7]
+
+
+crmd=np.loadtxt('/home/rumbaugh/var_database/Y3A1/CLQ_candidates_DR7.3.8.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','flag'),'formats':('|S32','f8','|S8','|S8','i8','i8')},skiprows=1)
+
+ggd=np.zeros(len(crmcm),dtype='bool')
+for i in range(0,len(ggd)): 
+    if crmcm['DBID'] in crmd['DBID']: ggd[i]=True
+crmcm=crmcm[ggd]
 
 for DBID,MCID in zip(crmcm['DBID'],crmcm['MCID']):
     plt.figure(1)
