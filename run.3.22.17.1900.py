@@ -39,7 +39,7 @@ for DBID,MCID in zip(crmcm['DBID'],crmcm['MCID']):
 
     gb,gbmac=np.where((cr['BAND']=='g')&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0],np.where(crmac['BAND']=='g')[0]
     mjd,mjdmac=cr['MJD'][gb],crmac['MJD'][gbmac]
-    mjddists=np.abs(mjd.reshape((len(mjd),1))-mjdmac.reshape((1,len(mjdmac)))*np.ones((len(mjd),1)))
+    mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd.reshape((1,len(mjd)))*np.ones((len(mjdmac),1)))
     mindists=np.min(mjddists,axis=1)
     gmac2=np.where(mindists<1)[0]
     plt.errorbar(cr['MJD'][gb],cr['MAG'][gb],yerr=cr['MAGERR'][gb],fmt='o',color='r')
