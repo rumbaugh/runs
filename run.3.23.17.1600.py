@@ -83,8 +83,9 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     else:
         if '82' in cr['TAG']: s82flag[idb]=1
         cr=cr[ggood]
-        gb=np.where(bands=='g')[0]
+        gb=np.where(cr['BAND']=='g')[0]
         cr=cr[gb]
+        gorig=gorig[gb]
         mydblen=len(gb)    
         mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
         if len(gmc)>0:
