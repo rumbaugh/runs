@@ -35,9 +35,10 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     if np.shape(cr)==():
         if '82' in np.array([cr['TAG']]): s82flag[idb]=1
         if len(ggood)<1:
-            continue
+            gb=np.zeros(0,dtype='i8')
         else:
             mjd,mag,magerr,bands,survey=np.array([cr['MJD']]),np.array([cr['MAG']]),np.array([cr['MAGERR']]),np.array([cr['BAND']]),np.array([cr['Survey']])
+            gb=np.where(bands=='g')[0]
     else:
         if '82' in cr['TAG']: s82flag[idb]=1
         cr=cr[ggood]
