@@ -20,9 +20,14 @@ s82flag=np.zeros(len(crdb))
 surveys_max=np.zeros((len(crdb),2),dtype='|S8')
 for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
-    if np.shape(cr)==(0,): continue
-    outlier_arr=np.zeros(len(cr),dtype='bool')
-    gorig=np.arange(len(cr))[(cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<5)&(cr['Survey']!='POSS')]
+    if np.shape(cr)==(0,): 
+        continue
+    elif np.shape(cr)==():
+        outlier_arr=np.zeros(1,dtype='bool')
+        gorig=np.zeros(1,dtype='i8')[(cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<5)&(cr['Survey']!='POSS')]
+    else:
+        outlier_arr=np.zeros(len(cr),dtype='bool')
+        gorig=np.arange(len(cr))[(cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<5)&(cr['Survey']!='POSS')]
     ggood=np.where((cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<5)&(cr['Survey']!='POSS'))[0]#&(cr['FLAG']<16))[0]
     gmc=np.where(DBID==crmcm['DBID'])[0]
     if len(gmc)>0:
