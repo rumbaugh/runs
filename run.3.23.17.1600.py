@@ -1,5 +1,8 @@
 import numpy as np
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
+
+outlier_window,outlier_thresh,mac_thresh=100,0.5,5
+
 DB_path='/home/rumbaugh/var_database/Y3A1'
 outputdir=DB_path
 #crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'names':('DatabaseID','Y3A1_COADD_OBJECTS_ID','SDSSNAME'),'formats':('|S64','|S64','|S64')},usecols=(0,1,6))
@@ -65,7 +68,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                     mjd0,mjdmac=mjd[gb0],mjd[gbmac]
                     mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd0.reshape((1,len(mjd0)))*np.ones((len(mjdmac),1)))
                     mindists=np.min(mjddists,axis=1)
-                    gmac2=np.where(mindists>5)[0]
+                    gmac2=np.where(mindists>mac_thresh)[0]
                 else:
                     gmac2=np.arange(len(gbmac))
                 surveymac=np.zeros(len(gmac2),dtype='|S8')
@@ -94,7 +97,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                 mjd0,mjdmac=cr['MJD'][gb0],crmac['MJD'][gbmac]
                 mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd0.reshape((1,len(mjd0)))*np.ones((len(mjdmac),1)))
                 mindists=np.min(mjddists,axis=1)
-                gmac2=np.where(mindists>5)[0]
+                gmac2=np.where(mindists>mac_thresh)[0]
             else:
                 gmac2=np.arange(len(gbmac))
             surveymac=np.zeros(len(gmac2),dtype='|S8')
