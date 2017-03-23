@@ -38,10 +38,13 @@ for DBID,MCID in zip(crmcm['DBID'],crmcm['MCID']):
     cr=cr[(cr['MAG']>0)&(cr['MAG']<30)&(cr['MAGERR']<5)]
 
     gb,gbmac=np.where((cr['BAND']=='g')&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0],np.where(crmac['BAND']=='g')[0]
-    mjd,mjdmac=cr['MJD'][gb],crmac['MJD'][gbmac]
-    mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd.reshape((1,len(mjd)))*np.ones((len(mjdmac),1)))
-    mindists=np.min(mjddists,axis=1)
-    gmac2=np.where(mindists<1)[0]
+    if ((len(gb)>0)&(len(gbmac)>0)):
+        mjd,mjdmac=cr['MJD'][gb],crmac['MJD'][gbmac]
+        mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd.reshape((1,len(mjd)))*np.ones((len(mjdmac),1)))
+        mindists=np.min(mjddists,axis=1)
+        gmac2=np.where(mindists<1)[0]
+    else:
+        gmac2=np.arange(len(gmac2))
     plt.errorbar(cr['MJD'][gb],cr['MAG'][gb],yerr=cr['MAGERR'][gb],fmt='o',color='r')
     plt.errorbar(crmac['MJD'][gbmac[gmac2]],crmac['MAG'][gbmac[gmac2]],yerr=crmac['MAGERR'][gbmac[gmac2]],fmt='d',color='g')
     ylim=plt.ylim()
