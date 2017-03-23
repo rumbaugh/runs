@@ -23,9 +23,9 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     if len(gmc)>0:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
         crmac=crmac[(crmac['MAG']>0)&(crmac['MAG']<30)&(crmac['MAGERR']<5)]
-        gb,gbmac=np.where((cr['BAND']=='g')&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0],np.where(crmac['BAND']=='g')[0]
-        if ((len(gb)>0)&(len(gbmac)>0)):
-            mjd,mjdmac=cr['MJD'][gb],crmac['MJD'][gbmac]
+        gb0,gbmac=np.where((cr['BAND']=='g')&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0],np.where(crmac['BAND']=='g')[0]
+        if ((len(gb0)>0)&(len(gbmac)>0)):
+            mjd,mjdmac=cr['MJD'][gb0],crmac['MJD'][gbmac]
             mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd.reshape((1,len(mjd)))*np.ones((len(mjdmac),1)))
             mindists=np.min(mjddists,axis=1)
             gmac2=np.where(mindists>5)[0]
