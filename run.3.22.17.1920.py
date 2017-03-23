@@ -43,9 +43,9 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         cr=cr[ggood]
         mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
         if len(gmc)>0:
-            surveymac=np.zeros(len(gbmac2),dtype='|S8')
+            surveymac=np.zeros(len(gmac2),dtype='|S8')
             surveymac[:]='SDSS'
-            mjd,mag,magerr,bands,survey=np.append(mjd,crmac['MJD'][gbmac[gbmac2]]),np.append(mag,crmac['MAG'][gbmac[gbmac2]]),np.append(magerr,crmac['MAGERR'][gbmac[gbmac2]]),np.append(bands,crmac['BAND'][gbmac[gbmac2]]),np.append(survey,surveymac)
+            mjd,mag,magerr,bands,survey=np.append(mjd,crmac['MJD'][gbmac[gmac2]]),np.append(mag,crmac['MAG'][gbmac[gmac2]]),np.append(magerr,crmac['MAGERR'][gbmac[gmac2]]),np.append(bands,crmac['BAND'][gbmac[gmac2]]),np.append(survey,surveymac)
         gb=np.where(bands=='g')[0]
         if len(cr)>1:
             initdists=SphDist(cr['RA'][0],cr['DEC'][0],cr['RA'][1:],cr['DEC'][1:])
