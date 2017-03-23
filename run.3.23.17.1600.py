@@ -24,7 +24,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         continue
     elif np.shape(cr)==():
         outlier_arr=np.zeros(1,dtype='bool')
-        gorig=np.zeros(1,dtype='i8')[(np.array(cr['MAG'])>14)&(np.array(cr['MAG'])<30)&(np.array(cr['MAGERR'])<5)&(np.array(cr['Survey'])!='POSS')]
+        gorig=np.zeros(1,dtype='i8')[(np.array([cr['MAG']])>14)&(np.array([cr['MAG']])<30)&(np.array([cr['MAGERR']])<5)&(np.array([cr['Survey']])!='POSS')]
     else:
         outlier_arr=np.zeros(len(cr),dtype='bool')
         gorig=np.arange(len(cr))[(cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<5)&(cr['Survey']!='POSS')]
