@@ -87,11 +87,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                 mjd,mag,magerr,bands,survey=np.append(mjd,crmac['MJD'][gbmac[gmac2]]),np.append(mag,crmac['MAG'][gbmac[gmac2]]),np.append(magerr,crmac['MAGERR'][gbmac[gmac2]]),np.append(bands,crmac['BAND'][gbmac[gmac2]]),np.append(survey,surveymac)
                 maclen=len(mjd)
         gb=np.where(bands=='g')[0]
-                
-
-
     else:
-        if '82' in cr['TAG']: s82flag[idb]=1
         cr=cr[ggood]
         gb=np.where(cr['BAND']=='g')[0]
         cr=cr[gb]
