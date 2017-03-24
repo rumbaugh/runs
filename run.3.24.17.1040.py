@@ -113,7 +113,7 @@ plt.xlabel('Magnitude Change')
 plt.ylabel('Cumulative Fraction')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MagDropPlot.CLQ_candidates.DR7.3.24.17.png')
 
-fig=figure(1)
+fig=plt.figure(1)
 fig.clf()
 plt.clf()
 plt.rc('axes',linewidth=2)
