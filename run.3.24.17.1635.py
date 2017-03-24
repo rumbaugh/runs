@@ -5,9 +5,9 @@ DBIDs=['MQ200905','MQ197739','MQ199828','MQ198719','MQ198646']
 
 DBdir='/home/rumbaugh/var_database/Y3A1'
 
-cr=np.loadtxt('%s/%s/SF.tab'%(DBdir,DBID),dtype={'names':('tau','SF1','SF2','SF3','SF4','SF5'),'formats':('f8','f8','f8','f8','f8','f8')})
-
 for DBID in DBIDs:
+    cr=np.loadtxt('%s/%s/SF.tab'%(DBdir,DBID),dtype={'names':('tau','SF1','SF2','SF3','SF4','SF5'),'formats':('f8','f8','f8','f8','f8','f8')})
+
     plt.figure(1)
     plt.clf()
     color_arr=['magenta','red','blue','green','cyan']
