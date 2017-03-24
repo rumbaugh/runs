@@ -74,6 +74,17 @@ bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
 glc=np.where(cdata['LOGLBOL']>0)[0]
 cdata=cdata[glc]
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
+bhdbid,cdbid=np.copy(bhname),np.copy(cname)
+for i in range(0,len(bhname)):
+    try:
+        bhdbid[i]=PrimaryDBID_dict['DR7BH%s'%bhname[i]]
+    except:
+        bhdbid[i]='DR7BH%s'%bhname[i]
+for i in range(0,len(cname)):
+    try:
+        cdbid[i]=PrimaryDBID_dict['DR7BH%s'%cname[i]]
+    except:
+        cdbid[i]='DR7BH%s'%cname[i]
 
 #try:
 #    crcon=np.loadtxt('/home/rumbaugh/control_DBIDs.3.24.17.1040.dat',dtype={'names':('DBID','gdb'),'formats':('|S24','i8')})
@@ -94,11 +105,11 @@ cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
 print 'Starting good_id loops...'
 st=time.time()
 ggd=np.zeros(len(good_dbids),dtype='i8')
-for i in range(0,len(ggd)): ggd[i]=np.where(bhname==good_dbids[i][5:])[0][0]
+for i in range(0,len(ggd)): ggd[i]=np.where(bhdbid==good_dbids[i][5:])[0][0]
 gegd=np.zeros(len(extra_good_dbids),dtype='i8')
-for i in range(0,len(gegd)): gegd[i]=np.where(bhname==extra_good_dbids[i][5:])[0][0]
+for i in range(0,len(gegd)): gegd[i]=np.where(bhdbid==extra_good_dbids[i][5:])[0][0]
 geegd=np.zeros(len(extra_extra_good_dbids),dtype='i8')
-for i in range(0,len(geegd)): geegd[i]=np.where(bhname==extra_extra_good_dbids[i][5:])[0][0]
+for i in range(0,len(geegd)): geegd[i]=np.where(bhdbid==extra_extra_good_dbids[i][5:])[0][0]
 end=time.time()
 print 'good_id loops took %f'%(end-st)
 
