@@ -27,7 +27,7 @@ gc=gc[gc>-1]
 
 DBIDs=crdb['DatabaseID'][gc]
 np.savetxt('/home/rumbaugh/dr7_control_dbids.dat',DBIDs,fmt='%s')
-for DBID in np.intersection1d(DBIDs,crdb['DatabaseID'][crm[np.abs(crm['drop'])>1]]):
+for DBID in np.intersect1d(DBIDs,crdb['DatabaseID'][crm[np.abs(crm['drop'])>1]]):
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     crout=np.loadtxt('%s/%s/outliers.tab'%(DBdir,DBID),dtype='i8')
     try:
