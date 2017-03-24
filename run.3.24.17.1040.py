@@ -238,8 +238,8 @@ plt.xlim(0,200)
 plt.ylim(0,10000)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/HB-Fe_plot.DR7_CLQ_candidates.3.24.17.png')
 
-csize=8
-gdsize=16
+csize=4
+gdsize=10
 
 plt.figure(1)
 plt.clf()
@@ -249,14 +249,14 @@ ggdgr,ggdug=bhmagg[ggd]-bhmagr[ggd],bhmagu[ggd]-bhmagg[ggd]
 gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
 geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
 plt.scatter(bhgr,bhug,color='k',s=2,edgecolor='None',marker='.')
-plt.scatter(cgr,cug,color='b',s=csize,edgecolor='None',marker='.')
+plt.scatter(cgr,cug,color='b',s=csize,edgecolor='None',marker='o')
 plt.scatter(ggdgr,ggdug,color='green',s=gdsize,edgecolor='None',marker='o')
 plt.scatter(gegdgr,gegdug,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 plt.scatter(geegdgr,geegdug,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
 plt.ylabel(r'$u-g$')
-#plt.xlim(-0.5,1.2)
-#plt.ylim(-0.5,4)
+plt.xlim(-1,5)
+plt.ylim(-3,8)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_g-r.DR7_CLQ_candidates.3.24.17.png')
 
 plt.figure(1)
@@ -267,14 +267,14 @@ ggdri,ggdgr=bhmagr[ggd]-bhmagi[ggd],bhmagg[ggd]-bhmagr[ggd]
 gegdri,gegdgr=bhmagr[gegd]-bhmagi[gegd],bhmagg[gegd]-bhmagr[gegd]
 geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
 plt.scatter(bhri,bhgr,color='k',s=2,edgecolor='None',marker='.')
-plt.scatter(cri,cgr,color='b',s=csize,edgecolor='None',marker='.')
+plt.scatter(cri,cgr,color='b',s=csize,edgecolor='None',marker='o')
 plt.scatter(ggdri,ggdgr,color='green',s=gdsize,edgecolor='None',marker='o')
 plt.scatter(gegdri,gegdgr,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 plt.scatter(geegdri,geegdgr,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
 plt.ylabel(r'$r-i$')
-#plt.xlim(-0.5,1.2)
-#plt.ylim(-0.5,4)
+plt.xlim(-0.7,2)
+plt.ylim(-1.5,4.5)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/r-i_vs_g-r.DR7_CLQ_candidates.3.24.17.png')
 
 
@@ -286,13 +286,13 @@ ggdW1W2,ggdrW1=bhmagwise1[ggd]-bhmagwise2[ggd],bhmagr[ggd]-bhmagwise1[ggd]
 gegdW1W2,gegdrW1=bhmagwise1[gegd]-bhmagwise2[gegd],bhmagr[gegd]-bhmagwise1[gegd]
 geegdW1W2,geegdrW1=bhmagwise1[geegd]-bhmagwise2[geegd],bhmagr[geegd]-bhmagwise1[geegd]
 plt.scatter(bhW1W2,bhrW1,color='k',s=2,edgecolor='None',marker='.')
-plt.scatter(cW1W2,crW1,color='b',s=csize,edgecolor='None',marker='.')
+plt.scatter(cW1W2,crW1,color='b',s=csize,edgecolor='None',marker='o')
 plt.scatter(ggdW1W2,ggdrW1,color='green',s=gdsize,edgecolor='None',marker='o')
 plt.scatter(gegdW1W2,gegdrW1,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 plt.scatter(geegdW1W2,geegdrW1,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel('W1-W2')
 plt.ylabel(r'$r-$W1')
-#plt.xlim(-0.5,1.2)
-#plt.ylim(-0.5,4)
+plt.xlim(-0.5,2.5)
+plt.ylim(1,7.5)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/W1-W2_vs_r-W1.DR7_CLQ_candidates.3.24.17.png')
 
