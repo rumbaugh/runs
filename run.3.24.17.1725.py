@@ -14,7 +14,6 @@ crmd=crm[np.abs(crm['drop'])>1]
 
 hduc=py.open('/home/rumbaugh/dr7_control.fits')
 cdata=hduc[1].data
-cdata=cdata[glc]
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
 
 gc=np.zeros(len(cdata),dtype='i8')
