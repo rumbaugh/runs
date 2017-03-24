@@ -113,7 +113,8 @@ plt.xlabel('Magnitude Change')
 plt.ylabel('Cumulative Fraction')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MagDropPlot.CLQ_candidates.DR7.3.24.17.png')
 
-plt.figure(1)
+fig=figure(1)
+fig.clf()
 plt.clf()
 plt.rc('axes',linewidth=2)
 ax=fig.add_subplot(1,1,1)
@@ -128,7 +129,7 @@ ax2.set_ylabel('Cumulative Fraction')
 ax.set_xlim(0,3.125)
 ax2.set_xlim(0,3.125)
 ax2.set_ylim(0,1)
-plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.CLQ_candidates.DR7.3.24.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.CLQ_candidates.DR7.3.24.17.png')
 
 print 'Starting good_id loops...'
 st=time.time()
