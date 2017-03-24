@@ -105,11 +105,11 @@ for i in range(0,len(cname)):
 print 'Starting good_id loops...'
 st=time.time()
 ggd=np.zeros(len(good_dbids),dtype='i8')
-for i in range(0,len(ggd)): ggd[i]=np.where(bhdbid==good_dbids[i][5:])[0][0]
+for i in range(0,len(ggd)): ggd[i]=np.where(bhdbid==good_dbids[i])[0][0]
 gegd=np.zeros(len(extra_good_dbids),dtype='i8')
-for i in range(0,len(gegd)): gegd[i]=np.where(bhdbid==extra_good_dbids[i][5:])[0][0]
+for i in range(0,len(gegd)): gegd[i]=np.where(bhdbid==extra_good_dbids[i])[0][0]
 geegd=np.zeros(len(extra_extra_good_dbids),dtype='i8')
-for i in range(0,len(geegd)): geegd[i]=np.where(bhdbid==extra_extra_good_dbids[i][5:])[0][0]
+for i in range(0,len(geegd)): geegd[i]=np.where(bhdbid==extra_extra_good_dbids[i])[0][0]
 end=time.time()
 print 'good_id loops took %f'%(end-st)
 
