@@ -127,10 +127,11 @@ plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MagDropPlot.CLQ_candidates.D
 
 plt.figure(1)
 plt.clf()
-plt.hist(cr['Baseline']
-plt.plot(np.sort(cr['Baseline']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='k')
+plt.hist(cr['Baseline'],range=(0,3.125),bins=25,color='k')
+plt.plot(np.sort(cr['Baseline']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='r')
 plt.xlabel('Maximum Change Baseline (days)')
 plt.ylabel('Cumulative Fraction')
+plt.xlim(0,3.125)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.CLQ_candidates.DR7.3.24.17.png')
 
 plt.figure(1)
