@@ -83,8 +83,8 @@ except:
     st=time.time()
     cDBIDs,cgdb=np.zeros(len(cz),dtype='|S24'),np.zeros(len(cz),dtype='i8')
     for i in range(0,len(cgdb)):
-        cgdb[i]=np.where(crdb['SDSSNAME']==PrimaryDBID_dict['DR7BH%s'%cname[i]])[0][0]
-        cDBIDs[i]=crdb['DBID'][cgdb[i]]
+        cgdb[i]=np.where(crdb['DatabaseID']==PrimaryDBID_dict['DR7BH%s'%cname[i]])[0][0]
+        cDBIDs[i]=crdb['DatabaseID'][cgdb[i]]
     conoutcr=np.zeros((len(cgdb),),dtype={'names':('DBID','gdb'),'formats':('|S24','i8')})
     conoutcr['DBID'],conoutcr['gdb']=cDBIDs,cgdb
     np.loadtxt('/home/rumbaugh/control_DBIDs.3.24.17.1040.dat',conoutcr,fmt='%s %i')
