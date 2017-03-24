@@ -76,7 +76,7 @@ bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
 glc=np.where(cdata['LOGLBOL']>0)[0]
 cdata=cdata[glc]
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
-bhdbid,cdbid=np.copy(bhname),np.copy(cname)
+bhdbid,cdbid=np.array(bhname,copy=True,dtype='|S24'),np.array(cname,copy=True,dtype='|S24')
 for i in range(0,len(bhname)):
     try:
         bhdbid[i]=PrimaryDBID_dict['DR7BH%s'%bhname[i]]
@@ -127,6 +127,7 @@ plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MagDropPlot.CLQ_candidates.D
 
 plt.figure(1)
 plt.clf()
+plt.hist(cr['Baseline']
 plt.plot(np.sort(cr['Baseline']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='k')
 plt.xlabel('Maximum Change Baseline (days)')
 plt.ylabel('Cumulative Fraction')
