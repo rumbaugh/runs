@@ -17,7 +17,12 @@ cdata=hduc[1].data
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
 
 gc=np.zeros(len(cdata),dtype='i8')
-for i in range(0,len(gc)): gc[i]=np.where(crdb['SDSSNAME']==cname[i])[0][0]
+for i in range(0,len(gc)): 
+    try:
+        gc[i]=np.where(crdb['SDSSNAME']==cname[i])[0][0]
+    except IndexError:
+        gc[i]=-1
+gc=gc[gc>-1]
 
 
 DBIDs=crdb['DatabaseID'][gc]
