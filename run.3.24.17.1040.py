@@ -72,9 +72,11 @@ cdata=hduc[1].data
 gl=np.where(bhdata['LOGLBOL']>0)[0]
 bhdata=bhdata[gl]
 bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
+bhmagu,bhmagg,bhmagr,bhmagi,bhmagz,bhmagwise1,bhmagwise2,bhmagwise3,bhmagwise4=bhdata['UGRIZ'][:,0],bhdata['UGRIZ'][:,1],bhdata['UGRIZ'][:,2],bhdata['UGRIZ'][:,3],bhdata['UGRIZ'][:,4],bhdata['WISE'][:,0],bhdata['WISE'][:,1],bhdata['WISE'][:,2],bhdata['WISE'][:,3]
 glc=np.where(cdata['LOGLBOL']>0)[0]
 cdata=cdata[glc]
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
+cmagu,cmagg,cmagr,cmagi,cmagz,cmagwise1,cmagwise2,cmagwise3,cmagwise4=cdata['UGRIZ'][:,0],cdata['UGRIZ'][:,1],cdata['UGRIZ'][:,2],cdata['UGRIZ'][:,3],cdata['UGRIZ'][:,4],cdata['WISE'][:,0],cdata['WISE'][:,1],cdata['WISE'][:,2],cdata['WISE'][:,3]
 bhdbid,cdbid=np.array(bhname,copy=True,dtype='|S24'),np.array(cname,copy=True,dtype='|S24')
 for i in range(0,len(bhname)):
     try:
@@ -236,81 +238,61 @@ plt.xlim(0,200)
 plt.ylim(0,10000)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/HB-Fe_plot.DR7_CLQ_candidates.3.24.17.png')
 
+csize=8
+gdsize=16
 
 plt.figure(1)
 plt.clf()
-bhri,bhz=medr_all-medi_all,medu_all-medg_all
-plt.scatter(medr_all-medi_all,medu_all-medg_all,color='k',s=2,edgecolor='None',marker='.')
-#rimin,rimax,zmin,zmax=np.min(medr_all-medi_all),np.max(medr_all-medi_all),np.min(medu_all-medg_all),np.max(medu_all-medg_all)
-#tsize=30
-#ribnds,zbnds=np.linspace(rimin,rimax,tsize+1),np.linspace(zmin,zmax,tsize+1)
-#zcens,ricens=0.5*(zbnds[:-1]+zbnds[1:]),0.5*(ribnds[:-1]+ribnds[1:])
-#zsize,risize=zcens[1]-zcens[0],ricens[1]-ricens[0]
-#zri_pairs=np.meshgrid(zcens,ricens)
-#richness=np.zeros(np.shape(zri_pairs[0]))
-#for i in np.arange(tsize):
-#    for j in np.arange(tsize):
-#        cur_bhz,cur_bhri=zri_pairs[0][i][j],zri_pairs[1][i][j]
-#        richness[i][j]=len(np.where((np.abs(cur_bhz-bhz)<=0.5*zsize)&(np.abs(cur_bhri-bhri)<=0.5*risize))[0])
-#plt.contour(zri_pairs[0],zri_pairs[1],richness,color='k')
-plt.scatter(medr[np.abs(cr['drop'])>1]-medi[np.abs(cr['drop'])>1],medu[np.abs(cr['drop'])>1]-medg[np.abs(cr['drop'])>1],color='green',s=clqsize/2)
-plt.scatter(medr[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)]-medi[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)],medu[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)]-medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)],color='magenta',s=clqsize/2+2)
-plt.scatter(medr[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)]-medi[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)],medu[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)]-medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)],color='red',s=clqsize/2+4)
-plt.xlabel('r-i')
-plt.ylabel('u-g')
-plt.xlim(-0.5,1.2)
-plt.ylim(-0.5,4)
-plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_r-i.DR7_CLQ_candidates.3.24.17.png')
-
-
-plt.figure(1)
-plt.clf()
-bhri,bhz=medr_all-medi_all,medu_all-medg_all
-plt.scatter(medg_all-medr_all,medu_all-medg_all,color='k',s=2,edgecolor='None',marker='.')
-#rimin,rimax,zmin,zmax=np.min(medg_all-medr_all),np.max(medg_all-medr_all),np.min(medu_all-medg_all),np.max(medu_all-medg_all)
-#tsize=30
-#ribnds,zbnds=np.linspace(rimin,rimax,tsize+1),np.linspace(zmin,zmax,tsize+1)
-#zcens,ricens=0.5*(zbnds[:-1]+zbnds[1:]),0.5*(ribnds[:-1]+ribnds[1:])
-#zsize,risize=zcens[1]-zcens[0],ricens[1]-ricens[0]
-#zri_pairs=np.meshgrid(zcens,ricens)
-#richness=np.zeros(np.shape(zri_pairs[0]))
-#for i in np.arange(tsize):
-#    for j in np.arange(tsize):
-#        cur_bhz,cur_bhri=zri_pairs[0][i][j],zri_pairs[1][i][j]
-#        richness[i][j]=len(np.where((np.abs(cur_bhz-bhz)<=0.5*zsize)&(np.abs(cur_bhri-bhri)<=0.5*risize))[0])
-#plt.contour(zri_pairs[0],zri_pairs[1],richness)
-plt.scatter(medg[np.abs(cr['drop'])>1]-medr[np.abs(cr['drop'])>1],medu[np.abs(cr['drop'])>1]-medg[np.abs(cr['drop'])>1],color='green',s=clqsize/2)
-plt.scatter(medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)]-medr[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)],medu[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)]-medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)],color='magenta',s=clqsize/2+2)
-plt.scatter(medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)]-medr[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)],medu[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)]-medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)],color='red',s=clqsize/2+4)
-plt.xlabel('g-r')
-plt.ylabel('u-g')
-plt.xlim(-0.5,1.2)
-plt.ylim(-0.5,4)
+bhgr,bhug=bhmagg-bhmagr,bhmagu-bhmagg
+cgr,cug=cmagg-cmagr,cmagu-cmagg
+ggdgr,ggdug=bhmagg[ggd]-bhmagr[ggd],bhmagu[ggd]-bhmagg[ggd]
+gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
+geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
+plt.scatter(bhgr,bhug,color='k',s=2,edgecolor='None',marker='.')
+plt.scatter(cgr,cug,color='b',s=csize,edgecolor='None',marker='.')
+plt.scatter(ggdgr,ggdug,color='green',s=gdsize,edgecolor='None',marker='o')
+plt.scatter(gegdgr,gegdug,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
+plt.scatter(geegdgr,geegdug,color='red',s=gdsize+4,edgecolor='None',marker='o')
+plt.xlabel(r'$g-r$')
+plt.ylabel(r'$u-g$')
+#plt.xlim(-0.5,1.2)
+#plt.ylim(-0.5,4)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_g-r.DR7_CLQ_candidates.3.24.17.png')
 
+plt.figure(1)
+plt.clf()
+bhri,bhgr=bhmagr-bhmagi,bhmagg-bhmagr
+cri,cgr=cmagr-cmagi,cmagg-cmagr
+ggdri,ggdgr=bhmagr[ggd]-bhmagi[ggd],bhmagg[ggd]-bhmagr[ggd]
+gegdri,gegdgr=bhmagr[gegd]-bhmagi[gegd],bhmagg[gegd]-bhmagr[gegd]
+geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
+plt.scatter(bhri,bhgr,color='k',s=2,edgecolor='None',marker='.')
+plt.scatter(cri,cgr,color='b',s=csize,edgecolor='None',marker='.')
+plt.scatter(ggdri,ggdgr,color='green',s=gdsize,edgecolor='None',marker='o')
+plt.scatter(gegdri,gegdgr,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
+plt.scatter(geegdri,geegdgr,color='red',s=gdsize+4,edgecolor='None',marker='o')
+plt.xlabel(r'$g-r$')
+plt.ylabel(r'$r-i$')
+#plt.xlim(-0.5,1.2)
+#plt.ylim(-0.5,4)
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/r-i_vs_g-r.DR7_CLQ_candidates.3.24.17.png')
 
 
 plt.figure(1)
 plt.clf()
-bhL,bhug=medr_all-medi_all,medu_all-medg_all
-plt.scatter(bhug,bhL,color='k',s=2,edgecolor='None',marker='.')
-#ugmin,ugmax,Lmin,Lmax=np.min(medu_all-medg_all),np.max(medu_all-medg_all),np.min(bhL),np.max(bhL)
-#tsize=30
-#ugbnds,Lbnds=np.linspace(ugmin,ugmax,tsize+1),np.linspace(Lmin,Lmax,tsize+1)
-#Lcens,ugcens=0.5*(Lbnds[:-1]+Lbnds[1:]),0.5*(ugbnds[:-1]+ugbnds[1:])
-#Lsize,ugsize=Lcens[1]-Lcens[0],ugcens[1]-ugcens[0]
-#Lug_pairs=np.meshgrid(ugcens,Lcens)
-#richness=np.zeros(np.shape(Lug_pairs[0]))
-#for i in np.arange(tsize):
-#    for j in np.arange(tsize):
-#        cur_bhL,cur_bhug=Lug_pairs[0][i][j],Lug_pairs[1][i][j]
-#        richness[i][j]=len(np.where((np.abs(cur_bhL-bhL)<=0.5*Lsize)&(np.abs(cur_bhug-bhug)<=0.5*ugsize))[0])
-#plt.contour(Lug_pairs[0],Lug_pairs[1],richness,color='k')
-plt.scatter(medg[np.abs(cr['drop'])>1]-medr[np.abs(cr['drop'])>1],medu[np.abs(cr['drop'])>1]-medg[np.abs(cr['drop'])>1],color='green',s=clqsize/2)
-plt.scatter(medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)]-medr[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)],medu[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)]-medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>1.5)],color='magenta',s=clqsize/2+2)
-plt.scatter(medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)]-medr[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)],medu[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)]-medg[(np.abs(cr['drop'])>1)&(np.abs(cr['drop'])>2)],color='red',s=clqsize/2+4)
-plt.xlabel('g-r')
-plt.ylabel('u-g')
-plt.xlim(-0.5,1.2)
-plt.ylim(44.75,47.4)
-plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_L.DR7_CLQ_candidates.3.24.17.png')
+bhW1W2,bhrW1=bhmagwise1-bhmagwise2,bhmagr-bhmagwise1
+cW1W2,crW1=cmagwise1-cmagwise2,cmagr-cmagwise1
+ggdW1W2,ggdrW1=bhmagwise1[ggd]-bhmagwise2[ggd],bhmagr[ggd]-bhmagwise1[ggd]
+gegdW1W2,gegdrW1=bhmagwise1[gegd]-bhmagwise2[gegd],bhmagr[gegd]-bhmagwise1[gegd]
+geegdW1W2,geegdrW1=bhmagwise1[geegd]-bhmagwise2[geegd],bhmagr[geegd]-bhmagwise1[geegd]
+plt.scatter(bhW1W2,bhrW1,color='k',s=2,edgecolor='None',marker='.')
+plt.scatter(cW1W2,crW1,color='b',s=csize,edgecolor='None',marker='.')
+plt.scatter(ggdW1W2,ggdrW1,color='green',s=gdsize,edgecolor='None',marker='o')
+plt.scatter(gegdW1W2,gegdrW1,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
+plt.scatter(geegdW1W2,geegdrW1,color='red',s=gdsize+4,edgecolor='None',marker='o')
+plt.xlabel('W1-W2')
+plt.ylabel(r'$r-$W1')
+#plt.xlim(-0.5,1.2)
+#plt.ylim(-0.5,4)
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/W1-W2_vs_r-W1.DR7_CLQ_candidates.3.24.17.png')
+
