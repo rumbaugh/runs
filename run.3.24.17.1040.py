@@ -136,15 +136,15 @@ st=time.time()
 ggd=np.zeros(len(good_dbids),dtype='i8')
 for i in range(0,len(ggd)): 
     ggddb=np.where(good_dbids[i]==crdb['DatabaseID'])[0][0]
-    ggd[i]=np.where(bhdbid==crdb['SDSSNAME'][ggddb][5:])[0][0]
+    ggd[i]=np.where(bhdbid==crdb['SDSSNAME'][ggddb])[0][0]
 gegd=np.zeros(len(extra_good_dbids),dtype='i8')
 for i in range(0,len(gegd)): 
     gegddb=np.where(extra_good_dbids[i]==crdb['DatabaseID'])[0][0]
-    gegd[i]=np.where(bhdbid==crdb['SDSSNAME'][gegddb][5:])[0][0]
+    gegd[i]=np.where(bhdbid==crdb['SDSSNAME'][gegddb])[0][0]
 geegd=np.zeros(len(extra_extra_good_dbids),dtype='i8')
 for i in range(0,len(geegd)): 
     geegddb=np.where(crdb['DatabaseID']==extra_extra_good_dbids[i])[0][0]
-    geegd[i]=np.where(bhdbid==crdb['SDSSNAME'][geegddb][5:])[0][0]
+    geegd[i]=np.where(bhdbid==crdb['SDSSNAME'][geegddb])[0][0]
 end=time.time()
 print 'good_id loops took %f'%(end-st)
 
