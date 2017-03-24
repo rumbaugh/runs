@@ -63,8 +63,7 @@ crmd=cr[np.abs(cr['drop'])>1]
 gmf_md=gmf[np.abs(cr['drop'])>1]
 
 good_dbids=crmd['DBID'][np.abs(crmd['drop'])>1]
-extra_good_dbids=crmd['DBID'][(np.abs(crmd['drop'])>1)&(crmd['drop']>1.5)]
-extra_extra_good_dbids=crmd['DBID'][(np.abs(crmd['drop'])>1)&(crmd['drop']>2)]
+gooddrops=np.abs(crmd['drop'])[np.abs(crmd['drop'])>1]
 
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
@@ -134,9 +133,16 @@ fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.CLQ_ca
 print 'Starting good_id loops...'
 st=time.time()
 ggd=np.zeros(len(good_dbids),dtype='i8')
+gkeep=np.ones(len(good_dbids),dtype='bool')
 for i in range(0,len(ggd)): 
     ggddb=np.where(good_dbids[i]==crdb['DatabaseID'])[0][0]
-    ggd[i]=np.where(bhname==crdb['SDSSNAME'][ggddb])[0][0]
+    try:
+        ggd[i]=np.where(bhname==crdb['SDSSNAME'][ggddb])[0][0]
+    except IndexError:
+        gkeep[i]=0
+good_dbids,ggd,gooddrops=good_dbids[gkeep],ggd[gkeep],gooddrops[gkeep]
+extra_good_dbids=good_dbids[gooddrops>1.5]
+extra_extra_good_dbids=good_dbids[gooddrops>2]
 gegd=np.zeros(len(extra_good_dbids),dtype='i8')
 for i in range(0,len(gegd)): 
     gegddb=np.where(extra_good_dbids[i]==crdb['DatabaseID'])[0][0]
