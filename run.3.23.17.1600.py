@@ -45,7 +45,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         maclen=0
         gmac2,gbmac,gorigmac=np.arange(0),np.arange(0),np.arange(0)
         outlier_mac_arr=np.zeros(0,dtype='bool')
-    SNflag=False
+    #SNflag=False
     if np.shape(cr)==():
         if len(ggood)<1:
             mydblen=0
@@ -86,7 +86,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                 gmac2=np.arange(len(gbmac))
                 mjd,mag,magerr,bands,survey=np.append(mjd,crmac['MJD'][gbmac[gmac2]]),np.append(mag,crmac['MAG'][gbmac[gmac2]]),np.append(magerr,crmac['MAGERR'][gbmac[gmac2]]),np.append(bands,crmac['BAND'][gbmac[gmac2]]),np.append(survey,surveymac)
                 maclen=len(mjd)
-        gb=np.where(bands=='g')[0]
+            gb=np.where(bands=='g')[0]
     else:
         cr=cr[ggood]
         gb=np.where(cr['BAND']=='g')[0]
