@@ -157,7 +157,7 @@ print 'good_id loops took %f'%(end-st)
 
 plt.figure(1)
 plt.clf()
-plt.scatter(np.abs(cr['drop'][np.abs(cr['drop'])>1]),bhL[ggd])
+plt.scatter(gooddrops),bhL[ggd])
 plt.xlabel('Magnitude Drop')
 plt.ylabel(r'$log\left(L_{BOL}\right)$')
 #plt.xlim(zmin,zmax)
