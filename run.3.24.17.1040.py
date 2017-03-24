@@ -126,10 +126,9 @@ b=ax2.plot(np.sort(cr['Baseline']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='r
 ax.set_xlabel('Maximum Change Baseline (days)')
 ax.set_ylabel(r'N$_{obj}$')
 ax2.set_ylabel('Cumulative Fraction')
-ax.set_xlim(0,3.125)
-ax2.set_xlim(0,3.125)
+#ax.set_xlim(0,3.125)
+#ax2.set_xlim(0,3.125)
 ax2.set_ylim(0,1)
-ax.set_ylim(0,1)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.CLQ_candidates.DR7.3.24.17.png')
 
 print 'Starting good_id loops...'
