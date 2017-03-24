@@ -13,6 +13,7 @@ try:
     crp=np.loadtxt('/home/rumbaugh/primarydbid_table.3.24.17.1040.dat',dtype='|S48')
     PrimaryDBID={crp[:,0][x]: crp[:,1][x] for x in np.arange(len(crp))}
 except:
+    print 'Starting first loop...'
     st=time.time()
     gdb=np.where(crdb['SDSSNAME']!='-1')[0]
     PrimaryDBID_dict={}
@@ -28,7 +29,7 @@ except:
             print "Couldn't find DBID for "+PrimaryDBID
     poutcr=np.zeros((len(gdb),),dtype={'names':('key','val'),'formats':('|S48','|S48')})
     pkeys=PrimaryDBID_dict.keys()
-    for i in range(0,len(gbd)): poutcr['key'][i],poutcr['val'][i]=pkeys[i],PrimaryDBID_dict[pkeys[i]]
+    for i in range(0,len(gdb)): poutcr['key'][i],poutcr['val'][i]=pkeys[i],PrimaryDBID_dict[pkeys[i]]
     np.savetxt('/home/rumbaugh/primarydbid_table.3.24.17.1040.dat',poutcr,fmt='%s %s')
     end=time.time()
     print 'First loop took %f'%(end-st)
@@ -42,6 +43,7 @@ cr=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.23.17.dat',dt
 try:
     gmf=np.loadtxt('/home/rumbaugh/gmf_table.3.24.17.1040.dat',dtype='i8')
 except:
+    print 'Starting second loop...'
     st=time.time()
     gmf=np.zeros(len(cr),dtype='i8')
     for i in range(0,len(gmf)):
@@ -49,9 +51,9 @@ except:
         #gp=np.where(data['DatabaseID']==PDBID)[0]
         gp=np.where(data['DatabaseID']==cr['DBID'][i])[0]
         gmf[i]=gp[0]
-    np.savetxt('/home/rumbaugh/gmf_table.3.24.17.1040.dat',dtype='i8')
+    np.savetxt('/home/rumbaugh/gmf_table.3.24.17.1040.dat',gmf,dtype='i8')
     end=time.time()
-    print 'First loop took %f'%(end-st)
+    print 'Second loop took %f'%(end-st)
 medu,medg,medr,medi,medz=data['med_SDSS_u'][gmf],data['med_SDSS_g'][gmf],data['med_SDSS_r'][gmf],data['med_SDSS_i'][gmf],data['med_SDSS_z'][gmf]
 medu_all,medg_all,medr_all,medi_all,medz_all=data['med_SDSS_u'][gmf_dr7],data['med_SDSS_g'][gmf_dr7],data['med_SDSS_r'][gmf_dr7],data['med_SDSS_i'][gmf_dr7],data['med_SDSS_z'][gmf_dr7]
 
@@ -73,12 +75,16 @@ glc=np.where(cdata['LOGLBOL']>0)[0]
 cdata=cdata[gl]
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
 
+print 'Starting good_id loops...'
+st=time.time()
 ggd=np.zeros(len(good_dbids),dtype='i8')
 for i in range(0,len(ggd)): ggd[i]=np.where(bhname==good_dbids[i][5:])[0][0]
 gegd=np.zeros(len(extra_good_dbids),dtype='i8')
 for i in range(0,len(gegd)): gegd[i]=np.where(bhname==extra_good_dbids[i][5:])[0][0]
 geegd=np.zeros(len(extra_extra_good_dbids),dtype='i8')
 for i in range(0,len(geegd)): geegd[i]=np.where(bhname==extra_extra_good_dbids[i][5:])[0][0]
+end=time.time()
+print 'good_id loops took %f'%(end-st)
 
 
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
