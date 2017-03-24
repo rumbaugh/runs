@@ -255,8 +255,8 @@ plt.scatter(gegdgr,gegdug,color='magenta',s=gdsize+2,edgecolor='None',marker='o'
 plt.scatter(geegdgr,geegdug,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
 plt.ylabel(r'$u-g$')
-plt.xlim(-0.5,3)
-plt.ylim(-1.5,6)
+plt.xlim(-0.5,2.5)
+plt.ylim(-0.5,6)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_g-r.DR7_CLQ_candidates.3.24.17.png')
 
 plt.figure(1)
