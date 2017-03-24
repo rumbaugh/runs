@@ -33,7 +33,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     if len(gmc)>0:
         s82flag[idb]=1
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
-        outlier_mac_arr=np.zeros(len(crmac),dtype='bool')
+        outlier_mac_arr=-np.ones(len(crmac),dtype='i8')
         gorigmac=np.arange(len(crmac))[(crmac['MAG']>14)&(crmac['MAG']<30)&(crmac['MAGERR']<5)]
         crmac=crmac[(crmac['MAG']>14)&(crmac['MAG']<30)&(crmac['MAGERR']<5)]
         gbmac=np.where(crmac['BAND']=='g')[0]
@@ -111,6 +111,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         #if len(cr)>1:
         #    initdists=SphDist(cr['RA'][0],cr['DEC'][0],cr['RA'][1:],cr['DEC'][1:])
         #    if np.max(initdists)>0.3: SNflag=True
+    if maclen>0:outlier_mac_arr[gorigmac[gbmac[gmac2]]]=0
     if len(gb)>0:
         for ipt in np.arange(len(gb)):
             gthresh=np.where(np.abs(mjd[gb]-mjd[gb[ipt]])<outlier_window)[0]
@@ -119,8 +120,8 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                     outlier_arr[gorig[gb[ipt]]]= np.abs(np.median(mag[gb[gthresh]])-mag[gb[ipt]]) > outlier_thresh
                 else:
                     outlier_mac_arr[gorigmac[gbmac[gmac2[ipt-mydblen]]]]= np.abs(np.median(mag[gb[gthresh]])-mag[gb[ipt]]) > outlier_thresh
-        np.savetxt('%s/%s/outliers.tab'%(DBdir,DBID),outlier_arr)
-        if maclen>0:np.savetxt('%s/%s/outliers_Macleod.tab'%(DBdir,DBID),outlier_mac_arr)
+        np.savetxt('%s/%s/outliers.tab'%(DBdir,DBID),outlier_arr,fmt='%2i')
+        if maclen>0:np.savetxt('%s/%s/outliers_Macleod.tab'%(DBdir,DBID),outlier_mac_arr,fmt='%2i')
         outlier_arr=outlier_arr[gorig[gb[gb<mydblen]]]
         outlier_mac_arr=outlier_mac_arr[gorigmac[gbmac[gmac2]]]
         outlier_arr=np.append(outlier_arr,outlier_mac_arr)
