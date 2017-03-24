@@ -129,7 +129,7 @@ ax2.set_ylabel('Cumulative Fraction')
 ax.set_xlim(0,3.125)
 ax2.set_xlim(0,3.125)
 ax2.set_ylim(0,1)
-ax1.set_ylim(0,1)
+ax.set_ylim(0,1)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.CLQ_candidates.DR7.3.24.17.png')
 
 print 'Starting good_id loops...'
