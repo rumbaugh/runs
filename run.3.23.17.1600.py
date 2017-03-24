@@ -18,6 +18,7 @@ crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names
 maxdrop=np.zeros(len(crdb))
 s82flag=np.zeros(len(crdb))
 surveys_max=np.zeros((len(crdb),2),dtype='|S8')
+baseline_max=np.zeros(len(crdb))
 for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     if np.shape(cr)==(0,): 
@@ -144,8 +145,9 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                 surv_st,surv_end,maxdiff=surv_end,surv_st,-maxdiff
             maxdrop[idb]=maxdiff
             surveys_max[idb]=np.array([surv_st,surv_end])
-outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','MaxDrop','SurvST','SurvEnd','S82'),'formats':('|S64','f8','|S8','|S8','i8')})
-outcr['DatabaseID'],outcr['MaxDrop'],outcr['SurvST'],outcr['SurvEnd'],outcr['S82']=crdb['DatabaseID'],maxdrop,surveys_max[:,0],surveys_max[:,1],s82flag
+            baseline_max[idb]=np.abs(mjd_st-mjd_end)
+outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','MaxDrop','SurvST','SurvEnd','S82','Baseline'),'formats':('|S64','f8','|S8','|S8','i8','f8')})
+outcr['DatabaseID'],outcr['MaxDrop'],outcr['SurvST'],outcr['SurvEnd'],outcr['S82'],outcr['Baseline']=crdb['DatabaseID'],maxdrop,surveys_max[:,0],surveys_max[:,1],s82flag,baseline_max
 outcr['SurvST'][outcr['SurvST']=='']='None'
 outcr['SurvEnd'][outcr['SurvEnd']=='']='None'
-np.savetxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.23.17.dat',outcr,fmt='%24s %6.3f %4s %4s %i',header='DatabaseID MaxMagDrop SurveyInit SurveyFinal Stripe82',comments='')
+np.savetxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.23.17.dat',outcr,fmt='%24s %6.3f %4s %4s %i %7.1f',header='DatabaseID MaxMagDrop SurveyInit SurveyFinal Stripe82 Baseline',comments='')
