@@ -30,8 +30,9 @@ cr=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.23.17.dat',dt
 
 gmf=np.zeros(len(cr),dtype='i8')
 for i in range(0,len(gmf)):
-    PDBID=PrimaryDBID_dict[cr['DBID'][i]]
-    gp=np.where(data['DatabaseID']==PDBID)[0]
+    #PDBID=PrimaryDBID_dict[cr['DBID'][i]]
+    #gp=np.where(data['DatabaseID']==PDBID)[0]
+    gp=np.where(data['DatabaseID']==cr['DBID'][i])[0]
     gmf[i]=gp[0]
 medu,medg,medr,medi,medz=data['med_SDSS_u'][gmf],data['med_SDSS_g'][gmf],data['med_SDSS_r'][gmf],data['med_SDSS_i'][gmf],data['med_SDSS_z'][gmf]
 medu_all,medg_all,medr_all,medi_all,medz_all=data['med_SDSS_u'][gmf_dr7],data['med_SDSS_g'][gmf_dr7],data['med_SDSS_r'][gmf_dr7],data['med_SDSS_i'][gmf_dr7],data['med_SDSS_z'][gmf_dr7]
