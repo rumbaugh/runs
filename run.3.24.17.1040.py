@@ -83,7 +83,7 @@ except:
     st=time.time()
     cDBIDs,cgdb=np.zeros(len(cz),dtype='|S24'),np.zeros(len(cz),dtype='i8')
     for i in range(0,len(cgdb)):
-        cgdb[i]=np.where(crdb['SDSSNAME']=='DR7BH%s'%cname)[0][0]
+        cgdb[i]=np.where(crdb['SDSSNAME']=='DR7BH%s'%cname[i])[0][0]
         cDBIDs[i]=crdb['DBID'][cgdb[i]]
     conoutcr=np.zeros((len(cgdb),),dtype={'names':('DBID','gdb'),'formats':('|S24','i8')})
     conoutcr['DBID'],conoutcr['gdb']=cDBIDs,cgdb
