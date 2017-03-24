@@ -1,5 +1,6 @@
 execfile('/home/rumbaugh/pythonscripts/plot_DB_lightcurves.py')
 import pyfits as py
+import time
 
 clqsize=16
 
@@ -8,18 +9,29 @@ data=hdu[1].data
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 
-gdb=np.where(crdb['SDSSNAME']!='-1')[0]
-PrimaryDBID_dict={}
-for i in range(0,len(gdb)):
-    PrimaryDBID=crdb['DatabaseID'][gdb[i]]
-    AllDBIDs = crdb['DBIDS'][gdb[i]]
-    AllDBIDs=AllDBIDs.split(';')
-    for DBID in AllDBIDs:
-        if DBID[:2]=='DR': PrimaryDBID_dict[DBID]=PrimaryDBID
-    try:
-        PrimaryDBID_dict[DBID]
-    except KeyError:
-        print "Couldn't find DBID for "+PrimaryDBID
+try:
+    crp=np.loadtxt('/home/rumbaugh/primarydbid_table.3.24.17.1040.dat',dtype='|S48')
+    PrimaryDBID={crp[:,0][x]: crp[:,1][x] for x in np.arange(len(crp))}
+except:
+    st=time.time()
+    gdb=np.where(crdb['SDSSNAME']!='-1')[0]
+    PrimaryDBID_dict={}
+    for i in range(0,len(gdb)):
+        PrimaryDBID=crdb['DatabaseID'][gdb[i]]
+        AllDBIDs = crdb['DBIDS'][gdb[i]]
+        AllDBIDs=AllDBIDs.split(';')
+        for DBID in AllDBIDs:
+            if DBID[:2]=='DR': PrimaryDBID_dict[DBID]=PrimaryDBID
+        try:
+            PrimaryDBID_dict[DBID]
+        except KeyError:
+            print "Couldn't find DBID for "+PrimaryDBID
+    poutcr=np.zeros((len(gdb),),dtype={'names':('key','val'),'formats':('|S48','|S48')})
+    pkeys=PrimaryDBID_dict.keys()
+    for i in range(0,len(gbd)): poutcr['key'][i],poutcr['val'][i]=pkeys[i],PrimaryDBID_dict[pkeys[i]]
+    np.savetxt('/home/rumbaugh/primarydbid_table.3.24.17.1040.dat',poutcr,fmt='%s %s')
+    end=time.time()
+    print 'First loop took %f'%(end-st)
 
 gmf_dr7=np.where(data['SDSSNAME']!='-1')[0]
 
@@ -27,22 +39,28 @@ gmf_dr7=np.where(data['SDSSNAME']!='-1')[0]
 
 cr=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.23.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','Baseline'),'formats':('|S32','f8','|S8','|S8','i8','f8')},skiprows=1)
 
-
-gmf=np.zeros(len(cr),dtype='i8')
-for i in range(0,len(gmf)):
-    #PDBID=PrimaryDBID_dict[cr['DBID'][i]]
-    #gp=np.where(data['DatabaseID']==PDBID)[0]
-    gp=np.where(data['DatabaseID']==cr['DBID'][i])[0]
-    gmf[i]=gp[0]
+try:
+    gmf=np.loadtxt('/home/rumbaugh/gmf_table.3.24.17.1040.dat',dtype='i8')
+except:
+    st=time.time()
+    gmf=np.zeros(len(cr),dtype='i8')
+    for i in range(0,len(gmf)):
+        #PDBID=PrimaryDBID_dict[cr['DBID'][i]]
+        #gp=np.where(data['DatabaseID']==PDBID)[0]
+        gp=np.where(data['DatabaseID']==cr['DBID'][i])[0]
+        gmf[i]=gp[0]
+    np.savetxt('/home/rumbaugh/gmf_table.3.24.17.1040.dat',dtype='i8')
+    end=time.time()
+    print 'First loop took %f'%(end-st)
 medu,medg,medr,medi,medz=data['med_SDSS_u'][gmf],data['med_SDSS_g'][gmf],data['med_SDSS_r'][gmf],data['med_SDSS_i'][gmf],data['med_SDSS_z'][gmf]
 medu_all,medg_all,medr_all,medi_all,medz_all=data['med_SDSS_u'][gmf_dr7],data['med_SDSS_g'][gmf_dr7],data['med_SDSS_r'][gmf_dr7],data['med_SDSS_i'][gmf_dr7],data['med_SDSS_z'][gmf_dr7]
 
 crmd=cr[np.abs(cr['drop'])>1]
 gmf_md=gmf[np.abs(cr['drop'])>1]
 
-good_dbids=crmd['DBID'][crmd['flag']==0]
-extra_good_dbids=crmd['DBID'][(crmd['flag']==0)&(crmd['drop']>1.5)]
-extra_extra_good_dbids=crmd['DBID'][(crmd['flag']==0)&(crmd['drop']>2)]
+good_dbids=crmd['DBID'][np.abs(crmd['drop'])>1]
+extra_good_dbids=crmd['DBID'][(np.abs(crmd['drop'])>1)&(crmd['drop']>1.5)]
+extra_extra_good_dbids=crmd['DBID'][(np.abs(crmd['drop'])>1)&(crmd['drop']>2)]
 
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
