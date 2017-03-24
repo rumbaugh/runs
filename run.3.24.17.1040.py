@@ -104,18 +104,6 @@ for i in range(0,len(cname)):
 #    end=time.time()
 #    print 'Third loop took %f'%(end-st)
 
-print 'Starting good_id loops...'
-st=time.time()
-ggd=np.zeros(len(good_dbids),dtype='i8')
-for i in range(0,len(ggd)): ggd[i]=np.where(bhdbid==good_dbids[i])[0][0]
-gegd=np.zeros(len(extra_good_dbids),dtype='i8')
-for i in range(0,len(gegd)): gegd[i]=np.where(bhdbid==extra_good_dbids[i])[0][0]
-geegd=np.zeros(len(extra_extra_good_dbids),dtype='i8')
-for i in range(0,len(geegd)): geegd[i]=np.where(bhdbid==extra_extra_good_dbids[i])[0][0]
-end=time.time()
-print 'good_id loops took %f'%(end-st)
-
-
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 
 plt.figure(1)
@@ -141,6 +129,18 @@ ax.set_xlim(0,3.125)
 ax2.set_xlim(0,3.125)
 ax2.set_ylim(0,1)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.CLQ_candidates.DR7.3.24.17.png')
+
+print 'Starting good_id loops...'
+st=time.time()
+ggd=np.zeros(len(good_dbids),dtype='i8')
+for i in range(0,len(ggd)): ggd[i]=np.where(bhdbid==good_dbids[i])[0][0]
+gegd=np.zeros(len(extra_good_dbids),dtype='i8')
+for i in range(0,len(gegd)): gegd[i]=np.where(bhdbid==extra_good_dbids[i])[0][0]
+geegd=np.zeros(len(extra_extra_good_dbids),dtype='i8')
+for i in range(0,len(geegd)): geegd[i]=np.where(bhdbid==extra_extra_good_dbids[i])[0][0]
+end=time.time()
+print 'good_id loops took %f'%(end-st)
+
 
 plt.figure(1)
 plt.clf()
