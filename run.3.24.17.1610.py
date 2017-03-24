@@ -22,8 +22,8 @@ for DBID in crmd['DBID']:
         outlier_arr=np.array(np.append(crout,croutmac),dtype='bool')
     except:
         crmac=None
+        outlier_arr=np.array(crout,dtype='bool')
     if crmac!=None:
-        
         newcr=np.zeros((len(cr),),dtype={'names':('DatabaseID','Survey','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S24','|S4','f8','f8','f8','|S4','f8','f8','i8')})
         newcr['DatabaseID'],newcr['Survey'],newcr['RA'],newcr['DEC'],newcr['MJD'],newcr['BAND'],newcr['MAG'],newcr['MAGERR'],newcr['FLAG']=cr['DatabaseID'],cr['Survey'],cr['RA'],cr['DEC'],cr['MJD'],cr['BAND'],cr['MAG'],cr['MAGERR'],cr['FLAG']
         newcrmac=np.zeros((len(crmac),),dtype={'names':('DatabaseID','Survey','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S24','|S4','f8','f8','f8','|S4','f8','f8','i8')})
