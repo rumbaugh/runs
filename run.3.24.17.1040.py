@@ -65,8 +65,8 @@ for i in range(0,len(geegd)): geegd[i]=np.where(bhname==extra_extra_good_dbids[i
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 
 plt.figure(1)
-plt.clf(np.sort(cr['drop']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='k')
-plt.plot(,range=(1,3.125),bins=17)
+plt.clf()
+plt.plot(np.sort(cr['drop']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='k')
 plt.xlabel('Magnitude Change')
 plt.ylabel('Cumulative Fraction')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MagDropPlot.CLQ_candidates.DR7.3.24.17.png')
