@@ -51,7 +51,7 @@ except:
         #gp=np.where(data['DatabaseID']==PDBID)[0]
         gp=np.where(data['DatabaseID']==cr['DBID'][i])[0]
         gmf[i]=gp[0]
-    np.savetxt('/home/rumbaugh/gmf_table.3.24.17.1040.dat',gmf,dtype='i8')
+    np.savetxt('/home/rumbaugh/gmf_table.3.24.17.1040.dat',gmf,fmt='%i')
     end=time.time()
     print 'Second loop took %f'%(end-st)
 medu,medg,medr,medi,medz=data['med_SDSS_u'][gmf],data['med_SDSS_g'][gmf],data['med_SDSS_r'][gmf],data['med_SDSS_i'][gmf],data['med_SDSS_z'][gmf]
@@ -72,8 +72,24 @@ gl=np.where(bhdata['LOGLBOL']>0)[0]
 bhdata=bhdata[gl]
 bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
 glc=np.where(cdata['LOGLBOL']>0)[0]
-cdata=cdata[gl]
+cdata=cdata[glc]
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
+
+try:
+    crcon=np.loadtxt('/home/rumbaugh/control_DBIDs.3.24.17.1040.dat',dtype={'names':('DBID','gdb'),'formats':('|S24','i8')}))
+    cDBIDs,cgdb=crcon['DBID'],crcon['gdb']
+except:
+    print 'Starting third loop...'
+    st=time.time()
+    cDBIDs,cgdb=np.zeros(len(cz),dtype='|S24'),np.zeros(len(cz),dtype='i8')
+    for i in range(0,len(cgdb)):
+        cgdb[i]=np.where(crdb['SDSSNAME']=='DR7BH%s'%cname)[0][0]
+        cDBIDs[i]=crdb['DBID'][cgdb[i]]
+    conoutcr=np.zeros((len(cgdb),),dtype={'names':('DBID','gdb'),'formats':('|S24','i8')})
+    conoutcr['DBID'],conoutcr['gdb']=cDBIDs,cgdb
+    np.loadtxt('/home/rumbaugh/control_DBIDs.3.24.17.1040.dat',conoutcr,fmt='%s %i')
+    end=time.time()
+    print 'Third loop took %f'%(end-st)
 
 print 'Starting good_id loops...'
 st=time.time()
