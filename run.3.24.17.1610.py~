@@ -1,0 +1,2 @@
+import numpy as np
+execfile('/home/rumbaugh/pythonscripts/StructureFunction.py')
