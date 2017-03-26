@@ -156,7 +156,7 @@ def calc_contour(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30):
     AB_pairs=np.zeros((2,tsize**2))
     AB_pairs[0],AB_pairs[1]=np.repeat(Acens,len(Bcens)),np.tile(Bcens,len(Acens))
     richness=np.zeros(len(AB_pairs[0]))
-    AB_pairs=np.meshgrid(Bcens,Acens)
+    AB_pairs=np.meshgrid(Acens,Bcens)
     richness=np.zeros(np.shape(AB_pairs[0]))
     for i in np.arange(tsize):
         for j in np.arange(tsize):
