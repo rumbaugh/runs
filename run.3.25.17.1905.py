@@ -143,6 +143,7 @@ bhOIII,bhHB,bhFe=bhOIII[ggs],bhHB[ggs],bhFe[ggs]
 
 csize=4
 gdsize=4
+consize=20
 
 
 def calc_contour(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30):
@@ -172,8 +173,8 @@ cgr,cug=cmagg-cmagr,cmagu-cmagg
 ggdgr,ggdug=bhmagg[ggd]-bhmagr[ggd],bhmagu[ggd]-bhmagg[ggd]
 gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
 geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
-con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1.75,-0.5,2,tsize=31)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1.75,-0.5,2,tsize=30)
+con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1.75,-0.5,2,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1.75,-0.5,2,tsize=consize)
 #plt.scatter(bhgr,bhug,color='k',s=1,edgecolor='None',marker='.')
 plt.scatter(cgr,cug,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdgr,ggdug,color='red',s=gdsize,edgecolor='None',marker='.')
@@ -195,8 +196,8 @@ ggdri,ggdgr=bhmagr[ggd]-bhmagi[ggd],bhmagg[ggd]-bhmagr[ggd]
 gegdri,gegdgr=bhmagr[gegd]-bhmagi[gegd],bhmagg[gegd]-bhmagr[gegd]
 geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
 #plt.scatter(bhri,bhgr,color='k',s=1,edgecolor='None',marker='.')
-con_pairs,con_richness=calc_contour(cgr,cri,-0.4,0.8,-0.3,1.2,tsize=31)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.4,0.8,-0.3,1.2,tsize=30)
+con_pairs,con_richness=calc_contour(cgr,cri,-0.4,0.8,-0.3,1.2,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.4,0.8,-0.3,1.2,tsize=consize)
 plt.scatter(cri,cgr,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdri,ggdgr,color='red',s=gdsize,edgecolor='None',marker='.')
 plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
@@ -217,8 +218,8 @@ cW1W2,crW1=cmagwise1-cmagwise2,cmagr-cmagwise1
 ggdW1W2,ggdrW1=bhmagwise1[ggd]-bhmagwise2[ggd],bhmagr[ggd]-bhmagwise1[ggd]
 gegdW1W2,gegdrW1=bhmagwise1[gegd]-bhmagwise2[gegd],bhmagr[gegd]-bhmagwise1[gegd]
 geegdW1W2,geegdrW1=bhmagwise1[geegd]-bhmagwise2[geegd],bhmagr[geegd]-bhmagwise1[geegd]
-con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,tsize=31)
-evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,tsize=30)
+con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,tsize=consize)
 #plt.scatter(bhW1W2,bhrW1,color='k',s=1,edgecolor='None',marker='.')
 plt.scatter(cW1W2,crW1,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdW1W2,ggdrW1,color='red',s=gdsize,edgecolor='None',marker='.')
