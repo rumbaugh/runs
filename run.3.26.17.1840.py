@@ -54,6 +54,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         outlier_mac_arr=np.zeros(0,dtype='bool')
     #SNflag=False
     if np.shape(cr)==():
+        ra[idb],dec[idb]=cr['RA'],cr['DEC']
         if len(ggood)<1:
             mydblen=0
             gb0=np.zeros(0,dtype='i8')
@@ -95,6 +96,11 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                 maclen=len(mjd)
             gb=np.where(bands=='g')[0]
     else:
+        gSDSS=np.where(cr['Survey']=='SDSS')[0]
+        if len(gSDSS)>0:
+            ra[idb],dec[idb]=cr['RA'][gSDSS[0]],cr['DEC'][gSDSS[0]]
+        else:
+            ra[idb],dec[idb]=cr['RA'][0],cr['DEC'][0]
         cr=cr[ggood]
         gb=np.where(cr['BAND']=='g')[0]
         cr=cr[gb]
