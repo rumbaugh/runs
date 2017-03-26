@@ -172,19 +172,19 @@ cgr,cug=cmagg-cmagr,cmagu-cmagg
 ggdgr,ggdug=bhmagg[ggd]-bhmagr[ggd],bhmagu[ggd]-bhmagg[ggd]
 gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
 geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
-con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1.75,-0.5,5,tsize=30)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1.75,-0.5,5,tsize=30)
+con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1.75,-0.5,2,tsize=31)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1.75,-0.5,2,tsize=30)
 #plt.scatter(bhgr,bhug,color='k',s=1,edgecolor='None',marker='.')
 plt.scatter(cgr,cug,color='b',s=csize,edgecolor='None',marker='.')
-plt.scatter(ggdgr,ggdug,color='red',s=gdsize,edgecolor='None',marker='o')
+plt.scatter(ggdgr,ggdug,color='red',s=gdsize,edgecolor='None',marker='.')
 plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(gegdgr,gegdug,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdgr,geegdug,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
 plt.ylabel(r'$u-g$')
-plt.xlim(-0.5,2.5)
-plt.ylim(-0.5,6)
+plt.xlim(-0.25,1.75)
+plt.ylim(-0.5,2)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_g-r.DR7_CLQ_candidates.3.25.17.png')
 
 plt.figure(1)
@@ -195,18 +195,18 @@ ggdri,ggdgr=bhmagr[ggd]-bhmagi[ggd],bhmagg[ggd]-bhmagr[ggd]
 gegdri,gegdgr=bhmagr[gegd]-bhmagi[gegd],bhmagg[gegd]-bhmagr[gegd]
 geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
 #plt.scatter(bhri,bhgr,color='k',s=1,edgecolor='None',marker='.')
-con_pairs,con_richness=calc_contour(cgr,cri,-0.6,0.7,-0.4,1.6,tsize=30)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.6,0.7,-0.4,1.6,tsize=30)
+con_pairs,con_richness=calc_contour(cgr,cri,-0.4,0.8,-0.3,1.2,tsize=31)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.4,0.8,-0.3,1.2,tsize=30)
 plt.scatter(cri,cgr,color='b',s=csize,edgecolor='None',marker='.')
-plt.scatter(ggdri,ggdgr,color='red',s=gdsize,edgecolor='None',marker='o')
+plt.scatter(ggdri,ggdgr,color='red',s=gdsize,edgecolor='None',marker='.')
 plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(gegdri,gegdgr,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdri,geegdgr,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
 plt.ylabel(r'$r-i$')
-plt.xlim(-0.6,1.2)
-plt.ylim(-0.5,3)
+plt.xlim(-0.4,0.8)
+plt.ylim(-0.3,1.2)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/r-i_vs_g-r.DR7_CLQ_candidates.3.25.17.png')
 
 
@@ -217,18 +217,18 @@ cW1W2,crW1=cmagwise1-cmagwise2,cmagr-cmagwise1
 ggdW1W2,ggdrW1=bhmagwise1[ggd]-bhmagwise2[ggd],bhmagr[ggd]-bhmagwise1[ggd]
 gegdW1W2,gegdrW1=bhmagwise1[gegd]-bhmagwise2[gegd],bhmagr[gegd]-bhmagwise1[gegd]
 geegdW1W2,geegdrW1=bhmagwise1[geegd]-bhmagwise2[geegd],bhmagr[geegd]-bhmagwise1[geegd]
-con_pairs,con_richness=calc_contour(cW1W2,crW1,-0.1,1.9,2,6.5,tsize=30)
-evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,-0.1,1.9,2,6.5,tsize=30)
+con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,tsize=31)
+evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,tsize=30)
 #plt.scatter(bhW1W2,bhrW1,color='k',s=1,edgecolor='None',marker='.')
 plt.scatter(cW1W2,crW1,color='b',s=csize,edgecolor='None',marker='.')
-plt.scatter(ggdW1W2,ggdrW1,color='red',s=gdsize,edgecolor='None',marker='o')
+plt.scatter(ggdW1W2,ggdrW1,color='red',s=gdsize,edgecolor='None',marker='.')
 #plt.scatter(gegdW1W2,gegdrW1,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdW1W2,geegdrW1,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 plt.xlabel('W1-W2')
 plt.ylabel(r'$r-$W1')
-plt.xlim(-0.5,2)
-plt.ylim(2,7)
+plt.xlim(0.1,1.75)
+plt.ylim(2.25,6.25)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/W1-W2_vs_r-W1.DR7_CLQ_candidates.3.25.17.png')
 
