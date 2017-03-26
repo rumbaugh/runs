@@ -146,7 +146,7 @@ bhOIII,bhHB,bhFe=bhOIII[ggs],bhHB[ggs],bhFe[ggs]
 
 csize=4
 gdsize=4
-consize=20
+consize=12
 nlevels=4
 
 
