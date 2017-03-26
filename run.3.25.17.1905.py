@@ -116,7 +116,7 @@ except NameError:
     for i in range(0,len(ggd)): 
         ggddb=np.where(good_dbids[i]==crdb['DatabaseID'])[0][0]
         try:
-            ggd[i]=np.where(bhname==crdb['SDSSNAME'][ggddb])[0][0]
+            ggd[i]=np.where(bhname==crd['SDSSNAME'][ggddb])[0][0]
         except IndexError:
             gkeep[i]=0
     good_dbids,ggd,gooddrops=good_dbids[gkeep],ggd[gkeep],gooddrops[gkeep]
@@ -182,7 +182,7 @@ evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1.75,-0.5,2,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 plt.clf()
-conlevels,evqlevels=np.arange(Ccon.levels[0],Ccon.levels[-1]+0.001,nlevels-1),np.arange(Cevq.levels[0],Cevq.levels[-1]+0.001,nlevels-1)
+conlevels,evqlevels=np.arange(Ccon.levels[0],Ccon.levels[-1]+0.001,(Ccon.levels[-1]-Ccon.levels[0])/(nlevels-1)),np.arange(Cevq.levels[0],Cevq.levels[-1]+0.001,(Cevq.levels[-1]-Cevq.levels[0])/(nlevels-1))
 #plt.scatter(bhgr,bhug,color='k',s=1,edgecolor='None',marker='.')
 plt.scatter(cgr,cug,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdgr,ggdug,color='red',s=gdsize,edgecolor='None',marker='.')
@@ -209,7 +209,7 @@ evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.4,0.8,-0.3,1.2,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 plt.clf()
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
-conlevels,evqlevels=np.arange(Ccon.levels[0],Ccon.levels[-1]+0.001,nlevels-1),np.arange(Cevq.levels[0],Cevq.levels[-1]+0.001,nlevels-1)
+conlevels,evqlevels=np.arange(Ccon.levels[0],Ccon.levels[-1]+0.001,(Ccon.levels[-1]-Ccon.levels[0])/(nlevels-1)),np.arange(Cevq.levels[0],Cevq.levels[-1]+0.001,(Cevq.levels[-1]-Cevq.levels[0])/(nlevels-1))
 plt.scatter(cri,cgr,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdri,ggdgr,color='red',s=gdsize,edgecolor='None',marker='.')
 plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b',levels=conlevels)
@@ -235,7 +235,7 @@ evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,tsize=cons
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(bhW1W2,bhrW1,color='k',s=1,edgecolor='None',marker='.')
-conlevels,evqlevels=np.arange(Ccon.levels[0],Ccon.levels[-1]+0.001,nlevels-1),np.arange(Cevq.levels[0],Cevq.levels[-1]+0.001,nlevels-1)
+conlevels,evqlevels=np.arange(Ccon.levels[0],Ccon.levels[-1]+0.001,(Ccon.levels[-1]-Ccon.levels[0])/(nlevels-1)),np.arange(Cevq.levels[0],Cevq.levels[-1]+0.001,(Cevq.levels[-1]-Cevq.levels[0])/(nlevels-1))
 plt.scatter(cW1W2,crW1,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdW1W2,ggdrW1,color='red',s=gdsize,edgecolor='None',marker='.')
 #plt.scatter(gegdW1W2,gegdrW1,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
