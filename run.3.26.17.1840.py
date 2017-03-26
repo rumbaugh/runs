@@ -1,6 +1,7 @@
 import numpy as np
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 
+DBdir='/home/rumbaugh/var_database/Y3A1'
 outlier_window,outlier_thresh,mac_thresh=100,0.5,5
 
 DB_path='/home/rumbaugh/var_database/Y3A1'
@@ -9,16 +10,21 @@ outputdir=DB_path
 crmcm=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_Macleod_S82_match.dat',dtype={'names':('DBID','MCID'),'formats':('|S24','i8')},skiprows=1)
 
 
+hdu=py.open('%s/masterfile.fits'%DBdir)
+data=hdu[1].data
 crmcm=crmcm[crmcm['MCID']>-1]
 
 #name_prefs=np.array(crdb['DatabaseID'],dtype='|S2')
-#crdb=crdb[name_prefs=='DR']
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
+data=data[crdb['SDSSNAME']!='-1']
+crdb=crdb[crdb['SDSSNAME']!='-1']
 maxdrop=np.zeros(len(crdb))
 s82flag=np.zeros(len(crdb))
-surveys_max=np.zeros((len(crdb),2),dtype='|S8')
 baseline_max=np.zeros(len(crdb))
+ra,dec=np.zeros(len(crdb)),np.zeros(len(crdb))
+surveys_max,mjd_max,g_max,sig_max=np.zeros((len(crdb),2),dtype='|S8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8')
+redshifts=np.zeros(len(crdb))
 for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     if np.shape(cr)==(0,): 
@@ -121,8 +127,8 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                     outlier_arr[gorig[gb[ipt]]]= np.abs(np.median(mag[gb[gthresh]])-mag[gb[ipt]]) > outlier_thresh
                 else:
                     outlier_mac_arr[gorigmac[gbmac[gmac2[ipt-mydblen]]]]= np.abs(np.median(mag[gb[gthresh]])-mag[gb[ipt]]) > outlier_thresh
-        np.savetxt('%s/%s/outliers.tab'%(DBdir,DBID),outlier_arr,fmt='%2i')
-        if maclen>0:np.savetxt('%s/%s/outliers_Macleod.tab'%(DBdir,DBID),outlier_mac_arr,fmt='%2i')
+        #np.savetxt('%s/%s/outliers.tab'%(DBdir,DBID),outlier_arr,fmt='%2i')
+        #if maclen>0:np.savetxt('%s/%s/outliers_Macleod.tab'%(DBdir,DBID),outlier_mac_arr,fmt='%2i')
         outlier_arr=outlier_arr[gorig[gb[gb<mydblen]]]
         outlier_mac_arr=outlier_mac_arr[gorigmac[gbmac[gmac2]]]
         outlier_arr=np.append(outlier_arr,outlier_mac_arr)
@@ -146,6 +152,10 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             maxdrop[idb]=maxdiff
             surveys_max[idb]=np.array([surv_st,surv_end])
             baseline_max[idb]=np.abs(mjd_st-mjd_end)
+            mag_st,mag_end,sig_st,sig_end=mag[gst],mag[gend],magerr[gst],magerr[gend]
+            mjd_max[idb][0],mjd_max[idb][1]=mjd_st,mjd_end
+            sig_max[idb][0],sig_max[idb][1]=sig_st,sig_end
+            g_max[idb][0],g_max[idb][1]=mag_st,mag_end
         gm=np.where(data['DatabaseID']==DBID)[0]
         if len(gm)>0:
             gm=gm[0]
