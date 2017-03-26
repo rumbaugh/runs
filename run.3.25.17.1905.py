@@ -145,7 +145,7 @@ csize=4
 gdsize=10
 
 
-def calc_contours(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30):
+def calc_contour(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30):
     if Amin==None: Amin=np.min(A)
     if Amax==None: Amax=np.min(A)
     if Bmin==None: Bmin=np.min(B)
