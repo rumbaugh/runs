@@ -142,7 +142,7 @@ bhOIII,bhHB,bhFe=bhOIII[ggs],bhHB[ggs],bhFe[ggs]
 
 
 csize=4
-gdsize=10
+gdsize=4
 
 
 def calc_contour(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30):
@@ -177,8 +177,8 @@ evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1.75,-0.5,5,tsize=30)
 #plt.scatter(bhgr,bhug,color='k',s=1,edgecolor='None',marker='.')
 plt.scatter(cgr,cug,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdgr,ggdug,color='red',s=gdsize,edgecolor='None',marker='o')
-plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',color='b')
-plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,color='r')
+plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
+plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(gegdgr,gegdug,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdgr,geegdug,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
@@ -199,8 +199,8 @@ con_pairs,con_richness=calc_contour(cgr,cri,-0.6,0.7,-0.4,1.6,tsize=30)
 evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.6,0.7,-0.4,1.6,tsize=30)
 plt.scatter(cri,cgr,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdri,ggdgr,color='red',s=gdsize,edgecolor='None',marker='o')
-plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',color='b')
-plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,color='r')
+plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
+plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(gegdri,gegdgr,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdri,geegdgr,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
@@ -224,8 +224,8 @@ plt.scatter(cW1W2,crW1,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdW1W2,ggdrW1,color='red',s=gdsize,edgecolor='None',marker='o')
 #plt.scatter(gegdW1W2,gegdrW1,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdW1W2,geegdrW1,color='red',s=gdsize+4,edgecolor='None',marker='o')
-plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',color='b')
-plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,color='r')
+plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
+plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 plt.xlabel('W1-W2')
 plt.ylabel(r'$r-$W1')
 plt.xlim(-0.5,2)
