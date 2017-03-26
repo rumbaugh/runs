@@ -177,8 +177,8 @@ cgr,cug=cmagg-cmagr,cmagu-cmagg
 ggdgr,ggdug=bhmagg[ggd]-bhmagr[ggd],bhmagu[ggd]-bhmagg[ggd]
 gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
 geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
-con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1.75,-0.5,2,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1.75,-0.5,2,tsize=consize)
+con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1,-0.4,1.25,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1,-0.4,1.25,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 plt.clf()
@@ -192,8 +192,8 @@ plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
 #plt.scatter(geegdgr,geegdug,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
 plt.ylabel(r'$u-g$')
-plt.xlim(-0.25,1.75)
-plt.ylim(-0.5,2)
+plt.xlim(-0.25,1)
+plt.ylim(-0.4,1.25)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/u-g_vs_g-r.DR7_CLQ_candidates.3.25.17.png')
 
 plt.figure(1)
@@ -204,8 +204,8 @@ ggdri,ggdgr=bhmagr[ggd]-bhmagi[ggd],bhmagg[ggd]-bhmagr[ggd]
 gegdri,gegdgr=bhmagr[gegd]-bhmagi[gegd],bhmagg[gegd]-bhmagr[gegd]
 geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
 #plt.scatter(bhri,bhgr,color='k',s=1,edgecolor='None',marker='.')
-con_pairs,con_richness=calc_contour(cgr,cri,-0.4,0.8,-0.3,1.2,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.4,0.8,-0.3,1.2,tsize=consize)
+con_pairs,con_richness=calc_contour(cgr,cri,-0.25,0.65,-0.225,0.8,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.25,0.65,-0.225,0.8,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
 plt.clf()
@@ -218,8 +218,8 @@ plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
 #plt.scatter(geegdri,geegdgr,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
 plt.ylabel(r'$r-i$')
-plt.xlim(-0.4,0.8)
-plt.ylim(-0.3,1.2)
+plt.xlim(-0.25,0.65)
+plt.ylim(-0.225,0.8)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/r-i_vs_g-r.DR7_CLQ_candidates.3.25.17.png')
 
 
