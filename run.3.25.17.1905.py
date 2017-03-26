@@ -107,28 +107,31 @@ for i in range(0,len(cname)):
 
 
 print 'Starting good_id loops...'
-st=time.time()
-ggd=np.zeros(len(good_dbids),dtype='i8')
-gkeep=np.ones(len(good_dbids),dtype='bool')
-for i in range(0,len(ggd)): 
-    ggddb=np.where(good_dbids[i]==crdb['DatabaseID'])[0][0]
-    try:
-        ggd[i]=np.where(bhname==crdb['SDSSNAME'][ggddb])[0][0]
-    except IndexError:
-        gkeep[i]=0
-good_dbids,ggd,gooddrops=good_dbids[gkeep],ggd[gkeep],gooddrops[gkeep]
-extra_good_dbids=good_dbids[gooddrops>1.5]
-extra_extra_good_dbids=good_dbids[gooddrops>2]
-gegd=np.zeros(len(extra_good_dbids),dtype='i8')
-for i in range(0,len(gegd)): 
-    gegddb=np.where(extra_good_dbids[i]==crdb['DatabaseID'])[0][0]
-    gegd[i]=np.where(bhname==crdb['SDSSNAME'][gegddb])[0][0]
-geegd=np.zeros(len(extra_extra_good_dbids),dtype='i8')
-for i in range(0,len(geegd)): 
-    geegddb=np.where(crdb['DatabaseID']==extra_extra_good_dbids[i])[0][0]
-    geegd[i]=np.where(bhname==crdb['SDSSNAME'][geegddb])[0][0]
-end=time.time()
-print 'good_id loops took %f'%(end-st)
+try: 
+    gooddrops
+except NameError:
+    st=time.time()
+    ggd=np.zeros(len(good_dbids),dtype='i8')
+    gkeep=np.ones(len(good_dbids),dtype='bool')
+    for i in range(0,len(ggd)): 
+        ggddb=np.where(good_dbids[i]==crdb['DatabaseID'])[0][0]
+        try:
+            ggd[i]=np.where(bhname==crdb['SDSSNAME'][ggddb])[0][0]
+        except IndexError:
+            gkeep[i]=0
+    good_dbids,ggd,gooddrops=good_dbids[gkeep],ggd[gkeep],gooddrops[gkeep]
+    extra_good_dbids=good_dbids[gooddrops>1.5]
+    extra_extra_good_dbids=good_dbids[gooddrops>2]
+    gegd=np.zeros(len(extra_good_dbids),dtype='i8')
+    for i in range(0,len(gegd)): 
+        gegddb=np.where(extra_good_dbids[i]==crdb['DatabaseID'])[0][0]
+        gegd[i]=np.where(bhname==crdb['SDSSNAME'][gegddb])[0][0]
+    geegd=np.zeros(len(extra_extra_good_dbids),dtype='i8')
+    for i in range(0,len(geegd)): 
+        geegddb=np.where(crdb['DatabaseID']==extra_extra_good_dbids[i])[0][0]
+        geegd[i]=np.where(bhname==crdb['SDSSNAME'][geegddb])[0][0]
+    end=time.time()
+    print 'good_id loops took %f'%(end-st)
 
 
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
@@ -144,6 +147,7 @@ bhOIII,bhHB,bhFe=bhOIII[ggs],bhHB[ggs],bhFe[ggs]
 csize=4
 gdsize=4
 consize=20
+nlevels=4
 
 
 def calc_contour(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30):
@@ -175,10 +179,14 @@ gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
 geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
 con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1.75,-0.5,2,tsize=consize+1)
 evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1.75,-0.5,2,tsize=consize)
+Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
+Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
+plt.clf()
+conlevels,evqlevels=np.arange(Ccon.levels[0].Ccon.levels[-1]+0.001,nlevels-1),np.arange(Cevq.levels[0].Cevq.levels[-1]+0.001,nlevels-1)
 #plt.scatter(bhgr,bhug,color='k',s=1,edgecolor='None',marker='.')
 plt.scatter(cgr,cug,color='b',s=csize,edgecolor='None',marker='.')
-plt.scatter(ggdgr,ggdug,color='red',s=gdsize,edgecolor='None',marker='.')
-plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
+plt.scatter(ggdgr,ggdug,color='red',s=gdsize,edgecolor='None',marker='.',levels=conlevels)
+plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b',levels=evqlevels)
 plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(gegdgr,gegdug,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdgr,geegdug,color='red',s=gdsize+4,edgecolor='None',marker='o')
@@ -198,10 +206,14 @@ geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
 #plt.scatter(bhri,bhgr,color='k',s=1,edgecolor='None',marker='.')
 con_pairs,con_richness=calc_contour(cgr,cri,-0.4,0.8,-0.3,1.2,tsize=consize+1)
 evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.4,0.8,-0.3,1.2,tsize=consize)
+Ccon=plt.scatter(ggdri,ggdgr,color='red',s=gdsize,edgecolor='None',marker='.')
+Cevq=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
+plt.clf()
+conlevels,evqlevels=np.arange(Ccon.levels[0].Ccon.levels[-1]+0.001,nlevels-1),np.arange(Cevq.levels[0].Cevq.levels[-1]+0.001,nlevels-1)
 plt.scatter(cri,cgr,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdri,ggdgr,color='red',s=gdsize,edgecolor='None',marker='.')
-plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
-plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
+plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b',levels=conlevels)
+plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
 #plt.scatter(gegdri,gegdgr,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdri,geegdgr,color='red',s=gdsize+4,edgecolor='None',marker='o')
 plt.xlabel(r'$g-r$')
@@ -220,13 +232,16 @@ gegdW1W2,gegdrW1=bhmagwise1[gegd]-bhmagwise2[gegd],bhmagr[gegd]-bhmagwise1[gegd]
 geegdW1W2,geegdrW1=bhmagwise1[geegd]-bhmagwise2[geegd],bhmagr[geegd]-bhmagwise1[geegd]
 con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,tsize=consize+1)
 evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,tsize=consize)
+Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
+Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(bhW1W2,bhrW1,color='k',s=1,edgecolor='None',marker='.')
+conlevels,evqlevels=np.arange(Ccon.levels[0].Ccon.levels[-1]+0.001,nlevels-1),np.arange(Cevq.levels[0].Cevq.levels[-1]+0.001,nlevels-1)
 plt.scatter(cW1W2,crW1,color='b',s=csize,edgecolor='None',marker='.')
 plt.scatter(ggdW1W2,ggdrW1,color='red',s=gdsize,edgecolor='None',marker='.')
 #plt.scatter(gegdW1W2,gegdrW1,color='magenta',s=gdsize+2,edgecolor='None',marker='o')
 #plt.scatter(geegdW1W2,geegdrW1,color='red',s=gdsize+4,edgecolor='None',marker='o')
-plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
-plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=[0,1,2,3])
+plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b',levels=conlevels)
+plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
 plt.xlabel('W1-W2')
 plt.ylabel(r'$r-$W1')
 plt.xlim(0.1,1.75)
