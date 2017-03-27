@@ -267,8 +267,8 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
 for ccolor,evqcolor,colorlabel,colorname in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4']):
     plt.figure(1)
     plt.clf()
-    plt.scatter(cz,ccolor,color='b',marker='.',edgecolor='None')
-    plt.scatter(ggdz,evqcolor,color='r',marker='.',edgecolor='None')
+    plt.scatter(cz,ccolor,color='k',marker='.',edgecolor='None')
+    plt.scatter(ggdz,evqcolor,color='orange',marker='.',edgecolor='None')
     zcens_con,runmed_con=calc_runmed(ccolor,cz,0.2,zmax=4)
     zcens_evq,runmed_evq=calc_runmed(evqcolor,ggdz,0.2,zmax=4)
     plt.plot(zcens_con,runmed_con,c='b',ls='dotted',lw=2)
