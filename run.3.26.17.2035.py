@@ -178,8 +178,8 @@ cgr,cug=cmagg-cmagr,cmagu-cmagg
 ggdgr,ggdug=bhmagg[ggd]-bhmagr[ggd],bhmagu[ggd]-bhmagg[ggd]
 gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
 geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
-con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1,-0.4,1.25,subdivisions=20,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1,-0.4,1.25,subdivisions=20,tsize=consize)
+con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1,-0.4,1.25,subdivisions=5,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1,-0.4,1.25,subdivisions=5,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 plt.clf()
@@ -205,8 +205,8 @@ ggdri,ggdgr=bhmagr[ggd]-bhmagi[ggd],bhmagg[ggd]-bhmagr[ggd]
 gegdri,gegdgr=bhmagr[gegd]-bhmagi[gegd],bhmagg[gegd]-bhmagr[gegd]
 geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
 #plt.scatter(bhri,bhgr,color='k',s=1,edgecolor='None',marker='.')
-con_pairs,con_richness=calc_contour(cgr,cri,-0.25,0.65,-0.225,0.8,subdivisions=20,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.25,0.65,-0.225,0.8,subdivisions=20,tsize=consize)
+con_pairs,con_richness=calc_contour(cgr,cri,-0.25,0.65,-0.225,0.8,subdivisions=5,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.25,0.65,-0.225,0.8,subdivisions=5,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
 plt.clf()
@@ -231,8 +231,8 @@ cW1W2,crW1=cmagwise1-cmagwise2,cmagr-cmagwise1
 ggdW1W2,ggdrW1=bhmagwise1[ggd]-bhmagwise2[ggd],bhmagr[ggd]-bhmagwise1[ggd]
 gegdW1W2,gegdrW1=bhmagwise1[gegd]-bhmagwise2[gegd],bhmagr[gegd]-bhmagwise1[gegd]
 geegdW1W2,geegdrW1=bhmagwise1[geegd]-bhmagwise2[geegd],bhmagr[geegd]-bhmagwise1[geegd]
-con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,subdivisions=20,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,subdivisions=20,tsize=consize)
+con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,subdivisions=5,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,subdivisions=5,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(bhW1W2,bhrW1,color='k',s=1,edgecolor='None',marker='.')
@@ -267,12 +267,13 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
 for ccolor,evqcolor,colorlabel,colorname in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4']):
     plt.figure(1)
     plt.clf()
-    plt.scatter(cz,ccolor,color='b',marker='.')
-    plt.scatter(ggdz,evqcolor,color='r',marker='.')
-    zcens_con,runmed_con=calc_runmed(ccolor,cz,0.2)
-    zcens_evq,runmed_evq=calc_runmed(evqcolor,ggdz,0.2)
-    plt.plot(zcens_con,runmed_con,c='b',ls='dotted')
-    plt.plot(zcens_evq,runmed_evq,c='r',ls='dashed')
+    plt.scatter(cz,ccolor,color='b',marker='.',edgecolor='None')
+    plt.scatter(ggdz,evqcolor,color='r',marker='.',edgecolor='None')
+    zcens_con,runmed_con=calc_runmed(ccolor,cz,0.2,zmax=4)
+    zcens_evq,runmed_evq=calc_runmed(evqcolor,ggdz,0.2,zmax=4)
+    plt.plot(zcens_con,runmed_con,c='b',ls='dotted',lw=2)
+    plt.plot(zcens_evq,runmed_evq,c='r',ls='dashed',lw=2)
     plt.xlabel('Redshift')
     plt.ylabel(colorlabel)
+    plt.xlim(0,4.4)
     plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/zcolor_plot.%s.3.26.17.png'%colorname)
