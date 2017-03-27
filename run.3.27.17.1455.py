@@ -64,7 +64,7 @@ for DBID in np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1]):
     #fluxerr=np.log(10)/-2.5*flux*magerr
     mjdmin=np.min(mjd)
     mjd=mjdmin+(mjd-mjdmin)/(1+redshift)
-    SF1,SF2,SF3,SF4,SF5=CalcStructureFunction_eq14(mag,mjd,nbins=nbins),CalcStructureFunction_eq15(mag,mjd,magerr,nbins=nbins),CalcStructureFunction_eq16(mag,mjd,magerr,nbins=nbins),CalcStructureFunction_eq17(mag,mjd,nbins=nbins),CalcStructureFunction_eq18(mag,mjd,magerr,nbins=nbins)
-    outcr=np.zeros((nbins,),dtype={'names':('tau','SF1','SF2','SF3','SF4','SF5'),'formats':('f8','f8','f8','f8','f8','f8')})
-    outcr['tau'],outcr['SF1'],outcr['SF2'],outcr['SF3'],outcr['SF4'],outcr['SF5']=SF1[0],SF1[1],SF2[1],SF3[1],SF4[1],SF5[1]
-    np.savetxt('%s/%s/SF.tab'%(outputdir,DBID),outcr,fmt='%f %f %f %f %f %f')
+    SF1,SF2,SF3,SF4,SF5,IQRN=CalcStructureFunction_eq14(mag,mjd,nbins=nbins),CalcStructureFunction_eq15(mag,mjd,magerr,nbins=nbins),CalcStructureFunction_eq16(mag,mjd,magerr,nbins=nbins),CalcStructureFunction_eq17(mag,mjd,nbins=nbins),CalcStructureFunction_eq18(mag,mjd,magerr,nbins=nbins),CalcStructureFunction_IQR(mag,mjd,nbins=nbins)
+    outcr=np.zeros((nbins,),dtype={'names':('tau','SF1','SF2','SF3','SF4','SF5','IQRN'),'formats':('f8','f8','f8','f8','f8','f8','f8')})
+    outcr['tau'],outcr['SF1'],outcr['SF2'],outcr['SF3'],outcr['SF4'],outcr['SF5'],outcr['IQRN']=SF1[0],SF1[1],SF2[1],SF3[1],SF4[1],SF5[1],IQRN[1]
+    np.savetxt('%s/%s/SF.tab'%(outputdir,DBID),outcr,fmt='%f %f %f %f %f %f %f')
