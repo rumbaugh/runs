@@ -164,8 +164,8 @@ def calc_contour(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30,subdivisio
     #richness=np.zeros(len(AB_pairs[0]))
     AB_pairs=np.meshgrid(Acens,Bcens)
     richness=np.zeros(np.shape(AB_pairs[0]))
-    for i in np.arange(tsize):
-        for j in np.arange(tsize):
+    for i in np.arange(np.shape(richness)[-1]):
+        for j in np.arange(np.shape(richness)[-1]):
             cur_A,cur_B=AB_pairs[0][i][j],AB_pairs[1][i][j]
             richness[i][j]=len(np.where((np.abs(cur_B-B)<=0.5*Bsize)&(np.abs(cur_A-A)<=0.5*Asize))[0])
     return AB_pairs,richness
@@ -178,8 +178,8 @@ cgr,cug=cmagg-cmagr,cmagu-cmagg
 ggdgr,ggdug=bhmagg[ggd]-bhmagr[ggd],bhmagu[ggd]-bhmagg[ggd]
 gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
 geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
-con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1,-0.4,1.25,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1,-0.4,1.25,tsize=consize)
+con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1,-0.4,1.25,subdivisions=20,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1,-0.4,1.25,subdivisions=20,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 plt.clf()
@@ -205,8 +205,8 @@ ggdri,ggdgr=bhmagr[ggd]-bhmagi[ggd],bhmagg[ggd]-bhmagr[ggd]
 gegdri,gegdgr=bhmagr[gegd]-bhmagi[gegd],bhmagg[gegd]-bhmagr[gegd]
 geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
 #plt.scatter(bhri,bhgr,color='k',s=1,edgecolor='None',marker='.')
-con_pairs,con_richness=calc_contour(cgr,cri,-0.25,0.65,-0.225,0.8,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.25,0.65,-0.225,0.8,tsize=consize)
+con_pairs,con_richness=calc_contour(cgr,cri,-0.25,0.65,-0.225,0.8,subdivisions=20,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.25,0.65,-0.225,0.8,subdivisions=20,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
 plt.clf()
@@ -231,8 +231,8 @@ cW1W2,crW1=cmagwise1-cmagwise2,cmagr-cmagwise1
 ggdW1W2,ggdrW1=bhmagwise1[ggd]-bhmagwise2[ggd],bhmagr[ggd]-bhmagwise1[ggd]
 gegdW1W2,gegdrW1=bhmagwise1[gegd]-bhmagwise2[gegd],bhmagr[gegd]-bhmagwise1[gegd]
 geegdW1W2,geegdrW1=bhmagwise1[geegd]-bhmagwise2[geegd],bhmagr[geegd]-bhmagwise1[geegd]
-con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,tsize=consize)
+con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,subdivisions=20,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,subdivisions=20,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(bhW1W2,bhrW1,color='k',s=1,edgecolor='None',marker='.')
@@ -250,3 +250,29 @@ plt.xlim(0.1,1.75)
 plt.ylim(2.25,6.25)
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/W1-W2_vs_r-W1.DR7_CLQ_candidates.3.25.17.png')
 
+cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4=cmagu-cmagg,cmagg-cmagr,cmagr-cmagi,cmagi-cmagz,cmagz-cmagwise1,cmagwise1-cmagwise2,cmagwise2-cmagwise3,cmagwise3-cmagwise4
+ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4=bhmagu[ggd]-bhmagg[ggd],bhmagg[ggd]-bhmagr[ggd],bhmagr[ggd]-bhmagi[ggd],bhmagi[ggd]-bhmagz[ggd],bhmagz[ggd]-bhmagwise1[ggd],bhmagwise1[ggd]-bhmagwise2[ggd],bhmagwise2[ggd]-bhmagwise3[ggd],bhmagwise3[ggd]-bhmagwise4[ggd]
+ggdz=bhz[ggd]
+
+
+def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
+    if zmin==None: zmin=np.min(z)
+    if zmax==None: zmax=np.max(z)
+    zcens=np.linspace(zmin,zmax,divisions)
+    runmed=np.zeros(len(zcens))
+    for i in range(0,len(zcens)):
+        runmed=np.median(color[np.abs(z-zcens[i])<width])
+    return zcens,runmed
+
+for ccolor,evqcolor,colorlabel,colorname in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4']):
+    plt.figure(1)
+    plt.clf()
+    plt.scatter(cz,ccolor,color='b',marker='.')
+    plt.scatter(ggdz,evqcolor,color='r',makrer='.')
+    zcens_con,runmed_con=calc_runmed(ccolor,cz,0.2)
+    zcens_evq,runmed_evq=calc_runmed(evqcolor,ggdz,0.2)
+    plt.plot(zcens_con,runmed_con,c='b',ls='dotted')
+    plt.plot(zcens_evq,runmed_evq,c='r',ls='dashed')
+    plt.xlabel('Redshift')
+    plt.ylabel(colorlabel)
+    plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/zcolor_plot.%s.3.26.17.png'%colorname)
