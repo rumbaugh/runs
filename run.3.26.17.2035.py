@@ -116,7 +116,7 @@ except NameError:
     for i in range(0,len(ggd)): 
         ggddb=np.where(good_dbids[i]==crdb['DatabaseID'])[0][0]
         try:
-            ggd[i]=np.where(bhname==crd['SDSSNAME'][ggddb])[0][0]
+            ggd[i]=np.where(bhname==crdb['SDSSNAME'][ggddb])[0][0]
         except IndexError:
             gkeep[i]=0
     good_dbids,ggd,gooddrops=good_dbids[gkeep],ggd[gkeep],gooddrops[gkeep]
