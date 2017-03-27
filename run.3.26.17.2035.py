@@ -265,12 +265,16 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
     return zcens,runmed
 
 for ccolor,evqcolor,colorlabel,colorname in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4']):
+    if colorname in ['z-W1','W1-W2','W2-W3','W3-W4']:
+        gc,gevq=np.where((ccolor>0)&(ccolor<15))[0],np.where((evqcolor>0)&(evqcolor<15))[0]
+    else:
+        gc,gevq=np.arange(len(ccolor)),np.arange(len(evqcolor))
     plt.figure(1)
     plt.clf()
-    plt.scatter(cz,ccolor,color='k',marker='.',edgecolor='None')
-    plt.scatter(ggdz,evqcolor,color='blue',marker='.',edgecolor='None')
-    zcens_con,runmed_con=calc_runmed(ccolor,cz,0.2,zmax=4)
-    zcens_evq,runmed_evq=calc_runmed(evqcolor,ggdz,0.2,zmax=4)
+    plt.scatter(cz[gc],ccolor[gc],color='k',marker='.',edgecolor='None')
+    plt.scatter(ggdz[gevq],evqcolor[gevq],color='blue',marker='.',edgecolor='None')
+    zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.2,zmax=4)
+    zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.2,zmax=4)
     plt.plot(zcens_con,runmed_con,c='cyan',ls='dashed',lw=2)
     plt.plot(zcens_evq,runmed_evq,c='r',ls='dashed',lw=2)
     plt.xlabel('Redshift')
