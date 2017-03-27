@@ -261,7 +261,7 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
     zcens=np.linspace(zmin,zmax,divisions)
     runmed=np.zeros(len(zcens))
     for i in range(0,len(zcens)):
-        runmed=np.median(color[np.abs(z-zcens[i])<width])
+        runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
     return zcens,runmed
 
 for ccolor,evqcolor,colorlabel,colorname in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4']):
