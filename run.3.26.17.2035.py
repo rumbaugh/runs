@@ -266,7 +266,7 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
 
 for ccolor,evqcolor,colorlabel,colorname in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4']):
     if colorname in ['z-W1','W1-W2','W2-W3','W3-W4']:
-        gc,gevq=np.where((ccolor>0)&(ccolor<15))[0],np.where((evqcolor>0)&(evqcolor<15))[0]
+        gc,gevq=np.where((ccolor>0)&(ccolor<6.8))[0],np.where((evqcolor>0)&(evqcolor<6.8))[0]
     else:
         gc,gevq=np.arange(len(ccolor)),np.arange(len(evqcolor))
     plt.figure(1)
