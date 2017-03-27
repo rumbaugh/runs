@@ -2,7 +2,7 @@ import numpy as np
 execfile('/home/rumbaugh/pythonscripts/StructureFunction.py')
 outputdir='/home/rumbaugh/var_database/Y3A1'
 DBdir='/home/rumbaugh/var_database/Y3A1'
-nbins=10
+nbins=15
 
 
 hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
