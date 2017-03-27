@@ -178,8 +178,8 @@ cgr,cug=cmagg-cmagr,cmagu-cmagg
 ggdgr,ggdug=bhmagg[ggd]-bhmagr[ggd],bhmagu[ggd]-bhmagg[ggd]
 gegdgr,gegdug=bhmagg[gegd]-bhmagr[gegd],bhmagu[gegd]-bhmagg[gegd]
 geegdgr,geegdug=bhmagg[geegd]-bhmagr[geegd],bhmagu[geegd]-bhmagg[geegd]
-con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1,-0.4,1.25,subdivisions=5,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1,-0.4,1.25,subdivisions=5,tsize=consize)
+con_pairs,con_richness=calc_contour(cgr,cug,-0.25,1,-0.4,1.25,subdivisions=2,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdug,-0.25,1,-0.4,1.25,subdivisions=2,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 plt.clf()
@@ -205,8 +205,8 @@ ggdri,ggdgr=bhmagr[ggd]-bhmagi[ggd],bhmagg[ggd]-bhmagr[ggd]
 gegdri,gegdgr=bhmagr[gegd]-bhmagi[gegd],bhmagg[gegd]-bhmagr[gegd]
 geegdri,geegdgr=bhmagr[geegd]-bhmagi[geegd],bhmagg[geegd]-bhmagr[geegd]
 #plt.scatter(bhri,bhgr,color='k',s=1,edgecolor='None',marker='.')
-con_pairs,con_richness=calc_contour(cgr,cri,-0.25,0.65,-0.225,0.8,subdivisions=5,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.25,0.65,-0.225,0.8,subdivisions=5,tsize=consize)
+con_pairs,con_richness=calc_contour(cgr,cri,-0.25,0.65,-0.225,0.8,subdivisions=2,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdgr,ggdri,-0.25,0.65,-0.225,0.8,subdivisions=2,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r',levels=evqlevels)
 plt.clf()
@@ -231,8 +231,8 @@ cW1W2,crW1=cmagwise1-cmagwise2,cmagr-cmagwise1
 ggdW1W2,ggdrW1=bhmagwise1[ggd]-bhmagwise2[ggd],bhmagr[ggd]-bhmagwise1[ggd]
 gegdW1W2,gegdrW1=bhmagwise1[gegd]-bhmagwise2[gegd],bhmagr[gegd]-bhmagwise1[gegd]
 geegdW1W2,geegdrW1=bhmagwise1[geegd]-bhmagwise2[geegd],bhmagr[geegd]-bhmagwise1[geegd]
-con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,subdivisions=5,tsize=consize+1)
-evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,subdivisions=5,tsize=consize)
+con_pairs,con_richness=calc_contour(cW1W2,crW1,0.1,1.75,2.25,6.25,subdivisions=2,tsize=consize+1)
+evq_pairs,evq_richness=calc_contour(ggdW1W2,ggdrW1,0.1,1.75,2.25,6.25,subdivisions=2,tsize=consize)
 Ccon=plt.contour(con_pairs[0],con_pairs[1],con_richness,ls='dashed',colors='b')
 Cevq=plt.contour(evq_pairs[0],evq_pairs[1],evq_richness,colors='r')
 #plt.scatter(bhW1W2,bhrW1,color='k',s=1,edgecolor='None',marker='.')
