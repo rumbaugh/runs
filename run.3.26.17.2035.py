@@ -268,7 +268,7 @@ for ccolor,evqcolor,colorlabel,colorname in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W
     plt.figure(1)
     plt.clf()
     plt.scatter(cz,ccolor,color='b',marker='.')
-    plt.scatter(ggdz,evqcolor,color='r',makrer='.')
+    plt.scatter(ggdz,evqcolor,color='r',marker='.')
     zcens_con,runmed_con=calc_runmed(ccolor,cz,0.2)
     zcens_evq,runmed_evq=calc_runmed(evqcolor,ggdz,0.2)
     plt.plot(zcens_con,runmed_con,c='b',ls='dotted')
