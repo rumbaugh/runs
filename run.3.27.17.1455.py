@@ -1,6 +1,7 @@
 import numpy as np
 execfile('/home/rumbaugh/pythonscripts/StructureFunction.py')
 outputdir='/home/rumbaugh/var_database/Y3A1'
+DBdir='/home/rumbaugh/var_database/Y3A1'
 nbins=10
 
 
@@ -29,6 +30,8 @@ gc=gc[gc>-1]
 
 
 DBIDs=crdb['DatabaseID'][gc]
+DBIDs=DBIDs[:20]
+print DBIDs
 np.savetxt('/home/rumbaugh/dr7_control_dbids.dat',DBIDs,fmt='%s')
 for DBID in np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1]):
     gmf=np.where(data['DatabaseID']==DBID)[0][0]
