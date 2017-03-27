@@ -46,7 +46,7 @@ for DBID in DBIDs:
     plt.figure(1)
     plt.clf()
     color_arr=['magenta','red','blue','green','cyan']
-    for i in np.arange(1,6): plt.plot(cr['tau'],cr['SF%i'%i],lw=2,c=color_arr[i-1],label='SF%i'%i)
+    for i in np.arange(1,6): plt.loglog(cr['tau'],cr['SF%i'%i],lw=2,c=color_arr[i-1],label='SF%i'%i)
     plt.legend()
     plt.xlabel(r'$\Delta t$')
     plt.ylabel('Structure Function')
