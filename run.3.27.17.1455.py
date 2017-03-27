@@ -30,6 +30,7 @@ gc=gc[gc>-1]
 
 
 DBIDs=crdb['DatabaseID'][gc]
+DBIDs=np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1])
 DBIDs=DBIDs[:20]
 print DBIDs
 np.savetxt('/home/rumbaugh/dr7_control_dbids.dat',DBIDs,fmt='%s')
