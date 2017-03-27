@@ -63,7 +63,7 @@ crmd=cr[np.abs(cr['drop'])>1]
 gmf_md=gmf[np.abs(cr['drop'])>1]
 
 good_dbids=crmd['DBID'][np.abs(crmd['drop'])>1]
-#gooddrops=np.abs(crmd['drop'])[np.abs(crmd['drop'])>1]
+gooddrops=np.abs(crmd['drop'])[np.abs(crmd['drop'])>1]
 
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
@@ -108,7 +108,7 @@ for i in range(0,len(cname)):
 
 print 'Starting good_id loops...'
 try: 
-    gooddrops
+    gkeep
 except NameError:
     st=time.time()
     ggd=np.zeros(len(good_dbids),dtype='i8')
