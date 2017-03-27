@@ -34,6 +34,7 @@ DBIDs=DBIDs[:20]
 print DBIDs
 np.savetxt('/home/rumbaugh/dr7_control_dbids.dat',DBIDs,fmt='%s')
 for DBID in np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1]):
+    print DBID
     gmf=np.where(data['DatabaseID']==DBID)[0][0]
     redshift=data['Redshift'][gmf]
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
