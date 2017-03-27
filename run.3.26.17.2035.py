@@ -150,7 +150,7 @@ consize=12
 nlevels=4
 
 
-def calc_contour(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30,subdivision=None):
+def calc_contour(A,B,Amin=None,Amax=None,Bmin=None,Bmax=None,tsize=30,subdivisions=None):
     if Amin==None: Amin=np.min(A)
     if Amax==None: Amax=np.min(A)
     if Bmin==None: Bmin=np.min(B)
