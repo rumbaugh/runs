@@ -147,7 +147,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
                 DR13outcr['DatabaseID'][ib::5],DR13outcr['Survey'][ib::5],DR13outcr['SurveyCoaddID'][ib::5],DR13outcr['SurveyObjectID'][ib::5],DR13outcr['RA'][ib::5],DR13outcr['DEC'][ib::5],DR13outcr['MJD'][ib::5],DR13outcr['TAG'][ib::5],DR13outcr['BAND'][ib::5],DR13outcr['MAGTYPE'][ib::5],DR13outcr['MAG'][ib::5],DR13outcr['MAGERR'][ib::5],DR13outcr['FLAG'][ib::5]=DBID,'SDSS',SDSStid,SDSSobjid,SDSSra,SDSSdec,SDSSmjd,stripe,b,'PSF',SDSSmagdict[b],SDSSmagerrdict[b],0
             outcr=np.append(outcr,DR13outcr)
         else:
-            if len(gHSs)==0:print "No SDSS data for %s"%SDSSNAME
+            if len(gBHs)==0:print "No SDSS data for %s"%SDSSNAME
     else:
         gBHy,gBHs=np.zeros(0),np.zeros(0)
     os.system('mkdir -p %s/%s'%(DB_path,DBID))
