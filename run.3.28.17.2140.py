@@ -5,11 +5,15 @@ crm2=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.28.17.dat',
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 
+crm=crm[crdb['SDSSNAME']!='-1']
+crm2=crm2[crdb['SDSSNAME']!='-1']
+crdb=crdb[crdb['SDSSNAME']!='-1']
+
 hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
 data=hdu[1].data
 
 diffdrops=crm2['drop']-crm['drop']
-g=np.where((diffdrops!=0)&(np.abs(crm2['drop']-crm['drop'])>1))[0]
+g=np.where((diffdrops!=0)&(np.abs(crm2['drop'])>1))[0]
 gmf=np.zeros(len(g),dtype='i8')
 for i in range(0,len(g)):
     gmf[i]=np.where(data['DatabaseID']==crdb['DatabaseID'][g[i]])[0][0]
