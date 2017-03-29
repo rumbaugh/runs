@@ -18,7 +18,7 @@ for SN in SNfields:
     FILE.write('\n')
     FILE.write("crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)")
     FILE.write('\n')
-    FILE.write("crdb=crdb[crdb['SDSSNAME']!='-1'")
+    FILE.write("crdb=crdb[crdb['SDSSNAME']!='-1']")
     FILE.write('\n')
     FILE.write("gs=np.full(len(crdb),-1,dtype='i8')")
     FILE.write('\n')
