@@ -16,6 +16,6 @@ for i in range(0,len(g)):
 
 outcr=np.zeros((len(g),),dtype={'names':('DatabaseID','RA','Dec','COADD_OBJECT_ID','MaxMagDrop','redshift'),'formats':('|S24','f8','f8','i8','f8','f8')})
 
-outcr['DatabaseID'],outcr['RA'],outcr['Dec'],outcr['COADD_OBJECT_ID'],outcr['MaxMagDrop'],outcr['redshift']=crm2['DBID'][g],data['RA_DES'][gmf],data['RA_DES'][gmf],crm2['DBID'][g],crm2['drop'][g],data['Redshift'][gmf]
+outcr['DatabaseID'],outcr['RA'],outcr['Dec'],outcr['COADD_OBJECT_ID'],outcr['MaxMagDrop'],outcr['redshift']=crm2['DBID'][g],data['RA_DES'][gmf],data['RA_DES'][gmf],crdb['CID'][g],crm2['drop'][g],data['Redshift'][gmf]
 
 np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_SN_EVQ_list.tab',outcr,fmt='%24s %f %f %i %f %f',header='DatabaseID RA Dec COADD_OBJECT_ID MaxMagDrop redshift',comments='')
