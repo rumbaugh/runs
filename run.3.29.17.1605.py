@@ -13,7 +13,7 @@ crdb=crdb[crdb['SDSSNAME']!='-1']
 hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
 data=hdu[1].data
 
-cr=np.loadtxt('/home/rumbaugh/gemini_target',dtype={'names':('DR7ID','SDSSNAME','RA','DEC','z','FIRST','lastgmjd','gmag','lastimjd','imag','S82ID','DBID'),'formats':('i8','|S24','f8','f8','f8','i8','i8','f8','i8','f8','i8','|S24')})
+cr=np.loadtxt('/home/rumbaugh/gemini_target',dtype={'names':('DR7ID','SDSSNAME','ra','dec','z','FIRST','lastgmjd','gmag','lastimjd','imag','S82ID','DBID'),'formats':('i8','|S24','f8','f8','f8','i8','i8','f8','i8','f8','i8','|S24')})
 
 outcr=np.zeros((len(cr),),dtype={'names':('ra','dec','SDSSNAME'),'formats':('f8','f8','|S24')})
 outcr['ra'],outcr['dec'],outcr['SDSSNAME']=cr['ra'],cr['dec'],cr['SDSSNAME']
