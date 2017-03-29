@@ -16,6 +16,8 @@ for SN in SNfields:
     FILE.write('\n')
     FILE.write("crdb=crdb[crdb['SDSSNAME']!='-1'")
     FILE.write('\n')
+    FILE.write(
+    FILE.write('\n')
     FILE.write("hdu=py.open('/home/rumbaugh/%s_lc.fits'%SN)")
     FILE.write('\n')
     FILE.write("data=hdu[1].data")

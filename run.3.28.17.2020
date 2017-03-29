@@ -1,0 +1,6 @@
+#!/bin/bash
+for SN in C1 C2 C3 E1 E2 S1 S2 X1 X2 X3
+do
+chmod -x "/home/rumbaugh/runs/run.3.28.17.2015_$SN.py"
+python "/home/rumbaugh/runs/run.3.28.17.2015_$SN.py"
+done
