@@ -6,7 +6,7 @@ crm2=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.28.17.dat',
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 
 hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
-data=hud[1].data
+data=hdu[1].data
 
 diffdrops=crm2['drop']-crm['drop']
 g=np.where((diffdrops!=0)&(np.abs(crm2['drop'])>1))[0]
