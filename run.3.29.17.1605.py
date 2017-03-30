@@ -1,6 +1,6 @@
 import numpy as np
 import pyfits as py
-
+outputdir,DBdir='/home/rumbaugh/var_database/Y3A1','/home/rumbaugh/var_database/Y3A1'
 
 crm=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.23.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','Baseline'),'formats':('|S32','f8','|S8','|S8','i8','f8')},skiprows=1)
 crm2=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.28.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','Baseline'),'formats':('|S32','f8','|S8','|S8','i8','f8')},skiprows=1)
@@ -22,3 +22,20 @@ np.savetxt('/home/rumbaugh/radecname_forcutouts.gemini.tab',outcr,fmt='%f,%f,%s'
 outcr=np.zeros((len(cr),),dtype={'names':('ra','dec'),'formats':('f8','f8')})
 outcr['ra'],outcr['dec']=cr['ra'],cr['dec']
 np.savetxt('/home/rumbaugh/radec_forcutouts.gemini.tab',outcr,fmt='%f,%f')
+
+crmac=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_Macleod_S82_match.dat',dtype={'names':('DBID','MCID'),'formats':('|S24','|S24')},skiprows=1)
+
+outcr=np.zeros((len(cr),),dtype={'names':('DR7ID','SDSSNAME','ra','dec','z','FIRST','lastgmjd','gmag','lastimjd','imag','S82ID','DBID'),'formats':('i8','|S24','f8','f8','f8','i8','i8','f8','i8','f8','i8','|S24')})
+for i in range(0,len(outcr)):
+    DBID=cr['DBID'][i]
+    crlc=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
+    gg,gi=np.where(crlc['BAND']=='g')[0],np.where(crlc['BAND']=='i')[0]
+    gsort,isort=np.argsort(crlc['MJD'][gg]),np.argsort(crlc['MJD'][gi])
+    gmac=np.where(crmac['DBID']==DBID)[0][0]
+    gmf=np.where(data['DatabaseID']==DBID)[0][0]
+    gdb=np.where(crdb['DatabaseID']==DBID)[0][0]
+    outcr['DR7ID'][i],outcr['SDSSNAME'][i],outcr['ra'][i],outcr['dec'][i],outcr['z'][i],outcr['FIRST'][i],outcr['lastgmjd'][i],outcr['gmag'][i],outcr['lastimjd'][i],outcr['imag'][i],outcr['S82ID'][i]=crdb['sdr7id'][gdb],crdb['SDSSNAME'][gdb],data['RA_SDSS'][gmf],data['Dec_SDSS'][gmf],data['Redshift'][gmf],0,crlc['MJD'][gg[gsort[-1]]],crlc['MAG'][gg[gsort[-1]]],crlc['MJD'][gi[isort[-1]]],crlc['MAG'][gi[isort[-1]]],crmac['MCID'][gmac]
+    
+np.savetxt('/home/rumbaugh/gemcheck.dat',outcr,fmt='%7i %24s %10.6f %10.6f %7.5f %2i %5i %6.3f %5i %6.3f %8i %10s',header='DR7ID SDSSNAME ra dec z FIRST lastgmjd gmag lastimjd imag S82ID DBID')
+
+    
