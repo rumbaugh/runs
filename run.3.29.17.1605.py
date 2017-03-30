@@ -1,11 +1,14 @@
 import numpy as np
 import pyfits as py
+import easyaccess as ea
+con=ea.connect()
 outputdir,DBdir='/home/rumbaugh/var_database/Y3A1','/home/rumbaugh/var_database/Y3A1'
 
 crm=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.23.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','Baseline'),'formats':('|S32','f8','|S8','|S8','i8','f8')},skiprows=1)
 crm2=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.28.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','Baseline'),'formats':('|S32','f8','|S8','|S8','i8','f8')},skiprows=1)
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
+np.savetxt('/home/rumbaugh/databaseIDs.csv',crdb,fmt='%s,%s,%i,%i,%s,%i,%s,%i,%s',header='DatabaseID,DBIDS,MQrownum,SP_rownum,sdr7id,thingid,SDSSNAME,CID,TILENAME',comments='')
 crm=crm[crdb['SDSSNAME']!='-1']
 crm2=crm2[crdb['SDSSNAME']!='-1']
 crdb=crdb[crdb['SDSSNAME']!='-1']
@@ -38,4 +41,6 @@ for i in range(0,len(outcr)):
     
 np.savetxt('/home/rumbaugh/gemcheck.dat',outcr,fmt='%7s %24s %10.6f %10.6f %7.5f %2i %5i %6.3f %5i %6.3f %8i %10s',header='DR7ID SDSSNAME ra dec z FIRST lastgmjd gmag lastimjd imag S82ID DBID')
 
-    
+
+
+qry='SELECT g.DR7ID,g.SDSS_NAME,g.DBID,y.SPREAD_MODEL,y.SPREAD_MODEL_ERR FROM RUMBAUGH.GEMINI_TARGET g,DES_ADMIN.Y3A1_COADD_OBJECT_SUMMARY y WHERE y.COADD_OBJECT_ID='
