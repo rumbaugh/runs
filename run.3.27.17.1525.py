@@ -1,6 +1,7 @@
 import numpy
 import matplotlib.pyplot as plt
 import numpy as np
+import pyfits as py
 execfile('/home/rumbaugh/pythonscripts/StructureFunction.py')
 outputdir='/home/rumbaugh/var_database/Y3A1'
 DBdir='/home/rumbaugh/var_database/Y3A1'
