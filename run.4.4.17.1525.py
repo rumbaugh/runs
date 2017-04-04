@@ -8,7 +8,7 @@ crob=np.loadtxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_90.buffer_10.dat',dtype={'
 crnob=np.loadtxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_90.buffer_10.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
 
 
-matplotlib.rcParams['axes.linewidth=4']
+matplotlib.rcParams['axes.linewidth']=4
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
