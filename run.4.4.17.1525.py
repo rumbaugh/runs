@@ -8,11 +8,11 @@ crob=np.loadtxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_90.buffer_10.dat',dtype={'
 crnob=np.loadtxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_90.buffer_10.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
 
 
-matplotlib.rcParams['axes.linewidth']=4
+#matplotlib.rcParams['axes.linewidth']=4
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
-plt.rc('axes',linewidth=2)
+plt.rc('axes',linewidth=4)
 ax=fig.add_subplot(1,1,1)
 ax2=ax.twinx()
 ax.tick_params(which='major',length=12,width=3,labelsize=17)
@@ -32,7 +32,7 @@ fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/OVV_medvar_comp.thresh_90.4.
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
-plt.rc('axes',linewidth=2)
+plt.rc('axes',linewidth=4)
 ax=fig.add_subplot(1,1,1)
 ax2=ax.twinx()
 ax.tick_params(which='major',length=12,width=3,labelsize=17)
