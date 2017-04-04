@@ -146,7 +146,7 @@ for i in range(0,len(gy)):
             plt.axhline(np.median(var_array),ls='dashed',color='k',lw=2)
             plt.xlabel('MJD (days)')
             plt.ylabel('Largest g variability within %i days'%timethresh)
-            plt.title(DBID)
+            plt.title('%s (%s)'%(DBID,ydata['SDSS_NAME'][i]))
             plt.savefig(psfpage,format='pdf')
     else:
         #no maxvar
