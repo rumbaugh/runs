@@ -135,7 +135,7 @@ for i in range(0,len(gy)):
         for j in range(0,len(gb)-1):
             gtmp=np.where((mjd[gb]-mjd[gb[j]]<timethresh)&(mjd[gb]-mjd[gb[j]]>=0))[0]
             if len(gtmp)>1:
-                var_array,mjd_array=np.append(var_array,np.max(mjd[gb[gtmp]])-np.min(mjd[gb[gtmp]])),np.append(mjd_array,mjd[gb[j]])
+                var_array,mjd_array=np.append(var_array,np.max(mag[gb[gtmp]])-np.min(mjd[gb[gtmp]])),np.append(mjd_array,mjd[gb[j]])
         if len(var_array)>0: 
             maxvar[i]=np.max(var_array)
             
