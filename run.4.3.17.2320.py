@@ -13,6 +13,7 @@ yhdu=py.open('/home/rumbaugh/dr7_evq.fits')
 ydata=yhdu[1].data
 ydata=ydata[ydata['FIRST_FR_TYPE']>0]
 maxvar=np.zeros(len(ydata))
+medvar=np.zeros(len(ydata))
 gy=np.zeros(len(ydata),dtype='i8')
 for i in range(0,len(gy)):
     gy[i]=np.where(crdb['SDSSNAME']==ydata['SDSS_NAME'][i])[0][0]
@@ -138,7 +139,7 @@ for i in range(0,len(gy)):
                 var_array,mjd_array=np.append(var_array,np.max(mag[gb[gtmp]])-np.min(mag[gb[gtmp]])),np.append(mjd_array,mjd[gb[j]])
         if len(var_array)>0: 
             maxvar[i]=np.max(var_array)
-            
+            medvar[i]=np.median(var_array)
             plt.figure(1)
             plt.clf()
             plt.scatter(mjd_array,var_array,color='r')
@@ -151,6 +152,6 @@ for i in range(0,len(gy)):
         #no maxvar
         pass
 outcr=np.zeros((len(ydata),),dtype={'names':('SDSSNAME','maxvar'),'formats':('|S24','f8')})
-outcr['SDSSNAME'],outcr['maxvar']=ydata['SDSS_NAME'],maxvar
-np.savetxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_%i.dat'%timethresh,outcr,fmt='%24s %6.3f',header='SDSS_NAME MaxVar')
+outcr['SDSSNAME'],outcr['maxvar'],outcr['medvar']=ydata['SDSS_NAME'],maxvar,medvar
+np.savetxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_%i.dat'%timethresh,outcr,fmt='%24s %6.3f %6.3f',header='SDSS_NAME MaxVar MedVar')
 psfpage.close()
