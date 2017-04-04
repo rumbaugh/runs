@@ -148,6 +148,7 @@ for i in range(0,len(gy)):
             plt.ylabel('Largest g variability within %i days'%timethresh)
             plt.title('%s (%s)'%(DBID,ydata['SDSS_NAME'][i]))
             plt.savefig(psfpage,format='pdf')
+            print i,medvar[i],np.sort(var_array)
     else:
         #no maxvar
         pass
