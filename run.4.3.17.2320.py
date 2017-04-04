@@ -12,7 +12,7 @@ crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names
 yhdu=py.open('/home/rumbaugh/dr7_evq.fits')
 ydata=yhdu[1].data
 ydata=ydata[ydata['FIRST_FR_TYPE']>0]
-maxvars=np.zeros(len(ydata))
+maxvar=np.zeros(len(ydata))
 gy=np.zeros(len(ydata),dtype='i8')
 for i in range(0,len(gy)):
     gy[i]=np.where(crdb['SDSSNAME']==ydata['SDSS_NAME'][i])[0][0]
@@ -148,9 +148,9 @@ for i in range(0,len(gy)):
             plt.title(DBID)
             plt.savefig(psfpage,format='pdf')
     else:
-        #no maxvars
+        #no maxvar
         pass
 outcr=np.zeros((len(ydata),),dtype={'names':('SDSSNAME','maxvar'),'formats':('|S24','f8')})
 outcr['SDSSNAME'],outcr['maxvar']=ydata['SDSS_NAME'],maxvar
-np.savetxt('/home/rumbaugh/DR7_OVV_maxvars.thresh_%i.dat'%timethresh,outcr,fmt='%24s %6.3f',header='SDSS_NAME MaxVar')
+np.savetxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_%i.dat'%timethresh,outcr,fmt='%24s %6.3f',header='SDSS_NAME MaxVar')
 psfpage.close()
