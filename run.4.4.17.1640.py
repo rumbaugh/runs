@@ -136,12 +136,12 @@ for i in range(0,len(gy)):
         outlier_arr=np.append(outlier_arr,outlier_mac_arr)
         gb=gb[(False==outlier_arr)&(magerr[gb]<0.15)]
         bufferflags=np.ones(len(gb),dtype='bool')
-        for j in range(0,len(gb)-1):
+        for j in np.argsort(mjd[gb]):
             gtmp=np.where((bufferflags)&(mjd[gb]-mjd[gb[j]]<timethresh)&(mjd[gb]-mjd[gb[j]]>=0))[0]
             if len(gtmp)>1:
                 var_array,mjd_array=np.append(var_array,np.max(mag[gb[gtmp]])-np.min(mag[gb[gtmp]])),np.append(mjd_array,mjd[gb[j]])
                 gbuff=np.where(mjd[gb]-mjd[gb[j]]<bufferthresh)[0]
-                bufferflags[gbuff]=0
+                bufferflags[gbuff]=False
         if len(var_array)>0: 
             maxvar[i]=np.max(var_array)
             medvar[i]=np.median(var_array)
@@ -288,12 +288,12 @@ for i in range(0,len(gy)):
         outlier_arr=np.append(outlier_arr,outlier_mac_arr)
         gb=gb[(False==outlier_arr)&(magerr[gb]<0.15)]
         bufferflags=np.ones(len(gb),dtype='bool')
-        for j in range(0,len(gb)-1):
+        for j in np.argsort(mjd[gb]):
             gtmp=np.where((bufferflags)&(mjd[gb]-mjd[gb[j]]<timethresh)&(mjd[gb]-mjd[gb[j]]>=0))[0]
             if len(gtmp)>1:
                 var_array,mjd_array=np.append(var_array,np.max(mag[gb[gtmp]])-np.min(mag[gb[gtmp]])),np.append(mjd_array,mjd[gb[j]])
                 gbuff=np.where(mjd[gb]-mjd[gb[j]]<bufferthresh)[0]
-                bufferflags[gbuff]=0
+                bufferflags[gbuff]=False
         if len(var_array)>0: 
             maxvar[i]=np.max(var_array)
             medvar[i]=np.median(var_array)
