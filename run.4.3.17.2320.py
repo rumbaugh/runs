@@ -132,7 +132,7 @@ for i in range(0,len(gy)):
         outlier_arr=outlier_arr[gorig[gb[gb<mydblen]]]
         outlier_mac_arr=outlier_mac_arr[gorigmac[gbmac[gmac2]]]
         outlier_arr=np.append(outlier_arr,outlier_mac_arr)
-        gb=gb[False==outlier_arr]
+        gb=gb[(False==outlier_arr)&(magerr[gb]<0.15)]
         for j in range(0,len(gb)-1):
             gtmp=np.where((mjd[gb]-mjd[gb[j]]<timethresh)&(mjd[gb]-mjd[gb[j]]>=0))[0]
             if len(gtmp)>1:
