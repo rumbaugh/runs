@@ -1,0 +1,3 @@
+import numpy as np
+
+cro=np.loadtxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_90.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
