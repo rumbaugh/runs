@@ -7,6 +7,9 @@ crno=np.loadtxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_90.dat',dtype={'names':
 crob=np.loadtxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_90.buffer_10.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
 crnob=np.loadtxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_90.buffer_10.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
 
+crob45=np.loadtxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_90.buffer_45.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
+crnob45=np.loadtxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_90.buffer_45.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
+
 
 #matplotlib.rcParams['axes.linewidth']=4
 fig=plt.figure(1)
@@ -60,10 +63,10 @@ ax.tick_params(which='major',length=12,width=3,labelsize=17)
 ax.tick_params(which='minor',length=6,width=2,labelsize=17)
 ax2.tick_params(which='major',length=12,width=3,labelsize=17)
 ax2.tick_params(which='minor',length=6,width=2,labelsize=17)
-a=ax.hist(crnob['medvar'],weights=np.full(len(crnob),1./len(crnob)),range=(0,0.6),bins=24,color='k',edgecolor='k',facecolor='None')
-b=ax.hist(crob['medvar'],weights=np.full(len(crob),1./len(crob)),range=(0,0.6),bins=24,color='r',edgecolor='r',facecolor='None')
-p=ax2.plot(np.sort(crnob['medvar']),(np.arange(len(crnob))+1.)/len(crnob),lw=3,color='k',ls='dashed',label='FIRST_FR_TYPE=0')
-q=ax2.plot(np.sort(crob['medvar']),(np.arange(len(crob))+1.)/len(crob),lw=3,color='r',label='FIRST_FR_TYPE>0')
+a=ax.hist(crnob45['medvar'],weights=np.full(len(crnob45),1./len(crnob45)),range=(0,0.6),bins=24,color='k',edgecolor='k',facecolor='None')
+b=ax.hist(crob45['medvar'],weights=np.full(len(crob45),1./len(crob45)),range=(0,0.6),bins=24,color='r',edgecolor='r',facecolor='None')
+p=ax2.plot(np.sort(crnob45['medvar']),(np.arange(len(crnob45))+1.)/len(crnob45),lw=3,color='k',ls='dashed',label='FIRST_FR_TYPE=0')
+q=ax2.plot(np.sort(crob45['medvar']),(np.arange(len(crob45))+1.)/len(crob45),lw=3,color='r',label='FIRST_FR_TYPE>0')
 plt.legend(loc='center right')
 ax.set_xlabel('Median Variation (magnitudes)',fontsize=20)
 ax.set_ylabel('Fraction of Objects',fontsize=20)

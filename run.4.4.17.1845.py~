@@ -3,7 +3,7 @@ import pyfits as py
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.backends.backend_pdf as bpdf
-psfpage=bpdf.PdfPages('/home/rumbaugh/DR7_notOVV_test_wbuffer_45.pdf')
+psfpage=bpdf.PdfPages('/home/rumbaugh/DR7_notOVV_test_wbuffer.pdf')
 DBdir='/home/rumbaugh/var_database/Y3A1'
 
 timethresh=90
@@ -161,7 +161,7 @@ outcr['SDSSNAME'],outcr['maxvar'],outcr['medvar']=ydata['SDSS_NAME'],maxvar,medv
 np.savetxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_%i.buffer_%i.dat'%(timethresh,bufferthresh),outcr,fmt='%24s %6.3f %6.3f',header='SDSS_NAME MaxVar MedVar')
 psfpage.close()
 
-psfpage=bpdf.PdfPages('/home/rumbaugh/DR7_OVV_test_wbuffer_45.pdf')
+psfpage=bpdf.PdfPages('/home/rumbaugh/DR7_OVV_test_wbuffer.pdf')
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 yhdu=py.open('/home/rumbaugh/dr7_evq.fits')
 ydata=yhdu[1].data
