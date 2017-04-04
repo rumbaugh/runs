@@ -15,7 +15,7 @@ ydata=ydata[ydata['FIRST_FR_TYPE']>0]
 maxvars=np.zeros(len(ydata))
 gy=np.zeros(len(ydata),dtype='i8')
 for i in range(0,len(gy)):
-    gy=np.where(crdb['SDSSNAME']==ydata['SDSS_NAME'][i])[0][0]
+    gy[i]=np.where(crdb['SDSSNAME']==ydata['SDSS_NAME'][i])[0][0]
     DBID=crdb['DatabaseID'][gy[i]]
     
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
