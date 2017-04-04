@@ -151,7 +151,7 @@ for i in range(0,len(gy)):
     else:
         #no maxvar
         pass
-outcr=np.zeros((len(ydata),),dtype={'names':('SDSSNAME','maxvar'),'formats':('|S24','f8')})
+outcr=np.zeros((len(ydata),),dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
 outcr['SDSSNAME'],outcr['maxvar'],outcr['medvar']=ydata['SDSS_NAME'],maxvar,medvar
 np.savetxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_%i.dat'%timethresh,outcr,fmt='%24s %6.3f %6.3f',header='SDSS_NAME MaxVar MedVar')
 psfpage.close()
