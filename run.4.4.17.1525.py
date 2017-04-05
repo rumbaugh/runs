@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+execfile('/home/rumbaugh/pythonscripts/KStest.py')
 
 cro=np.loadtxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_90.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
 crno=np.loadtxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_90.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
@@ -32,6 +33,8 @@ ax.set_ylabel('Fraction of Objects')
 ax2.set_ylabel('Cumulative Fraction')
 plt.xlim(0,0.6)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/OVV_medvar_comp.thresh_90.4.4.17.png')
+KStest(crno['medvar'],cro['medvar'])
+
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
@@ -53,6 +56,7 @@ ax2.set_ylabel('Cumulative Fraction',fontsize=20)
 plt.xlim(0,0.6)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/OVV_medvar_comp.thresh_90.buffer_10.4.4.17.png')
 
+KStest(crnob['medvar'],crob['medvar'])
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
@@ -73,3 +77,5 @@ ax.set_ylabel('Fraction of Objects',fontsize=20)
 ax2.set_ylabel('Cumulative Fraction',fontsize=20)
 plt.xlim(0,0.6)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/OVV_medvar_comp.thresh_90.buffer_45.4.4.17.png')
+
+KStest(crnob['medvar'],crob['medvar'])
