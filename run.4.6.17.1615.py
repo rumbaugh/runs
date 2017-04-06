@@ -273,13 +273,17 @@ gs1.update(hspace=0)
 plt.figure(figsize=(16,24))
 plt.clf()
 #for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4'],np.arange(8),[-0.49,-0.3,-0.35,-0.6,2.01,0.05,1.8,1.8],[4.49,1.49,0.9,0.95,5.45,1.9,4.99,4.8]):
-for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],np.arange(8),[-0.49,-0.3,-0.35,-0.6,2.01,0.05,1.8,1.8],[4.49,1.49,0.9,0.95,5.45,1.9,4.99,4.8]):
+for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],np.arange(8),[-0.49,-0.3,-0.35,-0.59,2.01,0.05,1.8,1.8],[4.49,1.49,0.9,0.95,5.45,1.9,4.99,4.8]):
     #ax=plt.subplot2grid((2,10),(0,6),colspan=4,
     ax1=plt.subplot(gs1[2*i-7*(i/4)])
     ax1.tick_params(which='major',length=8,width=2,labelsize=14)
     ax1.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     plt.axis('on')
-    if i%4<3: ax1.set_xticklabels([])
+    ax1.set_xticks([1,2,3,4])
+    ax1.set_xticks([0.5,1.5,2.5,3.5,minor=True])
+    if i%4<3:
+        ax1.set_xticklabels(['1','2','3','4'])
+    
     if colorname in ['z-W1','W1-W2','W2-W3','W3-W4']:
         gc,gevq=np.where((ccolor>0)&(ccolor<6.8))[0],np.where((evqcolor>0)&(evqcolor<6.8))[0]
     else:
