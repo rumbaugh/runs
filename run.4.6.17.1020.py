@@ -67,6 +67,7 @@ for DBID in DBIDs:
     mjd,mag,magerr=cr['MJD'],cr['MAG'],cr['MAGERR']
     #flux=10**(mag/-2.5+10)
     #fluxerr=np.log(10)/-2.5*flux*magerr
+    if len(mjd)==0: continue
     mjdmin=np.min(mjd)
     mjd=mjdmin+(mjd-mjdmin)/(1+redshift)
     Sarr,ltimearr=np.append(Sarr,0),np.append(ltimearr,0)
