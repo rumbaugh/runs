@@ -76,4 +76,4 @@ color_arr=['magenta','red','blue','green','cyan']
 plt.loglog(tauarr,Varr,lw=2,c='orange')
 plt.xlabel(r'$\Delta t$')
 plt.ylabel('Structure Function')
-plt.savefig('/home/rumbaugh/testplot_SF.ensemble_control.png'%)
+plt.savefig('/home/rumbaugh/testplot_SF.ensemble_control.png')
