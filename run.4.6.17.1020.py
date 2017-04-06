@@ -6,6 +6,10 @@ outputdir='/home/rumbaugh/var_database/Y3A1'
 DBdir='/home/rumbaugh/var_database/Y3A1'
 nbins=15
 
+try:
+    docalc
+except NameError:
+    docalc=True
 
 hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
 data=hdu[1].data 
@@ -30,15 +34,17 @@ for i in range(0,len(gc)):
         gc[i]=-1
 gc=gc[gc>-1]
 
-
-DBIDs=crdb['DatabaseID'][gc]
-#DBIDs=np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1])
-#DBIDs=DBIDs[:20]
-#DBIDs=np.array(['MQ162331','MQ162879','MQ163027','MQ163865','MQ164198','MQ164285','MQ164568','MQ165055','MQ165425'])
-#print DBIDs
-#np.savetxt('/home/rumbaugh/dr7_control_dbids.dat',DBIDs,fmt='%s')
-Sarr,ltimearr=np.zeros(0,dtype='object'),np.zeros(0,dtype='object')
-#for DBID in np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1]):
+if docalc:
+    DBIDs=crdb['DatabaseID'][gc]
+    #DBIDs=np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1])
+    #DBIDs=DBIDs[:20]
+    #DBIDs=np.array(['MQ162331','MQ162879','MQ163027','MQ163865','MQ164198','MQ164285','MQ164568','MQ165055','MQ165425'])
+    #print DBIDs
+    #np.savetxt('/home/rumbaugh/dr7_control_dbids.dat',DBIDs,fmt='%s')
+    Sarr,ltimearr=np.zeros(0,dtype='object'),np.zeros(0,dtype='object')
+    #for DBID in np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1]):
+else:
+    DBIDs=[]
 for DBID in DBIDs:
     print DBID
     gmf=np.where(data['DatabaseID']==DBID)[0][0]
