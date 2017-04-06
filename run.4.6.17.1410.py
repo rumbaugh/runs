@@ -35,7 +35,7 @@ for i in range(0,len(gc)):
 gc=gc[gc>-1]
 
 if docalc:
-    DBIDs=crdb['DatabaseID'][np.abs(crm['drop'])>1])
+    DBIDs=crdb['DatabaseID'][np.abs(crm['drop'])>1])]
     #DBIDs=np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1])
     #DBIDs=DBIDs[:20]
     #DBIDs=np.array(['MQ162331','MQ162879','MQ163027','MQ163865','MQ164198','MQ164285','MQ164568','MQ165055','MQ165425'])
