@@ -280,7 +280,7 @@ for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW
     ax1.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     plt.axis('on')
     ax1.set_xticks([1,2,3,4])
-    ax1.set_xticks([0.5,1.5,2.5,3.5,minor=True])
+    ax1.set_xticks([0.5,1.5,2.5,3.5],minor=True)
     if i%4<3:
         ax1.set_xticklabels([])
     else:
