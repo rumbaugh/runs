@@ -34,8 +34,6 @@ ax2.set_ylabel('Cumulative Fraction')
 plt.xlim(0,0.6)
 ax.set_ylim(0.001,0.25)
 ax2.set_ylim(0.0001,1)
-ax.set_yticks(ax1.get_yticks()[1:])
-ax2.set_yticks(ax2.get_yticks()[1:])
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/OVV_medvar_comp.thresh_90.4.4.17.png')
 KStest(crno['medvar'],cro['medvar'])
 
