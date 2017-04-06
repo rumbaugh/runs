@@ -296,6 +296,5 @@ for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW
     if i==0: 
         leg=plt.legend(loc='upper left',frameon=False,prop={'size':24})
         for text in leg.get_texts():
-            print text
-            if text=='EVQ': text.set_color('r')
+            if text.properties()['text']=='EVQ': text.set_color('r')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/zcolor_plots.4.6.17.png')
