@@ -12,7 +12,7 @@ crob45=np.loadtxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_90.buffer_45.dat',dtype=
 crnob45=np.loadtxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_90.buffer_45.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
 
 
-matplotlib.rcParams['font.size']=20
+matplotlib.rcParams['font.size']=16
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
