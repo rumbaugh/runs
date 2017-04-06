@@ -32,10 +32,10 @@ gc=gc[gc>-1]
 
 
 DBIDs=crdb['DatabaseID'][gc]
-DBIDs=np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1])
-DBIDs=DBIDs[:20]
-DBIDs=np.array(['MQ162331','MQ162879','MQ163027','MQ163865','MQ164198','MQ164285','MQ164568','MQ165055','MQ165425'])
-print DBIDs
+#DBIDs=np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1])
+#DBIDs=DBIDs[:20]
+#DBIDs=np.array(['MQ162331','MQ162879','MQ163027','MQ163865','MQ164198','MQ164285','MQ164568','MQ165055','MQ165425'])
+#print DBIDs
 #np.savetxt('/home/rumbaugh/dr7_control_dbids.dat',DBIDs,fmt='%s')
 Sarr,ltimearr=np.zeros(0,dtype='object'),np.zeros(0,dtype='object')
 #for DBID in np.intersect1d(DBIDs,crdb['DatabaseID'][np.abs(crm['drop'])>1]):
@@ -71,13 +71,13 @@ for DBID in DBIDs:
     mjd=mjdmin+(mjd-mjdmin)/(1+redshift)
     Sarr,ltimearr=np.append(Sarr,0),np.append(ltimearr,0)
     Sarr[-1],ltimearr[-1]=mag,mjd
-tauarr,Varr,Verr=EnsembleStructureFunction_IQR(Sarr,ltimearr,binwidth=0.5,calcerror=True)
+tauarr,Varr=EnsembleStructureFunction_IQR(Sarr,ltimearr,binwidth=0.5)
 
 plt.figure(1)
 plt.clf()
 color_arr=['magenta','red','blue','green','cyan']
-plt.errorbar(tauarr,Varr,yerr=Verr,fmt='o',capsize=3,mew=1,lw=2,c='orange')
 plt.loglog(tauarr,Varr,lw=2,c='orange')
+plt.errorbar(tauarr,Varr,lw=2,c='orange')
 plt.xlabel(r'$\Delta t$')
 plt.ylabel('Structure Function')
 plt.savefig('/home/rumbaugh/testplot_SF.ensemble_control.png')

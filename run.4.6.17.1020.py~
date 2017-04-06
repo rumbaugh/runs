@@ -71,12 +71,11 @@ for DBID in DBIDs:
     mjd=mjdmin+(mjd-mjdmin)/(1+redshift)
     Sarr,ltimearr=np.append(Sarr,0),np.append(ltimearr,0)
     Sarr[-1],ltimearr[-1]=mag,mjd
-tauarr,Varr,Verr=EnsembleStructureFunction_IQR(Sarr,ltimearr,binwidth=0.5,calcerror=True)
+tauarr,Varr=EnsembleStructureFunction_IQR(Sarr,ltimearr,binwidth=0.5)
 
 plt.figure(1)
 plt.clf()
 color_arr=['magenta','red','blue','green','cyan']
-plt.errorbar(tauarr,Varr,yerr=Verr,fmt='o',capsize=3,mew=1,lw=2,c='orange')
 plt.loglog(tauarr,Varr,lw=2,c='orange')
 plt.xlabel(r'$\Delta t$')
 plt.ylabel('Structure Function')
