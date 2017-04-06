@@ -1,4 +1,7 @@
 execfile('/home/rumbaugh/pythonscripts/plot_DB_lightcurves.py')
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gs
+import numpy as np
 import pyfits as py
 import time
 
