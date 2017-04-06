@@ -264,11 +264,16 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
         runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
     return zcens,runmed
 #matplotlib.rcParams['figure.figsize']=[16,18]
+matplotlib.rcParams['axes.linewidth']=3
+gs1=gs.GridSpec(4,2)
+gs1.update(hspace=0)
 plt.figure(figsize=(16,24))
 plt.clf()
 for ccolor,evqcolor,colorlabel,colorname,ic in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4'],np.arange(6)):
     #ax=plt.subplot2grid((2,10),(0,6),colspan=4,
     ax1=plt.subplot(gs1[2*i-7*(i/4)])
+    ax1.tick_params(which='major',length=8,width=2,labelsize=14)
+    ax1.tick_params(which='minor',length=4,width=1.5,labelsize=14)
     plt.axis('on')
     if i%4<3: ax1.set_xticklabels([])
     if colorname in ['z-W1','W1-W2','W2-W3','W3-W4']:
