@@ -282,6 +282,8 @@ for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW
     ax1.set_xticks([1,2,3,4])
     ax1.set_xticks([0.5,1.5,2.5,3.5,minor=True])
     if i%4<3:
+        ax1.set_xticklabels([])
+    else:
         ax1.set_xticklabels(['1','2','3','4'])
     
     if colorname in ['z-W1','W1-W2','W2-W3','W3-W4']:
