@@ -78,7 +78,7 @@ for DBID in DBIDs:
     mjd=mjdmin+(mjd-mjdmin)/(1+redshift)
     Sarr,ltimearr=np.append(Sarr,0),np.append(ltimearr,0)
     Sarr[-1],ltimearr[-1]=mag,mjd
-tauarr,Varr=EnsembleStructureFunction_IQR(Sarr,ltimearr,binwidth=0.5,calcerror=False,ntrials=1000)
+tauarr,Varr=EnsembleStructureFunction_IQR(Sarr,ltimearr,binwidth=0.2,calcerror=False,ntrials=1000)
 
 outcr=np.zeros((len(Varr),),dtype={'names':('tau','SF'),'formats':('f8','f8')})
 outcr['tau'],outcr['SF']=tauarr,Varr
