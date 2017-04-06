@@ -12,7 +12,7 @@ crob45=np.loadtxt('/home/rumbaugh/DR7_OVV_maxvar.thresh_90.buffer_45.dat',dtype=
 crnob45=np.loadtxt('/home/rumbaugh/DR7_notOVV_maxvar.thresh_90.buffer_45.dat',dtype={'names':('SDSSNAME','maxvar','medvar'),'formats':('|S24','f8','f8')})
 
 
-#matplotlib.rcParams['axes.linewidth']=4
+matplotlib.rcParams['font.size']=20
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
@@ -23,11 +23,11 @@ ax.tick_params(which='major',length=12,width=3,labelsize=17)
 ax.tick_params(which='minor',length=6,width=2,labelsize=17)
 ax2.tick_params(which='major',length=12,width=3,labelsize=17)
 ax2.tick_params(which='minor',length=6,width=2,labelsize=17)
-a=ax.hist(crno['medvar'],weights=np.full(len(crno),1./len(crno)),range=(0,0.6),bins=24,color='k',edgecolor='k',facecolor='None')
-b=ax.hist(cro['medvar'],weights=np.full(len(cro),1./len(cro)),range=(0,0.6),bins=24,color='r',edgecolor='r',facecolor='None')
+a=ax.hist(crno['medvar'],weights=np.full(len(crno),1./len(crno)),range=(0,0.6),bins=24,color='k',edgecolor='k',facecolor='None',lw=2)
+b=ax.hist(cro['medvar'],weights=np.full(len(cro),1./len(cro)),range=(0,0.6),bins=24,color='r',edgecolor='r',facecolor='None',lw=2)
 p=ax2.plot(np.sort(crno['medvar']),(np.arange(len(crno))+1.)/len(crno),lw=3,color='k',ls='dashed',label='FIRST_FR_TYPE=0')
 q=ax2.plot(np.sort(cro['medvar']),(np.arange(len(cro))+1.)/len(cro),lw=3,color='r',label='FIRST_FR_TYPE>0')
-plt.legend(loc='center right')
+plt.legend(loc='center right',frameon=False)
 ax.set_xlabel('Median Variation (magnitudes)')
 ax.set_ylabel('Fraction of Objects')
 ax2.set_ylabel('Cumulative Fraction')
