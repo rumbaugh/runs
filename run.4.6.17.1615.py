@@ -288,7 +288,7 @@ for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW
     zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5)
     zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.25,zmax=3.5)
     plt.plot(zcens_con,runmed_con,c='cyan',ls='dashed',lw=2)
-    plt.plot(zcens_evq,runmed_evq,c='pink',ls='dashed',lw=2)
+    plt.plot(zcens_evq,runmed_evq,c='orange',ls='dashed',lw=2)
     if i%4==3:ax1.set_xlabel('Redshift',fontsize=16)
     ax1.set_ylabel(colorlabel,fontsize=16)
     plt.xlim(0,4.4)
