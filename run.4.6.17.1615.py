@@ -288,16 +288,14 @@ for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW
     zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5)
     zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.25,zmax=3.5)
     plt.plot(zcens_con,runmed_con,c='cyan',ls='dashed',lw=2,label='Control')
-    plt.plot(zcens_evq,runmed_evq,c='purple',ls='dashed',lw=2,label='EVQ')
+    plt.plot(zcens_evq,runmed_evq,c='#9a28f1',ls='dashed',lw=2,label='EVQ')
     if i%4==3:ax1.set_xlabel('Redshift',fontsize=16)
     ax1.set_ylabel(colorlabel,fontsize=16)
     plt.xlim(0,4.4)
     plt.ylim(lb,ub)
-    if i==1: 
+    if i==0: 
         leg=plt.legend(loc='upper left',frameon=False)
         for text in leg.get_texts():
-            if text=='EVQ':
-                plt.setp(text, color='r')
-            else:
-                plt.setp(text, color='k')
+            print text
+            if text=='EVQ': text.set_color('r')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/zcolor_plots.4.6.17.png')
