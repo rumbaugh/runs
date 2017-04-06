@@ -32,6 +32,8 @@ ax.set_xlabel('Median Variation (magnitudes)')
 ax.set_ylabel('Fraction of Objects')
 ax2.set_ylabel('Cumulative Fraction')
 plt.xlim(0,0.6)
+ax1.set_ylim(0.0001,0.25)
+ax2.set_ylim(0.0001,1)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/OVV_medvar_comp.thresh_90.4.4.17.png')
 KStest(crno['medvar'],cro['medvar'])
 
