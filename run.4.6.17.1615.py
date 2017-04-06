@@ -272,7 +272,7 @@ gs1=gs.GridSpec(4,2)
 gs1.update(hspace=0)
 plt.figure(figsize=(16,24))
 plt.clf()
-for ccolor,evqcolor,colorlabel,colorname,ic in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4'],np.arange(6)):
+for ccolor,evqcolor,colorlabel,colorname,ic in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4'],np.arange(8)):
     #ax=plt.subplot2grid((2,10),(0,6),colspan=4,
     ax1=plt.subplot(gs1[2*i-7*(i/4)])
     ax1.tick_params(which='major',length=8,width=2,labelsize=14)
