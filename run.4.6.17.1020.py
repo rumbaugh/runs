@@ -78,7 +78,11 @@ for DBID in DBIDs:
     mjd=mjdmin+(mjd-mjdmin)/(1+redshift)
     Sarr,ltimearr=np.append(Sarr,0),np.append(ltimearr,0)
     Sarr[-1],ltimearr[-1]=mag,mjd
-tauarr,Varr=EnsembleStructureFunction_IQR(Sarr,ltimearr,binwidth=0.5,calcerror=True,ntrials=1000)
+tauarr,Varr,Verr=EnsembleStructureFunction_IQR(Sarr,ltimearr,binwidth=0.5,calcerror=True,ntrials=1000)
+
+outcr=np.zeros((len(Varr),),dtype={'names':('tau','SF','SFerr'),'formats':('f8','f8','f8')})
+outcr['tau'],outcr['SF'],outcr['SFerr']=tauarr,Varr,Verr
+np.savetxt('/home/rumbaugh/SF_ensemble.control.dat',outcr,fmt='%f %f %f',header='tau SF SF_error')
 
 plt.figure(1)
 plt.clf()
