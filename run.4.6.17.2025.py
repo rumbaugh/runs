@@ -136,7 +136,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             newmjd=np.random.rand(numnew)*gaplen+mjd_sdss
             newerr=np.random.choice(magerr[gb],numnew)
             newmag=np.random.normal(mag_sdss+(mag_des-mag_sdss)*(newmjd-mjd_sdss)/(mjd_des-mjd_sdss),newerr,numnew)
-            mjd,mag,magerr,gb,survey=np.append(mjd,newmjd),np.append(mag,newmag),np.append(magerr,newerr),np.append(gb,np.arange(len(mjd),len(mjd)+numnew,dtype='i8')),np.append(survey,np.full(numnew,'None',dtype'|S8'))
+            mjd,mag,magerr,gb,survey=np.append(mjd,newmjd),np.append(mag,newmag),np.append(magerr,newerr),np.append(gb,np.arange(len(mjd),len(mjd)+numnew,dtype='i8')),np.append(survey,np.full(numnew,'None',dtype='|S8'))
         magpairs=np.zeros((len(gb)**2,2))
         magpairs[:,1],magpairs[:,0]=np.repeat(mag[gb],len(gb)),np.tile(mag[gb],len(gb))
         magerrpairs=np.zeros((len(gb)**2,2))
