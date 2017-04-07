@@ -133,5 +133,5 @@ ax2.set_ylabel('Cumulative Fraction')
 ax.set_xlim(0,6500)
 ax2.set_xlim(0,6500)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.CLQ_candidates.DR7.3.24.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/SDSStest_MaxChangeBaselinePlot.CLQ_candidates.DR7.4.6.17.png')
 
