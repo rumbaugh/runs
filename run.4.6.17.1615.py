@@ -258,11 +258,16 @@ ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4=bhmagu[ggd]-bhmagg[ggd],b
 ggdz=bhz[ggd]
 
 
-def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
+def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None,highz=None,highwid=None):
     if zmin==None: zmin=np.min(z)
     if zmax==None: zmax=np.max(z)
     zcens=np.linspace(zmin,zmax,divisions)
     runmed=np.zeros(len(zcens))
+    if ((highz!=None)&(highwid!=None)):
+        for i in np.arange(len(zcens))[zcens<highz]:
+            runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
+        for i in np.arange(len(zcens))[zcens>=highz]:
+            runmed[i]=np.median(color[np.abs(z-zcens[i])<highwid])
     for i in range(0,len(zcens)):
         runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
     return zcens,runmed
@@ -276,8 +281,8 @@ plt.clf()
 for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],[cmagu,cmagg,cmagr,cmagi,cmagz,cmagwise1,cmagwise2,cmagwise3],[cmagg,cmagr,cmagi,cmagz,cmagwise1,cmagwise2,cmagwise3,cmagwise4],[bhmagu[ggd],bhmagg[ggd],bhmagr[ggd],bhmagi[ggd],bhmagz[ggd],bhmagwise1[ggd],bhmagwise2[ggd],bhmagwise3[ggd]],[bhmagg[ggd],bhmagr[ggd],bhmagi[ggd],bhmagz[ggd],bhmagwise1[ggd],bhmagwise2[ggd],bhmagwise3[ggd],bhmagwise4[ggd]],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],np.arange(8),[-0.49,-0.3,-0.35,-0.59,2.01,0.05,1.8,1.8],[4.49,1.49,0.9,0.95,5.45,1.9,4.99,4.8]):
     #ax=plt.subplot2grid((2,10),(0,6),colspan=4,
     ax1=plt.subplot(gs1[2*i-7*(i/4)])
-    ax1.tick_params(which='major',length=8,width=2,labelsize=14)
-    ax1.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+    ax1.tick_params(which='major',length=8,width=2,labelsize=16)
+    ax1.tick_params(which='minor',length=4,width=1.5,labelsize=16)
     plt.axis('on')
     ax1.set_xticks([1,2,3,4])
     ax1.set_xticks([0.5,1.5,2.5,3.5],minor=True)
@@ -292,8 +297,8 @@ for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub
         gc,gevq=np.where((cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
     plt.scatter(cz[gc],ccolor[gc],color='k',marker='.',edgecolor='None')
     plt.scatter(ggdz[gevq],evqcolor[gevq],color='red',marker='.',edgecolor='None')
-    zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5)
-    zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.25,zmax=3.5)
+    zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5,highz=2.2,highwid=0.4)
+    zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.25,zmax=3.5,highz=2.2,highwid=0.4)
     plt.plot(zcens_con,runmed_con,c='cyan',ls='dashed',lw=3,label='Control')
     plt.plot(zcens_evq,runmed_evq,c='#ffe769',ls='dashed',lw=3,label='EVQ')
     if i%4==3:ax1.set_xlabel('Redshift',fontsize=20)
