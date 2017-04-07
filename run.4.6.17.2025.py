@@ -29,7 +29,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     else:
         outlier_arr=np.zeros(len(cr),dtype='bool')
         gorig=np.arange(len(cr))[(cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<5)&(cr['Survey']!='POSS')]
-    ggood=np.where((cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<5)&(cr['Survey']=='SDSS'))[0]#&(cr['FLAG']<16))[0]
+    ggood=np.where((cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<5)&(cr['Survey']!='POSS'))[0]#&(cr['FLAG']<16))[0]
     gmc=np.where(DBID==crmcm['DBID'])[0]
     if len(gmc)>0:
         s82flag[idb]=1
