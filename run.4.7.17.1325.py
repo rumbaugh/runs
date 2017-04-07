@@ -107,6 +107,7 @@ for i in range(0,len(cname)):
 
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 
+matplotlib.rcParams['axes.linewidth']=3
 matplotlib.rcParams['font.size']=18
 plt.figure(1)
 plt.clf()
