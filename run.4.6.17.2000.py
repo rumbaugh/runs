@@ -10,7 +10,7 @@ data=hdu[1].data
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 gdr=np.where(crdb['SDSSNAME']!='-1')[0]
 crdb=crdb[gdr]
-
+matplotlib.rcParams['font.size']=18
 try:
     crp=np.loadtxt('/home/rumbaugh/primarydbid_table.3.24.17.1040.dat',dtype='|S48')
     PrimaryDBID={crp[:,0][x]: crp[:,1][x] for x in np.arange(len(crp))}
@@ -124,8 +124,10 @@ plt.clf()
 plt.rc('axes',linewidth=2)
 ax=fig.add_subplot(1,1,1)
 ax2=ax.twinx()
-ax2.tick_params(which='major',length=8,width=2,labelsize=14)
-ax2.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+ax.tick_params(which='major',length=12,width=3,labelsize=17)
+ax.tick_params(which='minor',length=6,width=2,labelsize=17)
+ax2.tick_params(which='major',length=12,width=3,labelsize=17)
+ax2.tick_params(which='minor',length=6,width=2,labelsize=17)
 a=ax.hist(cr['Baseline'],range=(0,6500),bins=26,color='k',edgecolor='k',facecolor='None')
 a2=ax.hist(cr2['Baseline'],range=(0,6500),bins=26,color='k',edgecolor='cyan',facecolor='None')
 b=ax2.plot(np.sort(cr['Baseline']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='r')
