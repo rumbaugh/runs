@@ -132,7 +132,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             last_sdss,first_des=np.argsort(mjd[gb[gsdss]])[-1],np.argsort(mjd[gb[gdes]])[0]
             mjd_sdss,mjd_des,mag_sdss,mag_des=mjd[gb[gsdss[last_sdss]]],mjd[gb[gdes[first_des]]],mag[gb[gsdss[last_sdss]]],mag[gb[gdes[first_des]]]
             gaplen=mjd_des-mjd_sdss
-            numnew=npp.int(gaplen/100)
+            numnew=np.int(gaplen/100)
             newmjd=np.random.rand(numnew)*gaplen+mjd_sdss
             newerr=np.random.choice(magerr[gb],numnew)
             newmag=np.random.normal(mag_sdss+(mag_des-mag_sdss)*(newmjd-mjd_sdss)/(mjd_des-mjd_sdss),newerr,numnew)
