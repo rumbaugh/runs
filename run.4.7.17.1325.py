@@ -116,6 +116,8 @@ plt.xlabel('Magnitude Change')
 plt.ylabel('Cumulative Fraction')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MagDropPlot.CLQ_candidates.DR7.3.24.17.png')
 
+matplotlib.rcParams['axes.linewidth']=3
+matplotlib.rcParams['font.size']=18
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
@@ -126,7 +128,7 @@ ax.tick_params(which='major',length=12,width=3,labelsize=17)
 ax.tick_params(which='minor',length=6,width=2,labelsize=17)
 ax2.tick_params(which='major',length=12,width=3,labelsize=17)
 ax2.tick_params(which='minor',length=6,width=2,labelsize=17)
-a=ax.hist(cr['Baseline'],range=(0,6500),bins=26,color='k',edgecolor='k',facecolor='None')
+a=ax.hist(cr['Baseline'],range=(0,6500),bins=26,color='k',edgecolor='k',facecolor='None',lw=2)
 b=ax2.plot(np.sort(cr['Baseline']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='r')
 ax.set_xlabel('Maximum Change Baseline (days)')
 ax.set_ylabel(r'N$_{obj}$')
