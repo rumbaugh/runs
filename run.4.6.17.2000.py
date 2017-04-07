@@ -44,6 +44,8 @@ cr=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.23.17.dat',dt
 cr=cr[gdr]
 cr2=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.SDSS_only.4.6.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','Baseline'),'formats':('|S32','f8','|S8','|S8','i8','f8')},skiprows=1)
 cr2=cr2[gdr]
+cr3=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.test.4.6.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','Baseline'),'formats':('|S32','f8','|S8','|S8','i8','f8')},skiprows=1)
+cr3=cr3[gdr]
 try:
     gmf=np.loadtxt('/home/rumbaugh/gmf_table.3.24.17.1040.dat',dtype='i8')
 except:
@@ -134,4 +136,24 @@ ax.set_xlim(0,6500)
 ax2.set_xlim(0,6500)
 ax2.set_ylim(0,1)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/SDSStest_MaxChangeBaselinePlot.CLQ_candidates.DR7.4.6.17.png')
+
+
+fig=plt.figure(1)
+fig.clf()
+plt.clf()
+plt.rc('axes',linewidth=2)
+ax=fig.add_subplot(1,1,1)
+ax2=ax.twinx()
+ax2.tick_params(which='major',length=8,width=2,labelsize=14)
+ax2.tick_params(which='minor',length=4,width=1.5,labelsize=14)
+a=ax.hist(cr['Baseline'],range=(0,6500),bins=26,color='k',edgecolor='k',facecolor='None')
+a2=ax.hist(cr3['Baseline'],range=(0,6500),bins=26,color='k',edgecolor='cyan',facecolor='None')
+b=ax2.plot(np.sort(cr['Baseline']),(np.arange(len(cr))+1.)/len(cr),lw=2,color='r')
+ax.set_xlabel('Maximum Change Baseline (days)')
+ax.set_ylabel(r'N$_{obj}$')
+ax2.set_ylabel('Cumulative Fraction')
+ax.set_xlim(0,6500)
+ax2.set_xlim(0,6500)
+ax2.set_ylim(0,1)
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/SDSStest2_MaxChangeBaselinePlot.CLQ_candidates.DR7.4.6.17.png')
 
