@@ -26,7 +26,7 @@ ax2.tick_params(which='minor',length=6,width=2,labelsize=17)
 a=ax.hist(crno['medvar'],weights=np.full(len(crno),1./len(crno)),range=(0,0.6),bins=24,color='k',edgecolor='k',facecolor='None',lw=2)
 b=ax.hist(cro['medvar'],weights=np.full(len(cro),1./len(cro)),range=(0,0.6),bins=24,color='r',edgecolor='r',facecolor='None',lw=2)
 p=ax2.plot(np.sort(crno['medvar']),(np.arange(len(crno))+1.)/len(crno),lw=3,color='k',ls='dashed',label='FIRST Undetected')
-q=ax2.plot(np.sort(cro['medvar']),(np.arange(len(cro))+1.)/len(cro),lw=3,color='r',label='FIRST_FR_TYPE>0')
+q=ax2.plot(np.sort(cro['medvar']),(np.arange(len(cro))+1.)/len(cro),lw=3,color='r',label='FIRST Detected')
 leg=plt.legend(loc='center right',frameon=False)
 for text in leg.get_texts():
     if text.properties()['text']=='FIRST Detected': text.set_color('r')
