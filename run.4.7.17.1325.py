@@ -116,7 +116,7 @@ plt.xlabel('Magnitude Change')
 plt.ylabel('Cumulative Fraction')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MagDropPlot.CLQ_candidates.DR7.3.24.17.png')
 
-matplotlib.rcParams['axes.linewidth']=3
+matplotlib.rcParams['axes.linewidth']=4
 matplotlib.rcParams['font.size']=18
 fig=plt.figure(1)
 fig.clf()
