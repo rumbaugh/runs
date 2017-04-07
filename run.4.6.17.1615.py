@@ -270,10 +270,10 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None):
 matplotlib.rcParams['axes.linewidth']=3
 gs1=gs.GridSpec(4,2)
 gs1.update(hspace=0)
-plt.figure(figsize=(16,24))
+plt.figure(figsize=(16,19))
 plt.clf()
 #for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['$u-g$','$g-r$','$r-i$','$i-z$','$z-$W1','W1-W2','W2-W3','W3-W4'],['u-g','g-r','r-i','i-z','z-W1','W1-W2','W2-W3','W3-W4'],np.arange(8),[-0.49,-0.3,-0.35,-0.6,2.01,0.05,1.8,1.8],[4.49,1.49,0.9,0.95,5.45,1.9,4.99,4.8]):
-for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],np.arange(8),[-0.49,-0.3,-0.35,-0.59,2.01,0.05,1.8,1.8],[4.49,1.49,0.9,0.95,5.45,1.9,4.99,4.8]):
+for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW1W2,cW2W3,cW3W4],[ggdug,ggdgr,ggdri,ggdiz,ggdzW1,ggdW1W2,ggdW2W3,ggdW3W4],[cmagu,cmagg,cmagr,cmagi,cmagz,cmagW1,cmagW2,cmagW3],[cmagg,cmagr,cmagi,cmagz,cmagW1,cmagW2,cmagW3,cmagW4],[bhmagu,bhmagg,bhmagr,bhmagi,bhmagz,bhmagW1,bhmagW2,bhmagW3],[bhmagg,bhmagr,bhmagi,bhmagz,bhmagW1,bhmagW2,bhmagW3,bhmagW4],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],['u - g','g - r','r - i','i - z','z - W1','W1 - W2','W2 - W3','W3 - W4'],np.arange(8),[-0.49,-0.3,-0.35,-0.59,2.01,0.05,1.8,1.8],[4.49,1.49,0.9,0.95,5.45,1.9,4.99,4.8]):
     #ax=plt.subplot2grid((2,10),(0,6),colspan=4,
     ax1=plt.subplot(gs1[2*i-7*(i/4)])
     ax1.tick_params(which='major',length=8,width=2,labelsize=14)
@@ -287,9 +287,9 @@ for ccolor,evqcolor,colorlabel,colorname,i,lb,ub in zip([cug,cgr,cri,ciz,czW1,cW
         ax1.set_xticklabels(['1','2','3','4'])
     
     if colorname in ['z-W1','W1-W2','W2-W3','W3-W4']:
-        gc,gevq=np.where((ccolor>0)&(ccolor<6.8))[0],np.where((evqcolor>0)&(evqcolor<6.8))[0]
+        gc,gevq=np.where((ccolor>0)&(ccolor<6.8)&(cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqcolor>0)&(evqcolor<6.8)&(evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
     else:
-        gc,gevq=np.arange(len(ccolor)),np.arange(len(evqcolor))
+        gc,gevq=np.where((cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
     plt.scatter(cz[gc],ccolor[gc],color='k',marker='.',edgecolor='None')
     plt.scatter(ggdz[gevq],evqcolor[gevq],color='red',marker='.',edgecolor='None')
     zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5)
