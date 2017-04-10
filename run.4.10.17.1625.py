@@ -23,7 +23,7 @@ DESend=DESstart+yearlen*3
 randzs=np.random.choice(bhz,ntrials)
 baselines_rf=np.random.uniform(100,6000,ntrials)
 baselines_obs=baselines_rf*(1+randzs)
-anchor_epoch=np.uniform(SDSSstart,DESend,ntrials)
+anchor_epoch=np.random.uniform(SDSSstart,DESend,ntrials)
 direction=np.random.choice(np.array([-1,1]),ntrials)
 second_epoch=anchor_epoch+direction*baselines_obs
 detected=np.ones(ntrials,dtype='bool')
