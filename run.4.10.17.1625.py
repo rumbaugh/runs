@@ -37,11 +37,11 @@ detfrac_rf,detfrac_obs=np.zeros(0),np.zeros(0)
 detepoch_rf,detepoch_obs=np.zeros(0),np.zeros(0)
 fracbinwid=100
 for t in np.linspace(100,6000,100):
-    g=np.where(np.abs(baseline_rf-t)<fracbinwid)[0]
+    g=np.where(np.abs(baselines_rf-t)<fracbinwid)[0]
     if len(g)>0:
         detfrac_rf,detepoch_rf=np.append(detfrac_rf,np.count_nonzero(detected[g])*1./len(g)),np.append(detepochrf_t)
 for t in np.linspace(0,10000,100):
-    g=np.where(np.abs(baseline_obs-t)<fracbinwid)[0]
+    g=np.where(np.abs(baselines_obs-t)<fracbinwid)[0]
     if len(g)>0:
         detfrac_obs,detepoch_obs=np.append(detfrac_obs,np.count_nonzero(detected[g])*1./len(g)),np.append(detepochrf_t)
 
