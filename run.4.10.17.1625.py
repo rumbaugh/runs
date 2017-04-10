@@ -39,11 +39,11 @@ fracbinwid=100
 for t in np.linspace(100,6000,100):
     g=np.where(np.abs(baselines_rf-t)<fracbinwid)[0]
     if len(g)>0:
-        detfrac_rf,detepoch_rf=np.append(detfrac_rf,np.count_nonzero(detected[g])*1./len(g)),np.append(detepochrf_t)
+        detfrac_rf,detepoch_rf=np.append(detfrac_rf,np.count_nonzero(detected[g])*1./len(g)),np.append(detepoch_rf,t)
 for t in np.linspace(0,10000,100):
     g=np.where(np.abs(baselines_obs-t)<fracbinwid)[0]
     if len(g)>0:
-        detfrac_obs,detepoch_obs=np.append(detfrac_obs,np.count_nonzero(detected[g])*1./len(g)),np.append(detepochrf_t)
+        detfrac_obs,detepoch_obs=np.append(detfrac_obs,np.count_nonzero(detected[g])*1./len(g)),np.append(detepoch_obs,t)
 
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 
