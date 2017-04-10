@@ -13,7 +13,7 @@ bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
 
 yearlen=365.25
-halfyar=yearlen/2
+halfyear=yearlen/2
 
 SDSSstart=51000
 SDSSend=55000
