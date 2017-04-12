@@ -182,5 +182,5 @@ for buff in [100,300,600]:
     ax.set_xlim(0,4400)
     ax2.set_xlim(0,4400)
     ax2.set_ylim(0,1)
-    fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.corr_wbuff_%i.4.12.17.png'%buff
+    fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.corr_wbuff_%i.4.12.17.png'%buff)
 
