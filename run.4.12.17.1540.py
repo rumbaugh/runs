@@ -137,3 +137,50 @@ ax.set_xlim(0,4400)
 ax2.set_xlim(0,4400)
 ax2.set_ylim(0,1)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.4.12.17.png')
+
+corr_weights=np.zeros(len(a[0]))
+
+for buff in [100,300,600]:
+    crb=np.loadtxt('/home/rumbaugh/DetFracObs.buff_%i.4.10.17.dat'%buff)
+    detepochs=np.append(np.append(0.,crb[:,1]),6000.)
+    for i in range(0,len(a[1])-1):
+        lb,ub=a[1][i],a[1][i+1]
+        gb=np.where((detepochs>lb)&(detepochs<ub))[0]
+        bounds=0.5*(np.append(detepochs[gb[0]-1],detepochs[gb])+np.append(detepochs[gb],detepochs[gb[-1]+1]))
+        if bounds[0]>lb:
+            bounds,gb=np.append(lb,bounds),np.append(gb[0]-1,gb)
+        else:
+            bounds[0]=lb
+        if bounds[-1]<ub:
+            bounds,gb=np.append(bounds,ub),np.append(gb,gb[-1]+1)
+        else:
+            bounds[-1]=ub
+        corr_weights[i]=np.sum(crb[:,0][gb-1]*(bounds[1:]-bounds[:-1]))/(a[1][i+1]-a[1][i])
+    
+    fig=plt.figure(1)
+    fig.clf()
+    plt.clf()
+    plt.rc('axes',linewidth=2)
+    ax=fig.add_subplot(1,1,1)
+    ax2=ax.twinx()
+    ax.tick_params(which='major',length=12,width=3,labelsize=17)
+    ax.tick_params(which='minor',length=6,width=2,labelsize=17)
+    ax2.tick_params(which='major',length=12,width=3,labelsize=17)
+    ax2.tick_params(which='minor',length=6,width=2,labelsize=17)
+    a=ax.hist(crmd['Baseline']/(1.+data['redshift'][gmf_md]),range=(0,4400),bins=22,color='k',edgecolor='k',facecolor='None',lw=2)
+    b=ax2.plot(np.sort(crmd['Baseline']/(1.+data['redshift'][gmf_md])),(np.arange(len(crmd))+1.)/len(crmd),lw=2,color='r')
+    a2=ax.hist(crmd['Baseline']/(1.+data['redshift'][gmf_md]),weights=1./corr_weights,range=(0,4400),bins=22,color='k',edgecolor='k',facecolor='None',ls='dashed',lw=2)
+    ax.set_xlabel('Maximum Change Baseline (Restframe days)')
+    ax.set_ylabel(r'N$_{obj}$')
+    ax2.set_ylabel('Cumulative Fraction')
+    #ax.axhline(lw=4,color='k')
+    #ax.axvline(lw=4,color='k')
+    #ax2.axhline(lw=4,color='k')
+    #ax2.axvline(lw=4,color='k')
+    for axis in ['top','bottom','left','right']:
+        ax.spines[axis].set_linewidth(3)
+    ax.set_xlim(0,4400)
+    ax2.set_xlim(0,4400)
+    ax2.set_ylim(0,1)
+    fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.corr_wbuff_%i.4.12.17.png'%buff
+
