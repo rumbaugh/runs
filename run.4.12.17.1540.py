@@ -138,7 +138,7 @@ ax2.set_xlim(0,4400)
 ax2.set_ylim(0,1)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.4.12.17.png')
 
-corr_weights=np.zeros(len(a[0]))
+corr_weights=np.zeros(len(crmd))
 
 for buff in [100,300,600]:
     crb=np.loadtxt('/home/rumbaugh/DetFracObs.buff_%i.4.10.17.dat'%buff)
@@ -146,6 +146,7 @@ for buff in [100,300,600]:
     for i in range(0,len(a[1])-1):
         lb,ub=a[1][i],a[1][i+1]
         gb=np.where((detepochs>lb)&(detepochs<ub))[0]
+        gw=np.where((crmd['Baseline']/(1.+data['redshift'][gmf_md])>lb)&(crmd['Baseline']/(1.+data['redshift'][gmf_md])<ub))[0]
         bounds=0.5*(np.append(detepochs[gb[0]-1],detepochs[gb])+np.append(detepochs[gb],detepochs[gb[-1]+1]))
         if bounds[0]>lb:
             bounds,gb=np.append(lb,bounds),np.append(gb[0]-1,gb)
@@ -155,7 +156,7 @@ for buff in [100,300,600]:
             bounds,gb=np.append(bounds,ub),np.append(gb,gb[-1]+1)
         else:
             bounds[-1]=ub
-        corr_weights[i]=np.sum(crb[:,0][gb-1]*(bounds[1:]-bounds[:-1]))/(a[1][i+1]-a[1][i])
+        corr_weights[gw]=np.sum(crb[:,0][gb-1]*(bounds[1:]-bounds[:-1]))/(a[1][i+1]-a[1][i])
     
     fig=plt.figure(1)
     fig.clf()
