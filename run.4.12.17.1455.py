@@ -1,4 +1,4 @@
-ntrials=100
+ntrials=10000000
 buff=100
 execfile('/home/rumbaugh/runs/run.4.12.17.1445.py')
 buff=300
