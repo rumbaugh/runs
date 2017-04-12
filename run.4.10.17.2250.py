@@ -6,6 +6,10 @@ try:
     ntrials
 except NameError:
     ntrials=10000
+try:
+    buff
+except NameError:
+    buff=100
 clqsize=16
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
@@ -35,14 +39,16 @@ randzs=np.random.choice(redshifts,ntrials)
 baselines_rf=np.random.uniform(100,6000,ntrials)
 baselines_obs=baselines_rf*(1+randzs)
 anchor_epoch=np.random.uniform(SDSSstart,DESend,ntrials)
+anchor_epoch2=anchor_epoch+buff*(1+randzs)
 direction=np.random.choice(np.array([-1,1]),ntrials)
 second_epoch=anchor_epoch+direction*baselines_obs
+second_epoch2=second_epoch+buff*(1+randzs)
 detected=np.ones(ntrials,dtype='bool')
-detected[(second_epoch<SDSSstart)|(second_epoch>DESend)|((second_epoch>SDSSend)&(second_epoch<DESstart))|((anchor_epoch>SDSSend)&(anchor_epoch<DESstart))]=0
-detected[(second_epoch>SDSSstart)&(second_epoch<SDSSend)&(second_epoch%yearlen>halfyear)]=0
-detected[(anchor_epoch>SDSSstart)&(anchor_epoch<SDSSend)&(anchor_epoch%yearlen>halfyear)]=0
-detected[(second_epoch>DESstart)&(second_epoch<DESend)&(second_epoch%yearlen>halfyear)]=0
-detected[(anchor_epoch>DESstart)&(anchor_epoch<DESend)&(anchor_epoch%yearlen>halfyear)]=0
+detected[((second_epoch<SDSSstart)|(second_epoch>DESend)|((second_epoch>SDSSend)&(second_epoch<DESstart))|((anchor_epoch>SDSSend)&(anchor_epoch<DESstart)))&((second_epoch2<SDSSstart)|(second_epoch2>DESend)|((second_epoch2>SDSSend)&(second_epoch2<DESstart))|((anchor_epoch2>SDSSend)&(anchor_epoch2<DESstart)))]=0
+detected[((second_epoch>SDSSstart)&(second_epoch<SDSSend)&(second_epoch%yearlen>halfyear))&((second_epoch2>SDSSstart)&(second_epoch2<SDSSend)&(second_epoch2%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
+detected[((anchor_epoch>SDSSstart)&(anchor_epoch<SDSSend)&(anchor_epoch%yearlen>halfyear))&((anchor_epoch2>SDSSstart)&(anchor_epoch2<SDSSend)&(anchor_epoch2%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
+detected[((second_epoch>DESstart)&(second_epoch<DESend)&(second_epoch%yearlen>halfyear))&((second_epoch2>DESstart)&(second_epoch2<DESend)&(second_epoch2%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
+detected[((anchor_epoch>DESstart)&(anchor_epoch<DESend)&(anchor_epoch%yearlen>halfyear))&((anchor_epoch2>DESstart)&(anchor_epoch2<DESend)&(anchor_epoch2%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
 
 detfrac_rf,detfrac_obs=np.zeros(0),np.zeros(0)
 detepoch_rf,detepoch_obs=np.zeros(0),np.zeros(0)
@@ -87,7 +93,7 @@ for axis in ['top','bottom','left','right']:
 ax.set_xlim(0,6000)
 ax2.set_xlim(0,6000)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.TrueDistRF.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.TrueDistRF.buff_%i.4.10.17.png'%buff)
 
 fig=plt.figure(1)
 fig.clf()
@@ -113,7 +119,7 @@ for axis in ['top','bottom','left','right']:
 ax.set_xlim(0,20000)
 ax2.set_xlim(0,20000)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.TrueDistObs.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.TrueDistObs.buff_%i.4.10.17.png'%buff)
 
 
 matplotlib.rcParams['axes.linewidth']=4
@@ -142,7 +148,7 @@ for axis in ['top','bottom','left','right']:
 ax.set_xlim(0,6000)
 ax2.set_xlim(0,6000)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetDistRF.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetDistRF.buff_%i.4.10.17.png'%buff)
 
 fig=plt.figure(1)
 fig.clf()
@@ -168,7 +174,7 @@ for axis in ['top','bottom','left','right']:
 ax.set_xlim(0,6500)
 ax2.set_xlim(0,6500)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetDistObs.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetDistObs.buff_%i.4.10.17.png'%buff)
 
 fig=plt.figure(1)
 fig.clf()
@@ -190,8 +196,8 @@ ax.set_ylabel('Detection Fraction')
 for axis in ['top','bottom','left','right']:
     ax.spines[axis].set_linewidth(3)
 ax.set_xlim(0,6500)
-ax.set_ylim(0,0.21)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetFracRF.4.10.17.png')
+ax.set_ylim(0,1)
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetFracRF.buff_%i.4.10.17.png'%buff)
 
 
 
@@ -215,6 +221,6 @@ ax.set_ylabel('Detection Fraction')
 for axis in ['top','bottom','left','right']:
     ax.spines[axis].set_linewidth(3)
 ax.set_xlim(0,6500)
-ax.set_ylim(0,0.3)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetFracObs.4.10.17.png')
+ax.set_ylim(0,1)
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetFracObs.buff_%i.4.10.17.png'%buff)
 
