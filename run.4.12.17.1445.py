@@ -65,11 +65,11 @@ for t in np.arange(0,20000,10):
     if len(g)>0:
         detfrac_obs,detepoch_obs=np.append(detfrac_obs,np.count_nonzero(detected[g])*1./len(g)),np.append(detepoch_obs,t)
 outcr=np.zeros((len(detfrac_rf),),dtype={'names':('detfrac','detepoch'),'formats':('f8','f8')})
-outcr['detfrac'],outcr['detepoch']=detfrac_rf,defepoch_rf
+outcr['detfrac'],outcr['detepoch']=detfrac_rf,detepoch_rf
 np.savetxt('/home/rumbaugh/DetFracRF.buff_%i.4.10.17.dat'%buff,outcr,fmt='%f %f',header='DetectionFraction Epoch')
 
 outcr=np.zeros((len(detfrac_obs),),dtype={'names':('detfrac','detepoch'),'formats':('f8','f8')})
-outcr['detfrac'],outcr['detepoch']=detfrac_obs,defepoch_obs
+outcr['detfrac'],outcr['detepoch']=detfrac_obs,detepoch_obs
 np.savetxt('/home/rumbaugh/DetFracObs.buff_%i.4.10.17.dat'%buff,outcr,fmt='%f %f',header='DetectionFraction Epoch')
 
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
