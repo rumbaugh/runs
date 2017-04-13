@@ -141,7 +141,7 @@ fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7
 corr_weights=np.zeros(len(crmd))
 
 for buff in [100,300,600]:
-    crb=np.loadtxt('/home/rumbaugh/DetFracObs.buff_%i.4.10.17.dat'%buff)
+    crb=np.loadtxt('/home/rumbaugh/DetFracRF.buff_%i.4.10.17.dat'%buff)
     detepochs=np.append(np.append(0.,crb[:,1]),6000.)
     for i in range(0,len(a[1])-1):
         lb,ub=a[1][i],a[1][i+1]
