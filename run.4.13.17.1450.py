@@ -193,12 +193,12 @@ plt.clf()
 plt.rc('axes',linewidth=2)
 colarr=['k','r','green','cyan']
 lsarr=['solid','dashed','dotted','.-']
-for b in [0,100,300,600]:
+for b,ib in zip([0,100,300,600],np.arange(4)):
     if b==0:
         label='No buffer'
     else:
-        label='Buffer=%i days'
-    plt.plot(crbs[i][:,1],crbs[i][:,0],color=colarr[i],ls=lsarr[i],lw=2,label=label)
+        label='Buffer=%i days'%b
+    plt.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=label)
 plt.legend(loc='upper right',frameon=False)
 plt.xlabel('Maximum Change Baseline (restframe days)')
 plt.ylabel('Detection Fraction')
