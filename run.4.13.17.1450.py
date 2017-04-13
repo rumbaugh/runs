@@ -202,4 +202,4 @@ for b,ib in zip([0,100,300,600],np.arange(4)):
 plt.legend(loc='upper right',frameon=False)
 plt.xlabel('Maximum Change Baseline (restframe days)')
 plt.ylabel('Detection Fraction')
-plt.savefig('/home/rumbaugh/Y3A1/plots/MaxChangeBaselinePlot.DetFrac_comp.baselines.4.13.17.png')
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.DetFrac_comp.baselines.4.13.17.png')
