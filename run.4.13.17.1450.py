@@ -186,7 +186,7 @@ for buff in [0,100,300,600]:
     fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.corr_wbuff_%i.4.12.17.png'%buff)
 
 
-crbs=np.array([np.loadtxt('/home/rumbaugh/DetFracRF.buff_%i.4.10.17.dat'%buff) for x in [0,100,300,600]])#,dtype='object'])
+crbs=np.array([np.loadtxt('/home/rumbaugh/DetFracRF.buff_%i.4.10.17.dat'%x) for x in [0,100,300,600]])#,dtype='object'])
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
