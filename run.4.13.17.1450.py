@@ -200,6 +200,7 @@ for b,ib in zip([0,100,300,600],np.arange(4)):
         label='Buffer=%i days'%b
     plt.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=label)
 plt.legend(loc='upper right',frameon=False)
+plt.xlim(0,4400)
 plt.xlabel('Maximum Change Baseline (restframe days)')
 plt.ylabel('Detection Fraction')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.DetFrac_comp.baselines.4.13.17.png')
