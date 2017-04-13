@@ -185,3 +185,21 @@ for buff in [0,100,300,600]:
     ax2.set_ylim(0,1)
     fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.corr_wbuff_%i.4.12.17.png'%buff)
 
+
+crbs=np.array([x=np.loadtxt('/home/rumbaugh/DetFracRF.buff_%i.4.10.17.dat'%buff) for x in [0,100,300,600],dtype='object'])
+fig=plt.figure(1)
+fig.clf()
+plt.clf()
+plt.rc('axes',linewidth=2)
+colarr=['k','r','green','cyan']
+lsarr=['solid','dashed','dotted','.-']
+for b in [0,100,300,600]:
+    if b==0:
+        label='No buffer'
+    else:
+        label='Buffer=%i days'
+    plt.plot(crbs[i][:,1],crbs[i][:,0],color=colarr[i],ls=lsarr[i],lw=2,label=label)
+plt.legend(loc='upper right',frameon=False)
+plt.xlabel('Maximum Change Baseline (restframe days)')
+plt.ylabel('Detection Fraction')
+plt.savefig('/home/rumbaugh/Y3A1/plots/MaxChangeBaselinePlot.DetFrac_comp.baselines.4.13.17.png')
