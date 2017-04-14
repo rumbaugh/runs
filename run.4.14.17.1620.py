@@ -173,7 +173,7 @@ g_max[:,0][gswap],g_max[:,1][gswap],sig_max[:,0][gswap],sig_max[:,1][gswap],mjd_
 
 outcr=np.zeros((len(crdb),),dtype={'names':('RA','DEC','Redshift','MJD_lo','g_lo','sig_lo','MJD_hi','g_hi','sig_hi','DBID'),'formats':('f8','f8','f8','f8','f8','f8','f8','f8','f8','|S24')})
 outcr['RA'],outcr['DEC'],outcr['Redshift'],outcr['MJD_lo'],outcr['g_lo'],outcr['sig_lo'],outcr['MJD_hi'],outcr['g_hi'],outcr['sig_hi'],outcr['DBID']=ra,dec,redshifts,mjd_max[:,0],g_max[:,0],sig_max[:,0],mjd_max[:,1],g_max[:,1],sig_max[:,1],crdb['DatabaseID']
-np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.14.17.tab',outcr,header='RA DEC Redshift MJD_lo g_lo sig_lo MJD_hi g_hi sig_hi DBID',fmt='%f %f %f %f %f %f %f %f %f %f')
+np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.14.17.tab',outcr,header='RA DEC Redshift MJD_lo g_lo sig_lo MJD_hi g_hi sig_hi DBID',fmt='%f %f %f %f %f %f %f %f %f %24s')
 
 #outcr['SurvST'][outcr['SurvST']=='']='None'
 #outcr['SurvEnd'][outcr['SurvEnd']=='']='None'
