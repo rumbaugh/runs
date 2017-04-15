@@ -59,7 +59,7 @@ except:
 medu,medg,medr,medi,medz=data['med_SDSS_u'][gmf],data['med_SDSS_g'][gmf],data['med_SDSS_r'][gmf],data['med_SDSS_i'][gmf],data['med_SDSS_z'][gmf]
 medu_all,medg_all,medr_all,medi_all,medz_all=data['med_SDSS_u'][gmf_dr7],data['med_SDSS_g'][gmf_dr7],data['med_SDSS_r'][gmf_dr7],data['med_SDSS_i'][gmf_dr7],data['med_SDSS_z'][gmf_dr7]
 
-crmd=cr[np.abs(cr['drop'])>1]
+crmd=cr[np.abs(crd()>1]
 gmf_md=gmf[np.abs(cr['drop'])>1]
 
 good_dbids=crmd['DBID'][np.abs(crmd['drop'])>1]
