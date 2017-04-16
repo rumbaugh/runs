@@ -9,7 +9,7 @@ def save_image(ra, dec,DBID):
     filename = filename_template.format(DBID)
     urllib.urlretrieve(url, filename=filename)
 
-cr=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts.4.14.17.csv',dtype={'names':('ra','dec','name'),'formats':('f8','f8','|S40')},delimiter=',')
+cr=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts.4.15.17.csv',dtype={'names':('ra','dec','name'),'formats':('f8','f8','|S40')},delimiter=',')
 
 for ra,dec,DBID in zip(cr['ra'],cr['dec'],cr['name']):
     save_image(ra,dec,DBID)
