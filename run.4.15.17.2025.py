@@ -2,7 +2,7 @@ import numpy as np
 import urllib
 
 url_template = 'http://skyserver.sdss.org/dr13/SkyServerWS/ImgCutout/getjpeg?ra={}&dec={}&scale=0.024&width=600&height=600&opt=GI'
-filename_template = '/home/rumbaugh/var_database/plots/{}.jpeg'
+filename_template = '/home/rumbaugh/var_database/Y3A1/imagestamps/{}.jpeg'
 
 def save_image(ra, dec,DBID):
     url = url_template.format(ra, dec)
