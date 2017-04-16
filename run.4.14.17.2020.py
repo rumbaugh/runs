@@ -12,7 +12,7 @@ print len(crmd['DBID'])
 
 crd2=crd[np.abs(crd['ghi']-crd['glo'])>1]
 
-outcr=np.zeros((len(crd2),)),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S64')})
+outcr=np.zeros((len(crd2),),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S64')})
 outcr_radec=np.zeros((len(crd2),2))
 outcr['RA'],outcr['DEC'],outcr['Name']=crd2['RA'],crd2['DEC'],crd2['DBID']
 outcr_radec[:,0],outcr_radec[:,1]=crd2['RA'],crd2['DEC']
