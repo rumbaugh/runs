@@ -123,6 +123,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
                     outlier_arr[gorig[gb[ipt]]]= np.abs(np.median(mag[gb[gthresh]])-mag[gb[ipt]]) > outlier_thresh
                 else:
                     outlier_mac_arr[gorigmac[gbmac[gmac2[ipt-mydblen]]]]= np.abs(np.median(mag[gb[gthresh]])-mag[gb[ipt]]) > outlier_thresh
+        print 'Saving outlier.tab for %s'%DBID
         np.savetxt('%s/%s/outliers.tab'%(DBdir,DBID),outlier_arr,fmt='%2i')
         if maclen>0:np.savetxt('%s/%s/outliers_Macleod.tab'%(DBdir,DBID),outlier_mac_arr,fmt='%2i')
         outlier_arr=outlier_arr[gorig[gb[gb<mydblen]]]
