@@ -10,4 +10,4 @@ crmd=crmd[crdb['SDSSNAME']!='-1']
 crmd=crmd[np.abs(crd['ghi']-crd['glo'])>1]
 print len(crmd)
 gdbids=np.array(['MQ206171','MQ208717','MQ213230','MQ209259','MQ212075','MQ211918','MQ214934','MQ214802','MQ214532','MQ215548','MQ216346'])
-plot_DB_lightcurves(gdbids,'/home/rumbaugh/testSN_lightcurves.4.17.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False)
+plot_DB_lightcurves(gdbids,'/home/rumbaugh/testSN_lightcurves.4.17.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False)
