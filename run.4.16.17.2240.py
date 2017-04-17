@@ -49,7 +49,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
     if SDSSNAME!='-1':
         gBHSN=np.where(crbhSN['cid']==cid)[0]
         if len(gBHSN)>0:inSN=True
-    if not(inSN): continue
+    #if not(inSN): continue
     if MQrn!=-1:
         gMQy=np.where(crmqy['cid']==cid)[0]
         gMQs=np.where(crmqs['cid']==cid)[0]
