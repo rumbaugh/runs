@@ -24,6 +24,7 @@ baseline_max=np.zeros(len(crdb))
 for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     if np.shape(cr)==(0,): 
+        print 'No LC.tab for %s'%DBID
         continue
     elif np.shape(cr)==():
         outlier_arr=np.zeros(1,dtype='bool')
@@ -115,6 +116,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         #    initdists=SphDist(cr['RA'][0],cr['DEC'][0],cr['RA'][1:],cr['DEC'][1:])
         #    if np.max(initdists)>0.3: SNflag=True
     if maclen>0:outlier_mac_arr[gorigmac[gbmac[gmac2]]]=0
+    print 'len(gb)=%i'%len(gb)
     if len(gb)>0:
         for ipt in np.arange(len(gb)):
             gthresh=np.where(np.abs(mjd[gb]-mjd[gb[ipt]])<outlier_window)[0]
