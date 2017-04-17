@@ -16,7 +16,7 @@ crmcm=crmcm[crmcm['MCID']>-1]
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 gdbids=np.array(['MQ206171','MQ208717','MQ213230','MQ209259','MQ212075','MQ211918','MQ214934','MQ214802','MQ214532','MQ215548','MQ216346'])
-crdb=crdb[np.in1d(crdb,gdbids)]
+crdb=crdb[np.in1d(crdb['DatabaseID'],gdbids)]
 maxdrop=np.zeros(len(crdb))
 s82flag=np.zeros(len(crdb))
 surveys_max=np.zeros((len(crdb),2),dtype='|S8')
