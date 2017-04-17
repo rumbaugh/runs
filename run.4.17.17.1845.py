@@ -62,7 +62,7 @@ medu_all,medg_all,medr_all,medi_all,medz_all=data['med_SDSS_u'][gmf_dr7],data['m
 
 crmd=cr[drop>1]
 gmf_md=gmf[drop>1]
-
+crd,drop,baseline=crd[drop>1],drop[drop>1],baseline[drop>1]
 
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
@@ -121,8 +121,8 @@ ax.tick_params(which='major',length=12,width=3,labelsize=17)
 ax.tick_params(which='minor',length=6,width=2,labelsize=17)
 ax2.tick_params(which='major',length=12,width=3,labelsize=17)
 ax2.tick_params(which='minor',length=6,width=2,labelsize=17)
-a=ax.hist(crmd['Baseline']/(1.+data['redshift'][gmf_md]),range=(0,4400),bins=22,color='k',edgecolor='k',facecolor='None',lw=2)
-b=ax2.plot(np.sort(crmd['Baseline']/(1.+data['redshift'][gmf_md])),(np.arange(len(crmd))+1.)/len(crmd),lw=2,color='r')
+a=ax.hist(baseline/(1.+crd['z']),range=(0,4400),bins=22,color='k',edgecolor='k',facecolor='None',lw=2)
+b=ax2.plot(np.sort(baseline/(1.+crd['z'])),(np.arange(len(crmd))+1.)/len(crmd),lw=2,color='r')
 ax.set_xlabel('Maximum Change Baseline (Restframe days)')
 ax.set_ylabel(r'N$_{obj}$')
 ax2.set_ylabel('Cumulative Fraction')
@@ -145,7 +145,7 @@ for buff in [0,100,300,600]:
     for i in range(0,len(a[1])-1):
         lb,ub=a[1][i],a[1][i+1]
         gb=np.where((detepochs>lb)&(detepochs<ub))[0]
-        gw=np.where((crmd['Baseline']/(1.+data['redshift'][gmf_md])>lb)&(crmd['Baseline']/(1.+data['redshift'][gmf_md])<ub))[0]
+        gw=np.where((baseline/(1.+crd['z'])>lb)&(baseline/(1.+crd['z'])<ub))[0]
         bounds=0.5*(np.append(detepochs[gb[0]-1],detepochs[gb])+np.append(detepochs[gb],detepochs[gb[-1]+1]))
         if bounds[0]>lb:
             bounds,gb=np.append(lb,bounds),np.append(gb[0]-1,gb)
@@ -167,9 +167,9 @@ for buff in [0,100,300,600]:
     ax.tick_params(which='minor',length=6,width=2,labelsize=17)
     ax2.tick_params(which='major',length=12,width=3,labelsize=17)
     ax2.tick_params(which='minor',length=6,width=2,labelsize=17)
-    a=ax.hist(crmd['Baseline']/(1.+data['redshift'][gmf_md]),range=(0,4400),bins=22,color='k',edgecolor='k',facecolor='None',lw=2)
-    b=ax2.plot(np.sort(crmd['Baseline']/(1.+data['redshift'][gmf_md])),(np.arange(len(crmd))+1.)/len(crmd),lw=2,color='r')
-    a2=ax.hist(crmd['Baseline']/(1.+data['redshift'][gmf_md]),weights=1./corr_weights,range=(0,4400),bins=22,color='k',edgecolor='k',facecolor='None',ls='dashed',lw=2)
+    a=ax.hist(baseline/(1.+crd['z']),range=(0,4400),bins=22,color='k',edgecolor='k',facecolor='None',lw=2)
+    b=ax2.plot(np.sort(baseline/(1.+crd['z'])),(np.arange(len(crmd))+1.)/len(crmd),lw=2,color='r')
+    a2=ax.hist(baseline/(1.+crd['z']),weights=1./corr_weights,range=(0,4400),bins=22,color='k',edgecolor='k',facecolor='None',ls='dashed',lw=2)
     ax.set_xlabel('Maximum Change Baseline (Restframe days)')
     ax.set_ylabel(r'N$_{obj}$')
     ax2.set_ylabel('Cumulative Fraction')
