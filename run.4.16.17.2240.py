@@ -39,12 +39,13 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
     DR13outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
     cur_dr7,tid='None',0
     curDBIDs=np.zeros(0,dtype='|S64')
-    if MQrn!=-1:
-        gMQSN=np.where(crmqSN['cid']==cid)[0]
-        if len(gMQSN)>0:inSN=True
-    if SPrn!=-1:
-        gSPSN=np.where(crspSN['cid']==cid)[0]
-        if len(gSPSN)>0:inSN=True
+    gMQSN,gSPSN=np.zeros(0),np.zeros(0)
+    #if MQrn!=-1:
+    #    gMQSN=np.where(crmqSN['cid']==cid)[0]
+    #    if len(gMQSN)>0:inSN=True
+    #if SPrn!=-1:
+    #    gSPSN=np.where(crspSN['cid']==cid)[0]
+    #    if len(gSPSN)>0:inSN=True
     if SDSSNAME!='-1':
         gBHSN=np.where(crbhSN['cid']==cid)[0]
         if len(gBHSN)>0:inSN=True
