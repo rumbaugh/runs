@@ -5,6 +5,7 @@ outlier_window,outlier_thresh,mac_thresh=100,0.5,5
 
 DB_path='/home/rumbaugh/var_database/Y3A1'
 outputdir=DB_path
+DBdir=DB_path
 #crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'names':('DatabaseID','Y3A1_COADD_OBJECTS_ID','SDSSNAME'),'formats':('|S64','|S64','|S64')},usecols=(0,1,6))
 crmcm=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_Macleod_S82_match.dat',dtype={'names':('DBID','MCID'),'formats':('|S24','i8')},skiprows=1)
 
