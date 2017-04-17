@@ -42,6 +42,7 @@ gmf_dr7=np.where(data['SDSSNAME']!='-1')[0]
 cr=np.loadtxt('/home/rumbaugh/var_database/Y3A1/max_mag_drop_DR7.3.28.17.dat',dtype={'names':('DBID','drop','Surv1','Surv2','S82','Baseline'),'formats':('|S32','f8','|S8','|S8','i8','f8')},skiprows=1)
 cr=cr[gdr]
 crd=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.17.17.tab',dtype={'names':('RA','DEC','z','mjdlo','glo','siglo','mjdhi','ghi','sighi'),'formats':('f8','f8','f8','f8','f8','f8','f8','f8','f8')})
+drop,baseline=np.abs(crd['glo']-crd['ghi']),np.abs(crd['mjdlo']-crd['mjdhi'])
 try:
     gmf=np.loadtxt('/home/rumbaugh/gmf_table.4.10.17.1440.dat',dtype='i8')
 except:
@@ -59,11 +60,11 @@ except:
 medu,medg,medr,medi,medz=data['med_SDSS_u'][gmf],data['med_SDSS_g'][gmf],data['med_SDSS_r'][gmf],data['med_SDSS_i'][gmf],data['med_SDSS_z'][gmf]
 medu_all,medg_all,medr_all,medi_all,medz_all=data['med_SDSS_u'][gmf_dr7],data['med_SDSS_g'][gmf_dr7],data['med_SDSS_r'][gmf_dr7],data['med_SDSS_i'][gmf_dr7],data['med_SDSS_z'][gmf_dr7]
 
-crmd=cr[np.abs(crd()>1]
-gmf_md=gmf[np.abs(cr['drop'])>1]
+crmd=cr[drop>1]
+gmf_md=gmf[drop>1]
 
-good_dbids=crmd['DBID'][np.abs(crmd['drop'])>1]
-gooddrops=np.abs(crmd['drop'])[np.abs(crmd['drop'])>1]
+good_dbids=crmd['DBID'][drop>1]
+gooddrops=np.abs(crmd['drop'])[drop>1]
 
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
