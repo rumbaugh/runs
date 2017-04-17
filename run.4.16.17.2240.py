@@ -141,6 +141,14 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
                 if len(des_outcr)==0: 
                     des_outcr=np.zeros((len(mjd),),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND'),'formats':('i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2')})
                     des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,0,0,cid,yra,ydec,0,0,mag,magerr,bands
+        elif len(gBHSN)>0:
+            mjd,mag,magerr,cIDs,bands,yra,ydec,flags=crbhSN['mjd'][gBHSN],crbhSN['mag'][gBHSN],crbhSN['magerr'][gBHSN],crbhSN['cid'][gBHSN],crbhSN['band'][gBHSN],crbhSN['ra'][gBHSN],crbhSN['dec'][gBHSN],crbhSN['flags'][gBHSN]
+            Y3A1outcr=np.zeros((len(gBHSN),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
+            Y3A1outcr['DatabaseID'],Y3A1outcr['Survey'],Y3A1outcr['SurveyCoaddID'],Y3A1outcr['SurveyObjectID'],Y3A1outcr['RA'],Y3A1outcr['DEC'],Y3A1outcr['MJD'],Y3A1outcr['TAG'],Y3A1outcr['BAND'],Y3A1outcr['MAGTYPE'],Y3A1outcr['MAG'],Y3A1outcr['MAGERR'],Y3A1outcr['FLAG']=DBID,'DES',cid,0,yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,flags
+            outcr=np.append(outcr,Y3A1outcr)
+            if len(des_outcr)==0: 
+                des_outcr=np.zeros((len(mjd),),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND'),'formats':('i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2')})
+                des_outcr['MJD'],des_outcr['IMAGEID'],des_outcr['OBJECTID'],des_outcr['COADD_OBJECTS_ID'],des_outcr['RA'],des_outcr['DEC'],des_outcr['MAG_AUTO'],des_outcr['MAGERR_AUTO'],des_outcr['MAG_PSF'],des_outcr['MAGERR_PSF'],des_outcr['BAND']=mjd,0,0,cid,yra,ydec,0,0,mag,magerr,bands
 
         if ((len(gBHs)>0)&(len(DR13outcr)==0)):
             SDSSmjd,SDSScid=crbh['mjd_g'][gBHs],crbh['cid'][gBHs]
