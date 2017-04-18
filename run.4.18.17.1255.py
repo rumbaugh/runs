@@ -13,5 +13,5 @@ np.savetxt('/home/rumbaugh/radec_forDEScutouts.4.18.17.csv',outcr_radec,fmt='%f,
 FILE=open('/home/rumbaugh/runs/run.4.18.17.1255.sql','w')
 win=.2/60
 for i in range(0,len(outcr)):
-    FILE.write('SELECT RA,DEC,COADD_OBJECT_ID FROM Y3A1_COADD_OBJECT_SUMMARY where RA>%.6f AND RA<%.6f AND DEC> %.6f AND DEC<%.6f;\n'%(outcr['RA']-win,outcr['RA']+win,outcr['DEC']-win,outcr['DEC']+win))
+    FILE.write('SELECT RA,DEC,COADD_OBJECT_ID FROM Y3A1_COADD_OBJECT_SUMMARY where RA>%.6f AND RA<%.6f AND DEC> %.6f AND DEC<%.6f;\n'%(outcr['RA'][i]-win,outcr['RA'][i]+win,outcr['DEC'][i]-win,outcr['DEC'][i]+win))
 FILE.close()
