@@ -51,13 +51,13 @@ for i in range(0,len(gmf)):
     gbh[i]=np.where(bhdbid==crdb['DatabaseID'][i])[0][0]
 dists=SphDist(bhdata['RA'][gbh],bhdata['DEC'][gbh],data['RA_DES'][gmf],data['DEC_DES'][gmf])*60
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
-
+dists2=dists[data['RA_DES'][gmf]>0]
 matplotlib.rcParams['axes.linewidth']=3
 matplotlib.rcParams['font.size']=18
 plt.figure(1)
 plt.clf()
 plt.rc('axes',linewidth=2)
-plt.hist(dists,range(0,2),bins=20,lw=2)
+plt.hist(dists2,range=(0,2),bins=100,lw=2)
 plt.xlabel('Separation (arcseconds)')
 plt.ylabel('Number of Objects')
 plt.xlim(0,2)
