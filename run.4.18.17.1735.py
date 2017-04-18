@@ -62,3 +62,14 @@ plt.xlabel('Separation (arcseconds)')
 plt.ylabel('Number of Objects')
 plt.xlim(0,2)
 plt.savefig('/home/rumbaugh/DR7_DES_spatial_sep.hist.png')
+
+gfar=np.arange(len(crdb))[(dists>0.5)&(data['RA_DES'][gmf]>0)]
+fardbids=crdb['DatabaseID'][gfar]
+
+
+outcr=np.zeros((len(fardbids),),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S64')})
+outcr_radec=np.zeros((len(gfar),2))
+outcr['RA'],outcr['DEC'],outcr['Name']=crdb['RA'][gfar],crdb['DEC'][gfar],crdb['SDSS_NAME'][gfar]
+outcr_radec[:,0],outcr_radec[:,1]=crdb['RA'][gfar],crdb['DEC'][gfar]
+np.savetxt('/home/rumbaugh/radecname_forDEScutouts.4.18.17.csv',outcr,fmt='%f,%f,%s_DEScutout')
+np.savetxt('/home/rumbaugh/radec_forDEScutouts.4.18.17.csv',outcr_radec,fmt='%f,%f')
