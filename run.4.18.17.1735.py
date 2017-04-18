@@ -69,14 +69,14 @@ fardbids=crdb['DatabaseID'][gfar]
 
 outcr=np.zeros((len(fardbids),),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S64')})
 outcr_radec=np.zeros((len(gfar),2))
-outcr['RA'],outcr['DEC'],outcr['Name']=data['RA_DES'][gmf[gfar]],data['DEC_DES'][gmf[gfar]],crdb['SDSS_NAME'][gfar]
+outcr['RA'],outcr['DEC'],outcr['Name']=data['RA_DES'][gmf[gfar]],data['DEC_DES'][gmf[gfar]],crdb['SDSSNAME'][gfar]
 outcr_radec[:,0],outcr_radec[:,1]=data['RA_DES'][gmf[gfar]],data['DEC_DES'][gmf[gfar]]
 np.savetxt('/home/rumbaugh/radecname_forDEScutouts.4.18.17.csv',outcr,fmt='%f,%f,%s_DEScutout')
 np.savetxt('/home/rumbaugh/radec_forDEScutouts.4.18.17.csv',outcr_radec,fmt='%f,%f')
 
 outcr=np.zeros((len(fardbids),),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S64')})
 outcr_radec=np.zeros((len(gfar),2))
-outcr['RA'],outcr['DEC'],outcr['Name']=bhdata['RA'][gbh[gfar]],bhdata['DEC'][gbh[gfar]],crdb['SDSS_NAME'][gfar]
+outcr['RA'],outcr['DEC'],outcr['Name']=bhdata['RA'][gbh[gfar]],bhdata['DEC'][gbh[gfar]],crdb['SDSSNAME'][gfar]
 outcr_radec[:,0],outcr_radec[:,1]=bhdata['RA'][gbh[gfar]],bhdata['DEC'][gbh[gfar]]
 np.savetxt('/home/rumbaugh/radecname_forSDSScutouts.4.18.17.csv',outcr,fmt='%f,%f,%s_SDSScutout')
 np.savetxt('/home/rumbaugh/radec_forSDSScutouts.4.18.17.csv',outcr_radec,fmt='%f,%f')
