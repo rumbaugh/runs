@@ -15,8 +15,31 @@ gmf=np.loadtxt('/home/rumbaugh/gmf_table.4.10.17.1440.dat',dtype='i8')
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
 bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
-crp=np.loadtxt('/home/rumbaugh/primarydbid_table.4.14.17.1600.dat',dtype='|S48')
-PrimaryDBID={crp[:,0][x]: crp[:,1][x] for x in np.arange(len(crp))}
+try:
+    crp=np.loadtxt('/home/rumbaugh/primarydbid_table.4.18.17.1735.dat',dtype='|S48')
+    PrimaryDBID={crp[:,0][x]: crp[:,1][x] for x in np.arange(len(crp))}
+except:
+    print 'Starting first loop...'
+    st=time.time()
+    gdb=np.where(crdb['SDSSNAME']!='-1')[0]
+    PrimaryDBID_dict={}
+    for i in range(0,len(gdb)):
+        PrimaryDBID=crdb['DatabaseID'][gdb[i]]
+        AllDBIDs = crdb['DBIDS'][gdb[i]]
+        AllDBIDs=AllDBIDs.split(';')
+        for DBID in AllDBIDs:
+            if DBID[:2]=='DR': PrimaryDBID_dict[DBID]=PrimaryDBID
+        try:
+            PrimaryDBID_dict[DBID]
+        except KeyError:
+            print "Couldn't find DBID for "+PrimaryDBID
+    poutcr=np.zeros((len(gdb),),dtype={'names':('key','val'),'formats':('|S48','|S48')})
+    pkeys=PrimaryDBID_dict.keys()
+    for i in range(0,len(gdb)): poutcr['key'][i],poutcr['val'][i]=pkeys[i],PrimaryDBID_dict[pkeys[i]]
+    np.savetxt('/home/rumbaugh/primarydbid_table.4.18.17.1735.dat',poutcr,fmt='%s %s')
+    end=time.time()
+    print 'First loop took %f'%(end-st)
+
 bhdbid,cdbid=np.array(bhname,copy=True,dtype='|S24'),np.array(cname,copy=True,dtype='|S24')
 for i in range(0,len(bhname)):
     try:
