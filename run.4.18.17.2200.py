@@ -3,6 +3,7 @@ import pyfits as py
 import matplotlib
 import matplotlib.pyplot as plt
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
+execfile('/home/rumbaugh/pythonscripts/plot_DB_lightcurves.py')
 
 hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
 data=hdu[1].data 
