@@ -40,7 +40,7 @@ except:
     end=time.time()
     print 'First loop took %f'%(end-st)
 
-bhdbid,cdbid=np.array(bhname,copy=True,dtype='|S24'),np.array(cname,copy=True,dtype='|S24')
+bhdbid=np.array(bhname,copy=True,dtype='|S24')
 for i in range(0,len(bhname)):
     try:
         bhdbid[i]=PrimaryDBID_dict['DR7BH%s'%bhname[i]]
