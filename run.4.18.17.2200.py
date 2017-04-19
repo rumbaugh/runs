@@ -1,5 +1,6 @@
 import numpy as np
 import pyfits as py
+import matplotlib
 import matplotlib.pyplot as plt
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 
