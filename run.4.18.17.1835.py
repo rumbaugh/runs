@@ -81,5 +81,7 @@ outcr_radec[:,0],outcr_radec[:,1]=bhdata['RA'][gbh[gfar]],bhdata['DEC'][gbh[gfar
 np.savetxt('/home/rumbaugh/radecname_forSDSScutouts.4.18.17.csv',outcr,fmt='%f,%f,%s_SDSScutout')
 np.savetxt('/home/rumbaugh/radec_forSDSScutouts.4.18.17.csv',outcr_radec,fmt='%f,%f')
 
+matplotlib.rcParams['axes.linewidth']=3
+matplotlib.rcParams['font.size']=14
 plot_DB_lightcurves(fardbids,'/home/rumbaugh/DR7_largesep_lightcurves.4.18.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False)
 
