@@ -17,7 +17,7 @@ bhdata=hdubh[1].data
 bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
 try:
     crp=np.loadtxt('/home/rumbaugh/primarydbid_table.4.18.17.1735.dat',dtype='|S48')
-    PrimaryDBID={crp[:,0][x]: crp[:,1][x] for x in np.arange(len(crp))}
+    PrimaryDBID_dict={crp[:,0][x]: crp[:,1][x] for x in np.arange(len(crp))}
 except:
     print 'Starting first loop...'
     st=time.time()
