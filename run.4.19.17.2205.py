@@ -22,4 +22,4 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
         if len(g)>0:
             gflag,ggflag=np.where(cr['FLAG'][g]!=0)[0],np.where((cr['FLAG'][g]!=0)&(cr['MAGERR'][g]<0.15))[0]
             if len(gflag)>0:
-                print '%s:\nFlagged good epochs: %i\nFlagged epochs:%i\n'%(DBID,len(gglag),len(gflag))
+                print '%s:\nFlagged good epochs: %i\nFlagged epochs:%i\n'%(DBID,len(ggflag),len(gflag))
