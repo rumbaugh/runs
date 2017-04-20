@@ -16,7 +16,7 @@ drop,baseline=np.abs(crd['glo']-crd['ghi']),np.abs(crd['mjdlo']-crd['mjdhi'])/(1
 matplotlib.rcParams['axes.linewidth']=3
 matplotlib.rcParams['font.size']=13.5
 dbids,evqdbids,longdbids=crd['DBID'][drop>1],crd['DBID'][drop>2],crd['DBID'][(baseline>3400)&(drop>1)]
-radecs,evqradecs,longradecs=np.zeros(len(dbids)),np.zeros(len(evqdbids)),np.zeros(len(longdbids))
+radecs,evqradecs,longradecs=np.zeros(len(dbids),dtype='|S24'),np.zeros(len(evqdbids),dtype='|S24'),np.zeros(len(longdbids),dtype='|S24')
 for i in range(0,len(dbids)):
     grd=np.where('%s_SDSScutout'%dbids[i]==crrd['dbid'])[0][0]
     rah,ram,ras=deg2hms(crrd['ra'][grd])
