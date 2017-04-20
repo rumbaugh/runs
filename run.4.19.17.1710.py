@@ -136,9 +136,8 @@ ax2.set_ylim(0,1)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.4.19.17.png')
 
 corr_weights=np.zeros(len(crmd))
-
-for buff in [0,100,300,600]:
-    crb=np.loadtxt('/home/rumbaugh/DetFracRF.buff_%i.4.10.17.dat'%buff)
+for buff in np.array(['0','100','300','600','inf']):
+    crb=np.loadtxt('/home/rumbaugh/DetFracRF.buff_%s.4.10.17.dat'%buff)
     detepochs=np.append(np.append(0.,crb[:,1]),6000.)
     for i in range(0,len(a[1])-1):
         lb,ub=a[1][i],a[1][i+1]
@@ -170,7 +169,7 @@ for buff in [0,100,300,600]:
     a2=ax1.hist(baseline/(1.+crd['z']),weights=1./corr_weights,range=(0,3400),bins=22,color='k',edgecolor='k',facecolor='None',ls='dashed',lw=2)
     b2=ax2.plot(a2[1][1:],np.cumsum(a2[0])*1./np.sum(a2[0]),lw=2,ls='dashed',color='r')
     totdetfrac=np.sum(a[0])*1./np.sum(a2[0])
-    ax2.text(0.96,0.5,'Overall Detection\nFraction: %4.1f%%'%(totdetfrac),transform=ax2.transAxes,horizontalalignment='right',c='k')
+    ax2.text(0.96,0.5,'Overall Detection\nFraction: %4.1f%%'%(totdetfrac),transform=ax2.transAxes,horizontalalignment='right',color='k')
     ax1.set_xlabel('Maximum Change Baseline (Restframe days)')
     ax1.set_ylabel(r'N$_{obj}$')
     ax2.set_ylabel('Cumulative Fraction')
@@ -183,21 +182,23 @@ for buff in [0,100,300,600]:
     ax1.set_xlim(0,3400)
     ax2.set_xlim(0,3400)
     ax2.set_ylim(0,1)
-    fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.corr_wbuff_%i.4.19.17.png'%buff)
+    fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.RF.DR7_EVQs.corr_wbuff_%s.4.19.17.png'%buff)
 
 
-crbs=np.array([np.loadtxt('/home/rumbaugh/DetFracRF.buff_%i.4.10.17.dat'%x) for x in [0,100,300,600]])#,dtype='object'])
+crbs=np.array([np.loadtxt('/home/rumbaugh/DetFracRF.buff_%s.4.10.17.dat'%x) for x in np.array(['0','100','300','600','inf'])])#,dtype='object'])
 fig=plt.figure(1)
 fig.clf()
 plt.clf()
 plt.rc('axes',linewidth=2)
 colarr=['k','r','green','cyan']
 lsarr=['solid','dashed','dotted','-.']
-for b,ib in zip([0,100,300,600],np.arange(4)):
-    if b==0:
+for b,ib in zip(np.array(['0','100','300','600','inf']),np.arange(5)):
+    if b=='0':
         label='No buffer'
+    elif b=='inf':
+        label='Infinite buffer'
     else:
-        label='Buffer=%i days'%b
+        label='Buffer=%s days'%b
     plt.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=label)
 plt.legend(loc='upper right',frameon=False)
 plt.xlim(0,3400)
