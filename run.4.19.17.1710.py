@@ -190,8 +190,8 @@ fig=plt.figure(1)
 fig.clf()
 plt.clf()
 plt.rc('axes',linewidth=2)
-colarr=['k','r','green','cyan']
-lsarr=['solid','dashed','dotted','-.']
+colarr=['k','r','green','cyan','b']
+lsarr=['solid','dashed','dotted','-.','solid']
 for b,ib in zip(np.array(['0','100','300','600','inf']),np.arange(5)):
     if b=='0':
         label='No buffer'
