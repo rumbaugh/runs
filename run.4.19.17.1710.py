@@ -169,7 +169,7 @@ for buff in np.array(['0','100','300','600','inf']):
     a2=ax1.hist(baseline/(1.+crd['z']),weights=1./corr_weights,range=(0,3400),bins=22,color='k',edgecolor='k',facecolor='None',ls='dashed',lw=2)
     b2=ax2.plot(a2[1][1:],np.cumsum(a2[0])*1./np.sum(a2[0]),lw=2,ls='dashed',color='r')
     totdetfrac=np.sum(a[0])*1./np.sum(a2[0])
-    ax2.text(0.96,0.5,'Overall Detection\nFraction: %4.1f%%'%(totdetfrac),transform=ax2.transAxes,horizontalalignment='right',color='k')
+    ax2.text(0.04,0.92,'Overall Detection\nFraction: %4.3f'%(totdetfrac),transform=ax2.transAxes,horizontalalignment='left',color='k')
     ax1.set_xlabel('Maximum Change Baseline (Restframe days)')
     ax1.set_ylabel(r'N$_{obj}$')
     ax2.set_ylabel('Cumulative Fraction')
