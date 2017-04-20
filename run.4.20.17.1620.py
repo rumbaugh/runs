@@ -33,7 +33,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     gbh=np.where(bhdata['SDSS_NAME']==crdb['SDSSNAME'][idb])[0][0]
     radr7[idb],decdr7[idb]=bhdata['RA'][gbh],bhdata['DEC'][gbh]
     gmf=np.where(data['DatabaseID']==DBID)[0][0]
-    ra[ibd],dec[idb]=data['RA_DES'][gmf],data['DEC_DES'][gmf]
+    ra[idb],dec[idb]=data['RA_DES'][gmf],data['DEC_DES'][gmf]
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     if np.shape(cr)==(0,): 
         continue
