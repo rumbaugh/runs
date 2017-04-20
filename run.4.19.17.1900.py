@@ -45,7 +45,7 @@ second_epoch=anchor_epoch+direction*baselines_obs
 second_epoch2=second_epoch+buff*(1+randzs)
 detected=np.ones(ntrials,dtype='bool')
 detected[((second_epoch<SDSSstart)&(second_epoch2<SDSSstart))|((second_epoch>DESend)&(second_epoch2>DESend))|((second_epoch>SDSSend)&(second_epoch2>SDSSend)&(second_epoch<DESstart)&(second_epoch2<DESstart))|((anchor_epoch<SDSSstart)&(anchor_epoch2<SDSSstart))|((anchor_epoch>DESend)&(anchor_epoch2>DESend))|((anchor_epoch>SDSSend)&(anchor_epoch2>SDSSend)&(anchor_epoch<DESstart)&(anchor_epoch2<DESstart))]=0
-detected[(0.5*(second_epoch+second_epoch)<SDSSstart)|(0.5*(second_epoch+second_epoch)>DESend)]=0
+detected[(0.5*(second_epoch+second_epoch2)<SDSSstart)|(0.5*(second_epoch+second_epoch2)>DESend)]=0
 detected[((second_epoch>SDSSstart)&(second_epoch<SDSSend)&((second_epoch-SDSSstart)%yearlen>halfyear))&((second_epoch2>SDSSstart)&(second_epoch2<SDSSend)&((second_epoch2-SDSSstart)%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
 detected[((anchor_epoch>SDSSstart)&(anchor_epoch<SDSSend)&((anchor_epoch-SDSSstart)%yearlen>halfyear))&((anchor_epoch2>SDSSstart)&(anchor_epoch2<SDSSend)&((anchor_epoch2-SDSSstart)%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
 detected[((second_epoch>DESstart)&(second_epoch<DESend)&((second_epoch-DESstart)%yearlen>halfyear))&((second_epoch2>DESstart)&(second_epoch2<DESend)&((second_epoch2-DESstart)%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
