@@ -39,8 +39,11 @@ anchor_epoch=np.random.uniform(SDSSstart,DESend,ntrials)
 direction=np.random.choice(np.array([-1,1]),ntrials)
 second_epoch=anchor_epoch+direction*baselines_obs
 detected=np.ones(ntrials,dtype='bool')
-detected[(second_epoch<SDSSstart)|(second_epoch>DESend)]=0
-
+detected[(second_epoch<SDSSstart)|(second_epoch>DESend)|((second_epoch>SDSSend)&(second_epoch<DESstart))|((anchor_epoch>SDSSend)&(anchor_epoch<DESstart))]=0
+detected[((anchor_epoch>SDSSstart)&(anchor_epoch<SDSSend)&((anchor_epoch-SDSSstart)%yearlen>halfyear))]=0
+detected[((second_epoch>SDSSstart)&(second_epoch<SDSSend)&((second_epoch-SDSSstart)%yearlen>halfyear))]=0
+detected[((anchor_epoch>DESstart)&(anchor_epoch<DESend)&((anchor_epoch-DESstart)%yearlen>halfyear))]=0
+detected[((second_epoch>DESstart)&(second_epoch<DESend)&((second_epoch-DESstart)%yearlen>halfyear))]=0
 detfrac_rf,detfrac_obs=np.zeros(0),np.zeros(0)
 detepoch_rf,detepoch_obs=np.zeros(0),np.zeros(0)
 try:
@@ -57,11 +60,11 @@ for t in np.arange(0,20000,10):
         detfrac_obs,detepoch_obs=np.append(detfrac_obs,np.count_nonzero(detected[g])*1./len(g)),np.append(detepoch_obs,t)
 outcr=np.zeros((len(detfrac_rf),),dtype={'names':('detfrac','detepoch'),'formats':('f8','f8')})
 outcr['detfrac'],outcr['detepoch']=detfrac_rf,detepoch_rf
-np.savetxt('/home/rumbaugh/DetFracRF.buff_inf.4.10.17.dat',outcr,fmt='%f %f',header='DetectionFraction Epoch')
+np.savetxt('/home/rumbaugh/DetFracRF.buff_0.4.10.17.dat',outcr,fmt='%f %f',header='DetectionFraction Epoch')
 
 outcr=np.zeros((len(detfrac_obs),),dtype={'names':('detfrac','detepoch'),'formats':('f8','f8')})
 outcr['detfrac'],outcr['detepoch']=detfrac_obs,detepoch_obs
-np.savetxt('/home/rumbaugh/DetFracObs.buff_inf.4.10.17.dat',outcr,fmt='%f %f',header='DetectionFraction Epoch')
+np.savetxt('/home/rumbaugh/DetFracObs.buff_0.4.10.17.dat',outcr,fmt='%f %f',header='DetectionFraction Epoch')
 
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 
@@ -91,7 +94,7 @@ for axis in ['top','bottom','left','right']:
 ax.set_xlim(0,6000)
 ax2.set_xlim(0,6000)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.TrueDistRF.buff_inf.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.TrueDistRF.buff_0.4.10.17.png')
 
 fig=plt.figure(1)
 fig.clf()
@@ -117,7 +120,7 @@ for axis in ['top','bottom','left','right']:
 ax.set_xlim(0,20000)
 ax2.set_xlim(0,20000)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.TrueDistObs.buff_inf.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.TrueDistObs.buff_0.4.10.17.png')
 
 
 matplotlib.rcParams['axes.linewidth']=4
@@ -146,7 +149,7 @@ for axis in ['top','bottom','left','right']:
 ax.set_xlim(0,6000)
 ax2.set_xlim(0,6000)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetDistRF.buff_inf.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetDistRF.buff_0.4.10.17.png')
 
 fig=plt.figure(1)
 fig.clf()
@@ -172,7 +175,7 @@ for axis in ['top','bottom','left','right']:
 ax.set_xlim(0,6500)
 ax2.set_xlim(0,6500)
 ax2.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetDistObs.buff_inf.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetDistObs.buff_0.4.10.17.png')
 
 fig=plt.figure(1)
 fig.clf()
@@ -195,7 +198,7 @@ for axis in ['top','bottom','left','right']:
     ax.spines[axis].set_linewidth(3)
 ax.set_xlim(0,6500)
 ax.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetFracRF.buff_inf.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetFracRF.buff_0.4.10.17.png')
 
 
 
@@ -220,5 +223,5 @@ for axis in ['top','bottom','left','right']:
     ax.spines[axis].set_linewidth(3)
 ax.set_xlim(0,6500)
 ax.set_ylim(0,1)
-fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetFracObs.buff_inf.4.10.17.png')
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/BaselineMC.MaxChangeBaselinePlot.DetFracObs.buff_0.4.10.17.png')
 
