@@ -12,7 +12,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     elif np.shape(cr)==():
         if cr['Survey']=='DES':
             if cr['BAND']=='g':
-                if cr['FLAG']>2:
+                if cr['FLAG']>3:
                     numflagonj+=1
                     numflags+=1
                     if cr['MAGERR']<0.15:
@@ -23,7 +23,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     else:
         g=np.where((cr['Survey']=='DES')&(cr['BAND']=='g'))[0]
         if len(g)>0:
-            gflag,ggflag=np.where(cr['FLAG'][g]>2)[0],np.where((cr['FLAG'][g]>2)&(cr['MAGERR'][g]<0.15))[0]
+            gflag,ggflag=np.where(cr['FLAG'][g]>3)[0],np.where((cr['FLAG'][g]>3)&(cr['MAGERR'][g]<0.15))[0]
             if len(gflag)>0:
                 numflagobj+=1
                 numflags+=len(gflag)
