@@ -41,10 +41,10 @@ plt.figure(1)
 plt.clf()
 plt.hist(cry['mag_g'],range=(15,25),bins=20,color='b',normed=True)
 plt.hist(crssort['mag_g'][gcontrol],range=(15,25),bins=20,color='r',edgecolor='r',facecolor='None',lw=3,normed=True)
-plt.hist(random_from_cdf,range=(15,25),bins=20,color='green',edgecolor='green',facecolor='None',lw=3,normed=True,ls='dashed')
+#plt.hist(random_from_cdf,range=(15,25),bins=20,color='green',edgecolor='green',facecolor='None',lw=3,normed=True,ls='dashed')
 plt.xlim(15,25)
 plt.xlabel('g-band Magnitude')
-plt.ylabel('Number of Object')
+plt.ylabel('Normalized Objects')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/magdist_Y3A1_control_comp.hist.4.21.17.png')
 
 outcr=crssort[gcontrol]
