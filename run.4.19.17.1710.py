@@ -115,7 +115,7 @@ plt.clf()
 plt.rc('axes',linewidth=2)
 ax1=fig.add_subplot(1,1,1)
 pos1 = ax1.get_position() # get the original position 
-pos2 = [pos1.x0 + 0.3, pos1.y0 + 0.3,  pos1.width / 2.0, pos1.height / 2.0] 
+pos2 = [pos1.x0, pos1.y0 + 0.03,  pos1.width, pos1.height] 
 ax1.set_position(pos2)
 ax2=ax1.twinx()
 ax1.tick_params(which='major',length=12,width=3,labelsize=17)
