@@ -1,0 +1,1 @@
+sed -i -e 's/"/ /g' /home/rumbaugh/DR7_BH_Y3A1_MATCH_COADD_PARAMS.tab
