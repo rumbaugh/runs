@@ -12,7 +12,8 @@ matplotlib.rcParams['font.size']=14
 
 plt.figure(1)
 plt.clf()
-evqhist,bins=plt.hist(cry['mag_g'],range=(15,25),bins=20)
+a=plt.hist(cry['mag_g'],range=(15,25),bins=20)
+evqhist,bins=a[0],a[1]
 plt.xlim(15,25)
 plt.xlabel('g-band Magnitude')
 plt.ylabel('Number of Object')
