@@ -114,7 +114,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     else:
         gSDSS=np.where(cr['Survey']=='SDSS')[0]
         cr=cr[ggood]
-        crorig=cr[ggood]
+        crorig=crorig[ggood]
         gb=np.where(cr['BAND']=='g')[0]
         cr=cr[gb]
         gorig=gorig[gb]
