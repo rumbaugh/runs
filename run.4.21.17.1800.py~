@@ -1,0 +1,4 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+crs=np.loadtxt('/home/rumbaugh/Y3A1_star_sample_lightcurves.tab',dtype={'names':('class_star','CID','MJD','RA','DEC','expnum','file','objnum','magpsf','magerrpsf','magauto','magerrauto','band','flag','flag_detmodel','flag_model','flag_weight'),'formats':('f8','i8','f8','f8','f8','i8','|S24','i8','f8','f8','f8','f8','|S4','i8','i8','i8','i8'),skiprows=1}
