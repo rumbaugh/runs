@@ -179,7 +179,7 @@ g_max[:,0][gswap],g_max[:,1][gswap],sig_max[:,0][gswap],sig_max[:,1][gswap],mjd_
 #outcr['DatabaseID'],outcr['MaxDrop'],outcr['SurvST'],outcr['SurvEnd'],outcr['S82']=crdb['DatabaseID'],maxdrop,surveys_max[:,0],surveys_max[:,1],s82flag
 
 outcr=np.zeros((len(crdb),),dtype={'names':('RA','DEC','Redshift','MJD_lo','g_lo','sig_lo','flag_lo','MJD_hi','g_hi','sig_hi','flag_hi','RA_DES','DEC_DES','DBID'),'formats':('f8','f8','f8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8','|S24')})
-outcr['RA'],outcr['DEC'],outcr['Redshift'],outcr['MJD_lo'],outcr['g_lo'],outcr['sig_lo'],outcr['flag_lo'],outcr['MJD_hi'],outcr['g_hi'],outcr['sig_hi'],outcr['flag_hi'],outcr['RA_DES'],outcr['DEC_DES'],outcr['DBID']=radr7,decdr7,redshifts,mjd_max[:,0],g_max[:,0],sig_max[:,0],mjd_max[:,1],g_max[:,1],sig_max[:,1],ra,dec,crdb['DatabaseID']
+outcr['RA'],outcr['DEC'],outcr['Redshift'],outcr['MJD_lo'],outcr['g_lo'],outcr['sig_lo'],outcr['flag_lo'],outcr['MJD_hi'],outcr['g_hi'],outcr['sig_hi'],outcr['flag_hi'],outcr['RA_DES'],outcr['DEC_DES'],outcr['DBID']=radr7,decdr7,redshifts,mjd_max[:,0],flags_max[:,1],g_max[:,0],sig_max[:,0],flags_max[:,1],mjd_max[:,1],g_max[:,1],sig_max[:,1],ra,dec,crdb['DatabaseID']
 np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.21.17.tab',outcr,header='RA DEC Redshift MJD_lo g_lo sig_lo flag_lo MJD_hi g_hi sig_hi flag_hi RA_DES DEC_DES DBID',fmt='%f %f %f %f %f %f %i %f %f %f %i %f %f %24s')
 
 #outcr['SurvST'][outcr['SurvST']=='']='None'
