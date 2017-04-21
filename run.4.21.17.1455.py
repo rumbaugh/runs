@@ -123,7 +123,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             surveymac=np.zeros(len(gmac2),dtype='|S8')
             surveymac[:]='SDSS'
             flagsmac=-np.ones(len(gmac2),dtype='i8')
-            mjd,mag,magerr,bands,survey=np.append(mjd,crmac['MJD'][gbmac[gmac2]]),np.append(mag,crmac['MAG'][gbmac[gmac2]]),np.append(magerr,crmac['MAGERR'][gbmac[gmac2]]),np.append(bands,crmac['BAND'][gbmac[gmac2]]),np.append(survey,surveymac),np.append(flags,flagsmac)
+            mjd,mag,magerr,bands,survey,flags=np.append(mjd,crmac['MJD'][gbmac[gmac2]]),np.append(mag,crmac['MAG'][gbmac[gmac2]]),np.append(magerr,crmac['MAGERR'][gbmac[gmac2]]),np.append(bands,crmac['BAND'][gbmac[gmac2]]),np.append(survey,surveymac),np.append(flags,flagsmac)
             maclen=len(gmac2)
         gb=np.where(bands=='g')[0]
         #if len(cr)>1:
