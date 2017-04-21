@@ -1,0 +1,3 @@
+import numpy as np
+
+r=np.arange(1,762085)
