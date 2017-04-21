@@ -57,16 +57,32 @@ dists2=dists[data['RA_DES'][gmf]>0]
 gfar=np.arange(len(crdb))[(dists>0.5)&(data['RA_DES'][gmf]>0)]
 fardbids=crdb['DatabaseID'][gfar]
 
-crrd=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts.4.20.17.csv',dtype={'names':('ra','dec','dbid'),'formats':('f8','f8','|S64')},delimiter=',')
 
-#radecs=np.zeros(len(fardbids),dtype='|S24')
-#for i in range(0,len(fardbids)):
-#    grd=np.where('%s_SDSScutout'%fardbids[i]==crrd['dbid'])[0][0]
-#    rah,ram,ras=deg2hms(crrd['ra'][grd])
-#    decd,decm,decs=deg2dms(crrd['dec'][grd])
-#    radecs[i]='J%02i%02i%04.1f%+02i%02i%4.1f'%(rah,ram,ras,decd,decm,decs)
+outcr=np.zeros((len(fardbids),),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S64')})
+outcr_radec=np.zeros((len(gfar),2))
+outcr['RA'],outcr['DEC'],outcr['Name']=data['RA_DES'][gmf[gfar]],data['DEC_DES'][gmf[gfar]],crdb['DatabaseID'][gfar]
+outcr_radec[:,0],outcr_radec[:,1]=data['RA_DES'][gmf[gfar]],data['DEC_DES'][gmf[gfar]]
+np.savetxt('/home/rumbaugh/radecname_forDEScutouts_fardbid.4.18.17.csv',outcr,fmt='%f,%f,%s')
+np.savetxt('/home/rumbaugh/radec_forDEScutouts_fardbid.4.18.17.csv',outcr_radec,fmt='%f,%f')
+
+outcr=np.zeros((len(fardbids),),dtype={'names':('RA','DEC','Name'),'formats':('f8','f8','|S64')})
+outcr_radec=np.zeros((len(gfar),2))
+outcr['RA'],outcr['DEC'],outcr['Name']=bhdata['RA'][gbh[gfar]],bhdata['DEC'][gbh[gfar]],crdb['DatabaseID'][gfar]
+outcr_radec[:,0],outcr_radec[:,1]=bhdata['RA'][gbh[gfar]],bhdata['DEC'][gbh[gfar]]
+np.savetxt('/home/rumbaugh/radecname_forSDSScutouts_fardbid.4.18.17.csv',outcr,fmt='%f,%f,%s_SDSScutout')
+np.savetxt('/home/rumbaugh/radec_forSDSScutouts_fardbid.4.18.17.csv',outcr_radec,fmt='%f,%f')
+
+
+crrd=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts_fardbid.4.18.17.csv',dtype={'names':('ra','dec','dbid'),'formats':('f8','f8','|S64')},delimiter=',')
+
+radecs=np.zeros(len(fardbids),dtype='|S24')
+for i in range(0,len(fardbids)):
+    grd=np.where('%s_SDSScutout'%fardbids[i]==crrd['dbid'])[0][0]
+    rah,ram,ras=deg2hms(crrd['ra'][grd])
+    decd,decm,decs=deg2dms(crrd['dec'][grd])
+    radecs[i]='J%02i%02i%04.1f%+02i%02i%4.1f'%(rah,ram,ras,decd,decm,decs)
 
 matplotlib.rcParams['axes.linewidth']=3
 matplotlib.rcParams['font.size']=14
-plot_DB_lightcurves(fardbids,'/home/rumbaugh/DR7_largesep_lightcurves.4.21.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False)#,sdsscutoutradec=radecs)
+plot_DB_lightcurves(fardbids,'/home/rumbaugh/DR7_largesep_lightcurves.4.21.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False,sdsscutoutradec=radecs)
 
