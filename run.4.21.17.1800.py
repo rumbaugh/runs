@@ -18,8 +18,8 @@ matplotlib.rcParams['font.size']=14
 
 plt.figure(1)
 plt.clf()
-plt.hist(cryl['magerrpsf'],color='k',normed=True)
-plt.hist(crsl['magerrpsf'],color='r',edgecolor='r',facecolor='None',lw=3,normed=True)
+plt.hist(cryl['magerrpsf'],range=(0,0.25),bins=50,color='k',normed=True)
+plt.hist(crsl['magerrpsf'],range=(0,0.25),bins=50,color='r',edgecolor='r',facecolor='None',lw=3,normed=True)
 plt.xlabel('g-band Magnitude Error')
 plt.ylabel('Normalized Number of Objects')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/magerrdist_stars_comp.hist.4.21.17.png')
