@@ -186,7 +186,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             gm=gm[0]
             redshifts[idb]=data['Redshift'][gm]
 gswap=np.where(g_max[:,1]>g_max[:,0])[0]
-g_max[:,0][gswap],g_max[:,1][gswap],sig_max[:,0][gswap],sig_max[:,1][gswap],mjd_max[:,0][gswap],flags_max[:,1][gswap],flags_max[:,0][gswap],mjd_max[:,1][gswap]=g_max[:,1][gswap],g_max[:,0][gswap],sig_max[:,1][gswap],sig_max[:,0][gswap],mjd_max[:,1][gswap],mjd_max[:,0][gswap],flags_max[:,1][gswap],flags_max[:,0][gswap]
+g_max[:,0][gswap],g_max[:,1][gswap],sig_max[:,0][gswap],sig_max[:,1][gswap],mjd_max[:,0][gswap],mjd_max[:,1][gswap],flags_max[:,1][gswap],flags_max[:,0][gswap]=g_max[:,1][gswap],g_max[:,0][gswap],sig_max[:,1][gswap],sig_max[:,0][gswap],mjd_max[:,1][gswap],mjd_max[:,0][gswap],flags_max[:,1][gswap],flags_max[:,0][gswap]
 #outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','MaxDrop','SurvST','SurvEnd','S82'),'formats':('|S64','f8','|S8','|S8','i8')})
 #outcr['DatabaseID'],outcr['MaxDrop'],outcr['SurvST'],outcr['SurvEnd'],outcr['S82']=crdb['DatabaseID'],maxdrop,surveys_max[:,0],surveys_max[:,1],s82flag
 
