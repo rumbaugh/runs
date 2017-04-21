@@ -59,14 +59,14 @@ fardbids=crdb['DatabaseID'][gfar]
 
 crrd=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts.4.20.17.csv',dtype={'names':('ra','dec','dbid'),'formats':('f8','f8','|S64')},delimiter=',')
 
-radecs=np.zeros(len(fardbids),dtype='|S24')
-for i in range(0,len(fardbids)):
-    grd=np.where('%s_SDSScutout'%fardbids[i]==crrd['dbid'])[0][0]
-    rah,ram,ras=deg2hms(crrd['ra'][grd])
-    decd,decm,decs=deg2dms(crrd['dec'][grd])
-    radecs[i]='J%02i%02i%04.1f%+02i%02i%4.1f'%(rah,ram,ras,decd,decm,decs)
+#radecs=np.zeros(len(fardbids),dtype='|S24')
+#for i in range(0,len(fardbids)):
+#    grd=np.where('%s_SDSScutout'%fardbids[i]==crrd['dbid'])[0][0]
+#    rah,ram,ras=deg2hms(crrd['ra'][grd])
+#    decd,decm,decs=deg2dms(crrd['dec'][grd])
+#    radecs[i]='J%02i%02i%04.1f%+02i%02i%4.1f'%(rah,ram,ras,decd,decm,decs)
 
 matplotlib.rcParams['axes.linewidth']=3
 matplotlib.rcParams['font.size']=14
-plot_DB_lightcurves(fardbids,'/home/rumbaugh/DR7_largesep_lightcurves.4.21.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False,sdsscutoutradec=radecs)
+plot_DB_lightcurves(fardbids,'/home/rumbaugh/DR7_largesep_lightcurves.4.21.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False)#,sdsscutoutradec=radecs)
 
