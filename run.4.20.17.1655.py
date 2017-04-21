@@ -35,5 +35,5 @@ for i in range(0,len(longdbids)):
 print radecs,evqradecs,longradecs
 plot_DB_lightcurves(dbids,'/home/rumbaugh/DR7_EVQ_lightcurves.4.20.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False,sdsscutoutradec=radecs)
 plot_DB_lightcurves(evqdbids,'/home/rumbaugh/DR7_mag2+_lightcurves.4.20.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False,sdsscutoutradec=evqradecs)
-plot_DB_lightcurves(longdbids,'/home/rumbaugh/DR7_baseline3400+_lightcurves.4.19.20.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False,sdsscutoutradec=longradecs)
+plot_DB_lightcurves(longdbids,'/home/rumbaugh/DR7_baseline3400+_lightcurves.4.20.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False,sdsscutoutradec=longradecs)
 
