@@ -9,7 +9,8 @@ matplotlib.rcParams['font.size']=14
 
 plt.figure(1)
 plt.clf()
-plt.hist(cry['mag_g'])
+plt.hist(cry['mag_g'],range=(15,25),bins=20)
+plt.xlim(15,25)
 plt.xlabel('g-band Magnitude')
 plt.ylabel('Number of Object')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/magdist_DR7.hist.4.21.17.png')
@@ -17,7 +18,8 @@ plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/magdist_DR7.hist.4.21.17.png
 
 plt.figure(1)
 plt.clf()
-plt.hist(crs['mag_g'])
+plt.hist(crs['mag_g'],range=(15,25),bins=20)
+plt.xlim(15,25)
 plt.xlabel('g-band Magnitude')
 plt.ylabel('Number of Object')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/magdist_Y3A1_stars.hist.4.21.17.png')
