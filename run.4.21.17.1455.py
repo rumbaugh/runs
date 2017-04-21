@@ -2,6 +2,8 @@ import numpy as np
 import pyfits as py
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 
+cry=np.loadtxt('/home/rumbaugh/DR7_BH_Y3A1_MATCH_COADD_PARAMS.tab',dtype={'names':('SDSSNAME','CID','RA','DEC','mag_g','mag_r','mag_i','mag_z','mag_y','magerr_g','magerr_r','magerr_i','magerr_z','magerr_y','class_star'),'formats':('|S24','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
+
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
 
@@ -27,14 +29,20 @@ s82flag=np.zeros(len(crdb))
 baseline_max=np.zeros(len(crdb))
 radr7,decdr7=np.zeros(len(crdb)),np.zeros(len(crdb))
 ra,dec=np.zeros(len(crdb)),np.zeros(len(crdb))
+y3a1mag=np.zeros(len(crdb))
 surveys_max,flags_max,mjd_max,g_max,sig_max=np.zeros((len(crdb),2),dtype='|S8'),np.zeros((len(crdb),2),dtype='i8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8')
+r_max,rsig_max,i_max,isig_max,z_max,zsig_max,y_max,ysig_max=np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8'),np.zeros((len(crdb),2),dtype='f8')
 redshifts=np.zeros(len(crdb))
 for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
+    CID=crdb['CID'][idb]
+    gy=np.where(CID==cry['CID'])[0][0]
+    y3a1mag[idb]=cry['mag_g'][gy]
     gbh=np.where(bhdata['SDSS_NAME']==crdb['SDSSNAME'][idb])[0][0]
     radr7[idb],decdr7[idb]=bhdata['RA'][gbh],bhdata['DEC'][gbh]
     gmf=np.where(data['DatabaseID']==DBID)[0][0]
-    ra[idb],dec[idb]=data['RA_DES'][gmf],data['DEC_DES'][gmf]
+    ra[idb],dec[idb]=cry['RA'][gy],cry['DEC'][gy]
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
+    crorig=np.copy(cr)
     if np.shape(cr)==(0,): 
         continue
     elif np.shape(cr)==():
@@ -106,6 +114,7 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
     else:
         gSDSS=np.where(cr['Survey']=='SDSS')[0]
         cr=cr[ggood]
+        crorig=cr[ggood]
         gb=np.where(cr['BAND']=='g')[0]
         cr=cr[gb]
         gorig=gorig[gb]
@@ -169,6 +178,9 @@ for DBID,idb in zip(crdb['DatabaseID'],np.arange(len(crdb))):
             sig_max[idb][0],sig_max[idb][1]=sig_st,sig_end
             g_max[idb][0],g_max[idb][1]=mag_st,mag_end
             flags_max[idb][0],flags_max[idb][1]=flag_st,flag_end
+            #if np.shape(crorig)==():
+            #    for b in ['r','i','z','y']:
+            #        gb=np.where(crorig['BAND']==b)[0]
         gm=np.where(data['DatabaseID']==DBID)[0]
         if len(gm)>0:
             gm=gm[0]
@@ -178,9 +190,9 @@ g_max[:,0][gswap],g_max[:,1][gswap],sig_max[:,0][gswap],sig_max[:,1][gswap],mjd_
 #outcr=np.zeros((len(crdb),),dtype={'names':('DatabaseID','MaxDrop','SurvST','SurvEnd','S82'),'formats':('|S64','f8','|S8','|S8','i8')})
 #outcr['DatabaseID'],outcr['MaxDrop'],outcr['SurvST'],outcr['SurvEnd'],outcr['S82']=crdb['DatabaseID'],maxdrop,surveys_max[:,0],surveys_max[:,1],s82flag
 
-outcr=np.zeros((len(crdb),),dtype={'names':('RA','DEC','Redshift','MJD_lo','g_lo','sig_lo','flag_lo','MJD_hi','g_hi','sig_hi','flag_hi','RA_DES','DEC_DES','DBID'),'formats':('f8','f8','f8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8','|S24')})
-outcr['RA'],outcr['DEC'],outcr['Redshift'],outcr['MJD_lo'],outcr['g_lo'],outcr['sig_lo'],outcr['flag_lo'],outcr['MJD_hi'],outcr['g_hi'],outcr['sig_hi'],outcr['flag_hi'],outcr['RA_DES'],outcr['DEC_DES'],outcr['DBID']=radr7,decdr7,redshifts,mjd_max[:,0],flags_max[:,1],g_max[:,0],sig_max[:,0],flags_max[:,1],mjd_max[:,1],g_max[:,1],sig_max[:,1],ra,dec,crdb['DatabaseID']
-np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.21.17.tab',outcr,header='RA DEC Redshift MJD_lo g_lo sig_lo flag_lo MJD_hi g_hi sig_hi flag_hi RA_DES DEC_DES DBID',fmt='%f %f %f %f %f %f %i %f %f %f %i %f %f %24s')
+outcr=np.zeros((len(crdb),),dtype={'names':('RA','DEC','Redshift','MJD_lo','g_lo','sig_lo','flag_lo','MJD_hi','g_hi','sig_hi','flag_hi','RA_DES','DEC_DES','DBID','y3a1_mag_auto_g'),'formats':('f8','f8','f8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8','|S24','f8')})
+outcr['RA'],outcr['DEC'],outcr['Redshift'],outcr['MJD_lo'],outcr['g_lo'],outcr['sig_lo'],outcr['flag_lo'],outcr['MJD_hi'],outcr['g_hi'],outcr['sig_hi'],outcr['flag_hi'],outcr['RA_DES'],outcr['DEC_DES'],outcr['DBID'],outcr['y3a1_mag_auto_g']=radr7,decdr7,redshifts,mjd_max[:,0],flags_max[:,1],g_max[:,0],sig_max[:,0],flags_max[:,1],mjd_max[:,1],g_max[:,1],sig_max[:,1],ra,dec,crdb['DatabaseID'],y3a1mag
+np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.21.17.tab',outcr,header='RA DEC Redshift MJD_lo g_lo sig_lo flag_lo MJD_hi g_hi sig_hi flag_hi RA_DES DEC_DES DBID y3a1_mag_auto_g',fmt='%f %f %f %f %f %f %i %f %f %f %i %f %f %24s %f')
 
 #outcr['SurvST'][outcr['SurvST']=='']='None'
 #outcr['SurvEnd'][outcr['SurvEnd']=='']='None'
