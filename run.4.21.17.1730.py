@@ -1,7 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 cry=np.loadtxt('/home/rumbaugh/DR7_BH_Y3A1_MATCH_COADD_PARAMS.tab',dtype={'names':('SDSSNAME','CID','RA','DEC','mag_g','mag_r','mag_i','mag_z','mag_y','magerr_g','magerr_r','magerr_i','magerr_z','magerr_y','class_star'),'formats':('|S24','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1)
-crs=np.loadtxt('/home/rumbaugh/Y3A1_star_magsample.tab',dtype={'names':('class_star','CID','RA','DEC','mag_g','mag_r','mag_i','mag_z','mag_y'),'formats':('f8','i8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1)
+try:
+    crs
+except NameError:
+    crs=np.loadtxt('/home/rumbaugh/Y3A1_star_magsample.tab',dtype={'names':('class_star','CID','RA','DEC','mag_g','mag_r','mag_i','mag_z','mag_y'),'formats':('f8','i8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1)
 
 
 matplotlib.rcParams['axes.linewidth']=3
