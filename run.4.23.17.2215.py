@@ -13,8 +13,11 @@ except NameError:
 
 cdf=np.arange(len(cry))*1./len(cry)
 values=np.random.rand(10000)
-yrandmags=crysort['mag_g'][np.searchsorted(cdf,values)]
+yinds=np.searchsorted(cdf,values)
+yinds[yinds==len(cry)]-=1
+yrandmags=crysort['mag_g'][yinds]
 starinds=np.searchsorted(crssort['mag_g'],yrandmags)
+starinds[starinds==len(crs)]-=1
 srandmags=crssort['mag_g'][starinds]
 
 matplotlib.rcParams['axes.linewidth']=3
