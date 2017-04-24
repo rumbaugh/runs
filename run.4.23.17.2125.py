@@ -48,4 +48,4 @@ plt.ylabel('Normalized Objects')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/magdist_Y3A1_control_comp.hist.4.23.17.png')
 
 outcr=crssort[gcontrol]
-np.savetxt('Y3A1_star_control_sample_50000.dat',outcr,header='class_star CID RA DEC mag_g mag_r mag_i mag_z mag_y',fmt='%f %i %f %f %f %f %f %f %f',comments='')
+np.savetxt('Y3A1_star_control_sample_50000.csv',outcr,header='class_star,CID,RA,DEC,mag_g,mag_r,mag_i,mag_z,mag_y',fmt='%f,%i,%f,%f,%f,%f,%f,%f,%f',comments='')
