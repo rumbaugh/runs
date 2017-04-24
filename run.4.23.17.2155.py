@@ -27,8 +27,8 @@ plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/magerrdist_stars_comp.hist.4
 
 plt.figure(1)
 plt.clf()
-plt.scatter(crsl['magpsf'],crsl['magerrpsf'],color='r',edgecolor='None',marker='.')
-plt.scatter(cryl['magpsf'],cryl['magerrpsf'],color='b',edgecolor='None',marker='.')
+plt.scatter(cryl['magpsf'],cryl['magerrpsf'],color='b',edgecolor='None',marker='.',s=1)
+plt.scatter(crsl['magpsf'],crsl['magerrpsf'],color='r',edgecolor='None',marker='.',s=1)
 plt.ylim(0,0.06)
 plt.xlim(16,24)
 plt.xlabel('g-band Magnitude')
