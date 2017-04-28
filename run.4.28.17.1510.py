@@ -25,14 +25,16 @@ crmi=np.loadtxt('/home/rumbaugh/var_database/Y3A1/match_index.dat',dtype={'names
 
 dbids,gdbs,gdb,gmi=np.zeros(len(crch),dtype='i8'),np.zeros(len(crch),dtype='i8'),np.zeros(len(crch),dtype='object'),np.zeros(len(crch),dtype='i8')
 for i in range(0,len(crch)):
-    gdb[i]=np.where(crdb['SDSSNAME']==crch['SDSSNAME'][i])[0]
-    gdbs[i]=np.where(crdbs['SDSSNAME']==crch['SDSSNAME'][i])[0][0]
+    SDSSNAME=crch['SDSSNAME'][i].strip()
+    gdb[i]=np.where(crdb['SDSSNAME']==SDSSNAME)[0]
+    gdbs[i]=np.where(crdbs['SDSSNAME']==SDSSNAME)[0][0]
     dbids[i]=crdbs['DatabaseID'][gdbs[i]]
-    gmi[i]=np.where(crmi['SDSS_NAME']==crch['SDSSNAME'][i])[0][0]
+    gmi[i]=np.where(crmi['SDSS_NAME']==SDSSNAME)[0][0]
 
 dbi_out=np.zeros((0,7),dtype='object')
 maxdists=np.zeros(len(crmim))
 for cid,SDSSNAME,ich in zip(crch['CID'],crch['SDSSNAME'],np.arange(len(crch))):
+    SDSSNAME=SDSSNAME.strip()
     inSN=False
     outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
     Y3A1outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
