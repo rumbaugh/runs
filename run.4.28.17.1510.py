@@ -32,7 +32,6 @@ for i in range(0,len(crch)):
     gmi[i]=np.where(crmi['SDSS_NAME']==SDSSNAME)[0][0]
 
 dbi_out=np.zeros((0,7),dtype='object')
-maxdists=np.zeros(len(crmim))
 for cid,SDSSNAME,ich in zip(crch['CID'],crch['SDSSNAME'],np.arange(len(crch))):
     SDSSNAME=SDSSNAME.strip()
     inSN=False
