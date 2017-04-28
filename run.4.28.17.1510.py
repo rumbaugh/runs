@@ -23,7 +23,7 @@ crbhSN=np.loadtxt('/home/rumbaugh/dr7_bh_lightcurve_entries_y3a1_SN.tab',dtype={
 
 crmi=np.loadtxt('/home/rumbaugh/var_database/Y3A1/match_index.dat',dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('i8','i8','|S32','f8','f8','i8','i8','|S32')},skiprows=1)
 
-dbids,gdbs,gdb,gmi=np.zeros(len(crch),dtype='i8'),np.zeros(len(crch),dtype='i8'),np.zeros(len(crch),dtype='object'),np.zeros(len(crch),dtype='i8')
+dbids,gdbs,gdb,gmi=np.zeros(len(crch),dtype='|S24'),np.zeros(len(crch),dtype='i8'),np.zeros(len(crch),dtype='object'),np.zeros(len(crch),dtype='i8')
 for i in range(0,len(crch)):
     SDSSNAME=crch['SDSSNAME'][i].strip()
     gdb[i]=np.where(crdb['SDSSNAME']==SDSSNAME)[0]
