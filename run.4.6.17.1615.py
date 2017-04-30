@@ -295,12 +295,12 @@ for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub
         gc,gevq=np.where((ccolor>0)&(ccolor<6.8)&(cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqcolor>0)&(evqcolor<6.8)&(evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
     else:
         gc,gevq=np.where((cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
-    plt.scatter(cz[gc],ccolor[gc],color='k',marker='.',edgecolor='None')
-    plt.scatter(ggdz[gevq],evqcolor[gevq],color='red',marker='.',edgecolor='None')
+    plt.scatter(cz[gc],ccolor[gc],color='cyan',marker='.',edgecolor='None')
+    plt.scatter(ggdz[gevq],evqcolor[gevq],color='pink',marker='.',edgecolor='None')
     zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5,highz=2.2,highwid=0.4)
     zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.25,zmax=3.5,highz=2.2,highwid=0.4)
-    plt.plot(zcens_con,runmed_con,c='cyan',ls='dashed',lw=3,label='Control')
-    plt.plot(zcens_evq,runmed_evq,c='#ffe769',ls='dashed',lw=3,label='EVQ')
+    plt.plot(zcens_con,runmed_con,c='green',ls='dashed',lw=3,label='Control')
+    plt.plot(zcens_evq,runmed_evq,c='red',ls='dashed',lw=3,label='EVQ')
     if i%4==3:ax1.set_xlabel('Redshift',fontsize=20)
     ax1.set_ylabel(colorlabel,fontsize=20)
     plt.xlim(0,4.4)
