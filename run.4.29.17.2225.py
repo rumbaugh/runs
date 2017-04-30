@@ -20,4 +20,19 @@ crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/database_index.dat',dtype={'na
 
 cr=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.28.17.tab',dtype={'names':('RA','DEC','z','mjdlo','glo','siglo','flaglo','mjdhi','ghi','sighi','flaghi','RA_DES','DEC_DES','DBID'),'formats':('f8','f8','f8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8','|S24')})
 
+drop=np.abs(cr['glo']-cr['ghi'])
+print "Total DR7: %i"%len(bhdata)
+print "Dr7+DES: %i"%(len(drop))
+print "DR7 g>1: %i"%(len(drop[drop>1]))
+print "DR7 g>1.5: %i"%(len(drop[drop>1.5]))
+print "DR7 g>2: %i"%(len(drop[drop>2]))
+
 sout=pydl.pydlutils.spheregroup.spherematch(cr['RA'],cr['DEC'],cr82['RA'],cr82['DEC'],arcsrch/3600.)
+
+print "Total S82: %i"%(len(cr82))
+crm82=cr[sout[0]]
+drop82=np.abs(crm82['glo']-crm82['ghi'])
+print "S82 in DES: %i"%(len(crm82))
+print "S82 with g>1: %i"%(len(drop82[drop82>1]))
+print "S82 with g>1.5: %i"%(len(drop82[drop82>1.5]))
+print "S82 with g>2: %i"%(len(drop82[drop82>2]))
