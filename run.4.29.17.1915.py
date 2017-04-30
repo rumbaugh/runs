@@ -300,7 +300,7 @@ for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub
     plt.scatter(ggdz[gevq],evqcolor[gevq],color='pink',marker='.',edgecolor='None')
     zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5,highz=2.2,highwid=0.4)
     zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.25,zmax=3.5,highz=2.2,highwid=0.4)
-    plt.plot(zcens_con,runmed_con,c='green',ls='.-',lw=3,label='Control')
+    plt.plot(zcens_con,runmed_con,c='green',ls='-.',lw=3,label='Control')
     plt.plot(zcens_evq,runmed_evq,c='red',ls='dashed',lw=3,label='EVQ')
     if i%4==3:ax1.set_xlabel('Redshift',fontsize=20)
     ax1.set_ylabel(colorlabel,fontsize=20)
