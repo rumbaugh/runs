@@ -57,7 +57,7 @@ print "S82 with g>2: %i"%(len(drop82[drop82>2]))
 
 crmF82=cr[sout[0]][FIRST[sout[0]]>0]
 dropF82=np.abs(crmF82['glo']-crmF82['ghi'])
-print "Total DR7F82: %i"%len(bhdata['FIRST_FR_TYPE'][sout82[0]]>0])
+print "Total DR7F82: %i"%len(bhdata[bhdata['FIRST_FR_TYPE'][sout82[0]]>0])
 print "Dr7F82+DES: %i"%(len(dropF82))
 print "DR7F82 g>1: %i"%(len(dropF82[dropF82>1]))
 print "DR7F82 g>1.5: %i"%(len(dropF82[dropF82>1.5]))
