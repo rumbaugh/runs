@@ -1,0 +1,3 @@
+import numpy as np
+
+crybh=np.loadtxt('/home/rumbaugh/dr7_bh_lightcurve_entries_y3a1_wspread.tab',dtype={'names':('SDSSNAME','cid','mjd','ra','dec','imageid','ofilename','OBJECT_ID','mag','magerr','mag_auto','mag_auto_err','band','flags','flags_detmodel','flags_model','flags_weight','spread'),'formats':('|S24','i8','f8','f8','f8','i8','|S64','i8','f8','f8','f8','f8','|S12','i8','i8','i8','i8','f8')},skiprows=1)
