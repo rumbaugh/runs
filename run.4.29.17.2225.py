@@ -54,7 +54,7 @@ print "S82 with g>1.5: %i"%(len(drop82[drop82>1.5]))
 print "S82 with g>2: %i"%(len(drop82[drop82>2]))
 
 crmF82=cr[sout[0]][FIRST[sout[0]]>0]
-dropF82=np.abs(crmF82['glo']-crmF72['ghi'])
+dropF82=np.abs(crmF82['glo']-crmF82['ghi'])
 print "Total DR7F: %i"%len(crmF82[FIRST[sout[0]]>0])
 print "Dr7F+DES: %i"%(len(dropF82))
 print "DR7F g>1: %i"%(len(dropF82[dropF82>1]))
