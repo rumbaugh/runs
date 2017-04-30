@@ -64,9 +64,10 @@ medu_all,medg_all,medr_all,medi_all,medz_all=data['med_SDSS_u'][gmf_dr7],data['m
 
 crmd=cr[np.abs(drop)>1]
 gmf_md=gmf[np.abs(drop)>1]
+dropmd=drop[drop>1]
 
-good_dbids=crmd['DBID'][np.abs(crmd['drop'])>1]
-gooddrops=np.abs(crmd['drop'])[np.abs(crmd['drop'])>1]
+good_dbids=crmd['DBID'][np.abs(dropmd)>1]
+gooddrops=np.abs(dropmd)[np.abs(dropmd)>1]
 
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
