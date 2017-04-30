@@ -1,5 +1,6 @@
 import numpy as np
 import pydl
+import pydl.pydlutils
 
 arcsrch=0.3
 
