@@ -1,6 +1,7 @@
 import numpy as np
 import pydl
 import pydl.pydlutils
+import pydl.pydlutils.spheregroup
 
 arcsrch=0.3
 
