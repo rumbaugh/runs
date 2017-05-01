@@ -10,7 +10,7 @@ spreaderrs=np.append(crs[:,2],crs[:,3])
 drop=np.abs(cr['glo']-cr['ghi'])
 
 xdummy=np.linspace(0.0000001,0.1,1000)
-ydummy=np.sqrt(0.003**2+4*xdummy)
+ydummy=np.sqrt(0.003**2+4*xdummy**2)
 
 plt.figure(1)
 plt.clf()
