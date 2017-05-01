@@ -20,7 +20,7 @@ plt.plot(xdummy,-ydummy,color='r',lw=2,ls='dashed')
 plt.xlabel('Spread Error')
 plt.ylabel('Spread')
 plt.savefig('/home/rumbaugh/spread_ps_check.5.1.17.png')
-glog=np.where(spreaderr>0)[0]
+glog=np.where(spreaderrs>0)[0]
 plt.figure(1)
 plt.clf()
 plt.scatter(spreaderrs[glog],spreads[glog],color='b',s=6,edgecolor='None',alpha=0.2)
