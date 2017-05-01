@@ -53,7 +53,7 @@ plt.xlim(0,0.054)
 plt.ylim(-0.009,0.024)
 plt.savefig('/home/rumbaugh/spreadevq_ps_check.5.1.17.png')
 
-glog=np.where(spreaderrs>0)[0]
+glog=np.where(evqspreaderrs>0)[0]
 plt.figure(1)
 plt.clf()
 plt.xscale('log')
