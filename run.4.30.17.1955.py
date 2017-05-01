@@ -23,7 +23,7 @@ s82flag=np.zeros(len(crdb))
 surveys_max=np.zeros((len(crdb),2),dtype='|S8')
 baseline_max=np.zeros(len(crdb))
 
-crdb=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts_fardbid.4.18.17.csv',dtype={'names':('ra','dec','DatabaseID'),'formats':('f8','f8','|S36')})
+crdb=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts_fardbid.4.18.17.csv',dtype={'names':('ra','dec','DatabaseID'),'formats':('f8','f8','|S36')},delimiter=',')
 
 for DBIDtmp in crdb['DatabaseID']:
     DBID=DBIDtmp[:-11]
