@@ -11,8 +11,17 @@ spreads=np.append(crs[:,0],crs[:,1])
 spreaderrs=np.append(crs[:,2],crs[:,3])
 evqspreads=np.append(crevq[:,0],crevq[:,1])
 evqspreaderrs=np.append(crevq[:,2],crevq[:,3])
+magautos=np.append(crs[:,4],crs[:,5])
+magautoerrs=np.append(crs[:,6],crs[:,7])
+evqmagautos=np.append(crevq[:,4],crevq[:,5])
+evqmagautoerrs=np.append(crevq[:,6],crevq[:,7])
+magpsfs=np.append(cr['glo'],cr['ghi'])
+magpsferrs=np.append(cr['siglo'],cr['sighi'])
+evqmagpsfs=np.append(cr['glo'][drop>1],cr['ghi'][drop>1])
+evqmagpsferrs=np.append(cr['siglo'][drop>1],cr['sighi'][drop>1])
 
-
+psfmetric=spreads/np.sqrt(0.003**2+4*spreaderrs**2)
+evqpsfmetric=evqspreads/np.sqrt(0.003**2+4*evqspreaderrs**2)
 
 xdummy=np.linspace(0.0000001,0.1,1000)
 ydummy=np.sqrt(0.003**2+4*xdummy**2)
@@ -41,6 +50,14 @@ plt.xlim(0.00003,0.054)
 plt.ylim(-0.009,0.024)
 plt.savefig('/home/rumbaugh/spread_ps_check.loglog.5.1.17.png')
 
+plt.figure(1)
+plt.clf()
+plt.scatter(psfmetric,magautos-magpsfs,color='b',s=6,edgecolor='None',alpha=0.2)
+plt.xlabel('PSF Metric')
+plt.ylabel('Mag_auto - Mag_PSF')
+plt.savefig('/home/rumbaugh/spread_magdiff_corr_check.5.1.17.png')
+
+
 
 plt.figure(1)
 plt.clf()
@@ -65,3 +82,12 @@ plt.ylabel('Spread')
 plt.xlim(0.00003,0.054)
 plt.ylim(-0.009,0.024)
 plt.savefig('/home/rumbaugh/spreadevq_ps_check.loglog.5.1.17.png')
+
+
+plt.figure(1)
+plt.clf()
+plt.scatter(evqpsfmetric,evqmagautos-evqmagpsfs,color='b',s=6,edgecolor='None',alpha=0.2)
+plt.xlabel('PSF Metric')
+plt.ylabel('Mag_auto - Mag_PSF')
+plt.savefig('/home/rumbaugh/spreadevq_magdiff_corr_check.5.1.17.png')
+
