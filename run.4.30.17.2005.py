@@ -18,18 +18,35 @@ gidrop,grdrop=gihi-gilo,grhi-grlo
 matplotlib.rcParams['axes.linewidth']=3
 matplotlib.rcParams['font.size']=14
 
-plt.figure(1)
-plt.clf()
-plt.scatter(gdrop,gidrop,color='k',s=8)
-plt.scatter(gdrop[np.abs(gdrop)>1],gidrop[np.abs(gdrop)>1],color='r',s=8)
-plt.xlabel(r'$\delta g$')
-plt.ylabel(r'$\delta g-i$')
-plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/g_vs_g-i.EVQs.png')
 
-plt.figure(1)
+fig=plt.figure(1)
+fig.clf()
 plt.clf()
-plt.scatter(gdrop,grdrop,color='k',s=8)
-plt.scatter(gdrop[np.abs(gdrop)>1],grdrop[np.abs(gdrop)>1],color='r',s=8)
-plt.xlabel(r'$\delta g$')
-plt.ylabel(r'$\delta g-r$')
-plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/g_vs_g-r.EVQs.png')
+ax1=fig.add_subplot(1,1,1)
+pos1 = ax1.get_position() # get the original position 
+pos2 = [pos1.x0, pos1.y0 + 0.03,  pos1.width, pos1.height] 
+ax1.set_position(pos2)
+ax1.tick_params(which='major',length=7,width=3,labelsize=17)
+ax1.scatter(gdrop,gidrop,color='k',edgecolor='None',s=6)
+ax1.scatter(gdrop[np.abs(gdrop)>1],gidrop[np.abs(gdrop)>1],color='r',edgecolor='None',s=6)
+ax1.set_xlim(-2.5,2.5)
+ax1.set_ylim(-1.4,1.4)
+ax1.set_xlabel(r'$\Delta g$',fontsize=20)
+ax1.set_ylabel(r'$\Delta g-i$',fontsize=20)
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/g_vs_g-i.EVQs.png')
+
+fig=plt.figure(1)
+fig.clf()
+plt.clf()
+ax1=fig.add_subplot(1,1,1)
+pos1 = ax1.get_position() # get the original position 
+pos2 = [pos1.x0, pos1.y0 + 0.03,  pos1.width, pos1.height] 
+ax1.set_position(pos2)
+ax1.tick_params(which='major',length=7,width=3,labelsize=17)
+ax1.scatter(gdrop,grdrop,color='k',edgecolor='None',s=6)
+ax1.scatter(gdrop[np.abs(gdrop)>1],grdrop[np.abs(gdrop)>1],color='r',edgecolor='None',s=6)
+ax1.set_xlim(-2.5,2.5)
+ax1.set_ylim(-1.4,1.4)
+ax1.set_xlabel(r'$\Delta g$',fontsize=20)
+ax1.set_ylabel(r'$\Delta g-r$',fontsize=20)
+fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/g_vs_g-r.EVQs.png')
