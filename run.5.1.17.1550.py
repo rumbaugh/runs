@@ -55,6 +55,7 @@ plt.clf()
 plt.scatter(psfmetric,magautos-magpsfs,color='b',s=6,edgecolor='None',alpha=0.2)
 plt.xlabel('PSF Metric')
 plt.ylabel('Mag_auto - Mag_PSF')
+plt.ylim(-2,2)
 plt.savefig('/home/rumbaugh/spread_magdiff_corr_check.5.1.17.png')
 
 
@@ -89,5 +90,6 @@ plt.clf()
 plt.scatter(evqpsfmetric,evqmagautos-evqmagpsfs,color='b',s=6,edgecolor='None',alpha=0.2)
 plt.xlabel('PSF Metric')
 plt.ylabel('Mag_auto - Mag_PSF')
+plt.ylim(-2,2)
 plt.savefig('/home/rumbaugh/spreadevq_magdiff_corr_check.5.1.17.png')
 
