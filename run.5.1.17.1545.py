@@ -11,6 +11,8 @@ db2sn={crdb['DBID'][x]: crdb['SDSSNAME'][x] for x in np.arange(len(crdb))}
 SNs=np.array([db2sn[cr['DBID'][x]] for x in np.arange(0,len(cr))])
 spreadhi,spreadlo=np.zeros(len(cr)),np.zeros(len(cr))
 spreaderrhi,spreaderrlo=np.zeros(len(cr)),np.zeros(len(cr))
+magautohi,magautolo=np.zeros(len(cr)),np.zeros(len(cr))
+magautoerrhi,magautoerrlo=np.zeros(len(cr)),np.zeros(len(cr))
 for i in range(0,len(cr)):
     crlctmp=crybh[crybh['SDSSNAME']==SNs[i]]
     glo,ghi=np.where(np.abs(crlctmp['mjd']-cr['mjdlo'][i])<mjdthresh)[0],np.where(np.abs(crlctmp['mjd']-cr['mjdhi'][i])<mjdthresh)[0]
@@ -24,11 +26,15 @@ for i in range(0,len(cr)):
         glo=glo[0]
         spreadlo[i]=crlctmp['spread'][glo]
         spreaderrlo[i]=crlctmp['spreaderr'][glo]
+        magautolo[i]=crlctmp['magauto'][glo]
+        magautoerrlo[i]=crlctmp['magautoerr'][glo]
     if len(ghi)>0:
         ghi=ghi[0]
         spreadhi[i]=crlctmp['spread'][ghi]
         spreaderrhi[i]=crlctmp['spreaderr'][ghi]
-outcr=np.zeros((len(spreadhi),4))
-outcr[:,0],outcr[:,1],outcr[:,2],outcr[:,3]=spreadlo,spreadhi,spreaderrlo,spreaderrhi
-np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7.evq_spreads.4.30.17.dat',outcr,fmt='%f %f %f %f',header='spread_lo spread_hi spreaderr_lo spreaderr_hi')
+        magautohi[i]=crlctmp['magauto'][ghi]
+        magautoerrhi[i]=crlctmp['magautoerr'][ghi]
+outcr=np.zeros((len(spreadhi),8))
+outcr[:,0],outcr[:,1],outcr[:,2],outcr[:,3],outcr[:,4],outcr[:,5],outcr[:,6],outcr[:,7]=spreadlo,spreadhi,spreaderrlo,spreaderrhi,magautolo,magautohi,magautoerrlo,magautoerrhi
+np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7.evq_spreads.4.30.17.dat',outcr,fmt='%f %f %f %f %f %f %f %f',header='spread_lo spread_hi spreaderr_lo spreaderr_hi magauto_lo magauto_hi magautoerr_lo magautoerr_hi')
     
