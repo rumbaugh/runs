@@ -26,14 +26,14 @@ for i in range(0,len(cr)):
         glo=glo[0]
         spreadlo[i]=crlctmp['spread'][glo]
         spreaderrlo[i]=crlctmp['spreaderr'][glo]
-        magautolo[i]=crlctmp['magauto'][glo]
-        magautoerrlo[i]=crlctmp['magautoerr'][glo]
+        magautolo[i]=crlctmp['mag_auto'][glo]
+        magautoerrlo[i]=crlctmp['mag_auto_err'][glo]
     if len(ghi)>0:
         ghi=ghi[0]
         spreadhi[i]=crlctmp['spread'][ghi]
         spreaderrhi[i]=crlctmp['spreaderr'][ghi]
-        magautohi[i]=crlctmp['magauto'][ghi]
-        magautoerrhi[i]=crlctmp['magautoerr'][ghi]
+        magautohi[i]=crlctmp['mag_auto'][ghi]
+        magautoerrhi[i]=crlctmp['mag_auto_err'][ghi]
 outcr=np.zeros((len(spreadhi),8))
 outcr[:,0],outcr[:,1],outcr[:,2],outcr[:,3],outcr[:,4],outcr[:,5],outcr[:,6],outcr[:,7]=spreadlo,spreadhi,spreaderrlo,spreaderrhi,magautolo,magautohi,magautoerrlo,magautoerrhi
 np.savetxt('/home/rumbaugh/var_database/Y3A1/DR7.evq_spreads.4.30.17.dat',outcr,fmt='%f %f %f %f %f %f %f %f',header='spread_lo spread_hi spreaderr_lo spreaderr_hi magauto_lo magauto_hi magautoerr_lo magautoerr_hi')
