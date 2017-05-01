@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+
+
+crd=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.30.17.tab',dtype={'names':('RA','DEC','z','mjdlo','glo','siglo','flaglo','mjdhi','ghi','sighi','flaghi','RA_DES','DEC_DES','DBID','y3a1_mag_auto_g','ilo','ihi','rlo','rhi'),'formats':('f8','f8','f8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8','|S24','f8','f8','f8','f8','f8')})
+
+gswap=np.where(crd['mjdlo']>crd['mjdhi'])[0]
+if len(gswap)>0:
+    crd['glo'][gswap],crd['ghi'][gswap],crd['ilo'][gswap],crd['ihi'][gswap],crd['mjdlo'][gswap],crd['mjdhi'][gswap],crd['rlo'][gswap],crd['rhi'][gswap]=crd['ghi'][gswap],crd['glo'][gswap],crd['ihi'][gswap],crd['ilo'][gswap],crd['mjdhi'][gswap],crd['mjdlo'][gswap],crd['rhi'][gswap],crd['rlo'][gswap]
+
+crd=crd[(crd['ilo']>0)&(crd['ihi']>0)&(crd['rlo']>0)&(crd['rhi']>0)]
+
+gdrop=crd['ghi']-crd['glo']
+gihi,gilo,grhi,grlo=crd['ghi']-crd['ihi'],crd['glo']-crd['ilo'],crd['ghi']-crd['rhi'],crd['glo']-crd['rlo']
+gidrop,grdrop=gihi-gilo,grhi-grlo
+
+matplotlib.rcParams['axes.linewidth']=3
+matplotlib.rcParams['font.size']=14
+
+plt.figure(1)
+plt.clf()
+plt.scatter(gdrop,gidrop,color='k',s=8)
+plt.scatter(gdrop[np.abs(gdrop)>1],gidrop[np.abs(gdrop)>1],color='r',s=8)
+plt.xlabel(r'$\delta g$')
+plt.ylabel(r'$\delta g-i$')
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/g_vs_g-i.EVQs.png')
+
+plt.figure(1)
+plt.clf()
+plt.scatter(gdrop,grdrop,color='k',s=8)
+plt.scatter(gdrop[np.abs(gdrop)>1],grdrop[np.abs(gdrop)>1],color='r',s=8)
+plt.xlabel(r'$\delta g$')
+plt.ylabel(r'$\delta g-r$')
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/g_vs_g-r.EVQs.png')
