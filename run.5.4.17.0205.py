@@ -23,15 +23,4 @@ for i in range(0,len(dbids)):
     rah,ram,ras=deg2hms(crrd['ra'][grd])
     decd,decm,decs=deg2dms(crrd['dec'][grd])
     radecs[i]='J%02i%02i%04.1f%+02i%02i%4.1f'%(rah,ram,ras,decd,decm,decs)
-for i in range(0,len(evqdbids)):
-    grd=np.where('%s_SDSScutout'%evqdbids[i]==crrd['dbid'])[0][0]
-    rah,ram,ras=deg2hms(crrd['ra'][grd])
-    decd,decm,decs=deg2dms(crrd['dec'][grd])
-    evqradecs[i]='J%02i%02i%04.1f%+02i%02i%4.1f'%(rah,ram,ras,decd,decm,decs)
-for i in range(0,len(longdbids)):
-    grd=np.where('%s_SDSScutout'%longdbids[i]==crrd['dbid'])[0][0]
-    rah,ram,ras=deg2hms(crrd['ra'][grd])
-    decd,decm,decs=deg2dms(crrd['dec'][grd])
-    longradecs[i]='J%02i%02i%04.1f%+02i%02i%4.1f'%(rah,ram,ras,decd,decm,decs)
-print radecs,evqradecs,longradecs
 plot_DB_lightcurves(dbids,'/home/rumbaugh/DR7_EVQ_lightcurves.5.4.17.pdf',DBdir='/home/rumbaugh/var_database/Y3A1',zoominband='g',calc_outliers=True,load_outliers=True,outlier_window=100,load_macleod=True,connectpoints=False,sdsscutoutradec=radecs,plotspread=True)
