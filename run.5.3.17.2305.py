@@ -35,7 +35,7 @@ gdbids=np.array(['MQ206171','MQ208717','MQ213230','MQ209259','MQ212075','MQ21191
 gcids=crdb['CID'][np.in1d(crdb['DBID'],gdbids)]
 gcrmi_match=np.in1d(crmi['COADD_OBJECTS_ID'],gcids)
 #crmim=crmi[gcrmi_match]
-
+crmim=crmi
 #dbi_out=np.zeros((0,7),dtype='object')
 maxdists=np.zeros(len(crmim))
 for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim))):
