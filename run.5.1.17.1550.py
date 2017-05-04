@@ -58,6 +58,13 @@ plt.ylabel('Mag_auto - Mag_PSF')
 plt.ylim(-2,2)
 plt.savefig('/home/rumbaugh/spread_magdiff_corr_check.5.1.17.png')
 
+plt.figure(1)
+plt.clf()
+plt.scatter(psfmetric,magpsfs,color='b',s=6,edgecolor='None',alpha=0.2)
+plt.xlabel('PSF Metric')
+plt.ylabel('Mag_PSF')
+plt.ylim(15,25)
+plt.savefig('/home/rumbaugh/spread_mag_check.5.1.17.png')
 
 
 plt.figure(1)
@@ -70,6 +77,7 @@ plt.ylabel('Spread')
 plt.xlim(0,0.054)
 plt.ylim(-0.009,0.024)
 plt.savefig('/home/rumbaugh/spreadevq_ps_check.5.1.17.png')
+
 
 glog=np.where(evqspreaderrs>0)[0]
 plt.figure(1)
