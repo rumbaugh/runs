@@ -71,7 +71,7 @@ plt.clf()
 plt.scatter(psfmetric,np.append(drop,drop),color='b',s=6,edgecolor='None',alpha=0.2)
 plt.xlabel('PSF Metric')
 plt.ylabel('Mag Drop')
-plt.ylim(-5,5)
+plt.ylim(0,4)
 plt.savefig('/home/rumbaugh/spread_drop_check.5.1.17.png')
 
 
@@ -123,6 +123,6 @@ plt.clf()
 plt.scatter(evqpsfmetric,np.append(drop[np.abs(drop)>1],drop[np.abs(drop)>1]),color='b',s=6,edgecolor='None',alpha=0.2)
 plt.xlabel('PSF Metric')
 plt.ylabel('Mag Drop')
-plt.ylim(-5,5)
+plt.ylim(0,4)
 plt.savefig('/home/rumbaugh/spreadevq_drop_check.5.1.17.png')
 
