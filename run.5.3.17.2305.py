@@ -34,9 +34,9 @@ crmi=np.loadtxt('/home/rumbaugh/var_database/Y3A1/match_index.dat',dtype={'names
 gdbids=np.array(['MQ206171','MQ208717','MQ213230','MQ209259','MQ212075','MQ211918','MQ214934','MQ214802','MQ214532','MQ215548','MQ216346'])
 gcids=crdb['CID'][np.in1d(crdb['DBID'],gdbids)]
 gcrmi_match=np.in1d(crmi['COADD_OBJECTS_ID'],gcids)
-crmim=crmi[gcrmi_match]
+#crmim=crmi[gcrmi_match]
 
-dbi_out=np.zeros((0,7),dtype='object')
+#dbi_out=np.zeros((0,7),dtype='object')
 maxdists=np.zeros(len(crmim))
 for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim))):
     inSN=False
