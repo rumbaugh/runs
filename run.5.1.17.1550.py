@@ -93,3 +93,11 @@ plt.ylabel('Mag_auto - Mag_PSF')
 plt.ylim(-2,2)
 plt.savefig('/home/rumbaugh/spreadevq_magdiff_corr_check.5.1.17.png')
 
+plt.figure(1)
+plt.clf()
+plt.scatter(evqpsfmetric,evqmagpsfs,color='b',s=6,edgecolor='None',alpha=0.2)
+plt.xlabel('PSF Metric')
+plt.ylabel('Mag_PSF')
+plt.ylim(15,25)
+plt.savefig('/home/rumbaugh/spreadevq_mag_check.5.1.17.png')
+
