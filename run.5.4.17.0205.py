@@ -11,7 +11,7 @@ gdr=np.where(crdb['SDSSNAME']!='-1')[0]
 crdb=crdb[gdr]
 crrd=np.loadtxt('/home/rumbaugh/radecname_forSDSScutouts.4.20.17.csv',dtype={'names':('ra','dec','dbid'),'formats':('f8','f8','|S64')},delimiter=',')
 
-crd=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.28.17.tab',dtype={'names':('RA','DEC','z','mjdlo','glo','siglo','mjdhi','ghi','sighi','RA_DES','DEC_DES','DBID'),'formats':('f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S24')})
+crd=np.loadtxt('/home/rumbaugh/var_database/Y3A1/DR7_full_magdiffs_wDBID.4.28.17.tab',dtype={'names':('RA','DEC','z','mjdlo','glo','siglo','flaglo','mjdhi','ghi','sighi','flaghi','RA_DES','DEC_DES','DBID'),'formats':('f8','f8','f8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8','|S24')})
 crd=crd[:100]
 drop,baseline=np.abs(crd['glo']-crd['ghi']),np.abs(crd['mjdlo']-crd['mjdhi'])/(1+crd['z'])
 matplotlib.rcParams['axes.linewidth']=3
