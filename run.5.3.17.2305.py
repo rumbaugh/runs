@@ -165,7 +165,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
         sp_outcr=np.append(p_outcr,SDSS_outcr)
         outcr=np.append(outcr,sp_outcr)
         if len(Y3A1outcr)==0:
-            mjd,mag,magerr,magauto,magautoerr,cIDs,bands,yra,ydec,flags,spread,spreaderr=cryse['mjd'][gSPy],cryse['mag'][gSPy],cryse['magerr'][gSPy],cryse['mag_auto'][gSPy],cryse['mag_auto_err'][gSPy],cryse['cid'][gSPy],cryse['band'][gSPy],cryse['ra'][gSPy],cryse['dec'][gSPy],cryse['flags'][gSPy],cryse['spread'][gSPy]
+            mjd,mag,magerr,magauto,magautoerr,cIDs,bands,yra,ydec,flags,spread,spreaderr=cryse['mjd'][gSPy],cryse['mag'][gSPy],cryse['magerr'][gSPy],cryse['mag_auto'][gSPy],cryse['mag_auto_err'][gSPy],cryse['cid'][gSPy],cryse['band'][gSPy],cryse['ra'][gSPy],cryse['dec'][gSPy],cryse['flags'][gSPy],cryse['spread'][gSPy],cryse['spreaderr'][gSPy]
             Y3A1outcr=np.zeros((len(gSPy),),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','SPREAD','SPREADERR'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','f8','f8')})
             Y3A1outcr['DatabaseID'],Y3A1outcr['Survey'],Y3A1outcr['SurveyCoaddID'],Y3A1outcr['SurveyObjectID'],Y3A1outcr['RA'],Y3A1outcr['DEC'],Y3A1outcr['MJD'],Y3A1outcr['TAG'],Y3A1outcr['BAND'],Y3A1outcr['MAGTYPE'],Y3A1outcr['MAG'],Y3A1outcr['MAGERR'],Y3A1outcr['FLAG'],Y3A1outcr['SPREAD'],Y3A1outcr['SPREADERR']=DBID,'DES',cid,np.array(cryse['OBJECT_ID'])[gSPy],yra,ydec,mjd,'NONE',bands,'PSF',mag,magerr,flags,spread,spreader
             outcr=np.append(outcr,Y3A1outcr)
