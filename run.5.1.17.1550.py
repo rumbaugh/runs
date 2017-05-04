@@ -66,6 +66,15 @@ plt.ylabel('Mag_PSF')
 plt.ylim(15,25)
 plt.savefig('/home/rumbaugh/spread_mag_check.5.1.17.png')
 
+plt.figure(1)
+plt.clf()
+plt.scatter(psfmetric,np.append(drop,drop,color='b',s=6,edgecolor='None',alpha=0.2)
+plt.xlabel('PSF Metric')
+plt.ylabel('Mag_PSF')
+plt.ylim(15,25)
+plt.savefig('/home/rumbaugh/spread_drop_check.5.1.17.png')
+
+
 
 plt.figure(1)
 plt.clf()
@@ -108,4 +117,12 @@ plt.xlabel('PSF Metric')
 plt.ylabel('Mag_PSF')
 plt.ylim(15,25)
 plt.savefig('/home/rumbaugh/spreadevq_mag_check.5.1.17.png')
+
+plt.figure(1)
+plt.clf()
+plt.scatter(evqpsfmetric,np.append(drop[np.abs(drop)>1],drop[np.abs(drop)>1],color='b',s=6,edgecolor='None',alpha=0.2)
+plt.xlabel('PSF Metric')
+plt.ylabel('Mag_PSF')
+plt.ylim(15,25)
+plt.savefig('/home/rumbaugh/spreadevq_drop_check.5.1.17.png')
 
