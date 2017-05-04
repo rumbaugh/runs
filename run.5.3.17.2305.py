@@ -7,7 +7,7 @@ POSSbands=np.array(['g','r','i'])
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 
 crch=np.loadtxt('/home/rumbaugh/dr7_bh_y3a1_match_closechanges.csv',dtype={'names':('SDSSNAME','RA','DEC','HPIX','CID'),'formats':('|S24','f8','f8','i8','i8')},skiprows=1,delimiter=',')
-for i in range(0,len(len(crch))): crch['SDSSNAME'][i]=crch['SDSSNAME'][i].strip()
+for i in range(0,len(crch)): crch['SDSSNAME'][i]=crch['SDSSNAME'][i].strip()
 
 double_count_indexes=np.zeros(0,dtype='|S30')
 
