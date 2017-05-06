@@ -1,7 +1,7 @@
 execfile('/home/rumbaugh/pythonscripts/plot_DB_lightcurves.py')
 import pyfits as py
 import time
-
+from matplotlib.ticker import AutoMinorLocator
 clqsize=16 
 
 hdu=py.open('/home/rumbaugh/var_database/Y3A1/masterfile.fits')
@@ -177,7 +177,9 @@ for buff,buffstring in zip(np.array(['0','100','300','600','inf']),np.array(['0'
     a2=ax1.hist(baseline/(1.+crd['z']),weights=1./corr_weights,range=(0,3400),bins=17,color='k',edgecolor='k',facecolor='None',ls='dashed',lw=2)
     b2=ax2.plot(a2[1][1:],np.cumsum(a2[0])*1./(np.sum(a2[0])),lw=2,ls='dashed',color='r')
     totdetfrac=np.sum(a[0])*1./np.sum(a2[0])
-    ax2.text(0.04,0.78,r'$\Delta t=%s$' '\nOverall Detection\nFraction: %4.3f'%(buffstring,totdetfrac),transform=ax2.transAxes,horizontalalignment='left',color='k')
+    buffstr=' days'
+    if b=='inf':buffstr=''
+    ax2.text(0.04,0.78,r'$\Delta t=%s$' '%s\nOverall Detection\nFraction: %4.3f'%(buffstring,daystr,totdetfrac),transform=ax2.transAxes,horizontalalignment='left',color='k')
     ax1.set_xlabel('Maximum Change Baseline (Restframe days)')
     ax1.set_ylabel(r'N$_{obj}$')
     ax2.set_ylabel('Cumulative Fraction')
@@ -195,11 +197,12 @@ for buff,buffstring in zip(np.array(['0','100','300','600','inf']),np.array(['0'
 
 crbs=np.array([np.loadtxt('/home/rumbaugh/DetFracRF.buff_%s.4.10.17.dat'%x) for x in np.array(['0','100','300','600','inf'])])#,dtype='object'])
 fig=plt.figure(1)
+ax1=fig.add_subplot(1,1,1)
 fig.clf()
-plt.clf()
-plt.rc('axes',linewidth=2)
-plt.tick_params(which='major',length=12,width=3,labelsize=17)
-plt.tick_params(which='minor',length=6,width=2,labelsize=17)
+ax1.clf()
+ax1.rc('axes',linewidth=2)
+ax1.tick_params(which='major',length=12,width=3,labelsize=17)
+ax1.tick_params(which='minor',length=6,width=2,labelsize=17)
 colarr=['k','r','green','cyan','b']
 lsarr=['solid','dashed','dotted','-.','solid']
 for b,ib in zip(np.array(['0','100','300','600','inf']),np.arange(5)):
@@ -207,9 +210,11 @@ for b,ib in zip(np.array(['0','100','300','600','inf']),np.arange(5)):
         label=r'$\Delta t=$''\infty'
     else:
         label=r'$\Delta t=$''%s days'%b
-    plt.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=label)
-plt.legend(loc='upper right',frameon=False)
-plt.xlim(0,3400)
-plt.xlabel('Maximum Change Baseline (restframe days)')
-plt.ylabel('Detection Fraction')
-plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.DetFrac_comp.baselines.5.4.17.png')
+    ax1.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=label)
+ax1.legend(loc='upper right',frameon=False)
+ax1.set_xlim(0,3400)
+ax1.set_xlabel('Maximum Change Baseline (restframe days)')
+ax1.set_ylabel('Detection Fraction')
+minor_locator = AutoMinorLocator(2)
+ax1.xaxis.set_minor_locator(minor_locator)
+plt..savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.DetFrac_comp.baselines.5.4.17.png')
