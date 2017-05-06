@@ -198,15 +198,15 @@ fig=plt.figure(1)
 fig.clf()
 plt.clf()
 plt.rc('axes',linewidth=2)
+plt.tick_params(which='major',length=12,width=3,labelsize=17)
+plt.tick_params(which='minor',length=6,width=2,labelsize=17)
 colarr=['k','r','green','cyan','b']
 lsarr=['solid','dashed','dotted','-.','solid']
 for b,ib in zip(np.array(['0','100','300','600','inf']),np.arange(5)):
-    if b=='0':
-        label='No buffer'
-    elif b=='inf':
-        label='Infinite buffer'
+    if b=='inf':
+        label=r'$\Delta t=$''\infty'
     else:
-        label='Buffer=%s days'%b
+        label=r'$\Delta t=$''%s days'%b
     plt.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=label)
 plt.legend(loc='upper right',frameon=False)
 plt.xlim(0,3400)
