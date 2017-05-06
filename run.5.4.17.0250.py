@@ -199,7 +199,7 @@ crbs=np.array([np.loadtxt('/home/rumbaugh/DetFracRF.buff_%s.4.10.17.dat'%x) for 
 fig=plt.figure(1)
 ax1=fig.add_subplot(1,1,1)
 fig.clf()
-ax1.clf()
+plt.clf()
 ax1.rc('axes',linewidth=2)
 ax1.tick_params(which='major',length=12,width=3,labelsize=17)
 ax1.tick_params(which='minor',length=6,width=2,labelsize=17)
