@@ -207,10 +207,9 @@ colarr=['k','r','green','cyan','b']
 lsarr=['solid','dashed','dotted','-.','solid']
 for b,ib in zip(np.array(['0','100','300','600','inf']),np.arange(5)):
     if b=='inf':
-        label=r'$\Delta t=%s$'%('\infty')
+        ax1.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=r'$\Delta t=%s$'%('\infty'))
     else:
-        label=r'$\Delta t=$' '%s days'%b
-    ax1.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=label)
+        ax1.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=r'$\Delta t=$' '%s days'%b)
 ax1.legend(loc='upper right',frameon=False)
 ax1.set_xlim(0,3400)
 ax1.set_xlabel('Maximum Change Baseline (restframe days)')
