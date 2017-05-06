@@ -200,16 +200,16 @@ fig=plt.figure(1)
 fig.clf()
 plt.clf()
 ax1=fig.add_subplot(1,1,1)
-plt.rc('axes',linewidth=2)
+plt.rc('axes',linewidth=3)
 ax1.tick_params(which='major',length=12,width=3,labelsize=17)
 ax1.tick_params(which='minor',length=6,width=2,labelsize=17)
 colarr=['k','r','green','cyan','b']
 lsarr=['solid','dashed','dotted','-.','solid']
 for b,ib in zip(np.array(['0','100','300','600','inf']),np.arange(5)):
     if b=='inf':
-        label=r'$\Delta t=$''\infty'
+        label=r'$\Delta t=$' '\infty'
     else:
-        label=r'$\Delta t=$''%s days'%b
+        label=r'$\Delta t=$' '%s days'%b
     ax1.plot(crbs[ib][:,1],crbs[ib][:,0],color=colarr[ib],ls=lsarr[ib],lw=2,label=label)
 ax1.legend(loc='upper right',frameon=False)
 ax1.set_xlim(0,3400)
@@ -217,4 +217,5 @@ ax1.set_xlabel('Maximum Change Baseline (restframe days)')
 ax1.set_ylabel('Detection Fraction')
 minor_locator = AutoMinorLocator(2)
 ax1.xaxis.set_minor_locator(minor_locator)
+ax1.yaxis.set_minor_locator(minor_locator)
 fig.savefig('/home/rumbaugh/var_database/Y3A1/plots/MaxChangeBaselinePlot.DetFrac_comp.baselines.5.4.17.png')
