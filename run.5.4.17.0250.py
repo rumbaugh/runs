@@ -200,7 +200,7 @@ fig=plt.figure(1)
 ax1=fig.add_subplot(1,1,1)
 fig.clf()
 plt.clf()
-ax1.rc('axes',linewidth=2)
+plt.rc('axes',linewidth=2)
 ax1.tick_params(which='major',length=12,width=3,labelsize=17)
 ax1.tick_params(which='minor',length=6,width=2,labelsize=17)
 colarr=['k','r','green','cyan','b']
