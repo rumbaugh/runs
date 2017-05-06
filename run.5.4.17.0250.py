@@ -197,9 +197,9 @@ for buff,buffstring in zip(np.array(['0','100','300','600','inf']),np.array(['0'
 
 crbs=np.array([np.loadtxt('/home/rumbaugh/DetFracRF.buff_%s.4.10.17.dat'%x) for x in np.array(['0','100','300','600','inf'])])#,dtype='object'])
 fig=plt.figure(1)
-ax1=fig.add_subplot(1,1,1)
 fig.clf()
 plt.clf()
+ax1=fig.add_subplot(1,1,1)
 plt.rc('axes',linewidth=2)
 ax1.tick_params(which='major',length=12,width=3,labelsize=17)
 ax1.tick_params(which='minor',length=6,width=2,labelsize=17)
