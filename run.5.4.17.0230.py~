@@ -296,11 +296,11 @@ for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub
         gc,gevq=np.where((ccolor>0)&(ccolor<6.8)&(cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqcolor>0)&(evqcolor<6.8)&(evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
     else:
         gc,gevq=np.where((cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
-    plt.scatter(cz[gc],ccolor[gc],color='cyan',marker='.',edgecolor='None')
+    plt.scatter(cz[gc],ccolor[gc],color='gray',marker='.',edgecolor='None')
     plt.scatter(ggdz[gevq],evqcolor[gevq],color='pink',marker='.',edgecolor='None')
     zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5,highz=2.2,highwid=0.4)
     zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.25,zmax=3.5,highz=2.2,highwid=0.4)
-    plt.plot(zcens_con,runmed_con,c='green',ls='-.',lw=3,label='Control')
+    plt.plot(zcens_con,runmed_con,c='black',ls='-.',lw=3,label='Control')
     plt.plot(zcens_evq,runmed_evq,c='red',ls='dashed',lw=3,label='EVQ')
     if i%4==3:ax1.set_xlabel('Redshift',fontsize=20)
     ax1.set_ylabel(colorlabel,fontsize=20)
@@ -310,4 +310,4 @@ for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub
         leg=plt.legend(loc='upper left',frameon=False,prop={'size':24})
         for text in leg.get_texts():
             if text.properties()['text']=='EVQ': text.set_color('r')
-plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/zcolor_plots.4.6.17.png')
+plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/zcolor_plots.5.4.17.png')
