@@ -76,7 +76,7 @@ detected[((anchor_epoch>DESstart)&(anchor_epoch<DESend)&((anchor_epoch-DESstart)
 
 outcr=np.zeros((ntrials,),dtype={'names':('baseline_RF','redshift','anchor_epoch','second_epoch','detected','firstspec','secondspec','lowepoch','CLQ_detected'),'formats':('f8','f8','f8','f8','i8','f8','f8','i8','i8')})
 outcr['baseline_RF'],outcr['redshift'],outcr['anchor_epoch'],outcr['second_epoch'],outcr['detected'],outcr['firstspec'],outcr['secondspec'],outcr['lowepoch'],outcr['CLQ_detected']=baselines_rf,randzs,0.5*(anchor_epoch+anchor_epoch2),0.5*(second_epoch+second_epoch2),detected,firstspec,secondspec,lowepoch,CLQdetected
-np.savetxt('/home/rumbaugh/mock_EVQs.buff_%i.trials_%i.5.6.17.dat'%(buff,ntrials),outcr,fmt='%f%f %f %f %i %f %f %i %i',header='baseline_RF redshift anchor_epoch second_epoch detected firstspec secondspec lowepoch CLQ_detected'))
+np.savetxt('/home/rumbaugh/mock_EVQs.buff_%i.trials_%i.5.6.17.dat'%(buff,ntrials),outcr,fmt='%f%f %f %f %i %f %f %i %i',header='baseline_RF redshift anchor_epoch second_epoch detected firstspec secondspec lowepoch CLQ_detected')
 
 detfrac_rf,detfrac_obs=np.zeros(0),np.zeros(0)
 detepoch_rf,detepoch_obs=np.zeros(0),np.zeros(0)
