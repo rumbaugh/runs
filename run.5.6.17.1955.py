@@ -39,7 +39,7 @@ observed=np.zeros(ntrials,dtype='bool')
 while np.count_nonzero(observed)!=ntrials:
     g0=np.where(observed==False)[0]
     firstspec[g0]=np.uniform(SDSSstart,54000,len(g0))
-    observed[g0][firstspec[g0]-SDSSstart)%yearlen<halfyear]=True
+    observed[g0][(firstspec[g0]-SDSSstart)%yearlen<halfyear]=True
 
 secondspec=np.zeros(ntrials)
 observed=np.zeros(ntrials,dtype='bool')
@@ -94,10 +94,10 @@ for t in np.arange(0,20000,10):
         detfrac_obs,detepoch_obs=np.append(detfrac_obs,np.count_nonzero(detected[g])*1./len(g)),np.append(detepoch_obs,t)
 outcr=np.zeros((len(detfrac_rf),),dtype={'names':('detfrac','detepoch'),'formats':('f8','f8')})
 outcr['detfrac'],outcr['detepoch']=detfrac_rf,detepoch_rf
-np.savetxt('/home/rumbaugh/DetFracRF.buff_%i.4.10.17.dat'%buff,outcr,fmt='%f %f',header='DetectionFraction Epoch')
+np.savetxt('/home/rumbaugh/DetFracRF.buff_%i.5.6.17.dat'%buff,outcr,fmt='%f %f',header='DetectionFraction Epoch')
 
 outcr=np.zeros((len(detfrac_obs),),dtype={'names':('detfrac','detepoch'),'formats':('f8','f8')})
 outcr['detfrac'],outcr['detepoch']=detfrac_obs,detepoch_obs
-np.savetxt('/home/rumbaugh/DetFracObs.buff_%i.4.10.17.dat'%buff,outcr,fmt='%f %f',header='DetectionFraction Epoch')
+np.savetxt('/home/rumbaugh/DetFracObs.buff_%i.5.6.17.dat'%buff,outcr,fmt='%f %f',header='DetectionFraction Epoch')
 
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
