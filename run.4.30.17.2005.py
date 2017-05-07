@@ -19,7 +19,7 @@ matplotlib.rcParams['axes.linewidth']=3
 matplotlib.rcParams['font.size']=14
 
 yticks_minor=np.arange(-1.25,1.75,0.5)
-xticks_minor=np.arange(-2.25,2.75,0.5)
+xticks_minor=np.arange(-1.5,2.5,1)
 
 fig=plt.figure(1)
 fig.clf()
