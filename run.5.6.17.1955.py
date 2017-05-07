@@ -22,10 +22,8 @@ cdata=hduc[1].data
 bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
 
-redshifts=np.zeros(len(crdb))
-for i in range(0,len(crdb)):
-    g=np.where(crdb['SDSSNAME'][i]==bhname)[0][0]
-    redshifts[i]=bhz[g]
+sn2z={bhname[x]:bhz[x] for x in np.arange(len(bhz))}
+redshifts=np.arange([sn2z[crdb['SDSSNAME'][x]] for x in np.arange(len(crdb))])
 
 yearlen=365.25
 halfyear=yearlen/2
