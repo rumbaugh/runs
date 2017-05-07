@@ -23,7 +23,7 @@ bhz,bhname,bhL=bhdata['REDSHIFT'],bhdata['SDSS_NAME'],bhdata['LOGLBOL']
 cz,cname,cL=cdata['REDSHIFT'],cdata['SDSS_NAME'],cdata['LOGLBOL']
 
 sn2z={bhname[x]:bhz[x] for x in np.arange(len(bhz))}
-redshifts=np.arange([sn2z[crdb['SDSSNAME'][x]] for x in np.arange(len(crdb))])
+redshifts=np.array([sn2z[crdb['SDSSNAME'][x]] for x in np.arange(len(crdb))])
 
 yearlen=365.25
 halfyear=yearlen/2
