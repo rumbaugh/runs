@@ -38,7 +38,7 @@ cnt=0
 while np.count_nonzero(observed)!=ntrials:
     g0=np.where(observed==False)[0]
     firstspec[g0]=np.random.uniform(SDSSstart,54000,len(g0))
-    observed[g0][(firstspec[g0]-SDSSstart)%yearlen<halfyear]=True
+    observed[g0[(firstspec[g0]-SDSSstart)%yearlen<halfyear]]=True
     cnt+=1
     print cnt,len(g0)
 
@@ -48,7 +48,7 @@ cnt=0
 while np.count_nonzero(observed)!=ntrials:
     g0=np.where(observed==False)[0]
     secondspec[g0]=np.random.uniform(firstspec+1000,DESend-halfyear,len(g0))
-    observed[g0][((secondspec[g0]<SDSSend)&((secondspec[g0]-SDSSstart)%yearlen<halfyear))|((secondspec[g0]>DESstart)&((secondspec[g0]-DESstart)%yearlen<halfyear))]=True
+    observed[g0[((secondspec[g0]<SDSSend)&((secondspec[g0]-SDSSstart)%yearlen<halfyear))|((secondspec[g0]>DESstart)&((secondspec[g0]-DESstart)%yearlen<halfyear))]]=True
     cnt+=1
     print cnt,len(g0)
 
