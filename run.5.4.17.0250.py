@@ -178,7 +178,7 @@ for buff,buffstring in zip(np.array(['0','100','300','600','inf']),np.array(['0'
     b2=ax2.plot(a2[1][1:],np.cumsum(a2[0])*1./(np.sum(a2[0])),lw=2,ls='dashed',color='r')
     totdetfrac=np.sum(a[0])*1./np.sum(a2[0])
     daystr=' days'
-    if b=='inf':daystr=''
+    if buff=='inf':daystr=''
     ax2.text(0.04,0.78,r'$\Delta t=%s$' '%s\nOverall Detection\nFraction: %4.3f'%(buffstring,daystr,totdetfrac),transform=ax2.transAxes,horizontalalignment='left',color='k')
     ax1.set_xlabel('Maximum Change Baseline (Restframe days)')
     ax1.set_ylabel(r'N$_{obj}$')
