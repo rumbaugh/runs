@@ -28,7 +28,7 @@ ax1=fig.add_subplot(1,1,1)
 pos1 = ax1.get_position() # get the original position 
 pos2 = [pos1.x0, pos1.y0 + 0.03,  pos1.width, pos1.height] 
 ax1.set_position(pos2)
-ax1.tick_params(which='major',length=8,width=3,labelsize=17)
+ax1.tick_params(which='major',length=9,width=3,labelsize=17)
 ax1.tick_params(which='minor',length=5,width=2,labelsize=17)
 ax1.scatter(gdrop,gidrop,color='k',edgecolor='None',s=6)
 ax1.scatter(gdrop[np.abs(gdrop)>1],gidrop[np.abs(gdrop)>1],color='r',edgecolor='None',s=6)
@@ -47,7 +47,7 @@ ax1=fig.add_subplot(1,1,1)
 pos1 = ax1.get_position() # get the original position 
 pos2 = [pos1.x0, pos1.y0 + 0.03,  pos1.width, pos1.height] 
 ax1.set_position(pos2)
-ax1.tick_params(which='major',length=8,width=3,labelsize=17)
+ax1.tick_params(which='major',length=9,width=3,labelsize=17)
 ax1.tick_params(which='minor',length=5,width=2,labelsize=17)
 ax1.scatter(gdrop,grdrop,color='k',edgecolor='None',s=6)
 ax1.scatter(gdrop[np.abs(gdrop)>1],grdrop[np.abs(gdrop)>1],color='r',edgecolor='None',s=6)
