@@ -74,7 +74,7 @@ detected[((anchor_epoch>SDSSstart)&(anchor_epoch<SDSSend)&((anchor_epoch-SDSSsta
 detected[((second_epoch>DESstart)&(second_epoch<DESend)&((second_epoch-DESstart)%yearlen>halfyear))&((second_epoch2>DESstart)&(second_epoch2<DESend)&((second_epoch2-DESstart)%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
 detected[((anchor_epoch>DESstart)&(anchor_epoch<DESend)&((anchor_epoch-DESstart)%yearlen>halfyear))&((anchor_epoch2>DESstart)&(anchor_epoch2<DESend)&((anchor_epoch2-DESstart)%yearlen>halfyear))&(buff*(1+randzs)<halfyear)]=0
 
-outcr=np.zeros((ntrials,),dtype={'names':('baseline_RF','redshift','anchor_epoch','second_epoch','detected','firstspec','secondspec','lowepoch','CLQ_detected'),'formats'=('f8','f8','f8','f8','i8','f8','f8','i8','i8')})
+outcr=np.zeros((ntrials,),dtype={'names':('baseline_RF','redshift','anchor_epoch','second_epoch','detected','firstspec','secondspec','lowepoch','CLQ_detected'),'formats':('f8','f8','f8','f8','i8','f8','f8','i8','i8')})
 outcr['baseline_RF'],outcr['redshift'],outcr['anchor_epoch'],outcr['second_epoch'],outcr['detected'],outcr['firstspec'],outcr['secondspec'],outcr['lowepoch'],outcr['CLQ_detected']=baselines_rf,randzs,0.5*(anchor_epoch+anchor_epoch2),0.5*(second_epoch+second_epoch2),detected,firstspec,secondspec,lowepoch,CLQdetected
 np.savetxt('/home/rumbaugh/mock_EVQs.buff_%i.trials_%i.5.6.17.dat'%(buff,ntrials),outcr,fmt='%f%f %f %f %i %f %f %i %i',header='baseline_RF redshift anchor_epoch second_epoch detected firstspec secondspec lowepoch CLQ_detected'))
 
