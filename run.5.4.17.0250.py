@@ -200,6 +200,9 @@ fig=plt.figure(1)
 fig.clf()
 plt.clf()
 ax1=fig.add_subplot(1,1,1)
+pos1 = ax1.get_position() # get the original position 
+pos2 = [pos1.x0, pos1.y0 + 0.03,  pos1.width, pos1.height] 
+ax1.set_position(pos2)
 plt.rc('axes',linewidth=3)
 ax1.tick_params(which='major',length=12,width=3,labelsize=17)
 ax1.tick_params(which='minor',length=6,width=2,labelsize=17)
