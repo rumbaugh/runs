@@ -218,7 +218,7 @@ major_xticks=np.arange(500,3500,500)
 minor_xticks=np.arange(250,3750,500)
 major_yticks=np.arange(0.2,1,0.2)
 minor_yticks=np.arange(0.1,1.1,0.2)
-minor_yticks=np.concatenate((0,minor_yticks,1))
+minor_yticks=np.concatenate(([0],minor_yticks,[1]))
 minor_ytick_labels=np.zeros(len(minor_yticks),dtype='|S3')
 minor_ytick_labels[0],minor_ytick_labels[0]='0','1'
 ax1.set_xticks(major_xticks)
