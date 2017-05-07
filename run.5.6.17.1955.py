@@ -36,14 +36,14 @@ firstspec=np.zeros(ntrials)
 observed=np.zeros(ntrials,dtype='bool')
 while np.count_nonzero(observed)!=ntrials:
     g0=np.where(observed==False)[0]
-    firstspec[g0]=np.uniform(SDSSstart,54000,len(g0))
+    firstspec[g0]=np.random.uniform(SDSSstart,54000,len(g0))
     observed[g0][(firstspec[g0]-SDSSstart)%yearlen<halfyear]=True
 
 secondspec=np.zeros(ntrials)
 observed=np.zeros(ntrials,dtype='bool')
 while np.count_nonzero(observed)!=ntrials:
     g0=np.where(observed==False)[0]
-    secondspec[g0]=np.uniform(firstspec+1000,DESend-halfyear,len(g0))
+    secondspec[g0]=np.random.uniform(firstspec+1000,DESend-halfyear,len(g0))
     observed[g0][((secondspec[g0]<SDSSend)&((secondspec[g0]-SDSSstart)%yearlen<halfyear))|((secondspec[g0]>DESstart)&((secondspec[g0]-DESstart)%yearlen<halfyear))]=True
 
 lowepoch=np.random.choice([0,1],ntrials,p=[0.34,0.66])
