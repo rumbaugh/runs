@@ -9,6 +9,6 @@ for buff in [100,300,600]:
         print '%4i-%4i: %.5f'%(LB,UB,np.count_nonzero(buffcrs[buff]['CLQ_detected'][g])*1./len(g))
     print 'EVQ CLQ detection fraction: %.5f'%(np.count_nonzero(buffcrs[buff]['CLQ_detected'][buffcrs[buff]['detected']>0])*1./len(buffcrs[buff]['CLQ_detected'][buffcrs[buff]['detected']>0]))
     for LB,UB in zip(np.arange(0,6000,1000),[1000,2000,3000,4000,5000,10000]):
-        g=np.where((buffcrs[buff]['CLQ_detected'][buffcrs[buff]['detected']>0])&(buffcrs[buff]['baseline_RF']>LB)&(buffcrs[buff]['baseline_RF']<UB))[0]
-        print '%4i-%4i: %.5f'%(LB,UB,np.count_nonzero(buffcrs[buff]['CLQ_detected'][buffcrs[buff]['detected']>0])*1./len(buffcrs[buff]['CLQ_detected'][buffcrs[buff]['detected']>0])*1./len(g))
+        g=np.where((buffcrs[buff]['detected']>0)&(buffcrs[buff]['baseline_RF']>LB)&(buffcrs[buff]['baseline_RF']<UB))[0]
+        print '%4i-%4i: %.5f'%(LB,UB,np.count_nonzero(buffcrs[buff]['CLQ_detected'][g]>0)*1./len(g))
 
