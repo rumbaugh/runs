@@ -47,7 +47,7 @@ for i in range(0,len(crdb)):
     #mqras,mqdecs=np.round(mqras,1),np.round(mqdecs)
     #bhras,bhdecs=np.round(bhras,1),np.round(bhdecs)
     #bhdbids[i],mqdbids[i]='%02i%02i%04.1f%+03i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs)),'%02i%02i%04.1f%+02i%03i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
-    bhdbids[i],mqdbids[i]='%02i%02i%02i%+03i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs)),'%02i%02i%02ii%+02i%03i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
+    bhdbids[i],mqdbids[i]='%02i%02i%02i%+03i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs)),'%02i%02i%02i%+02i%03i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
     try:
         dbdict[bhdbids[i]]=dbdict[bhdbids[i]]+(bhdbids[i],)
     except KeyError:
