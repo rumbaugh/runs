@@ -32,10 +32,10 @@ if doload:
 
     crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 
+crdb=crdb[(crdb['MQrownum']>-1)&(crdb['SDSSNAME']!='-1')]
 mqra,mqdec,bhra,bhdec,bhdbids,mqdbids=np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb),dtype='|S24'),np.zeros(len(crdb),dtype='|S24')
 dbdict={}
 
-crdb=crdb[(crdb['MQrownum']>-1)&(crdb['SDSSNAME']!='-1')]
 for i in range(0,len(crdb)):
     mqra[i],mqdec[i],bhra[i],bhdec[i]=mqRAdict[crdb['MQrownum'][i]],mqDECdict[crdb['MQrownum'][i]],bhRAdict[crdb['SDSSNAME'][i]],bhDECdict[crdb['SDSSNAME'][i]]
     mqrah,mqram,mqras=deg2hms(mqra[i])
@@ -44,7 +44,7 @@ for i in range(0,len(crdb)):
     bhdecd,bhdecm,bhdecs=deg2dms(bhdec[i])
     mqras,mqdecs=np.round(mqras,1),np.round(mqdecs)
     bhras,bhdecs=np.round(bhras,1),np.round(bhdecs)
-    bhdbids[i],mqdbids[i]='%02i%02i%04.1f%+02i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs)),'%02i%02i%04.1f%+02i%02i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
+    bhdbids[i],mqdbids[i]='%02i%02i%04.1f%+03i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs)),'%02i%02i%04.1f%+02i%03i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
     try:
         dbdict[bhdbids[i]]=dbdict[bhdbids[i]]+(bhdbids[i],)
     except KeyError:
