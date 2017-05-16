@@ -5,7 +5,7 @@ DB_path='/home/rumbaugh/var_database/Y3A1'
 try:
     doload
 except NameError:
-    doaload=True
+    doload=True
 if doload:
     hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
     bhdata=hdubh[1].data
@@ -35,7 +35,7 @@ if doload:
 mqra,mqdec,bhra,bhdec,bhdbids,mqdbids=np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb),dtype='|S24'),np.zeros(len(crdb),dtype='|S24')
 dbdict={}
 
-crdb=crdb[(crdb['SP_rownum']>-1)&(crdb['SDSSNAME']!='-1')]
+crdb=crdb[(crdb['MQ_rownum']>-1)&(crdb['SDSSNAME']!='-1')]
 for i in range(0,len(crdb)):
     mqra[i],mqdec[i],bhra[i],bhdec[i]=mqRAdict[crdb['MQrownum'][i]],mqDECdict[crdb['MQrownum'][i]],bhRAdict[crdb['SDSSNAME'][i]],bhDECdict[crdb['SDSSNAME'][i]]
     mqrah,mqram,mqras=deg2hms(mqra[i])
