@@ -8,7 +8,7 @@ bhdata=hdubh[1].data
 bhz,bhname=bhdata['REDSHIFT'],bhdata['SDSS_NAME']
 
 
-bhRAdict,bhDECdict={bhname[x]: bhdata['RA'][x] for x in range(len(data))},{bhname[x]: bhdata['DEC'][x] for x in range(len(bhdata))}
+bhRAdict,bhDECdict={bhname[x]: bhdata['RA'][x] for x in range(len(bhdata))},{bhname[x]: bhdata['DEC'][x] for x in range(len(bhdata))}
 
 fname='/home/rumbaugh/Downloads/milliquas.txt'
 mdict={'names':('RA','DEC','Name','Descrip','Rmag','Bmag','Comment','R','B','Z','Cite','Zcite','Qpct','Xname','Rname','Lobe1','Lobe2'),'formats':('f8','f8','|S27','|S5','f8','f8','|S4','|S2','|S2','f8','|S7','|S7','f8','|S24','|S24','|S24','|S24')}
