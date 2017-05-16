@@ -34,10 +34,10 @@ dbdict={}
 crdb=crdb[(crdb['SP_rownum']>-1)&(crdb['SDSSNAME']!='-1')]
 for i in range(0,len(crdb)):
     mqras[i],mqdecs[i],bhras[i],bhdecs[i]=mqRAdict[crdb['MQrownum'][i]],mqDECdict[crdb['MQrownum'][i]],bhRAdict[crdb['SDSSNAME'][i]],bhDECdict[crdb['SDSSNAME'][i]]
-    mqrah,mqram,mqras=deg2hms(mqras[i]))
-    mqdecd,mqdecm,mqdecs=deg2dms(mqdecs[i]))
-    bhrah,bhram,bhras=deg2hms(bhras[i]))
-    bhdecd,bhdecm,bhdecs=deg2dms(bhdecs[i]))
+    mqrah,mqram,mqras=deg2hms(mqras[i])
+    mqdecd,mqdecm,mqdecs=deg2dms(mqdecs[i])
+    bhrah,bhram,bhras=deg2hms(bhras[i])
+    bhdecd,bhdecm,bhdecs=deg2dms(bhdecs[i])
     mqras,mqdecs=np.round(mqras,1),np.round(mqdecs)
     bhras,bhdecs=np.round(bhras,1),np.round(bhdecs)
     bhdbids[i],mqdbids[i]='%02i%02i%04.1f%+02i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs)),'%02i%02i%04.1f%+02i%02i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
