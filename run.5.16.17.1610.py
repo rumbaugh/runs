@@ -6,32 +6,31 @@ try:
     doload
 except NameError:
     doaload=True
-is doload:
+if doload:
+    hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
+    bhdata=hdubh[1].data
+    bhz,bhname=bhdata['REDSHIFT'],bhdata['SDSS_NAME']
 
-hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
-bhdata=hdubh[1].data
-bhz,bhname=bhdata['REDSHIFT'],bhdata['SDSS_NAME']
 
+    bhRAdict,bhDECdict={bhname[x]: bhdata['RA'][x] for x in range(len(bhdata))},{bhname[x]: bhdata['DEC'][x] for x in range(len(bhdata))}
 
-bhRAdict,bhDECdict={bhname[x]: bhdata['RA'][x] for x in range(len(bhdata))},{bhname[x]: bhdata['DEC'][x] for x in range(len(bhdata))}
+    fname='/home/rumbaugh/Downloads/milliquas.txt'
+    mdict={'names':('RA','DEC','Name','Descrip','Rmag','Bmag','Comment','R','B','Z','Cite','Zcite','Qpct','Xname','Rname','Lobe1','Lobe2'),'formats':('f8','f8','|S27','|S5','f8','f8','|S4','|S2','|S2','f8','|S7','|S7','f8','|S24','|S24','|S24','|S24')}
+    delims=(11,12,27,5,5,5,4,2,2,7,7,7,4,23,23,23,23)
+    crmq=np.genfromtxt(fname,dtype=mdict,delimiter=delims)
 
-fname='/home/rumbaugh/Downloads/milliquas.txt'
-mdict={'names':('RA','DEC','Name','Descrip','Rmag','Bmag','Comment','R','B','Z','Cite','Zcite','Qpct','Xname','Rname','Lobe1','Lobe2'),'formats':('f8','f8','|S27','|S5','f8','f8','|S4','|S2','|S2','f8','|S7','|S7','f8','|S24','|S24','|S24','|S24')}
-delims=(11,12,27,5,5,5,4,2,2,7,7,7,4,23,23,23,23)
-crmq=np.genfromtxt(fname,dtype=mdict,delimiter=delims)
+    mqRAdict,mqDECdict={x: crmq['RA'][x] for x in range(len(crmq))},{x: crmq['DEC'][x] for x in range(len(crmq))}
 
-mqRAdict,mqDECdict={x: crmq['RA'][x] for x in range(len(crmq))},{x: crmq['DEC'][x] for x in range(len(crmq))}
+    fname='/home/rumbaugh/Downloads/milliquas.txt'
+    mdict={'names':('RA','DEC','Name','Descrip','Rmag','Bmag','Comment','R','B','Z','Cite','Zcite','Qpct','Xname','Rname','Lobe1','Lobe2'),'formats':('f8','f8','|S27','|S5','f8','f8','|S4','|S2','|S2','f8','|S7','|S7','f8','|S24','|S24','|S24','|S24')}
+    delims=(11,12,27,5,5,5,4,2,2,7,7,7,4,23,23,23,23)
+    crmq2=np.genfromtxt(fname,dtype=mdict,delimiter=delims,filling_values=-1)
 
-fname='/home/rumbaugh/Downloads/milliquas.txt'
-mdict={'names':('RA','DEC','Name','Descrip','Rmag','Bmag','Comment','R','B','Z','Cite','Zcite','Qpct','Xname','Rname','Lobe1','Lobe2'),'formats':('f8','f8','|S27','|S5','f8','f8','|S4','|S2','|S2','f8','|S7','|S7','f8','|S24','|S24','|S24','|S24')}
-delims=(11,12,27,5,5,5,4,2,2,7,7,7,4,23,23,23,23)
-crmq2=np.genfromtxt(fname,dtype=mdict,delimiter=delims,filling_values=-1)
+    #crf=np.loadtxt('/home/rumbaugh/MQ_Y1A1_MATCH_WGOLDFLAGS.tab',dtype={'names':('MQ_ROWNUM','ra','dec','CID','FLAGSG','FLAGSBR'),'formats':('i8','f8','f8','i8','i8','i8')},skiprows=1)
 
-#crf=np.loadtxt('/home/rumbaugh/MQ_Y1A1_MATCH_WGOLDFLAGS.tab',dtype={'names':('MQ_ROWNUM','ra','dec','CID','FLAGSG','FLAGSBR'),'formats':('i8','f8','f8','i8','i8','i8')},skiprows=1)
+    crsp=np.loadtxt('/home/rumbaugh/sdss-poss_release.dat',dtype={'names':('ra','dec','plateID','EpochG','EpochR','EpochI','G_POSS','G_ERR','G_GOOD','R_POSS','R_ERR','R_GOOD','I_POSS','I_ERR','I_GOOD','SDR7ID','M_i','redshift','mbh','lbol','A_u','nobs','s82flag','mjd_r_SDSS','g_SDSS','g_ERR','r_SDSS','r_ERR','i_SDSS','i_ERR'),'formats':('f8','f8','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','f8','f8','|S12','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8')})
 
-crsp=np.loadtxt('/home/rumbaugh/sdss-poss_release.dat',dtype={'names':('ra','dec','plateID','EpochG','EpochR','EpochI','G_POSS','G_ERR','G_GOOD','R_POSS','R_ERR','R_GOOD','I_POSS','I_ERR','I_GOOD','SDR7ID','M_i','redshift','mbh','lbol','A_u','nobs','s82flag','mjd_r_SDSS','g_SDSS','g_ERR','r_SDSS','r_ERR','i_SDSS','i_ERR'),'formats':('f8','f8','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','f8','f8','|S12','|S12','|S12','|S12','|S12','f8','f8','f8','f8','f8','f8','f8')})
-
-crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
+    crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 
 mqra,mqdec,bhra,bhdec,bhdbids,mqdbids=np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb),dtype='|S24'),np.zeros(len(crdb),dtype='|S24')
 dbdict={}
