@@ -2,6 +2,11 @@ import numpy as np
 import pyfits as py
 execfile('/home/rumbaugh/pythonscripts/angconvert.py')
 DB_path='/home/rumbaugh/var_database/Y3A1'
+try:
+    doload
+except NameError:
+    doaload=True
+is doload:
 
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 bhdata=hdubh[1].data
@@ -28,16 +33,16 @@ crsp=np.loadtxt('/home/rumbaugh/sdss-poss_release.dat',dtype={'names':('ra','dec
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 
-mqras,mqdecs,bhras,bhdecs,bhdbids,mqdbids=np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb),dtype='|S24'),np.zeros(len(crdb),dtype='|S24')
+mqra,mqdec,bhra,bhdec,bhdbids,mqdbids=np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb)),np.zeros(len(crdb),dtype='|S24'),np.zeros(len(crdb),dtype='|S24')
 dbdict={}
 
 crdb=crdb[(crdb['SP_rownum']>-1)&(crdb['SDSSNAME']!='-1')]
 for i in range(0,len(crdb)):
-    mqras[i],mqdecs[i],bhras[i],bhdecs[i]=mqRAdict[crdb['MQrownum'][i]],mqDECdict[crdb['MQrownum'][i]],bhRAdict[crdb['SDSSNAME'][i]],bhDECdict[crdb['SDSSNAME'][i]]
-    mqrah,mqram,mqras=deg2hms(mqras[i])
-    mqdecd,mqdecm,mqdecs=deg2dms(mqdecs[i])
-    bhrah,bhram,bhras=deg2hms(bhras[i])
-    bhdecd,bhdecm,bhdecs=deg2dms(bhdecs[i])
+    mqra[i],mqdec[i],bhra[i],bhdec[i]=mqRAdict[crdb['MQrownum'][i]],mqDECdict[crdb['MQrownum'][i]],bhRAdict[crdb['SDSSNAME'][i]],bhDECdict[crdb['SDSSNAME'][i]]
+    mqrah,mqram,mqras=deg2hms(mqra[i])
+    mqdecd,mqdecm,mqdecs=deg2dms(mqdec[i])
+    bhrah,bhram,bhras=deg2hms(bhra[i])
+    bhdecd,bhdecm,bhdecs=deg2dms(bhdec[i])
     mqras,mqdecs=np.round(mqras,1),np.round(mqdecs)
     bhras,bhdecs=np.round(bhras,1),np.round(bhdecs)
     bhdbids[i],mqdbids[i]='%02i%02i%04.1f%+02i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs)),'%02i%02i%04.1f%+02i%02i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
