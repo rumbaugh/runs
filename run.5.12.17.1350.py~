@@ -1,0 +1,6 @@
+import numpy as np
+import pyfits as py
+hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
+bhdata=hdubh[1].data
+
+outcr=np.zeros((len(bhdata),),dtype={'names':('SDSSNAME','RA','DEC'),'formats':('|S36','f8','f8')})
