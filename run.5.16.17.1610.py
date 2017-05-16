@@ -52,7 +52,7 @@ for i in range(0,len(crdb)):
 gdiff=np.where(bhdbids!=mqdbids)[0]
 print 'Mismatches:'
 for i in range(0,len(gdiff)):
-    print '%s: %s, %s'%(crdb['DBIDS'][gdiff[i]],mqdbids[gdiff[i]],bhdbids[gdiff[i]]))
+    print '%s: %s, %s'%(crdb['DBIDS'][gdiff[i]],mqdbids[gdiff[i]],bhdbids[gdiff[i]])
 
 print 'Collisions:'
 undbids,counts=np.unique(np.append(bhdbids,mqdbids),return_counts=True)
