@@ -27,7 +27,8 @@ for i in range(0,len(cr_peaks)):
     SF_arr=data[int(np.round(ycen0))-wid:int(np.round(ycen0))+wid+1,int(np.round(xcen0))-wid:int(np.round(xcen0))+wid+1]
     #SF_arr=np.loadtxt('%s/%s/proc/%s/%s.SFarr_%s_soft.wid_%i.R_%i.dat'%(CPath,field,field,field,clus,wid,smR))
     P3,P4=PowerRatio(SF_arr,3,R_Mpc,xcen,ycen),PowerRatio(SF_arr,4,R_Mpc,xcen,ycen)
-    P3LB,P3UB,P4LB,P4UB=PowerRatioError(SF_arr,[3,4],R_Mpc,smR,ntrials=100)
+    P3LB,P3UB=PowerRatioError(SF_arr,[3],R_Mpc,smR,ntrials=100)
+    P4LB,P4UB=PowerRatioError(SF_arr,[4],R_Mpc,smR,ntrials=100)
     print field,clus,P3LB,P3UB,P4LB,P4UB
     outcr['P3'][i],outcr['P4'][i]=P3,P4
     outcr['P3err'][i],outcr['P4err'][i]=P3LB,P4UB
