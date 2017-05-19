@@ -172,11 +172,12 @@ lsarr=['solid','dashed','dotted']
 for coeff,c,cls in zip([0.1,0.4,2],carr,lsarr):
     dumy=coeff*1./dumx
     plt.plot(dumx,dumy,label='%.1f'%coeff,color=c,lw=2,ls=cls)
+    plt.plot(dumx,-dumy,color=c,lw=2,ls=cls)
 #for xval in [0.5,1,1.5]:
 #    plt.axvline(xval,color='b',lw=2,ls='--')
-plt.ylim(-10,10)
-plt.xlim(-0,10)
-plt.legend()
+plt.ylim(-5,5)
+plt.xlim(0,5)
+plt.legend(frameon=False)
 plt.savefig('/home/rumbaugh/Chandra/plots/phase_space_diagram.%s.png'%(date))
 
 plt.figure(2)
