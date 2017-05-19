@@ -2,7 +2,9 @@ import numpy as np
 import pyfits as py
 import os
 execfile('/home/rumbaugh/pythonscripts/angconvert.py')
+execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 DB_path='/home/rumbaugh/var_database/Y3A1'
+os.chdir(DB_path)
 DBdir='/home/rumbaugh/var_database/Y3A1'
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
@@ -69,12 +71,12 @@ if doload:
     crmim=crmi[gcrmi_match]
     mihdu=make_hdu(crmi)
 
-mastercr=np.zeros((len(crmim),),dtype={'names':('DatabaseID','Survey','Y3A1_CoaddObjectsID','DR13_thingid','sdr7id','SDSSNAME','MaxBaseline','Redshift','Stripe82','RA_DES','Dec_DES','RA_SDSS','Dec_SDSS','RA_POSS','Dec_POSS','Epochs_DES_g','Epochs_DES_r','Epochs_DES_i','Epochs_DES_z','Epochs_DES_Y','Epochs_SDSS_g','Epochs_SDSS_r','Epochs_SDSS_i','Epochs_SDSS_z','Epochs_SDSS_u','med_DES_g','med_DES_r','med_DES_i','med_DES_z','med_DES_Y','med_SDSS_g','med_SDSS_r','med_SDSS_i','med_SDSS_z','med_SDSS_u','med_POSS_g','med_POSS_r','med_POSS_i','MQ_Descrip','MQ_QPct','Y3A1Flag','Y3A1TILE'),'formats':('|S40','|S20','i8','i8','|S20','|S40','i8','f8','i8','f8','f8','f8','f8','f8','f8','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S6','f8','<i4','|S40')})
-
+mastercr=np.zeros((len(crmim),),dtype={'names':('DatabaseID','Survey','Y3A1_CoaddObjectsID','DR13_thingid','sdr7id','SDSSNAME','MQ_ROWNUM','SP_ROWNUM','MaxBaseline','Redshift','Stripe82','RA_DES','Dec_DES','RA_SDSS','Dec_SDSS','RA_POSS','Dec_POSS','Epochs_DES_g','Epochs_DES_r','Epochs_DES_i','Epochs_DES_z','Epochs_DES_Y','Epochs_SDSS_g','Epochs_SDSS_r','Epochs_SDSS_i','Epochs_SDSS_z','Epochs_SDSS_u','med_DES_g','med_DES_r','med_DES_i','med_DES_z','med_DES_Y','med_SDSS_g','med_SDSS_r','med_SDSS_i','med_SDSS_z','med_SDSS_u','med_POSS_g','med_POSS_r','med_POSS_i','MQ_Descrip','MQ_QPct','Y3A1TILE','OldDatabaseID'),'formats':('|S40','|S20','i8','i8','|S20','|S40','i8','f8','i8','f8','f8','f8','f8','f8','f8','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S6','f8','|S40','|S40')})
+mastercr['sdr7id'],mastercr['SDSSNAME'],mastercr['MQ_ROWNUM'],mastercr['SP_ROWNUM']=-1,'-1',-1,-1
 
 #dbi_out=np.zeros((0,7),dtype='object')
 maxdists=np.zeros(len(crmim))
-for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim))):
+for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim)),crmim['TILENAME']):
     inSN=False
     outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','SPREAD','SPREADERR'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','f8','f8')})
     Y3A1outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','SPREAD','SPREADERR'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','f8','f8')})
@@ -91,6 +93,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
         except KeyError:
             MQRA,MQDEC=0,0
     if SDSSNAME!='-1':
+        gbh=gbh_dict[SDSSNAME]
         try:
             BHRA,BHDEC=bhRAdict[BHrn],bhDECdict[BHrn]
             bhrah,bhram,bhras=deg2hms(BHRA[i])
@@ -105,10 +108,11 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
             SPRA,SPDEC=spRAdict[curdr7],spDECdict[curdr7]
             sprah,spram,spras=deg2hms(SPRA[i])
             spdecd,spdecm,spdecs=deg2dms(SPDEC[i])
-            DBID='%02i%02i%02i%+03i%02i%02i'%(sprah,spram,spras,spdecd,spdecm,int(spdecs))
+            if DBID==None:DBID='%02i%02i%02i%+03i%02i%02i'%(sprah,spram,spras,spdecd,spdecm,int(spdecs))
             if oldDBID==None:oldDBID='SDSSPOSS%i'%SPrn
         except KeyError:
             SPRA,SPDEC=0,0
+    os.system('ln -sf %s %s'%(DBID,oldDBID))
     cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     if np.shape(cr)==():
         mjd,mag,magerr,bands,survey=np.array([cr['MJD']]),np.array([cr['MAG']]),np.array([cr['MAGERR']]),np.array([cr['BAND']]),np.array([cr['Survey']])
@@ -188,3 +192,44 @@ for cid,MQrn,SPrn,SDSSNAME,imi in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM
     if desind<99:
         thdulist[desind].header['COADD_OBJECT_ID']=cid
     thdulist.writeto('%s/%s/LC.fits'%(outputdir,DBID))
+    for surv in np.unique(outcr['Survey']):
+        mastercr['RA_%s'%surv][imi]=np.median(outcr['RA'][outcr['Survey']==surv])
+        mastercr['DEC_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
+        tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['DEC_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
+        if np.sort(tdists)[0]>1:
+            if mastercr['RA_%s'%surv][imi]>180: 
+                mastercr['RA_%s'%surv][imi]-=180
+            else:
+                mastercr['RA_%s'%surv][imi]+=180
+            tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['DEC_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
+            if np.sort(tdists)[0]>1: print 'median coords for %s,%s still messed up'%(DBID,surv)
+        if mastercr['Survey'][imi]=='':
+            mastercr['Survey'][imi]=surv
+        else:
+            mastercr['Survey'][imi]='%s,%s'%(mastercr['Survey'][imi],surv)
+    if MQrn>-1:
+        mastercr['Redshift'][imi]=bhz[MQrn]
+        mastercr['MQ_Descrip'][imi], mastercr['MQ_QP'][imi]=crmq['Descrip'][MQrn].replace(' ',''),crmq['Qpct'][MQrn]
+    if SPrn!=-1:
+        mastercr['Redshift'][imi]=crsp['redshift'][SPrn]
+    if SDSSNAME!='-1':
+        master['Redshift'][imi]=bhz[gbh]
+    mastercr['MaxBaseline'][imi]=np.max(outcr['MJD'])-np.min(outcr['MJD'])
+    for b in np.unique(outcr['BAND'][outcr['Survey']=='DES']):
+        mastercr['numDES_%s'%b][imi]=len(outcr[(outcr['Survey']=='DES')&(outcr['BAND']==b)])
+        mastercr['medDES_%s'%b][imi]=np.median(outcr[(outcr['Survey']=='DES')&(outcr['BAND']==b)&(outcr['OUTLIER']<1)])
+    for b in np.unique(outcr['BAND'][outcr['Survey']=='SDSS']):
+        mastercr['numSDSS_%s'%b][imi]=len(outcr[(outcr['Survey']=='SDSS')&(outcr['BAND']==b)])
+        mastercr['medSDSS_%s'%b][imi]=np.median(outcr[(outcr['Survey']=='SDSS')&(outcr['BAND']==b)&(outcr['OUTLIER']<1)])
+    if 'SDSS' in outcr['Survey']:
+        mastercr['DR13_thingid'][imi]=np.max(outcr['SurveyCoaddID'][outcr['Survey']=='SDSS'])
+    if 'POSS' in outcr['Survey']:mastercr['sdr7id'][imi]=crsp['SDR7ID'][SPrn]
+    mastercr['DatabaseID'][imi],mastercr['OldDatabaseID'][imi],mastercr['Y3A1_CoaddObjectsID'][imi],mastercr['SDSSNAME'][imi],mastercr['MQ_ROWNUM'][imi],mastercr['SP_ROWNUM'][imi],mastercr['Y3A1TILE'][imi]=DBID,oldDBID,cid,SDSSNAME,MQrn,SPrn,TILENAME
+    if 'S82' in outcr['TAG']: mastercr['S82'][imi]=1
+
+masterhdu=make_hdu(mastercr)
+
+prihdu = py.PrimaryHDU()
+hdulistarr=[prihdu,masterhdu,mihdu]
+thdulist = py.HDUList(hdulistarr)
+thdulist.writeto('%s/masterfile.fits'%(outputdir))
