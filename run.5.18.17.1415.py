@@ -207,7 +207,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
             mastercr['Survey'][imi]='%s,%s'%(mastercr['Survey'][imi],surv)
     if MQrn>-1:
         mastercr['Redshift'][imi]=crmq['Z'][MQrn]
-        mastercr['MQ_Descrip'][imi], mastercr['MQ_QP'][imi]=crmq['Descrip'][MQrn].replace(' ',''),crmq['Qpct'][MQrn]
+        mastercr['MQ_Descrip'][imi], mastercr['MQ_QPct'][imi]=crmq['Descrip'][MQrn].replace(' ',''),crmq['Qpct'][MQrn]
     if SPrn!=-1:
         mastercr['Redshift'][imi]=crsp['redshift'][SPrn]
     if SDSSNAME!='-1':
