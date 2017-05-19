@@ -4,8 +4,7 @@ import os
 execfile('/home/rumbaugh/pythonscripts/angconvert.py')
 execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 DB_path='/home/rumbaugh/var_database/Y3A1'
-os.chdir(DB_path)
-DBdir='/home/rumbaugh/var_database/Y3A1'
+os.chdir(DB_path) 
 coldict={'g': 'green','r': 'red', 'i': 'magenta', 'z': 'blue', 'Y': 'cyan'}
 SDSSbands=np.array(['u','g','r','i','z'])
 POSSbands=np.array(['g','r','i'])
@@ -112,7 +111,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         except KeyError:
             SPRA,SPDEC=0,0
     os.system('ln -sf %s %s'%(DBID,oldDBID))
-    cr=np.loadtxt('%s/%s/LC.tab'%(outputdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
+    cr=np.loadtxt('%s/%s/LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
     if np.shape(cr)==():
         mjd,mag,magerr,bands,survey=np.array([cr['MJD']]),np.array([cr['MAG']]),np.array([cr['MAGERR']]),np.array([cr['BAND']]),np.array([cr['Survey']])
         outcr=np.zeros((1,),dtype={'names':('Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','OUTLIER'),'formats':('|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','i8')})
@@ -123,16 +122,16 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
     outcr['TAG'][outcr['SurveyObjectID']==0]='SN'
     try:
-        crout=np.loadtxt('%s/%s/outliers.tab'%(DBdir,DBID),dtype='i8')
+        crout=np.loadtxt('%s/%s/outliers.tab'%(DB_path,DBID),dtype='i8')
         outcr['OUTLIER']=crout
         outcr['OUTLIER'][(crout==0)&(outcr['BAND']=='g')]=-1
     except IOError:
         crout=np.zeros(len(cr))
     try:
-        crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S24','f8','f8','f8','|S4','f8','f8','i8')})
+        crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S24','f8','f8','f8','|S4','f8','f8','i8')})
         outcrmac['Survey'],outcrmac['SurveyCoaddID'],outcrmac['SurveyObjectID'],outcrmac['RA'],outcrmac['DEC'],outcrmac['MJD'],outcrmac['TAG'],outcrmac['BAND'],outcrmac['MAGTYPE'],outcrmac['MAG'],outcrmac['MAGERR'],outcrmac['FLAG']=crmac['Survey'],crmac['SurveyCoaddID'],crmac['SurveyObjectID'],crmac['RA'],crmac['DEC'],crmac['MJD'],crmac['TAG'],crmac['BAND'],crmac['MAGTYPE'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
         try:
-            croutmac=np.loadtxt('%s/%s/outliers_Macleod.tab'%(DBdir,DBID),dtype='i8')
+            croutmac=np.loadtxt('%s/%s/outliers_Macleod.tab'%(DB_path,DBID),dtype='i8')
             outcrmac['OUTLIER']=croutmac
         except IOError:
             croutmac=np.zeros(0)
@@ -190,7 +189,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     thdulist = py.HDUList(hdulistarr)
     if desind<99:
         thdulist[desind].header['COADD_OBJECT_ID']=cid
-    thdulist.writeto('%s/%s/LC.fits'%(outputdir,DBID))
+    thdulist.writeto('%s/%s/LC.fits'%(DB_path,DBID))
     for surv in np.unique(outcr['Survey']):
         mastercr['RA_%s'%surv][imi]=np.median(outcr['RA'][outcr['Survey']==surv])
         mastercr['DEC_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
@@ -231,4 +230,4 @@ masterhdu=make_hdu(mastercr)
 prihdu = py.PrimaryHDU()
 hdulistarr=[prihdu,masterhdu,mihdu]
 thdulist = py.HDUList(hdulistarr)
-thdulist.writeto('%s/masterfile.fits'%(outputdir))
+thdulist.writeto('%s/masterfile.fits'%(DB_path))
