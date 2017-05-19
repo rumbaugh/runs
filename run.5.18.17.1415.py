@@ -119,7 +119,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         outcr=np.zeros((len(cr),),dtype={'names':('Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','OUTLIER'),'formats':('|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','i8')})
         outcr['Survey'],outcr['SurveyCoaddID'],outcr['SurveyObjectID'],outcr['RA'],outcr['DEC'],outcr['MJD'],outcr['TAG'],outcr['BAND'],outcr['MAGTYPE'],outcr['MAG'],outcr['MAGERR'],outcr['FLAG']=cr['Survey'],cr['SurveyCoaddID'],cr['SurveyObjectID'],cr['RA'],cr['DEC'],cr['MJD'],cr['TAG'],cr['BAND'],cr['MAGTYPE'],cr['MAG'],cr['MAGERR'],cr['FLAG']
         mjd,mag,magerr,bands,survey=cr['MJD'],cr['MAG'],cr['MAGERR'],cr['BAND'],cr['Survey']
-    outcr['TAG'][outcr['SurveyObjectID']==0]='SN'
+    if len(outcr)>0: outcr['TAG'][outcr['SurveyObjectID']==0]='SN'
     try:
         crout=np.loadtxt('%s/%s/outliers.tab'%(DB_path,DBID),dtype='i8')
         if len(crout)==2*len(outcr): crout=crout[len(outcr):]
