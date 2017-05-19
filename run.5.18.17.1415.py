@@ -155,7 +155,8 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
             else:
                 gmac2=np.arange(len(gbmac))
             crappmac=np.zeros((len(gmac2),),dtype={'names':('Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','OUTLIER'),'formats':('|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','i8')})
-            crappmac['Survey'],crappmac['SurveyCoaddID'],crappmac['RA'],crappmac['DEC'],crappmac['MJD'],crappmac['TAG'],crappmac['BAND'],crappmac['MAGTYPE'],crappmac['MAG'],crappmac['MAGERR'],crappmac['OUTLIER']='SDSS',crmac['DatabaseID'][gbmac[gmac2]],crmac['RA'][gbmac[gmac2]],crmac['DEC'][gbmac[gmac2]],crmac['MJD'][gbmac[gmac2]],'MACLEOD',b,'PSF',crmac['MAG'][gbmac[gmac2]],crmac['MAGERR'][gbmac[gmac2]],croutmac[gbmac[gmac2]]
+            crappmac['Survey'],crappmac['SurveyCoaddID'],crappmac['RA'],crappmac['DEC'],crappmac['MJD'],crappmac['TAG'],crappmac['BAND'],crappmac['MAGTYPE'],crappmac['MAG'],crappmac['MAGERR']='SDSS',crmac['DatabaseID'][gbmac[gmac2]],crmac['RA'][gbmac[gmac2]],crmac['DEC'][gbmac[gmac2]],crmac['MJD'][gbmac[gmac2]],'MACLEOD',b,'PSF',crmac['MAG'][gbmac[gmac2]],crmac['MAGERR'][gbmac[gmac2]]
+            if len(crappmac)==len(croutmac): crappmac['OUTLIER']=croutmac[gbmac[gmac2]]
             appmac_dict[b]=crappmac
         crappmac=np.concatenate((appmac_dict['u'],appmac_dict['g'],appmac_dict['r'],appmac_dict['i'],appmac_dict['z']))
         crappmac['OUTLIER'][(crappmac['OUTLIER']==0)&(crappmac['BAND']=='g')]=-1
