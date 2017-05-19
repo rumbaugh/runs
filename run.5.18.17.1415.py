@@ -177,7 +177,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     curind=2
     if mac:
         machdu=make_hdu(outcrmac)
-        hdulistarr+=[outcrmac]
+        hdulistarr+=[machdu]
         macind=curind
         curind+=1
     if len(crdes)>0:
