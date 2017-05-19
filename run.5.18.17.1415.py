@@ -215,10 +215,12 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     mastercr['MaxBaseline'][imi]=np.max(outcr['MJD'])-np.min(outcr['MJD'])
     for b in np.unique(outcr['BAND'][outcr['Survey']=='DES']):
         mastercr['Epochs_DES_%s'%b][imi]=len(outcr[(outcr['Survey']=='DES')&(outcr['BAND']==b)])
-        mastercr['medDES_%s'%b][imi]=np.median(outcr[(outcr['Survey']=='DES')&(outcr['BAND']==b)&(outcr['OUTLIER']<1)])
+        mastercr['med_DES_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='DES')&(outcr['BAND']==b)&(outcr['OUTLIER']<1)])
     for b in np.unique(outcr['BAND'][outcr['Survey']=='SDSS']):
         mastercr['Epochs_SDSS_%s'%b][imi]=len(outcr[(outcr['Survey']=='SDSS')&(outcr['BAND']==b)])
-        mastercr['medSDSS_%s'%b][imi]=np.median(outcr[(outcr['Survey']=='SDSS')&(outcr['BAND']==b)&(outcr['OUTLIER']<1)])
+        mastercr['med_SDSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='SDSS')&(outcr['BAND']==b)&(outcr['OUTLIER']<1)])
+    for b in np.unique(outcr['BAND'][outcr['Survey']=='POSS']):
+        mastercr['med_POSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='POSS')&(outcr['BAND']==b)])
     if 'SDSS' in outcr['Survey']:
         mastercr['DR13_thingid'][imi]=np.max(outcr['SurveyCoaddID'][outcr['Survey']=='SDSS'])
     if 'POSS' in outcr['Survey']:mastercr['sdr7id'][imi]=crsp['SDR7ID'][SPrn]
