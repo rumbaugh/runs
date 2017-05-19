@@ -122,9 +122,9 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     if len(outcr)>0: outcr['TAG'][outcr['SurveyObjectID']==0]='SN'
     try:
         crout=np.loadtxt('%s/%s/outliers.tab'%(DB_path,DBID),dtype='i8')
-        if len(crout)==2*len(outcr): crout=crout[len(outcr):]
-        outcr['OUTLIER']=crout
-        outcr['OUTLIER'][(crout==0)&(outcr['BAND']=='g')]=-1
+        if len(crout)==len(outcr):
+            outcr['OUTLIER']=crout
+            outcr['OUTLIER'][(crout==0)&(outcr['BAND']=='g')]=-1
     except IOError:
         crout=np.zeros(len(cr))
     try:
@@ -204,7 +204,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         if mastercr['Survey'][imi]=='':
             mastercr['Survey'][imi]=surv
         else:
-            mastercr['Survey'][imi]='%s,%s'%(mastercr['Survey'][imi],surv)
+            mastercr['Survey'][imi]='%s;%s'%(mastercr['Survey'][imi],surv)
     if MQrn>-1:
         mastercr['Redshift'][imi]=crmq['Z'][MQrn]
         mastercr['MQ_Descrip'][imi], mastercr['MQ_QPct'][imi]=crmq['Descrip'][MQrn].replace(' ',''),crmq['Qpct'][MQrn]
