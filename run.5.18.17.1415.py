@@ -85,8 +85,8 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     if MQrn!=-1:
         try:
             MQRA,MQDEC=mqRAdict[MQrn],mqDECdict[MQrn]
-            mqrah,mqram,mqras=deg2hms(MQRA[i])
-            mqdecd,mqdecm,mqdecs=deg2dms(MQDEC[i])
+            mqrah,mqram,mqras=deg2hms(MQRA)
+            mqdecd,mqdecm,mqdecs=deg2dms(MQDEC)
             DBID='%02i%02i%02i%+03i%02i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
             if oldDBID==None:oldDBID='MQ%i'%MQrn
         except KeyError:
@@ -95,8 +95,8 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         gbh=gbh_dict[SDSSNAME]
         try:
             BHRA,BHDEC=bhRAdict[BHrn],bhDECdict[BHrn]
-            bhrah,bhram,bhras=deg2hms(BHRA[i])
-            bhdecd,bhdecm,bhdecs=deg2dms(BHDEC[i])
+            bhrah,bhram,bhras=deg2hms(BHRA)
+            bhdecd,bhdecm,bhdecs=deg2dms(BHDEC)
             DBID='%02i%02i%02i%+03i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs))
             if oldDBID==None:oldDBID='BH%i'%BHrn
         except KeyError:
@@ -105,8 +105,8 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         curdr7=crsp['SDR7ID'][SPrn]
         try:
             SPRA,SPDEC=spRAdict[curdr7],spDECdict[curdr7]
-            sprah,spram,spras=deg2hms(SPRA[i])
-            spdecd,spdecm,spdecs=deg2dms(SPDEC[i])
+            sprah,spram,spras=deg2hms(SPRA)
+            spdecd,spdecm,spdecs=deg2dms(SPDEC)
             if DBID==None:DBID='%02i%02i%02i%+03i%02i%02i'%(sprah,spram,spras,spdecd,spdecm,int(spdecs))
             if oldDBID==None:oldDBID='SDSSPOSS%i'%SPrn
         except KeyError:
