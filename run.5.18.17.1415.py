@@ -210,7 +210,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     if SPrn!=-1:
         mastercr['Redshift'][imi]=crsp['redshift'][SPrn]
     if SDSSNAME!='-1':
-        master['Redshift'][imi]=bhz[gbh]
+        mastercr['Redshift'][imi]=bhz[gbh]
     mastercr['MaxBaseline'][imi]=np.max(outcr['MJD'])-np.min(outcr['MJD'])
     for b in np.unique(outcr['BAND'][outcr['Survey']=='DES']):
         mastercr['Epochs_DES_%s'%b][imi]=len(outcr[(outcr['Survey']=='DES')&(outcr['BAND']==b)])
