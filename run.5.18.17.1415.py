@@ -137,9 +137,9 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         try:
             croutmac=np.loadtxt('%s/%s/outliers_Macleod.tab'%(DB_path,DBID),dtype='i8')
             outcrmac['OUTLIER']=croutmac
+            outcrmac['OUTLIER'][(croutmac==0)&(outcrmac['BAND']=='g')]=-1
         except IOError:
             croutmac=np.zeros(0)
-            outcrmac['OUTLIER'][(croutmac==0)&(outcrmac['BAND']=='g')]=-1
         appmac_dict={}
         mac=True
         for b in ['g','r','i','z','u']:
