@@ -122,6 +122,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     outcr['TAG'][outcr['SurveyObjectID']==0]='SN'
     try:
         crout=np.loadtxt('%s/%s/outliers.tab'%(DB_path,DBID),dtype='i8')
+        if len(crout)==2*len(outcr): crout=crout[len(outcr):]
         outcr['OUTLIER']=crout
         outcr['OUTLIER'][(crout==0)&(outcr['BAND']=='g')]=-1
     except IOError:
