@@ -189,7 +189,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     thdulist = py.HDUList(hdulistarr)
     if desind<99:
         thdulist[desind].header['COADD_OBJECT_ID']=cid
-    thdulist.writeto('%s/%s/LC.fits'%(DB_path,DBID))
+    thdulist.writeto('%s/%s/LC.fits'%(DB_path,DBID),clobber=True)
     for surv in np.unique(outcr['Survey']):
         mastercr['RA_%s'%surv][imi]=np.median(outcr['RA'][outcr['Survey']==surv])
         mastercr['Dec_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
@@ -230,4 +230,4 @@ masterhdu=make_hdu(mastercr)
 prihdu = py.PrimaryHDU()
 hdulistarr=[prihdu,masterhdu,mihdu]
 thdulist = py.HDUList(hdulistarr)
-thdulist.writeto('%s/masterfile.fits'%(DB_path))
+thdulist.writeto('%s/masterfile.fits'%(DB_path),clobber=True)
