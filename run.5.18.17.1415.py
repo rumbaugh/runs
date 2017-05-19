@@ -129,7 +129,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     try:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S24','f8','f8','f8','|S4','f8','f8','i8')})
         outcrmac=np.zeros((len(crmac),),dtype={'names':('Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','OUTLIER'),'formats':('|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','i8')})
-        outcrmac['Survey'],outcrmac['SurveyCoaddID'],outcrmac['SurveyObjectID'],outcrmac['RA'],outcrmac['DEC'],outcrmac['MJD'],outcrmac['TAG'],outcrmac['BAND'],outcrmac['MAGTYPE'],outcrmac['MAG'],outcrmac['MAGERR'],outcrmac['FLAG']=crmac['Survey'],crmac['SurveyCoaddID'],crmac['SurveyObjectID'],crmac['RA'],crmac['DEC'],crmac['MJD'],crmac['TAG'],crmac['BAND'],crmac['MAGTYPE'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
+        outcrmac['Survey'],outcrmac['SurveyCoaddID'],outcrmac['RA'],outcrmac['DEC'],outcrmac['MJD'],outcrmac['TAG'],outcrmac['BAND'],outcrmac['MAGTYPE'],outcrmac['MAG'],outcrmac['MAGERR'],outcrmac['FLAG']='SDSS',crmac['DatabaseID'],crmac['RA'],crmac['DEC'],crmac['MJD'],'MACLEOD',crmac['BAND'],'PSF',crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
         try:
             croutmac=np.loadtxt('%s/%s/outliers_Macleod.tab'%(DB_path,DBID),dtype='i8')
             outcrmac['OUTLIER']=croutmac
