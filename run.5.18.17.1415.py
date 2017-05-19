@@ -92,11 +92,11 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     if SDSSNAME!='-1':
         gbh=gbh_dict[SDSSNAME]
         try:
-            BHRA,BHDEC=bhRAdict[BHrn],bhDECdict[BHrn]
+            BHRA,BHDEC=bhRAdict[SDSSNAME],bhDECdict[SDSSNAME]
             bhrah,bhram,bhras=deg2hms(BHRA)
             bhdecd,bhdecm,bhdecs=deg2dms(BHDEC)
             DBID='%02i%02i%02i%+03i%02i%02i'%(bhrah,bhram,bhras,bhdecd,bhdecm,int(bhdecs))
-            if oldDBID==None:oldDBID='BH%i'%BHrn
+            if oldDBID==None:oldDBID='DR7BH%s'%SDSSNAME
         except KeyError:
             BHRA,BHDEC=0,0
     if SPrn!=-1:
