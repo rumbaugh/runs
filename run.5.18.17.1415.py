@@ -192,7 +192,10 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     thdulist = py.HDUList(hdulistarr)
     if desind<99:
         thdulist[desind].header['COADD_OBJECT_ID']=cid
-    thdulist.writeto('%s/%s/LC.fits'%(DB_path,DBID),clobber=True)
+    try:
+        thdulist.writeto('%s/%s/LC.fits'%(DB_path,DBID),clobber=True)
+    except IOError:
+        print 'IOError for %s,%s'%(DBID,oldDBID)
     for surv in np.unique(outcr['Survey']):
         mastercr['RA_%s'%surv][imi]=np.median(outcr['RA'][outcr['Survey']==surv])
         mastercr['Dec_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
