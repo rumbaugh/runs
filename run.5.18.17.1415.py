@@ -192,14 +192,14 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     thdulist.writeto('%s/%s/LC.fits'%(DB_path,DBID))
     for surv in np.unique(outcr['Survey']):
         mastercr['RA_%s'%surv][imi]=np.median(outcr['RA'][outcr['Survey']==surv])
-        mastercr['DEC_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
-        tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['DEC_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
+        mastercr['Dec_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
+        tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['Dec_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
         if np.sort(tdists)[0]>1:
             if mastercr['RA_%s'%surv][imi]>180: 
                 mastercr['RA_%s'%surv][imi]-=180
             else:
                 mastercr['RA_%s'%surv][imi]+=180
-            tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['DEC_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
+            tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['Dec_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
             if np.sort(tdists)[0]>1: print 'median coords for %s,%s still messed up'%(DBID,surv)
         if mastercr['Survey'][imi]=='':
             mastercr['Survey'][imi]=surv
