@@ -221,7 +221,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     for b in np.unique(outcr['BAND'][outcr['Survey']=='POSS']):
         mastercr['med_POSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='POSS')&(outcr['BAND']==b)])
     if 'SDSS' in outcr['Survey']:
-        mastercr['DR13_thingid'][imi]=np.max(np.array(outcr['SurveyCoaddID'][(outcr['Survey']=='SDSS')&(outcr['TAG']!='MACLEOD')],dtype='i8'))
+        mastercr['DR13_thingid'][imi]=np.max(np.array(outcr['SurveyCoaddID'][(outcr['Survey']=='SDSS')&(outcr['SurveyObjectID']>0)&(outcr['TAG']!='MACLEOD')],dtype='i8'))
     if 'POSS' in outcr['Survey']:mastercr['sdr7id'][imi]=crsp['SDR7ID'][SPrn]
     mastercr['DatabaseID'][imi],mastercr['OldDatabaseID'][imi],mastercr['Y3A1_CoaddObjectsID'][imi],mastercr['SDSSNAME'][imi],mastercr['MQ_ROWNUM'][imi],mastercr['SP_ROWNUM'][imi],mastercr['Y3A1TILE'][imi]=DBID,oldDBID,cid,SDSSNAME,MQrn,SPrn,TILENAME
     if 'S82' in outcr['TAG']: mastercr['S82'][imi]=1
