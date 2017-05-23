@@ -1,0 +1,4 @@
+import numpy as np
+import pyfits as py
+
+data=py.open('/home/rumbaugh/var_database/Y3A1/old_masterfile.fits')

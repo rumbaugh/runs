@@ -34,4 +34,4 @@ for i in range(0,len(cr_peaks)):
     outcr['P3LB'][i],outcr['P3UB'][i]=P3LB,P3UB
     outcr['P4LB'][i],outcr['P4UB'][i]=P4LB,P4UB
     outcr['Rmax'][i]=R_Mpc
-np.savetxt('/home/rumbaugh/Chandra/ORELSE.power_ratios.dat',outcr,fmt='%12s %12s %6.1f %10.5f %10.5f %f %f %f %f %f %f',header='field cluster Rmax ImageX ImageY P3 P4 P3LB P3UB P4LB P4UB')
+np.savetxt('/home/rumbaugh/Chandra/ORELSE.power_ratios.dat',outcr,fmt='%12s %12s %6.1f %10.5f %10.5f %E %E %E %E %E %E',header='field cluster Rmax ImageX ImageY P3 P4 P3LB P3UB P4LB P4UB')
