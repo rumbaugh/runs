@@ -9,4 +9,4 @@ tids,inds=tids[tids>0],inds[tids>0]
 outcr=np.zeros((len(tids),),dtype={'names':('inds','tids'),'formats':('i8','i8')})
 outcr['inds'],outcr['tids']=inds,tids
 
-np.savetxt('/home/rumbaugh/DR13_things.tab',outcr,fmt='%i8 %i8',header='IND THINGID',comments='')
+np.savetxt('/home/rumbaugh/DR13_things.tab',outcr,fmt='%i %i',header='IND THINGID',comments='')
