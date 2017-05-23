@@ -125,9 +125,9 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     if len(outcr)>0: outcr['TAG'][outcr['SurveyObjectID']==0]='SN'
     try:
         crout=np.loadtxt('%s/%s/outliers.tab'%(DB_path,DBID),dtype='i8')
-        if len(crout)==len(outcr):
-            outcr['OUTLIER']=crout
-            outcr['OUTLIER'][(crout==0)&(outcr['BAND']=='g')]=-1
+        #if len(crout)==len(outcr):
+        #    outcr['OUTLIER']=crout
+        #    outcr['OUTLIER'][(crout==0)&(outcr['BAND']=='g')]=-1
     except IOError:
         crout=np.zeros(len(cr))
     try:
@@ -136,8 +136,8 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         outcrmac['Survey'],outcrmac['SurveyCoaddID'],outcrmac['RA'],outcrmac['DEC'],outcrmac['MJD'],outcrmac['TAG'],outcrmac['BAND'],outcrmac['MAGTYPE'],outcrmac['MAG'],outcrmac['MAGERR'],outcrmac['FLAG']='SDSS',crmac['DatabaseID'],crmac['RA'],crmac['DEC'],crmac['MJD'],'MACLEOD',crmac['BAND'],'PSF',crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
         try:
             croutmac=np.loadtxt('%s/%s/outliers_Macleod.tab'%(DB_path,DBID),dtype='i8')
-            outcrmac['OUTLIER']=croutmac
-            outcrmac['OUTLIER'][(croutmac==0)&(outcrmac['BAND']=='g')]=-1
+            #outcrmac['OUTLIER']=croutmac
+            #outcrmac['OUTLIER'][(croutmac==0)&(outcrmac['BAND']=='g')]=-1
         except IOError:
             croutmac=np.zeros(0)
         appmac_dict={}
@@ -156,10 +156,10 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
                 gmac2=np.arange(len(gbmac))
             crappmac=np.zeros((len(gmac2),),dtype={'names':('Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','UNIMAG'),'formats':('|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','f8')})
             crappmac['Survey'],crappmac['SurveyCoaddID'],crappmac['RA'],crappmac['DEC'],crappmac['MJD'],crappmac['TAG'],crappmac['BAND'],crappmac['MAGTYPE'],crappmac['MAG'],crappmac['MAGERR']='SDSS',crmac['DatabaseID'][gbmac[gmac2]],crmac['RA'][gbmac[gmac2]],crmac['DEC'][gbmac[gmac2]],crmac['MJD'][gbmac[gmac2]],'MACLEOD',b,'PSF',crmac['MAG'][gbmac[gmac2]],crmac['MAGERR'][gbmac[gmac2]]
-            if len(crappmac)==len(croutmac): crappmac['OUTLIER']=croutmac[gbmac[gmac2]]
+            #if len(crappmac)==len(croutmac): crappmac['OUTLIER']=croutmac[gbmac[gmac2]]
             appmac_dict[b]=crappmac
         crappmac=np.concatenate((appmac_dict['u'],appmac_dict['g'],appmac_dict['r'],appmac_dict['i'],appmac_dict['z']))
-        crappmac['OUTLIER'][(crappmac['OUTLIER']==0)&(crappmac['BAND']=='g')]=-1
+        #crappmac['OUTLIER'][(crappmac['OUTLIER']==0)&(crappmac['BAND']=='g')]=-1
         outcr=np.concatenate((outcr,crappmac))
     except IOError:
         crmac=np.zeros(0)
@@ -176,6 +176,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     prihdr['DatabaseID']=DBID
     prihdr['OldDatabaseID']=oldDBID
     prihdu = py.PrimaryHDU(header=prihdr)
+    outcr=outcr[np.argsort(outcr['MJD'])]
     lchdu=make_hdu(outcr)
     hdulistarr=[prihdu,lchdu]
     macind,desind=99,99
@@ -220,13 +221,13 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     if SDSSNAME!='-1':
         mastercr['Redshift'][imi]=bhz[gbh]
     if len(outcr)>0:
-        mastercr['MaxBaseline'][imi]=np.max(outcr['MJD'])-np.min(outcr['MJD'])
+        mastercr['LAST_MJD'][imi],mastercr['FIRST_MJD'][imi]=np.max(outcr['MJD']),np.min(outcr['MJD'])
         for b in np.unique(outcr['BAND'][outcr['Survey']=='DES']):
             mastercr['Epochs_DES_%s'%b][imi]=len(outcr[(outcr['Survey']=='DES')&(outcr['BAND']==b)])
-            mastercr['med_DES_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='DES')&(outcr['BAND']==b)&(outcr['OUTLIER']<1)])
+            mastercr['med_DES_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='DES')&(outcr['BAND']==b))
         for b in np.unique(outcr['BAND'][outcr['Survey']=='SDSS']):
             mastercr['Epochs_SDSS_%s'%b][imi]=len(outcr[(outcr['Survey']=='SDSS')&(outcr['BAND']==b)])
-            mastercr['med_SDSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='SDSS')&(outcr['BAND']==b)&(outcr['OUTLIER']<1)])
+            mastercr['med_SDSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='SDSS')&(outcr['BAND']==b))
         for b in np.unique(outcr['BAND'][outcr['Survey']=='POSS']):
             mastercr['med_POSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='POSS')&(outcr['BAND']==b)])
     if 'SDSS' in outcr['Survey']:

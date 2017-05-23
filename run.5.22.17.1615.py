@@ -41,18 +41,18 @@ try:
 except NameError:
     doload=True
 if doload:
+    crac=np.loadtxt('/home/rumbaugh/all_coadd_object_id_info.csv',dtype={'names':('cid','ra','dec','ind'),'formats':('i8','f8','f8','i8')},skiprows=1,delimiter=',')
+    cid_radec_dict={crac['cid'][x]: {'ra': crac['ra'][x], 'dec': crac['dec'][x]} for x in range(0,len(crac))}
+    crat=np.loadtxt('/home/rumbaugh/DR13_THINGIDS_INFO.csv',dtype={'names':('tid','ra','dec','ind'),'formats':('i8','f8','f8','i8')},skiprows=1,delimiter=',')
+    tid_radec_dict={crat['tid'][x]: {'ra': crat['ra'][x], 'dec': crat['dec'][x]} for x in range(0,len(crat))}
+
+
     hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
     bhdata=hdubh[1].data
     bhz,bhname=bhdata['REDSHIFT'],bhdata['SDSS_NAME']
     gbh_dict={bhname[x]: x for x in range(0,len(bhname))}
 
     bhRAdict,bhDECdict={bhname[x]: bhdata['RA'][x] for x in range(len(bhdata))},{bhname[x]: bhdata['DEC'][x] for x in range(len(bhdata))}
-
-    fname='/home/rumbaugh/Downloads/milliquas.txt'
-    mdict={'names':('RA','DEC','Name','Descrip','Rmag','Bmag','Comment','R','B','Z','Cite','Zcite','Qpct','Xname','Rname','Lobe1','Lobe2'),'formats':('f8','f8','|S27','|S5','f8','f8','|S4','|S2','|S2','f8','|S7','|S7','f8','|S24','|S24','|S24','|S24')}
-    delims=(11,12,27,5,5,5,4,2,2,7,7,7,4,23,23,23,23)
-    crmq=np.genfromtxt(fname,dtype=mdict,delimiter=delims)
-    mqRAdict,mqDECdict={x: crmq['RA'][x] for x in range(len(crmq))},{x: crmq['DEC'][x] for x in range(len(crmq))}
 
     crch=np.loadtxt('/home/rumbaugh/dr7_bh_y3a1_match_closechanges.csv',dtype={'names':('SDSSNAME','RA','DEC','HPIX','CID'),'formats':('|S24','f8','f8','i8','i8')},skiprows=1,delimiter=',')
     for i in range(0,len(crch)): crch['SDSSNAME'][i]=crch['SDSSNAME'][i].strip()
@@ -66,11 +66,11 @@ if doload:
 
 
     crmi=np.loadtxt('/home/rumbaugh/var_database/Y3A1/match_index.dat',dtype={'names':('MQ_ROWNUM','SP_ROWNUM','SDSS_NAME','RA','DEC','HPIX','COADD_OBJECTS_ID','TILENAME'),'formats':('i8','i8','|S32','f8','f8','i8','i8','|S32')},skiprows=1)
-    gcrmi_match=np.where(crmi['COADD_OBJECTS_ID']>0)[0]
+    gcrmi_match=np.where((crmi['COADD_OBJECTS_ID']>0)&((crmi['SP_ROWNUM']>-1)|(crmi['SDSS_NAME']!='-1')))[0]
     crmim=crmi[gcrmi_match]
     mihdu=make_hdu(crmi)
 
-mastercr=np.zeros((len(crmim),),dtype={'names':('DatabaseID','Survey','Y3A1_CoaddObjectsID','DR13_thingid','sdr7id','SDSSNAME','MQ_ROWNUM','SP_ROWNUM','FIRST_MJD','LAST_MJD','Redshift','Stripe82','RA_DES','Dec_DES','RA_SDSS','Dec_SDSS','RA_POSS','Dec_POSS','Epochs_DES_g','Epochs_DES_r','Epochs_DES_i','Epochs_DES_z','Epochs_DES_Y','Epochs_SDSS_g','Epochs_SDSS_r','Epochs_SDSS_i','Epochs_SDSS_z','Epochs_SDSS_u','med_DES_g','med_DES_r','med_DES_i','med_DES_z','med_DES_Y','med_SDSS_g','med_SDSS_r','med_SDSS_i','med_SDSS_z','med_SDSS_u','med_POSS_g','med_POSS_r','med_POSS_i','MQ_Descrip','MQ_QPct','Y3A1TILE','OldDatabaseID'),'formats':('|S40','|S20','i8','i8','|S20','|S40','i8','i8','f8','f8','f8','i8','f8','f8','f8','f8','f8','f8','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S6','f8','|S40','|S40')})
+mastercr=np.zeros((len(crmim),),dtype={'names':('DatabaseID','Survey','Y3A1_CoaddObjectsID','DR13_thingid','sdr7id','SDSSNAME','SP_ROWNUM','FIRST_MJD','LAST_MJD','Redshift','Stripe82','RA_DES','Dec_DES','RA_SDSS','Dec_SDSS','RA_POSS','Dec_POSS','Epochs_DES_g','Epochs_DES_r','Epochs_DES_i','Epochs_DES_z','Epochs_DES_Y','Epochs_SDSS_g','Epochs_SDSS_r','Epochs_SDSS_i','Epochs_SDSS_z','Epochs_SDSS_u','med_DES_g','med_DES_r','med_DES_i','med_DES_z','med_DES_Y','med_SDSS_g','med_SDSS_r','med_SDSS_i','med_SDSS_z','med_SDSS_u','med_POSS_g','med_POSS_r','med_POSS_i','Y3A1TILE','OldDatabaseID'),'formats':('|S40','|S20','i8','i8','|S20','|S40','i8','f8','f8','f8','i8','f8','f8','f8','f8','f8','f8','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S40','|S40')})
 mastercr['sdr7id'],mastercr['SDSSNAME'],mastercr['MQ_ROWNUM'],mastercr['SP_ROWNUM']=-1,'-1',-1,-1
 
 for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim)),crmim['TILENAME']):
@@ -80,15 +80,6 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     DR13outcr=np.zeros((0,),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','UNIMAG','SPREAD','SPREADERR'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','f8','f8')})
     oldDBID=None
     DBID=None
-    if MQrn!=-1:
-        try:
-            MQRA,MQDEC=mqRAdict[MQrn],mqDECdict[MQrn]
-            mqrah,mqram,mqras=deg2hms(MQRA)
-            mqdecd,mqdecm,mqdecs=deg2dms(MQDEC)
-            DBID='%02i%02i%02i%+03i%02i%02i'%(mqrah,mqram,mqras,mqdecd,mqdecm,int(mqdecs))
-            if oldDBID==None:oldDBID='MQ%i'%MQrn
-        except KeyError:
-            MQRA,MQDEC=0,0
     if SDSSNAME!='-1':
         gbh=gbh_dict[SDSSNAME]
         try:
@@ -213,9 +204,6 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
             mastercr['Survey'][imi]=surv
         else:
             mastercr['Survey'][imi]='%s;%s'%(mastercr['Survey'][imi],surv)
-    if MQrn>-1:
-        mastercr['Redshift'][imi]=crmq['Z'][MQrn]
-        mastercr['MQ_Descrip'][imi], mastercr['MQ_QPct'][imi]=crmq['Descrip'][MQrn].replace(' ',''),crmq['Qpct'][MQrn]
     if SPrn!=-1:
         mastercr['Redshift'][imi]=crsp['redshift'][SPrn]
     if SDSSNAME!='-1':
@@ -224,17 +212,25 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         mastercr['LAST_MJD'][imi],mastercr['FIRST_MJD'][imi]=np.max(outcr['MJD']),np.min(outcr['MJD'])
         for b in np.unique(outcr['BAND'][outcr['Survey']=='DES']):
             mastercr['Epochs_DES_%s'%b][imi]=len(outcr[(outcr['Survey']=='DES')&(outcr['BAND']==b)])
-            mastercr['med_DES_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='DES')&(outcr['BAND']==b))
+            mastercr['med_DES_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='DES')&(outcr['BAND']==b)])
         for b in np.unique(outcr['BAND'][outcr['Survey']=='SDSS']):
             mastercr['Epochs_SDSS_%s'%b][imi]=len(outcr[(outcr['Survey']=='SDSS')&(outcr['BAND']==b)])
-            mastercr['med_SDSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='SDSS')&(outcr['BAND']==b))
+            mastercr['med_SDSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='SDSS')&(outcr['BAND']==b)])
         for b in np.unique(outcr['BAND'][outcr['Survey']=='POSS']):
             mastercr['med_POSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='POSS')&(outcr['BAND']==b)])
     if 'SDSS' in outcr['Survey']:
         tidcr=np.array(outcr['SurveyCoaddID'][(outcr['Survey']=='SDSS')&(outcr['SurveyObjectID']!='0')&(outcr['TAG']!='MACLEOD')],dtype='i8')
         if len(tidcr)>0:mastercr['DR13_thingid'][imi]=np.max(tidcr)
+        try:
+            mastercr['RA_SDSS'][imi],mastercr['DEC_SDSS'][imi]=tid_radec_dict[mastercr['DR13_thingid'][imi]['ra']],tid_radec_dict[mastercr['DR13_thingid'][imi]['dec']]
+        except KeyError:
+            pass
     if 'POSS' in outcr['Survey']:mastercr['sdr7id'][imi]=crsp['SDR7ID'][SPrn]
-    mastercr['DatabaseID'][imi],mastercr['OldDatabaseID'][imi],mastercr['Y3A1_CoaddObjectsID'][imi],mastercr['SDSSNAME'][imi],mastercr['MQ_ROWNUM'][imi],mastercr['SP_ROWNUM'][imi],mastercr['Y3A1TILE'][imi]=DBID,oldDBID,cid,SDSSNAME,MQrn,SPrn,TILENAME
+    mastercr['DatabaseID'][imi],mastercr['OldDatabaseID'][imi],mastercr['Y3A1_CoaddObjectsID'][imi],mastercr['SDSSNAME'][imi],mastercr['SP_ROWNUM'][imi],mastercr['Y3A1TILE'][imi]=DBID,oldDBID,cid,SDSSNAME,SPrn,TILENAME
+    try:
+        mastercr['RA_DES'][imi],mastercr['DEC_DES'][imi]=cid_radec_dict[mastercr['Y3A1_CoaddObjectsID'][imi]['ra']],cid_radec_dict[mastercr['Y3A1_CoaddObjectsID'][imi]['dec']]
+    except KeyError:
+        pass
     if 'S82' in outcr['TAG']: mastercr['S82'][imi]=1
 
 masterhdu=make_hdu(mastercr)
