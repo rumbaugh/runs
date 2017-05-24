@@ -231,6 +231,8 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
                 hdulistarr+=[sdsshdu]
                 sdssind=curind
                 curind+=1
+            except KeyError:
+                pass
         try:
             mastercr['RA_SDSS'][imi],mastercr['DEC_SDSS'][imi]=tid_radec_dict[mastercr['DR13_thingid'][imi]['ra']],tid_radec_dict[mastercr['DR13_thingid'][imi]['dec']]
         except KeyError:
