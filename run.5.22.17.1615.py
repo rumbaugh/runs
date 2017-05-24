@@ -41,6 +41,15 @@ try:
 except NameError:
     doload=True
 if doload:
+    cram=np.loadtxt('/home/rumbaugh/DR13_ALTMAGS.csv',dtype={'names':('thingid','objid','ra','dec','mjd_g','run','rerun','stripe','psfmag_u','psfmag_g','psfmag_r','psfmag_i','psfmag_z','psfmagerr_u','psfmagerr_g','psfmagerr_r','psfmagerr_i','psfmagerr_z','fibermag_u','fibermag_g','fibermag_r','fibermag_i','fibermag_z','fibermagerr_u','fibermagerr_g','fibermagerr_r','fibermagerr_i','fibermagerr_z','modelmag_u','modelmag_g','modelmag_r','modelmag_i','modelmag_z','modelmagerr_u','modelmagerr_g','modelmagerr_r','modelmagerr_i','modelmagerr_z'),'formats':('i8','i8','f8','f8','f8','i8','i8','|S8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1,delimiter=',')
+    gam_dict={}
+    for i in range(0,len(cram)):
+        try:
+            gam_dict[cram['thingid'][i]]=np.append(gam_dict[cram['thingid'][i]],i)
+        except KeyError:
+            gam_dict[cram['thingid'][i]]=np.array([i],dtype='i8')
+    
+
     crac=np.loadtxt('/home/rumbaugh/all_coadd_object_id_info.csv',dtype={'names':('cid','ra','dec','ind'),'formats':('i8','f8','f8','i8')},skiprows=1,delimiter=',')
     cid_radec_dict={crac['cid'][x]: {'ra': crac['ra'][x], 'dec': crac['dec'][x]} for x in range(0,len(crac))}
     crat=np.loadtxt('/home/rumbaugh/DR13_THINGIDS_INFO.csv',dtype={'names':('tid','ra','dec','ind'),'formats':('i8','f8','f8','i8')},skiprows=1,delimiter=',')
@@ -182,13 +191,6 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         hdulistarr+=[deshdu]
         desind=curind
         curind+=1
-    thdulist = py.HDUList(hdulistarr)
-    if desind<99:
-        thdulist[desind].header['COADD_OBJECT_ID']=cid
-    try:
-        thdulist.writeto('%s/%s/LC.fits'%(DB_path,DBID),clobber=True)
-    except IOError:
-        print 'IOError for %s,%s'%(DBID,oldDBID)
     for surv in np.unique(outcr['Survey']):
         mastercr['RA_%s'%surv][imi]=np.median(outcr['RA'][outcr['Survey']==surv])
         mastercr['Dec_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
@@ -218,9 +220,17 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
             mastercr['med_SDSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='SDSS')&(outcr['BAND']==b)])
         for b in np.unique(outcr['BAND'][outcr['Survey']=='POSS']):
             mastercr['med_POSS_%s'%b][imi]=np.median(outcr['MAG'][(outcr['Survey']=='POSS')&(outcr['BAND']==b)])
+    sdsscr,sdssind=np.zeros(0),-1
     if 'SDSS' in outcr['Survey']:
         tidcr=np.array(outcr['SurveyCoaddID'][(outcr['Survey']=='SDSS')&(outcr['SurveyObjectID']!='0')&(outcr['TAG']!='MACLEOD')],dtype='i8')
-        if len(tidcr)>0:mastercr['DR13_thingid'][imi]=np.max(tidcr)
+        if len(tidcr)>0:
+            mastercr['DR13_thingid'][imi]=np.max(tidcr)
+            try:
+                sdsscr=cram[gam_dict[mastercr['DR13_thingid'][imi]]]
+                sdsshdu=make_hdu(sdsscr)
+                hdulistarr+=[sdsshdu]
+                sdssind=curind
+                curind+=1
         try:
             mastercr['RA_SDSS'][imi],mastercr['DEC_SDSS'][imi]=tid_radec_dict[mastercr['DR13_thingid'][imi]['ra']],tid_radec_dict[mastercr['DR13_thingid'][imi]['dec']]
         except KeyError:
@@ -232,6 +242,22 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
     except KeyError:
         pass
     if 'S82' in outcr['TAG']: mastercr['S82'][imi]=1
+
+    thdulist = py.HDUList(hdulistarr)
+    thdulist[1].header['LIGHTCURVE']='MERGED'
+    
+    if desind<99:
+        thdulist[desind].header['COADD_OBJECT_ID']=cid
+        thdulist[desind].header['LIGHTCURVE']='DES'
+    if mac:
+        thdulist[macind].header['LIGHTCURVE']='MACLEOD'
+    if sdssind!=-1:
+        thdulist[sdssind].header['THINGID']=mastercr['DR13_thingid'][imi]
+        thdulist[sdssind].header['LIGHTCURVE']='SDSS'
+    try:
+        thdulist.writeto('%s/%s/LC.fits'%(DB_path,DBID),clobber=True)
+    except IOError:
+        print 'IOError for %s,%s'%(DBID,oldDBID)
 
 masterhdu=make_hdu(mastercr)
 
