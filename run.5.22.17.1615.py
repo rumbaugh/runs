@@ -234,13 +234,13 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
             except KeyError:
                 pass
         try:
-            mastercr['RA_SDSS'][imi],mastercr['DEC_SDSS'][imi]=tid_radec_dict[mastercr['DR13_thingid'][imi]['ra']],tid_radec_dict[mastercr['DR13_thingid'][imi]['dec']]
+            mastercr['RA_SDSS'][imi],mastercr['DEC_SDSS'][imi]=tid_radec_dict[mastercr['DR13_thingid'][imi]]['ra'],tid_radec_dict[mastercr['DR13_thingid'][imi]]['dec']
         except KeyError:
             pass
     if 'POSS' in outcr['Survey']:mastercr['sdr7id'][imi]=crsp['SDR7ID'][SPrn]
     mastercr['DatabaseID'][imi],mastercr['OldDatabaseID'][imi],mastercr['Y3A1_CoaddObjectsID'][imi],mastercr['SDSSNAME'][imi],mastercr['SP_ROWNUM'][imi],mastercr['Y3A1TILE'][imi]=DBID,oldDBID,cid,SDSSNAME,SPrn,TILENAME
     try:
-        mastercr['RA_DES'][imi],mastercr['DEC_DES'][imi]=cid_radec_dict[mastercr['Y3A1_CoaddObjectsID'][imi]['ra']],cid_radec_dict[mastercr['Y3A1_CoaddObjectsID'][imi]['dec']]
+        mastercr['RA_DES'][imi],mastercr['DEC_DES'][imi]=cid_radec_dict[mastercr['Y3A1_CoaddObjectsID'][imi]]['ra'],cid_radec_dict[mastercr['Y3A1_CoaddObjectsID'][imi]]['dec']
     except KeyError:
         pass
     if 'S82' in outcr['TAG']: mastercr['S82'][imi]=1
