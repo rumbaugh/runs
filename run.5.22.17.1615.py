@@ -50,7 +50,7 @@ if doload:
             gam_dict[cram['thingid'][i]]=np.array([i],dtype='i8')
     
 
-    crac=np.loadtxt('/home/rumbaugh/all_coadd_object_id_info.tab',dtype={'names':('cid','ra','dec','ind'),'formats':('i8','f8','f8','i8')},skiprows=1)
+    crac=np.loadtxt('/home/rumbaugh/all_coadd_object_ids_info.tab',dtype={'names':('cid','ra','dec','ind'),'formats':('i8','f8','f8','i8')},skiprows=1)
     cid_radec_dict={crac['cid'][x]: {'ra': crac['ra'][x], 'dec': crac['dec'][x]} for x in range(0,len(crac))}
     crat=np.loadtxt('/home/rumbaugh/DR13_THINGIDS_INFO.csv',dtype={'names':('tid','ra','dec','ind'),'formats':('i8','f8','f8','i8')},skiprows=1,delimiter=',')
     tid_radec_dict={crat['tid'][x]: {'ra': crat['ra'][x], 'dec': crat['dec'][x]} for x in range(0,len(crat))}
