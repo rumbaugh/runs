@@ -79,7 +79,7 @@ if doload:
     crmim=crmi[gcrmi_match]
     mihdu=make_hdu(crmi)
 
-mastercr=np.zeros((len(crmim),),dtype={'names':('DatabaseID','Survey','Y3A1_CoaddObjectsID','DR13_thingid','sdr7id','SDSSNAME','SP_ROWNUM','FIRST_MJD','LAST_MJD','Redshift','Stripe82','RA_DES','Dec_DES','RA_SDSS','Dec_SDSS','RA_POSS','Dec_POSS','Epochs_DES_g','Epochs_DES_r','Epochs_DES_i','Epochs_DES_z','Epochs_DES_Y','Epochs_SDSS_g','Epochs_SDSS_r','Epochs_SDSS_i','Epochs_SDSS_z','Epochs_SDSS_u','med_DES_g','med_DES_r','med_DES_i','med_DES_z','med_DES_Y','med_SDSS_g','med_SDSS_r','med_SDSS_i','med_SDSS_z','med_SDSS_u','med_POSS_g','med_POSS_r','med_POSS_i','Y3A1TILE','OldDatabaseID'),'formats':('|S40','|S20','i8','i8','|S20','|S40','i8','f8','f8','f8','i8','f8','f8','f8','f8','f8','f8','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S40','|S40')})
+mastercr=np.zeros((len(crmim),),dtype={'names':('DatabaseID','Survey','Y3A1_CoaddObjectsID','DR13_thingid','sdr7id','SDSSNAME','SP_ROWNUM','FIRST_MJD','LAST_MJD','Redshift','Stripe82','RA_DES','DEC_DES','RA_SDSS','DEC_SDSS','RA_POSS','DEC_POSS','Epochs_DES_g','Epochs_DES_r','Epochs_DES_i','Epochs_DES_z','Epochs_DES_Y','Epochs_SDSS_g','Epochs_SDSS_r','Epochs_SDSS_i','Epochs_SDSS_z','Epochs_SDSS_u','med_DES_g','med_DES_r','med_DES_i','med_DES_z','med_DES_Y','med_SDSS_g','med_SDSS_r','med_SDSS_i','med_SDSS_z','med_SDSS_u','med_POSS_g','med_POSS_r','med_POSS_i','Y3A1TILE','OldDatabaseID'),'formats':('|S40','|S20','i8','i8','|S20','|S40','i8','f8','f8','f8','i8','f8','f8','f8','f8','f8','f8','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S40','|S40')})
 mastercr['sdr7id'],mastercr['SDSSNAME'],mastercr['SP_ROWNUM']=-1,'-1',-1
 
 for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim)),crmim['TILENAME']):
@@ -193,14 +193,14 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         curind+=1
     for surv in np.unique(outcr['Survey']):
         mastercr['RA_%s'%surv][imi]=np.median(outcr['RA'][outcr['Survey']==surv])
-        mastercr['Dec_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
-        tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['Dec_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
+        mastercr['DEC_%s'%surv][imi]=np.median(outcr['DEC'][outcr['Survey']==surv])
+        tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['DEC_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
         if np.sort(tdists)[0]>1:
             if mastercr['RA_%s'%surv][imi]>180: 
                 mastercr['RA_%s'%surv][imi]-=180
             else:
                 mastercr['RA_%s'%surv][imi]+=180
-            tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['Dec_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
+            tdists=SphDist(mastercr['RA_%s'%surv][imi],mastercr['DEC_%s'%surv][imi],outcr['RA'][outcr['Survey']==surv],outcr['DEC'][outcr['Survey']==surv])/60.
             if np.sort(tdists)[0]>1: print 'median coords for %s,%s still messed up'%(DBID,surv)
         if mastercr['Survey'][imi]=='':
             mastercr['Survey'][imi]=surv
