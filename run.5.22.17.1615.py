@@ -41,7 +41,7 @@ try:
 except NameError:
     doload=True
 if doload:
-    cram=np.loadtxt('/home/rumbaugh/DR13_ALTMAGS.csv',dtype={'names':('thingid','objid','ra','dec','mjd_g','run','rerun','stripe','psfmag_u','psfmag_g','psfmag_r','psfmag_i','psfmag_z','psfmagerr_u','psfmagerr_g','psfmagerr_r','psfmagerr_i','psfmagerr_z','fibermag_u','fibermag_g','fibermag_r','fibermag_i','fibermag_z','fibermagerr_u','fibermagerr_g','fibermagerr_r','fibermagerr_i','fibermagerr_z','modelmag_u','modelmag_g','modelmag_r','modelmag_i','modelmag_z','modelmagerr_u','modelmagerr_g','modelmagerr_r','modelmagerr_i','modelmagerr_z'),'formats':('i8','i8','f8','f8','f8','i8','i8','|S8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1,delimiter=',')
+    cram=np.loadtxt('/home/rumbaugh/DR13_ALTMAGS.csv',dtype={'names':('thingid','objid','ra','dec','mjd_g','run','rerun','stripe','psfmag_u','psfmag_g','psfmag_r','psfmag_i','psfmag_z','psfmagerr_u','psfmagerr_g','psfmagerr_r','psfmagerr_i','psfmagerr_z','fibermag_u','fibermag_g','fibermag_r','fibermag_i','fibermag_z','fibermagerr_u','fibermagerr_g','fibermagerr_r','fibermagerr_i','fibermagerr_z','modelmag_u','modelmag_g','modelmag_r','modelmag_i','modelmag_z','modelmagerr_u','modelmagerr_g','modelmagerr_r','modelmagerr_i','modelmagerr_z'),'formats':('i8','i8','f8','f8','f8','i8','i8','|S8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')},skiprows=1,delimiter=',')
     gam_dict={}
     for i in range(0,len(cram)):
         try:
