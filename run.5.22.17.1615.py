@@ -80,7 +80,7 @@ if doload:
     mihdu=make_hdu(crmi)
 
 mastercr=np.zeros((len(crmim),),dtype={'names':('DatabaseID','Survey','Y3A1_CoaddObjectsID','DR13_thingid','sdr7id','SDSSNAME','SP_ROWNUM','FIRST_MJD','LAST_MJD','Redshift','Stripe82','RA_DES','Dec_DES','RA_SDSS','Dec_SDSS','RA_POSS','Dec_POSS','Epochs_DES_g','Epochs_DES_r','Epochs_DES_i','Epochs_DES_z','Epochs_DES_Y','Epochs_SDSS_g','Epochs_SDSS_r','Epochs_SDSS_i','Epochs_SDSS_z','Epochs_SDSS_u','med_DES_g','med_DES_r','med_DES_i','med_DES_z','med_DES_Y','med_SDSS_g','med_SDSS_r','med_SDSS_i','med_SDSS_z','med_SDSS_u','med_POSS_g','med_POSS_r','med_POSS_i','Y3A1TILE','OldDatabaseID'),'formats':('|S40','|S20','i8','i8','|S20','|S40','i8','f8','f8','f8','i8','f8','f8','f8','f8','f8','f8','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','<i4','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','|S40','|S40')})
-mastercr['sdr7id'],mastercr['SDSSNAME'],mastercr['MQ_ROWNUM'],mastercr['SP_ROWNUM']=-1,'-1',-1,-1
+mastercr['sdr7id'],mastercr['SDSSNAME'],mastercr['SP_ROWNUM']=-1,'-1',-1
 
 for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['MQ_ROWNUM'],crmim['SP_ROWNUM'],crmim['SDSS_NAME'],np.arange(len(crmim)),crmim['TILENAME']):
     inSN=False
