@@ -172,6 +172,17 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
             crdestmp=np.zeros((1,),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2')})
             crdestmp['MJD'],crdestmp['IMAGEID'],crdestmp['OBJECTID'],crdestmp['COADD_OBJECTS_ID'],crdestmp['RA'],crdestmp['DEC'],crdestmp['MAG_AUTO'],crdestmp['MAGERR_AUTO'],crdestmp['MAG_PSF'],crdestmp['MAGERR_PSF'],crdestmp['BAND']=np.array([crdestmp['MJD']]),np.array([crdestmp['IMAGEID']]),np.array([crdestmp['OBJECTID']]),np.array([crdestmp['COADD_OBJECTS_ID']]),np.array([crdestmp['RA']]),np.array([crdestmp['DEC']]),np.array([crdestmp['MAG_AUTO']]),np.array([crdestmp['MAGERR_AUTO']]),np.array([crdestmp['MAG_PSF']]),np.array([crdestmp['MAGERR_PSF']]),np.array([crdestmp['BAND']])
             crdes=crdestmp
+    except IndexError:
+        try:
+            crdes=np.loadtxt('%s/%s/DES_data.tab'%(DB_path,DBID),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','f8','f8')},skiprows=1)
+            if np.shape(crdes)==():
+                crdestmp=np.zeros((1,),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2')})
+                crdestmp['MJD'],crdestmp['IMAGEID'],crdestmp['OBJECTID'],crdestmp['COADD_OBJECTS_ID'],crdestmp['RA'],crdestmp['DEC'],crdestmp['MAG_AUTO'],crdestmp['MAGERR_AUTO'],crdestmp['MAG_PSF'],crdestmp['MAGERR_PSF'],crdestmp['BAND']=np.array([crdestmp['MJD']]),np.array([crdestmp['IMAGEID']]),np.array([crdestmp['OBJECTID']]),np.array([crdestmp['COADD_OBJECTS_ID']]),np.array([crdestmp['RA']]),np.array([crdestmp['DEC']]),np.array([crdestmp['MAG_AUTO']]),np.array([crdestmp['MAGERR_AUTO']]),np.array([crdestmp['MAG_PSF']]),np.array([crdestmp['MAGERR_PSF']]),np.array(['None'])
+            crdestmp=np.zeros((len(crdes),),dtype={'names':('MJD','IMAGEID','OBJECTID','COADD_OBJECTS_ID','RA','DEC','MAG_AUTO','MAGERR_AUTO','MAG_PSF','MAGERR_PSF','BAND'),'formats':('f8','i8','i8','i8','f8','f8','f8','f8','f8','f8','|S2')})
+            crdestmp['MJD'],crdestmp['IMAGEID'],crdestmp['OBJECTID'],crdestmp['COADD_OBJECTS_ID'],crdestmp['RA'],crdestmp['DEC'],crdestmp['MAG_AUTO'],crdestmp['MAGERR_AUTO'],crdestmp['MAG_PSF'],crdestmp['MAGERR_PSF'],crdestmp['BAND']=crdestmp['MJD'],crdestmp['IMAGEID'],crdestmp['OBJECTID'],crdestmp['COADD_OBJECTS_ID'],crdestmp['RA'],crdestmp['DEC'],crdestmp['MAG_AUTO'],crdestmp['MAGERR_AUTO'],crdestmp['MAG_PSF'],crdestmp['MAGERR_PSF'],np.full(len(crdes),'None')
+            crdes=crdestmp
+        except IOError:
+            crdes=np.zeros(0)
     except IOError:
         crdes=np.zeros(0)
     prihdr = py.Header()
