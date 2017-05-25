@@ -149,9 +149,11 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
                 gb0=np.where((cr['BAND']==b)&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0]
                 if ((len(gb0)>0)&(len(gbmac)>0)):
                     mjd0,mjdmac=cr['MJD'][gb0],crmac['MJD'][gbmac]
-                mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd0.reshape((1,len(mjd0)))*np.ones((len(mjdmac),1)))
-                mindists=np.min(mjddists,axis=1)
-                gmac2=np.where(mindists>mac_thresh)[0]
+                    mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd0.reshape((1,len(mjd0)))*np.ones((len(mjdmac),1)))
+                    mindists=np.min(mjddists,axis=1)
+                    gmac2=np.where(mindists>mac_thresh)[0]
+                else:
+                    gmac2=np.zeros(0)
             else:
                 gmac2=np.arange(len(gbmac))
             crappmac=np.zeros((len(gmac2),),dtype={'names':('Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','UNIMAG'),'formats':('|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','f8')})
