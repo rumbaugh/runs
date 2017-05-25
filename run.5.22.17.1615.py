@@ -106,7 +106,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
             sprah,spram,spras=deg2hms(SPRA)
             spdecd,spdecm,spdecs=deg2dms(SPDEC)
             if DBID==None:DBID='%02i%02i%02i%+03i%02i%02i'%(sprah,spram,spras,spdecd,spdecm,int(spdecs))
-            if oldDBID==None:oldDBID='SDSSPOSS%i'%curdr7
+            if oldDBID==None:oldDBID='SDSSPOSS%s'%curdr7
         except KeyError:
             SPRA,SPDEC=0,0
     os.system('ln -sf %s %s'%(oldDBID,DBID))
