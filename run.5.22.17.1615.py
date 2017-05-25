@@ -106,7 +106,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
             sprah,spram,spras=deg2hms(SPRA)
             spdecd,spdecm,spdecs=deg2dms(SPDEC)
             if DBID==None:DBID='%02i%02i%02i%+03i%02i%02i'%(sprah,spram,spras,spdecd,spdecm,int(spdecs))
-            if oldDBID==None:oldDBID='SDSSPOSS%i'%SPrn
+            if oldDBID==None:oldDBID='SDSSPOSS%i'%curdr7
         except KeyError:
             SPRA,SPDEC=0,0
     os.system('ln -sf %s %s'%(oldDBID,DBID))
@@ -129,7 +129,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
         #    outcr['OUTLIER']=crout
         #    outcr['OUTLIER'][(crout==0)&(outcr['BAND']=='g')]=-1
     except IOError:
-        crout=np.zeros(len(cr),dtype='i8')
+        crout=np.zeros(len(cr))
     try:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DB_path,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S24','f8','f8','f8','|S4','f8','f8','i8')})
         outcrmac=np.zeros((len(crmac),),dtype={'names':('Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')})
@@ -153,7 +153,7 @@ for cid,MQrn,SPrn,SDSSNAME,imi,TILENAME in zip(crmim['COADD_OBJECTS_ID'],crmim['
                     mindists=np.min(mjddists,axis=1)
                     gmac2=np.where(mindists>mac_thresh)[0]
                 else:
-                    gmac2=np.zeros(0)
+                    gmac2=np.zeros(0,dtype='i8')
             else:
                 gmac2=np.arange(len(gbmac))
             crappmac=np.zeros((len(gmac2),),dtype={'names':('Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG','UNIMAG'),'formats':('|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8','f8')})
