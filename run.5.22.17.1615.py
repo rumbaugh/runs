@@ -12,6 +12,30 @@ execfile('/home/rumbaugh/pythonscripts/SphDist.py')
 
 mac_thresh=5.
 
+def POSS2SDSS(g,r,i):
+    b_arr=np.array([b for b in [g,r,i]],dtype='object')
+    for ib in range(0,len(b_arr)):
+        if np.shape(b_arr[ib])!=():
+            if len(b_arr[ib])>0: 
+                b_arr[ib]=np.median(b_arr[ib])
+            else:
+                b_arr[ib]=0
+    if (b_arr[0]!=0)&(b_arr[1]!=0):
+        g,r=g+0.392*(b_arr[0]-b_arr[1])-0.28, r +0.127*(b_arr[0]-b_arr[1])+0.1
+    else: 
+        g,r=0,0
+    if (b_arr[2]!=0)&(b_arr[1]!=0):   
+        i=i+0.27*(b_arr[1]-b_arr[2])+0.32
+    else:
+        i=0
+    return g,r,i
+
+def DES2SDSS_gr(g,r):
+    return (133625*g-9375*r-218)/124250.,(69.*g+925*r)/994.+516./62125.
+
+def DES2SDSS_iz(i,z):
+    return (-89*np.sqrt(-96000*i+96000*z+181561)+8000*z+37827)/8000.,(-17*np.sqrt(-96000*i+96000*z+181561)+24000*z+6731)/24000.
+
 def make_cid_dict(incr,col='cid'):
     tdict={}
     for i,cid in zip(np.arange(0,len(incr)),incr[col]):
