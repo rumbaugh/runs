@@ -296,7 +296,7 @@ for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub
         gc,gevq=np.where((ccolor>0)&(ccolor<6.8)&(cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqcolor>0)&(evqcolor<6.8)&(evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
     else:
         gc,gevq=np.where((cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
-    plt.scatter(cz[gc],ccolor[gc],color='gray',marker='.',edgecolor='None')
+    plt.scatter(cz[gc],ccolor[gc],color='silver',marker='.',edgecolor='None')
     plt.scatter(ggdz[gevq],evqcolor[gevq],color='cyan',marker='.',edgecolor='None')
     zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.25,zmax=3.5,highz=2.2,highwid=0.4)
     zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.25,zmax=3.5,highz=2.2,highwid=0.4)
@@ -309,6 +309,6 @@ for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub
     if i==0: 
         leg=plt.legend(loc='upper left',frameon=False,prop={'size':24})
         for text in leg.get_texts():
-            if text.properties()['text']!='EVQ': text.set_color('gray')
+            if text.properties()['text']!='EVQ': text.set_color('silver')
             if text.properties()['text']=='EVQ': text.set_color('cyan')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/plots/zcolor_plots.5.26.17.png')
