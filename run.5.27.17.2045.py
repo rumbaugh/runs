@@ -85,10 +85,6 @@ for field in targets[np.argsort(zlist)]:
     D_L=crcc[:,13]*3.086E22
     DM=crcc[:,15]
     cc_z=crcc[:,0]
-    gdls=np.zeros(len(gAGN),dtype='i8')
-    for igdl in range(0,len(gdls)):
-        gdl=np.argsort(np.abs(crs['z'][gAGN][igdl]-cc_z))[0]
-        gdls[igdl]=gdl
     ras,decs=crs['ra'][gCMD],crs['dec'][gCMD]
     if field=='cl1604':
         r,i=crs['F606W'][gCMD],crs['F814W'][gCMD]
@@ -102,6 +98,6 @@ for field in targets[np.argsort(zlist)]:
     rso_all=(y0+m*i-(r-i))/(0.5*width)
 
     outcrT=np.zeros((len(rso_all),),dtype={'names':('field','ra','dec','redshift','q','Mred','Mblue','Mrederr','Mblueerr','rso'),'formats':('|S16','f8','f8','f8','i8','f8','f8','f8','f8','f8')})
-    outcrT['field'],outcrT['ra'],outcrT['dec'],outcrT['redshift'],outcrT['q'],outcrT['Mred'],outcrT['Mblue'],outcrT['rso']=field,ras,decs,redshift,q,r,i,rerr,ierr,rso_all
+    outcrT['field'],outcrT['ra'],outcrT['dec'],outcrT['redshift'],outcrT['q'],outcrT['Mred'],outcrT['Mblue'],outcrT['Mrederr'],outcrT['Mblueerr'],outcrT['rso']=field,ras,decs,redshift,q[gCMD],r,i,rerr,ierr,rso_all
     outcr=np.append(outcr,outcrT)
 np.savetxt('/home/rumbaugh/Chandra/info.all_members.dat',outcr,header='field ra dec redshift q Mred Mblue Mrederr Mblueerr rso',fmt='%16s %f %f %f %2i %f %f %f %f %f')
