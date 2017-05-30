@@ -28,7 +28,7 @@ plt.figure(1)
 plt.clf()
 plt.hist(data['EW_BROAD_HB'],range=(0.5,3),bins=25,facecolor='None',edgecolor='k',lw=2)
 plt.hist(cdata['EW_BROAD_HB'],range=(0.5,3),bins=25,facecolor='None',edgecolor='green',lw=2)
-plt.xlabel(r'H$\Beta$')
+plt.xlabel(r'H$\beta$')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/spectral_plots.HB.5.29.17.png')
 
 
