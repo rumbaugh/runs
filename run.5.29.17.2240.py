@@ -1,6 +1,7 @@
 import numpy as np
 import pyfits as py
 import matplotlib.pyplot as plt
+execfile('/home/rumbaugh/pythonscripts/KStest.py')
 
 hdubh=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 data=hdubh[1].data
@@ -31,6 +32,8 @@ plt.hist(cdata['EW_BROAD_HB'],range=(0.5,3),bins=25,normed=True,facecolor='None'
 plt.xlabel(r'H$\beta$')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/spectral_plots.HB.5.29.17.png')
 
+print 'Hbeta'
+print KStest(data['EW_BROAD_HB'],cdata['EW_BROAD_HB'])
 
 plt.figure(1)
 plt.clf()
@@ -39,6 +42,8 @@ plt.hist(cdata['EW_MGII']/100.,range=(0.5,3.5),bins=30,normed=True,facecolor='No
 plt.xlabel('MgII')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/spectral_plots.MgII.5.29.17.png')
 
+print 'MgII'
+print KStest(data['EW_MGII']/100.,cdata['EW_MGII']/100.)
 
 plt.figure(1)
 plt.clf()
@@ -47,6 +52,8 @@ plt.hist(cdata['EW_CIV'],range=(0,4),bins=40,normed=True,facecolor='None',edgeco
 plt.xlabel('CIV')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/spectral_plots.CIV.5.29.17.png')
 
+print 'CIV'
+print KStest(data['EW_CIV'],cdata['EW_CIV'])
 
 plt.figure(1)
 plt.clf()
@@ -54,3 +61,6 @@ plt.hist(data['LOGEDD_RATIO'],range=(-3,1),bins=40,normed=True,facecolor='None',
 plt.hist(cdata['LOGEDD_RATIO'],range=(-3,1),bins=40,normed=True,facecolor='None',edgecolor='green',lw=2)
 plt.xlabel(r'log $L/L_{edd}$')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/spectral_plots.Ledd.5.29.17.png')
+
+print 'Ledd'
+print KStest(data['LOGEDD_RATIO'],cdata['LOGEDD_RATIO'])
