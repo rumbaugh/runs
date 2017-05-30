@@ -34,8 +34,8 @@ plt.savefig('/home/rumbaugh/var_database/Y3A1/spectral_plots.HB.5.29.17.png')
 
 plt.figure(1)
 plt.clf()
-plt.hist(data['EW_MGII']/1000.,range=(0.5,3.5),bins=30,normed=True,facecolor='None',edgecolor='k',lw=2)
-plt.hist(cdata['EW_MGII']/1000.,range=(0.5,3.5),bins=30,normed=True,facecolor='None',edgecolor='green',lw=2)
+plt.hist(data['EW_MGII']/100.,range=(0.5,3.5),bins=30,normed=True,facecolor='None',edgecolor='k',lw=2)
+plt.hist(cdata['EW_MGII']/100.,range=(0.5,3.5),bins=30,normed=True,facecolor='None',edgecolor='green',lw=2)
 plt.xlabel('MgII')
 plt.savefig('/home/rumbaugh/var_database/Y3A1/spectral_plots.MgII.5.29.17.png')
 
