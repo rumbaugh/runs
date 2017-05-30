@@ -20,7 +20,7 @@ crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names
 inids=np.in1d(crdb['DatabaseID'],crd['DBID'])
 crdb=crdb[inids]
 
-dataid=np.ind1d(data['SDSS_NAME'],crdb['SDSSNAME'])
+dataid=np.in1d(data['SDSS_NAME'],crdb['SDSSNAME'])
 data=data[dataid]
 
 
