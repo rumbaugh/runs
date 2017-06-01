@@ -40,7 +40,7 @@ for DBID,idb in zip(crd['DBID'],np.arange(len(crd))):
         newcrmac=np.zeros((len(crmac),),dtype={'names':('DatabaseID','Survey','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S24','|S4','f8','f8','f8','|S4','f8','f8','i8')})
         newcrmac['DatabaseID'],newcrmac['Survey'],newcrmac['RA'],newcrmac['DEC'],newcrmac['MJD'],newcrmac['BAND'],newcrmac['MAG'],newcrmac['MAGERR'],newcrmac['FLAG']=crmac['DatabaseID'],np.full(len(crmac),'SDSS',dtype='|S4'),crmac['RA'],crmac['DEC'],crmac['MJD'],crmac['BAND'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
         cr=np.append(newcr,newcrmac)
-    cr=cr[outlier_arr==0]
+    if len(outlier_arr)==len(cr):cr=cr[outlier_arr==0]
     for b,lo_arr,lonumarr,lomjdloarr,lomjdhiarr,hi_arr,hinumarr,himjdloarr,himjdhiarr in zip(['r','i'],[rlo,ilo],[numrlo,numilo],[rlomjdlo,ilomjdlo],[rlomjdhi,ilomjdhi],[rhi,ihi],[numrhi,numihi],[rhimjdlo,ihimjdlo],[rhimjdhi,ihimjdhi]):
         gb=np.where((cr['BAND']==b)&(cr['MAG']>14)&(cr['MAG']<30)&(cr['MAGERR']<.15))[0]
         if len(gb)>0:
