@@ -52,9 +52,10 @@ for DBID,idb in zip(crd['DBID'],np.arange(len(crd))):
                 lomjdloarr[idb],lomjdhiarr[idb]=cr['MJD'][gb[glo_close]],cr['MJD'][gb[glo_close]]
             else:
                 glo_close=np.where(np.abs(crd['mjdlo'][idb]-cr['MJD'][gb])<nearthresh)[0]
-                lo_arr[idb]=np.sum(cr['MAG'][gb[glo_close]]/np.abs(crd['mjdlo'][idb]-cr['MJD'][gb[glo_close]]))/np.sum(1./np.abs(crd['mjdlo'][idb]-cr['MJD'][gb[glo_close]]))
-                lonumarr[idb]=len(glo_close)
-                lomjdloarr[idb],lomjdhiarr[idb]=np.min(cr['MJD'][gb[glo_close]]),np.max(cr['MJD'][gb[glo_close]])
+                if len(glo_close)>0:
+                    lo_arr[idb]=np.sum(cr['MAG'][gb[glo_close]]/np.abs(crd['mjdlo'][idb]-cr['MJD'][gb[glo_close]]))/np.sum(1./np.abs(crd['mjdlo'][idb]-cr['MJD'][gb[glo_close]]))
+                    lonumarr[idb]=len(glo_close)
+                    lomjdloarr[idb],lomjdhiarr[idb]=np.min(cr['MJD'][gb[glo_close]]),np.max(cr['MJD'][gb[glo_close]])
             ghi_close=np.where(np.abs(crd['mjdhi'][idb]-cr['MJD'][gb])<closethresh)[0]
             if len(ghi_close)>0:
                 ghi_close=ghi_close[np.argsort(np.abs(crd['mjdhi'][idb]-cr['MJD'][gb[ghi_close]]))[0]]
@@ -63,9 +64,10 @@ for DBID,idb in zip(crd['DBID'],np.arange(len(crd))):
                 himjdloarr[idb],himjdhiarr[idb]=cr['MJD'][gb[ghi_close]],cr['MJD'][gb[ghi_close]]
             else:
                 ghi_close=np.where(np.abs(crd['mjdhi'][idb]-cr['MJD'][gb])<nearthresh)[0]
-                hi_arr[idb]=np.sum(cr['MAG'][gb[ghi_close]]/np.abs(crd['mjdhi'][idb]-cr['MJD'][gb[ghi_close]]))/np.sum(1./np.abs(crd['mjdhi'][idb]-cr['MJD'][gb[ghi_close]]))
-                hinumarr[idb]=len(ghi_close)
-                himjdloarr[idb],himjdhiarr[idb]=np.min(cr['MJD'][gb[ghi_close]]),np.max(cr['MJD'][gb[ghi_close]])
+                if len(ghi_close)>0:
+                    hi_arr[idb]=np.sum(cr['MAG'][gb[ghi_close]]/np.abs(crd['mjdhi'][idb]-cr['MJD'][gb[ghi_close]]))/np.sum(1./np.abs(crd['mjdhi'][idb]-cr['MJD'][gb[ghi_close]]))
+                    hinumarr[idb]=len(ghi_close)
+                    himjdloarr[idb],himjdhiarr[idb]=np.min(cr['MJD'][gb[ghi_close]]),np.max(cr['MJD'][gb[ghi_close]])
 
 outcr=np.zeros((len(crd),),dtype={'names':('RA','DEC','Redshift','MJD_lo','g_lo','sig_lo','flag_lo','MJD_hi','g_hi','sig_hi','flag_hi','RA_DES','DEC_DES','DBID','y3a1_mag_auto_g','ilo','numilo','ilomjdlo','ilomjdhi','ihi','numihi','ihimjdlo','ihimjdhi','rlo','numrlo','rlomjdlo','rlomjdhi','rhi','numrhi','rhimjdlo','rhimjdhi'),'formats':('f8','f8','f8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8','|S24','f8','f8','i8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8','f8','i8','f8','f8')})
 outcr['RA'],outcr['DEC'],outcr['Redshift'],outcr['MJD_lo'],outcr['g_lo'],outcr['sig_lo'],outcr['flag_lo'],outcr['MJD_hi'],outcr['g_hi'],outcr['sig_hi'],outcr['flag_hi'],outcr['RA_DES'],outcr['DEC_DES'],outcr['DBID'],outcr['y3a1_mag_auto_g'],outcr['ilo'],outcr['numilo'],outcr['ilomjdlo'],outcr['ilomjdhi'],outcr['ihi'],outcr['numihi'],outcr['ihimjdlo'],outcr['ihimjdhi'],outcr['rlo'],outcr['numrlo'],outcr['rlomjdlo'],outcr['rlomjdhi'],outcr['rhi'],outcr['numrhi'],outcr['rhimjdlo'],outcr['rhimjdhi']=crd['RA'],crd['DEC'],crd['z'],crd['mjdlo'],crd['glo'],crd['siglo'],crd['flaglo'],crd['mjdhi'],crd['ghi'],crd['sighi'],crd['flaghi'],crd['RA_DES'],crd['DEC_DES'],crd['DBID'],crd['y3a1_mag_auto_g'],ilo,numilo,ilomjdlo,ilomjdhi,ihi,numihi,ihimjdlo,ihimjdhi,rlo,numrlo,rlomjdlo,rlomjdhi,rhi,numrhi,rhimjdlo,rhimjdhi
