@@ -30,6 +30,10 @@ try:
     maxind
 except NameError:
     maxind=len(crdrw)
+try: 
+    verbose
+except NameError:
+    verbose=False
 taumc,sigmc,taumclerr,taumcherr,sigmclerr,sigmcherr,taub,sigb=np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind)
 
 for i in np.arange(0,maxind):
@@ -51,8 +55,9 @@ for i in np.arange(0,maxind):
     ltau=out['ltau']
     lsig=np.log10((10**ltau)*0.5*10**out['lvar'])
     taub[i],sigb[i]=ltau,lsig
-    print 'Butler model for %i\ntau=%f, var=%f, sig=%f'%(crmc['DBID'][i],out['ltau'],out['lvar'],lsig)
-    print 'Macleod model for %i\ntau=%f -%f/+%f\nsigma=%f -%f/+%f'%(crmc['DBID'][i],tau0,tau0lerr,tau0herr,sig0,sig0lerr,sig0herr)
+    if verbose:
+        print 'Butler model for %i\ntau=%f, var=%f, sig=%f'%(crmc['DBID'][i],out['ltau'],out['lvar'],lsig)
+        print 'Macleod model for %i\ntau=%f -%f/+%f\nsigma=%f -%f/+%f'%(crmc['DBID'][i],tau0,tau0lerr,tau0herr,sig0,sig0lerr,sig0herr)
 
 gevq=sout[0]
 
@@ -62,8 +67,10 @@ plt.scatter(taumc-taub,sigmc-sigb,s=1)
 xlim=plt.xlim()
 ylim=plt.ylim()
 plt.plot([xlim[0],xlim[1]],[ylim[0],ylim[1]],lw=2,ls='dashed',color='k')
-plt.errorbar(taumc-taub,sigmc-sigb,xerr=[taumclerr,taumcherr],yerr=[sigmclerr,sigmcherr],color='r',fmt='ro',lw=2,capsize=3,mew=1)
-plt.errorbar(taumc[gevq]-taub[gevq],sigmc[gevq]-sigb[gevq],xerr=[taumclerr[gevq],taumcherr[gevq]],yerr=[sigmclerr[gevq],sigmcherr[gevq]],color='cyan',fmt='ro',lw=2,capsize=3,mew=1)
+plt.scatter(taumc-taub,sigmc-sigb,color='r',s=2,edgecolor='None',facecolor='r')
+plt.scatter(taumc[gevq]-taub[gevq],sigmc[gevq]-sigb[gevq],color='cyan',s=4,edgecolor='None',facecolor='cyan')
+#plt.errorbar(taumc-taub,sigmc-sigb,xerr=[taumclerr,taumcherr],yerr=[sigmclerr,sigmcherr],color='r',fmt='ro',lw=2,capsize=3,mew=1)
+#plt.errorbar(taumc[gevq]-taub[gevq],sigmc[gevq]-sigb[gevq],xerr=[taumclerr[gevq],taumcherr[gevq]],yerr=[sigmclerr[gevq],sigmcherr[gevq]],color='cyan',fmt='ro',lw=2,capsize=3,mew=1)
 plt.xlim(0,xlim[1])
 plt.ylim(-2,ylim[1])
 plt.xlabel('log(tau)')
