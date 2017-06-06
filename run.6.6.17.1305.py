@@ -67,6 +67,8 @@ if docalc:
 
     gevq=sout[0]
 taudiff,sigdiff=taumc-taub,sigmc-sigb
+taudiffnorm,sigdiffnorm=taudiff/taumclerr,sigdiff/sigmclerr
+taudiffnorm[taudiff<0],sigdiffnorm[sigdiff<0]=taudiff[taudiff<0]/taumcherr[taudiff<0],sigdiff[sigdiff<0]/sigmcherr[sigdiff<0]
 plt.figure(1)
 plt.clf()
 plt.scatter(taudiff,sigdiff,s=1,color='white',edgecolor='None')
@@ -131,7 +133,54 @@ go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
 plt.hist(sigdiff[gevq[go]],range=(-1,1),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
 plt.xlabel(r'$\Delta log(\sigma)$')
 plt.ylabel('Number of objects')
-plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighist.png')
+plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighistnorm.png')
 
 execfile('/home/rumbaugh/pythonscripts/KStest.py')
 print KStest(sigdiff[go],sigdiff[gevq[go]])
+
+plt.figure(1)
+plt.clf()
+
+go=np.where((taumc!=5)&(taumc!=7.5)&(taumc!=-10))[0]
+plt.hist(taudiff[go],range=(-1,1),bins=50,color='r',edgecolor='r',facecolor='None',lw=3)
+
+go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
+plt.hist(taudiff[gevq[go]],range=(-1,1),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
+plt.xlabel(r'$\Delta log(\tau)$')
+plt.ylabel('Number of objects')
+plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_tauhistnorm.png')
+
+execfile('/home/rumbaugh/pythonscripts/KStest.py')
+print KStest(taudiff[go],taudiff[gevq[go]])
+
+#the next two are in terms of the uncertainty
+
+plt.figure(1)
+plt.clf()
+
+go=np.where((taumc!=5)&(taumc!=7.5)&(taumc!=-10))[0]
+plt.hist(sigdiffnorm[go],range=(-10,10),bins=50,color='r',edgecolor='r',facecolor='None',lw=3)
+
+go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
+plt.hist(sigdiffnorm[gevq[go]],range=(-10,10),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
+plt.xlabel(r'$\Delta log(\sigma)/\sigma_{\sigma}$')
+plt.ylabel('Number of objects')
+plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighistnorm.png')
+
+execfile('/home/rumbaugh/pythonscripts/KStest.py')
+print KStest(sigdiffnorm[go],sigdiffnorm[gevq[go]])
+
+plt.figure(1)
+plt.clf()
+
+go=np.where((taumc!=5)&(taumc!=7.5)&(taumc!=-10))[0]
+plt.hist(taudiffnorm[go],range=(-10,10),bins=50,color='r',edgecolor='r',facecolor='None',lw=3)
+
+go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
+plt.hist(taudiffnorm[gevq[go]],range=(-10,10),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
+plt.xlabel(r'$\Delta log(\tau)/\sigma_{\tau}$')
+plt.ylabel('Number of objects')
+plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_tauhistnorm.png')
+
+execfile('/home/rumbaugh/pythonscripts/KStest.py')
+print KStest(taudiffnorm[go],taudiffnorm[gevq[go]])
