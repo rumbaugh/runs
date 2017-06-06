@@ -66,13 +66,17 @@ if docalc:
             print 'Macleod model for %i\ntau=%f -%f/+%f\nsigma=%f -%f/+%f'%(crmc['DBID'][i],tau0,tau0lerr,tau0herr,sig0,sig0lerr,sig0herr)
 
     gevq=sout[0]
-
+taudiff,sigdiff=taumc-taub,sigmc-sigb
 plt.figure(1)
 plt.clf()
-plt.scatter(taumc-taub,sigmc-sigb,s=1)
+plt.scatter(taudiff,sigdiff,s=1)
 xlim=plt.xlim()
 ylim=plt.ylim()
-plt.scatter(taumc-taub,sigmc-sigb,color='r',s=2,edgecolor='None',facecolor='r')
+plt.scatter(taudiff,sigdiff,color='r',s=2,edgecolor='None',facecolor='r')
+go=np.where(taumc==5)[0]
+plt.scatter(taudiff[go],sigdiff[go],color='orange',s=3,edgecolor='None',facecolor='orange')
+go=np.where(taumc==7.5)[0]
+plt.scatter(taudiff[go],sigdiff[go],color='pink',s=3,edgecolor='None',facecolor='pink')
 plt.scatter(taumc[gevq]-taub[gevq],sigmc[gevq]-sigb[gevq],color='cyan',s=4,edgecolor='None',facecolor='cyan')
 #plt.errorbar(taumc-taub,sigmc-sigb,xerr=[taumclerr,taumcherr],yerr=[sigmclerr,sigmcherr],color='r',fmt='ro',lw=2,capsize=3,mew=1)
 #plt.errorbar(taumc[gevq]-taub[gevq],sigmc[gevq]-sigb[gevq],xerr=[taumclerr[gevq],taumcherr[gevq]],yerr=[sigmclerr[gevq],sigmcherr[gevq]],color='cyan',fmt='ro',lw=2,capsize=3,mew=1)
