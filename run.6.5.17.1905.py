@@ -23,7 +23,6 @@ crlc=np.loadtxt('/home/rumbaugh/QSO_S82/%i'%(crmc['DBID'][0]),dtype=mcLCdict)
 LCcr=np.zeros((len(crlc)*1,),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
 
 
-LCcr['DatabaseID']=outcr['MCID'][i]
 for b,ib in zip(['g'],np.arange(1)):
     LCcr['MJD'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['BAND'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['MAG'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['MAGERR'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['RA'][ib*len(crlc):(ib+1)*len(crlc)],LCcr['DEC'][ib*len(crlc):(ib+1)*len(crlc)]=crlc['MJD_%s'%b],b,crlc['mag_%s'%b],crlc['mag_%s_err'%b],crlc['ra'],crlc['dec']
 
