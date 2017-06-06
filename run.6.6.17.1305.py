@@ -114,6 +114,7 @@ go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
 plt.scatter(sigb[gevq[go]],sigmc[gevq[go]],color='cyan',s=8,edgecolor='None',facecolor='cyan')
 xlim=plt.xlim()
 ylim=plt.ylim()
+print np.min([xlim[0],ylim[0]]),,np.max([xlim[1],ylim[1]])
 plt.plot(np.full(2,np.min([xlim[0],ylim[0]])),np.full(2,np.max([xlim[1],ylim[1]])),lw=2,ls='dashed',color='k')
 plt.xlim(xlim[0],xlim[1])
 plt.ylim(ylim[0],ylim[1])
