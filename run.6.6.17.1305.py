@@ -69,7 +69,7 @@ if docalc:
 taudiff,sigdiff=taumc-taub,sigmc-sigb
 plt.figure(1)
 plt.clf()
-plt.scatter(taudiff,sigdiff,s=1)
+plt.scatter(taudiff,sigdiff,s=1,color='white',edgecolor='None')
 xlim=plt.xlim()
 ylim=plt.ylim()
 go=np.where((taumc!=5)&(taumc!=7.5))[0]
