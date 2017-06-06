@@ -133,7 +133,7 @@ go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
 plt.hist(sigdiff[gevq[go]],range=(-1,1),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
 plt.xlabel(r'$\Delta log(\sigma)$')
 plt.ylabel('Number of objects')
-plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighistnorm.png')
+plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighist.png')
 
 execfile('/home/rumbaugh/pythonscripts/KStest.py')
 print KStest(sigdiff[go],sigdiff[gevq[go]])
@@ -148,7 +148,7 @@ go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
 plt.hist(taudiff[gevq[go]],range=(-1,1),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
 plt.xlabel(r'$\Delta log(\tau)$')
 plt.ylabel('Number of objects')
-plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_tauhistnorm.png')
+plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_tauhist.png')
 
 execfile('/home/rumbaugh/pythonscripts/KStest.py')
 print KStest(taudiff[go],taudiff[gevq[go]])
