@@ -165,8 +165,8 @@ go=np.where((taumc[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
 plt.hist(sigdiffnorm[gevq[go]],range=(-10,10),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
 plt.xlabel(r'$\Delta log(\sigma)/\sigma_{\sigma}$')
 plt.ylabel('Number of objects')
-plt.axvline(-3,color=k,ls='dashed')
-plt.axvline(3,color=k,ls='dashed')
+plt.axvline(-3,color='k',ls='dashed')
+plt.axvline(3,color='k',ls='dashed')
 plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighistnorm.png')
 
 execfile('/home/rumbaugh/pythonscripts/KStest.py')
@@ -180,8 +180,8 @@ plt.hist(taudiffnorm[go],range=(-5,5),bins=50,color='r',edgecolor='r',facecolor=
 
 go=np.where((taumc[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
 plt.hist(taudiffnorm[gevq[go]],range=(-5,5),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
-plt.axvline(-3,color=k,ls='dashed')
-plt.axvline(3,color=k,ls='dashed')
+plt.axvline(-3,color='k',ls='dashed')
+plt.axvline(3,color='k',ls='dashed')
 plt.xlabel(r'$\Delta log(\tau)/\sigma_{\tau}$')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_tauhistnorm.png')
