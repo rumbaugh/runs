@@ -125,10 +125,10 @@ plt.figure(1)
 plt.clf()
 
 go=np.where((taumc!=5)&(taumc!=7.5)&(taumc!=-10))[0]
-plt.hist(sigdiff[go],color='r',edgecolor='r',facecolor='None',lw=3)
+plt.hist(sigdiff[go],range=(-2,2),bins=16,color='r',edgecolor='r',facecolor='None',lw=3)
 
 go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
-plt.hist(sigdiff[gevq[go]],color='cyan',edgecolor='None',facecolor='cyan')
+plt.hist(sigdiff[gevq[go]],range=(-2,2),bins=16,color='cyan',edgecolor='None',facecolor='cyan')
 plt.xlabel(r'$\Delta log(\sigma)$')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighist.png')
