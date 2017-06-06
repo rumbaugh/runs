@@ -5,7 +5,6 @@ mcdict={'names':('DBID','RA','DEC','SDR5ID','Mi','Micorr','redshift','massBH','L
 delims=(8,11,11,6,8,8,7,6,7,7,7,7,7,7,7)
 crmc=np.genfromtxt('/home/rumbaugh/macleodQSOs/DB_QSO_S82.dat',dtype=mcdict,delimiter=delims)
 
-crmc=crmc[100:]
 
 fname='/home/rumbaugh/master_QSO_S82.dat'
 mdict={'names':('DR5ID','RA','DEC','Redshift','umag','umagerr','gmag','gmagerr','rmag','rmagerr','imag','imagerr','zmag','zmagerr','Au','lohHI','20mag','F-SN','S-Fsep','F1Flag','F2Flag','logX','X-SN','S-XSep','Jmag','Jmagerr','Hmag','Hmagerr','Kmag','Kmagerr','S-2Sep','iMag','D(g-i)','Morph','SPFlag','SMFlag','UTSFlag','B-TSFlag','Blowz','Bhiz','BFFlag','BRFlag','BSFlag','B-*Flag','BGFlag','RNum','PMJD','SMJD','SPNum','SFNum','rerun','CCol','Frame','ONum','TTsFlag','Tlowz','Thiz','TFFlag','TRFlag','TSFlag','T-*Flag','TGFlag','T-umag','T-umagerr','T-gmag','T-gmagerr','T-rmag','T-rmagerr','T-imag','T-imagerr','T-zmag','T-zmagerr','SpOID','OName'),'formats':('|S20','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i8','|S28')}
@@ -16,12 +15,12 @@ drwname='/home/rumbaugh/s82drw_g.dat'
 drwdict={'names':('SDR5ID','ra','dec','redshift','M_i','mass_BH','chi2_pdf','ltau','lsig','ltau_lim_lo','ltau_lim_hi','lsig_lim_lo','lsig_lim_hi','edge_flag','Plike','Pnoise','Pinf','mu','npts'),'formats':('i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i4','f8','f8','f8','f8','i8')}
 crdrw=np.loadtxt(drwname,dtype=drwdict)
 
-g0=np.where(crdrw['SDR5ID']==crmc['SDR5ID'][0])[0][0]
-tau0,sig0=crdrw['ltau'][g0],crdrw['lsig'][g0]
-tau0lerr,tau0herr,sig0lerr,sig0herr=tau0-crdrw['ltau_lim_lo'][g0],crdrw['ltau_lim_hi'][g0]-tau0,sig0-crdrw['lsig_lim_lo'][g0],crdrw['lsig_lim_hi'][g0]-sig0
+g0=np.where(crdrw['SDR5ID'][0]==crmc['SDR5ID'])[0][0]
+tau0,sig0=crdrw['ltau'][0],crdrw['lsig'][0]
+tau0lerr,tau0herr,sig0lerr,sig0herr=tau0-crdrw['ltau_lim_lo'][0],crdrw['ltau_lim_hi'][0]-tau0,sig0-crdrw['lsig_lim_lo'][0],crdrw['lsig_lim_hi'][0]-sig0
 
 mcLCdict={'names':('MJD_u','mag_u','mag_u_err','MJD_g','mag_g','mag_g_err','MJD_r','mag_r','mag_r_err','MJD_i','mag_i','mag_i_err','MJD_z','mag_z','mag_z_err','ra','dec'),'formats':('f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')}
-crlc=np.loadtxt('/home/rumbaugh/QSO_S82/%i'%(crmc['DBID'][0]),dtype=mcLCdict)
+crlc=np.loadtxt('/home/rumbaugh/QSO_S82/%i'%(crmc['DBID'][g0]),dtype=mcLCdict)
 LCcr=np.zeros((len(crlc)*1,),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
 
 
