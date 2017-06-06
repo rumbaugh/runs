@@ -56,6 +56,7 @@ if docalc:
         tau0lerr,tau0herr,sig0lerr,sig0herr=tau0-crdrw['ltau_lim_lo'][i],crdrw['ltau_lim_hi'][i]-tau0,sig0-crdrw['lsig_lim_lo'][i],crdrw['lsig_lim_hi'][i]-sig0
         taumc[i],sigmc[i],taumclerr[i],taumcherr[i],sigmclerr[i],sigmcherr[i]=tau0,sig0,tau0lerr,tau0herr,sig0lerr,sig0herr
         crlc=np.loadtxt('/home/rumbaugh/QSO_S82/%i'%(crmc['DBID'][g0]),dtype=mcLCdict)
+        crlc=crlc[crlc['MJD'>0]]
         LCcr=np.zeros((len(crlc)*1,),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
 
 
