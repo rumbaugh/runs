@@ -59,7 +59,7 @@ if docalc:
         mjd,mag,magerr=LCcr['MJD'],LCcr['MAG'],LCcr['MAGERR']
         out=qso_fit(mjd,mag,magerr,return_model=True)
         ltau=out['ltau']
-        lsig=np.log10((10**ltau)*0.5*10**out['lvar'])
+        lsig=np.log10(np.sqrt(0.5*10**(ltau+out['lvar'])))
         taub[i],sigb[i]=ltau,lsig
         if verbose:
             print 'Butler model for %i\ntau=%f, var=%f, sig=%f'%(crmc['DBID'][i],out['ltau'],out['lvar'],lsig)
