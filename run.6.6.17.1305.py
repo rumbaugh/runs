@@ -134,4 +134,4 @@ plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighist.png')
 
 execfile('/home/rumbaugh/pythonscripts/KStest.py')
-KStest(sigdiff[go],sigdiff[gevq[go]])
+print KStest(sigdiff[go],sigdiff[gevq[go]])
