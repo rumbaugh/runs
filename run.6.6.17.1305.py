@@ -38,10 +38,17 @@ try:
     docalc
 except NameError:
     docalc=False
+try:
+    numrand
+except NameError:
+    numrand=10
 
 if docalc:
     taumc,sigmc,taumclerr,taumcherr,sigmclerr,sigmcherr,taub,sigb=np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind)
-
+    randinds=np.random.choice(np.arange(0,maxind),numrand)
+    outcr=np.zeros((numrand,),dtype={'names':('SDR5ID','tau','sigma'),'formats':('i8','f8','f8')})
+    taub_rand,sigb_rand=np.zeros(numrand),np.zeros(numrand)
+    j=0
     for i in np.arange(0,maxind):
 
         g0=np.where(crdrw['SDR5ID'][i]==crmc['SDR5ID'])[0][0]
@@ -64,7 +71,13 @@ if docalc:
         if verbose:
             print 'Butler model for %i\ntau=%f, var=%f, sig=%f'%(crmc['DBID'][i],out['ltau'],out['lvar'],lsig)
             print 'Macleod model for %i\ntau=%f -%f/+%f\nsigma=%f -%f/+%f'%(crmc['DBID'][i],tau0,tau0lerr,tau0herr,sig0,sig0lerr,sig0herr)
-
+        if i in randinds:
+            outcr['tau'][j],outcr['sigma'][j],outcr['SDR5ID'][j]=ltau,lsig,crdrw['SDR5ID'][i]
+            lcout=np.zeros(len(mjd,4))
+            lcout[:,0],lcout[:,1],lcout[:,2],lcout[:,3]=mjd,mag,magerr,out['model']
+            np.savetxt('/home/rumbaugh/butler_test/LC_%i.dat'%outcr['SDR5ID'][j],lcout,header='MJD MAG MAGERR MODEL')
+            j+=1
+    np.savetxt('/home/rumbaugh/butler_test/model_params.dat',outcr,header='SDR5ID ltau lsigma')
     gevq=sout[0]
 taudiff,sigdiff=taumc-taub,sigmc-sigb
 taudiffnorm,sigdiffnorm=taudiff/taumclerr,sigdiff/sigmclerr
