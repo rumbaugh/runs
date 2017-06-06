@@ -72,7 +72,8 @@ plt.clf()
 plt.scatter(taudiff,sigdiff,s=1)
 xlim=plt.xlim()
 ylim=plt.ylim()
-plt.scatter(taudiff,sigdiff,color='r',s=2,edgecolor='None',facecolor='r')
+go=np.where((taumc!=5)&(taumc!=7.5))[0]
+plt.scatter(taudiff[go],sigdiff[go],color='r',s=2,edgecolor='None',facecolor='r')
 go=np.where(taumc==5)[0]
 plt.scatter(taudiff[go],sigdiff[go],color='orange',s=3,edgecolor='None',facecolor='orange')
 go=np.where(taumc==7.5)[0]
