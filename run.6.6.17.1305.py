@@ -86,3 +86,37 @@ plt.ylim(-1,1.6)
 plt.xlabel(r'$\Delta log(\tau)$')
 plt.ylabel(r'$\Delta log(\sigma)$')
 plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest.png')
+
+
+go=np.where((taumc!=5)&(taumc!=7.5)&(taumc!=-10))[0]
+plt.figure(1)
+plt.clf()
+plt.scatter(taub[go],taumc[go],color='r',s=2,edgecolor='None',facecolor='r')
+
+go=np.where((taumc[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
+plt.scatter(taub[gevg[go]],taumc[gevg[go]],color='cyan',s=8,edgecolor='None',facecolor='r')
+xlim=plt.xlim()
+ylim=plt.ylim()
+plt.plot(np.full(2,np.min([xlim[0],xlim[1]])),np.full(2.np.max([ylim[0],ylim[1]])),lw=2,ls='dashed',c='k')
+plt.xlim(xlim[0],xlim[1])
+plt.ylim(ylim[0],ylim[1])
+plt.xlabel(r'$log\left(\tau\right)$ (Butler)')
+plt.ylabel(r'$log\left(\tau\right)$ (MacLeod)')
+plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_tau.png')
+
+
+go=np.where((taumc!=5)&(taumc!=7.5)&(taumc!=-10))[0]
+plt.figure(1)
+plt.clf()
+plt.scatter(sigb[go],sigmc[go],color='r',s=2,edgecolor='None',facecolor='r')
+
+go=np.where((sigmc[gevq]!=5)&(sigmc[gevq]!=7.5)&(sigmc[gevq]!=-10))[0]
+plt.scatter(taub[gevg[go]],taumc[gevg[go]],color='cyan',s=8,edgecolor='None',facecolor='r')
+xlim=plt.xlim()
+ylim=plt.ylim()
+plt.plot(np.full(2,np.min([xlim[0],xlim[1]])),np.full(2.np.max([ylim[0],ylim[1]])),lw=2,ls='dashed',c='k')
+plt.xlim(xlim[0],xlim[1])
+plt.ylim(ylim[0],ylim[1])
+plt.xlabel(r'$log\left(\sigma\right)$ (Butler)')
+plt.ylabel(r'$log\left(\sigma\right)$ (MacLeod)')
+plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sig.png')
