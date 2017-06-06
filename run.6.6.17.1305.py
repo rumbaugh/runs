@@ -73,7 +73,7 @@ if docalc:
             print 'Macleod model for %i\ntau=%f -%f/+%f\nsigma=%f -%f/+%f'%(crmc['DBID'][i],tau0,tau0lerr,tau0herr,sig0,sig0lerr,sig0herr)
         if i in randinds:
             outcr['tau'][j],outcr['sigma'][j],outcr['SDR5ID'][j]=ltau,lsig,crdrw['SDR5ID'][i]
-            lcout=np.zeros(len(mjd,4))
+            lcout=np.zeros((len(mjd),4))
             lcout[:,0],lcout[:,1],lcout[:,2],lcout[:,3]=mjd,mag,magerr,out['model']
             np.savetxt('/home/rumbaugh/butler_test/LC_%i.dat'%outcr['SDR5ID'][j],lcout,header='MJD MAG MAGERR MODEL')
             j+=1
