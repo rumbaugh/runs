@@ -94,7 +94,7 @@ plt.clf()
 plt.scatter(taub[go],taumc[go],color='r',s=2,edgecolor='None',facecolor='r')
 
 go=np.where((taumc[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
-plt.scatter(taub[gevg[go]],taumc[gevg[go]],color='cyan',s=8,edgecolor='None',facecolor='r')
+plt.scatter(taub[gevq[go]],taumc[gevq[go]],color='cyan',s=8,edgecolor='None',facecolor='r')
 xlim=plt.xlim()
 ylim=plt.ylim()
 plt.plot(np.full(2,np.min([xlim[0],xlim[1]])),np.full(2,np.max([ylim[0],ylim[1]])),lw=2,ls='dashed',c='k')
@@ -111,7 +111,7 @@ plt.clf()
 plt.scatter(sigb[go],sigmc[go],color='r',s=2,edgecolor='None',facecolor='r')
 
 go=np.where((sigmc[gevq]!=5)&(sigmc[gevq]!=7.5)&(sigmc[gevq]!=-10))[0]
-plt.scatter(taub[gevg[go]],taumc[gevg[go]],color='cyan',s=8,edgecolor='None',facecolor='r')
+plt.scatter(taub[gevq[go]],taumc[gevq[go]],color='cyan',s=8,edgecolor='None',facecolor='r')
 xlim=plt.xlim()
 ylim=plt.ylim()
 plt.plot(np.full(2,np.min([xlim[0],xlim[1]])),np.full(2,np.max([ylim[0],ylim[1]])),lw=2,ls='dashed',c='k')
