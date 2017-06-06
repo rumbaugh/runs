@@ -29,5 +29,7 @@ for b,ib in zip(['g'],np.arange(1)):
 
 mjd,mag,magerr=LCcr['MJD'],LCcr['MAG'],LCcr['MAGERR']
 out=qso_fit(mjd,mag,magerr,return_model=True)
-print 'Butler model for %i\ntau=%f, var=%f'%(crmc['DBID'][0],out['ltau'],out['lvar'])
+ltau=out['ltau']
+lsig=np.log10((10**ltau)*0.5*10**out['lvar'])
+print 'Butler model for %i\ntau=%f, var=%f, sig=%f'%(crmc['DBID'][0],out['ltau'],out['lvar'],lsig)
 print 'Macleod model for %i\ntau=%f +%f/-%f\nsigma=%f +%f/-%f'%(crmc['DBID'][0],tau0,tau0lerr,tau0herr,sig0,sig0lerr,sig0herr)
