@@ -176,10 +176,10 @@ plt.figure(1)
 plt.clf()
 
 go=np.where((taumc!=5)&(taumc!=7.5)&(taumc!=-10))[0]
-plt.hist(taudiffnorm[go],range=(-10,10),bins=50,color='r',edgecolor='r',facecolor='None',lw=3)
+plt.hist(taudiffnorm[go],range=(-5,5),bins=50,color='r',edgecolor='r',facecolor='None',lw=3)
 
 go=np.where((taumc[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
-plt.hist(taudiffnorm[gevq[go]],range=(-10,10),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
+plt.hist(taudiffnorm[gevq[go]],range=(-5,5),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
 plt.axvline(-3,color=k,ls='dashed')
 plt.axvline(3,color=k,ls='dashed')
 plt.xlabel(r'$\Delta log(\tau)/\sigma_{\tau}$')
