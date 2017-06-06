@@ -142,10 +142,10 @@ plt.figure(1)
 plt.clf()
 
 go=np.where((taumc!=5)&(taumc!=7.5)&(taumc!=-10))[0]
-plt.hist(taudiff[go],range=(-1,1),bins=50,color='r',edgecolor='r',facecolor='None',lw=3)
+plt.hist(taudiff[go],range=(-4,4),bins=50,color='r',edgecolor='r',facecolor='None',lw=3)
 
 go=np.where((taub[gevq]!=5)&(taumc[gevq]!=7.5)&(taumc[gevq]!=-10))[0]
-plt.hist(taudiff[gevq[go]],range=(-1,1),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
+plt.hist(taudiff[gevq[go]],range=(-4,4),bins=50,color='cyan',edgecolor='None',facecolor='cyan')
 plt.xlabel(r'$\Delta log(\tau)$')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_tauhist.png')
