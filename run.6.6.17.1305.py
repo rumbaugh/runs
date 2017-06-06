@@ -132,3 +132,6 @@ plt.hist(sigdiff[gevq[go]],range=(-1,1),bins=20,color='cyan',edgecolor='None',fa
 plt.xlabel(r'$\Delta log(\sigma)$')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest_sighist.png')
+
+execfile('/home/rumbaugh/pythonscripts/KStest.py')
+KStest(sigdiff[go],sigdiff[gevq[go]])
