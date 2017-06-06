@@ -26,7 +26,7 @@ gd=np.where(drop>1)[0]
 
 sout=pydl.pydlutils.spheregroup.spherematch(crmc['RA'],crmc['DEC'],crd['RA'][gd],crd['DEC'][gd],0.3/3600)
 
-maxind=100
+maxind=np.len(crdrw)
 taumc,sigmc,taumclerr,taumcherr,sigmclerr,sigmcherr,taub,sigb=np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind),np.zeros(maxind)
 
 for i in np.arange(0,maxind):
