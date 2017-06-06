@@ -77,7 +77,7 @@ plt.scatter(taumc[gevq]-taub[gevq],sigmc[gevq]-sigb[gevq],color='cyan',s=4,edgec
 #plt.errorbar(taumc-taub,sigmc-sigb,xerr=[taumclerr,taumcherr],yerr=[sigmclerr,sigmcherr],color='r',fmt='ro',lw=2,capsize=3,mew=1)
 #plt.errorbar(taumc[gevq]-taub[gevq],sigmc[gevq]-sigb[gevq],xerr=[taumclerr[gevq],taumcherr[gevq]],yerr=[sigmclerr[gevq],sigmcherr[gevq]],color='cyan',fmt='ro',lw=2,capsize=3,mew=1)
 plt.xlim(-3.7,5)
-plt.ylim(-1.5,1.6)
+plt.ylim(-1,1.6)
 plt.xlabel(r'$\Delta log(\tau)$')
 plt.ylabel(r'$\Delta log(\sigma)$')
 plt.savefig('/home/rumbaugh/DRW_butler_Macleod_comptest.png')
