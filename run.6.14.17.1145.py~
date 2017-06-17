@@ -1,0 +1,62 @@
+import numpy as np
+import pandas as pd
+import carmcmc as cm
+import astroML.time_series as ts
+import matplotlib.pyplot as plt
+
+ntrials=10
+LCsize=200
+
+true_ltaus,true_lsigs=np.random.uniform(2,4,ntrials),np.random.uniform(-1,-0.5,ntrials)
+
+xmean,errmean,errsig=19,0.02,0.04
+yerrs=np.random.gamma(5,errsig,((ntrials,LCsize)))
+times=np.random.uniform(50000,56000,((ntrials,LCsize)))
+times=np.sort(times,axis=1)
+
+SFinfs=np.sqrt(2)*10**true_lsigs
+
+RW_arr=np.zeros((ntrials,LCsize))
+
+for i in range(0,ntrials):
+    RW_arr[i]=ts.generate_damped_RW(times[i],tau=10**true_ltaus[i],z=0,SFinf=SFinfs[i],xmean=xmean)
+    
+RW_arr+=np.random.normal(0,yerrs)
+
+df=pd.DataFrame({x: np.zeros(ntrials) for x in ['tau','drwvar','sigma']})
+for i in range(0,ntrials):
+    DRWmodel=cm.CarmaModel(times[i],RW_arr[i],yerrs[i],p=1,q=0)
+    DRWsample=DRWmodel.run_mcmc(20000)
+    lomega,drwvar,sigma=DRWsample.get_samples('log_omega').mean(),DRWsample.get_samples('var').mean(),DRWsample.get_samples('sigma').mean(),
+    df.iloc[i]['tau'],df.iloc[i]['drwvar'],df.iloc[i]['sigma']=np.exp(-lomega),drwvar,sigma
+df.ltau,df.lsigma,df.lvar=np.log10(df.tau),np.log10(df.lsigma),np.log10(df.lvar)
+xdummy=np.linspace(3,5,100)
+true_taus,true_sigs=10**true_ltaus,10**true_lsigs
+plt.figure(1)
+plt.clf()
+plt.scatter(true_ltaus,df.ltau)
+xlim=plt.xlim()
+ylim=plt.ylim()
+plt.plot(xdummy,xdummy,lw=2,color='k',ls='dashed')
+plt.xlim(xlim[0],xlim[1])
+plt.ylim(ylim[0],ylim[1])
+plt.xlabel(r'True $\tau$ (days)')
+plt.xlabel(r'Fit $\tau$ (days)')
+plt.savefig('/home/rumbaugh/DRWmocktest.tau.png')
+
+plt.figure(1)
+plt.clf()
+plt.scatter(true_lsigs,df.lsigma,color='b',label='sig')
+plt.scatter(true_lsigs,np.log10(0.5*df.sigma**2*df.tau),color='cyan',label='sig_form')
+plt.scatter(true_lsigs,df.drwvar,color='r',label='var')
+plt.scatter(true_lsigs,np.log10(0.5*df.drwvar**2,*df.tau))#,color='orange',label='var_form')
+xlim=plt.xlim()
+ylim=plt.ylim()
+xdummy=np.linspace(xlim[0],xlim[1],100)
+plt.plot(xdummy,xdummy,lw=2,color='k',ls='dashed')
+plt.xlim(xlim[0],xlim[1])
+plt.ylim(ylim[0],ylim[1])
+plt.xlabel(r'True $\tau$ (days)')
+plt.xlabel(r'Fit $\tau$ (days)')
+plt.legend(loc='upper right',frameon=False)
+plt.savefig('/home/rumbaugh/DRWmocktest.sigma.png')

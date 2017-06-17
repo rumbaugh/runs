@@ -1,25 +1,27 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
 execfile('/home/rumbaugh/set_spec_dict.py')
 execfile('/home/rumbaugh/CalcVelDisp.py')
 execfile('/home/rumbaugh/cosmocalc.py')
 execfile('/home/rumbaugh/SphDist.py')
+execfile('/home/rumbaugh/DStest.py')
 execfile("/home/rumbaugh/scale_estimators.py")
-import matplotlib.backends.backend_pdf as bpdf
-psfpdf=bpdf.PdfPages('/home/rumbaugh/Chandra/plots/CMDs_clusters.5.27.17.pdf')
+degree_symbol = unichr(176)
+html_purp = '#9933FF'
+html_teal = '#33FFFF'
+html_brwn = '#996600'
+html_orng = '#FFCC00'
+html_pink = '#FF00FF'
+
 try:
     ntrials
 except NameError:
     ntrials = 10000
-numsig=3
-
-fielddict={'rxj0910':'SC0910','cl0023':'SG0023','cl1324':'SC1324','cl0849':'SC0849','cl1604':'SC1604','cl1137':'Cl1137','cl1350':'Cl1350'}
-
-crRS=np.loadtxt('/home/rumbaugh/final_RS_values_supercolors.notes',dtype={'names':('field','y0','m','sig'),'formats':('|S32','f8','f8','f8')})
-crRS_ACS=np.loadtxt('/home/rumbaugh/Chandra/RS_fits.cl1604_ACS.nofit.3.6.16.dat',dtype={'names':('field','y0','m','sig','numsig'),'formats':('|S32','f8','f8','f8','i8')})
+c=3.*10**5
 
 def read_spec_file(field):
-    fname='/home/rumbaugh/git/ORELSE/Catalogs/Spec_z/%s'%spec_dict[field]['file']
+    fname='/home/rumbaugh/Chandra/speccats/%s'%spec_dict[field]['file']
     if field=='cl1604':
         loaddict=ACSspecloaddictwnotes
         uc=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)
@@ -47,7 +49,6 @@ def spatplot(ras,decs,fname=None):
     if fname!=None: plt.savefig(fname)
 
 crf=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.cluster_fits.dat',dtype={'names':('cluster','r0','r0-','r0+','blg','bkg-','blg+','r500','r500NC','NC'),'formats':('|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
-crf=crf[crf['cluster']!='0225-0019']
 cr=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.clusters.dat',dtype={'names':('field','cluster','RA','Dec','z','sig0.5','sig0.5err','n0.5','sig','sigerr','nsig'),'formats':('|S24','|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
 crx=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.X-ray_centers_for_paper.dat',dtype={'names':('field','cluster','RA','DEC'),'formats':('|S20','|S20','f8','f8')},usecols=(0,1,2,3))
 
@@ -60,13 +61,11 @@ crcc=np.loadtxt('/home/rumbaugh/cc_out_clus.1.28.17.dat',usecols=(1,2,3,4,5,6,7,
 kpc = crcc[:,12]
 Hz = crcc[:,16]*70.
 Mpc = kpc/1000.
-crCMD=np.loadtxt('/home/rumbaugh/Chandra/CMD_info_all.1.29.17.dat',dtype={'names':('mag','col','ra','dec','z','rso','field'),'formats':('f8','f8','f8','f8','f8','f8','|S20')})
-crCMD=crCMD[crCMD['mag']>-40]
-outcr=np.zeros((len(crf),),dtype={'names':('field','cluster','ra','dec','zcen','zmin','zmax','rad'),'formats':('|S12','|S12','f8','f8','f8','f8','f8','f8')})
 
-outgalcr=np.zeros((0,),dtype={'names':('field','cluster','ra','dec','z','Mred','Mcol','rso'),'formats':('|S12','|S12','f8','f8','f8','f8','f8','f8')})
+FILE=open('/home/rumbaugh/Chandra/ORELSE.DStests.dat','w')
+FILE.write('#Field Cluster DSstat P\n')
 
-for clus,ic in zip(crf['cluster'],np.arange(len(crf))):
+for clus in crf['cluster']:
     try:
         gcr=np.where(cr['cluster']==clus)[0][0]
         raC,decC,zC=cr['RA'][gcr],cr['Dec'][gcr],cr['z'][gcr]
@@ -86,46 +85,74 @@ for clus,ic in zip(crf['cluster'],np.arange(len(crf))):
         except:
             print 'X-ray center not found either'
             continue
-    try:
-        propername=fielddict[field]
-    except KeyError:
-        propername=field.upper()
-
-    gf=np.where(crRS['field']==propername)[0][0]
-    y0,m,sig=crRS['y0'][gf],crRS['m'][gf],crRS['sig'][gf]
-    if field=='cl1604':y0,m,sig=crRS_ACS['y0']+0,crRS_ACS['m']+0,crRS_ACS['sig']+0
-    width=2*numsig*sig
-
-    gcCMD=np.where(crCMD['field']==field)[0]
     crspec=read_spec_file(field)
     try:
         gz=np.where(crz['cluster']==clus)[0][0]
     except:
         print "Didn't use this one before"
         continue
-    if zC==None: zC=0.5*(crz['Zlb'][gz]+crz['Zub'][gz])
+    matplotlib.rcParams['figure.figsize'] = [7,7]
+    matplotlib.rcParams['axes.linewidth'] = 3
+    matplotlib.pyplot.tick_params(width=2,length=4)
+    fig = matplotlib.figure.Figure()
+    plt.figure(1)
+    plt.clf()
+    sig=crz['sigall'][gz]
     gspecz=np.where((crspec['Q']>2.5)&(crspec['z']>crz['Zlb'][gz])&(crspec['z']<crz['Zub'][gz]))[0]
     tdists=SphDist(crspec['ra'][gspecz],crspec['dec'][gspecz],raC,decC)
     gclose=np.where(tdists<Mpc_am)[0]
-    allzs=crspec['z'][gspecz][gclose]
-    if len(allzs)<=0:
+    zs,ras,decs=crspec['z'][gspecz][gclose],crspec['ra'][gspecz][gclose],crspec['dec'][gspecz][gclose]
+    avg_z=biweight_loc(zs)
+    zsig = sig*(1+avg_z)/c
+    
+    if len(zs)<=0:
         print 'Nothing close to %s'%clus
         continue
     zmin,zmax=crz['Zlb'][gz],crz['Zub'][gz]
-    gz2=np.where((crCMD[gcCMD]['z']>zmin-0.00001)&(crCMD[gcCMD]['z']<zmax+0.00001))[0]
+    #gz2=np.where((crCMD[gcCMD]['z']>zmin-0.00001)&(crCMD[gcCMD]['z']<zmax+0.00001))[0]
 
-    tdists=SphDist(crCMD['ra'][gcCMD[gz2]],crCMD['dec'][gcCMD[gz2]],raC,decC)
-    gclose=np.where(tdists<Mpc_am)[0]
-    allzs2=crCMD['z'][gcCMD[gz2[gclose]]]
-    gblue,gred,gsred=np.where(crCMD['rso'][gcCMD[gz2[gclose]]]>1)[0],np.where(np.abs(crCMD['rso'][gcCMD[gz2[gclose]]])<1)[0],np.where(crCMD['rso'][gcCMD[gz2[gclose]]]<-1)[0]
-    gnotred=np.union1d(gblue,gsred)
-    gBCG,gallBCG=np.argsort(crCMD['mag'][gcCMD[gz2[gclose[gred]]]])[0],np.argsort(crCMD['mag'][gcCMD[gz2[gclose]]])[0]
-    outcr['field'][ic],outcr['cluster'][ic],outcr['ra'][ic],outcr['dec'][ic],outcr['zcen'][ic],outcr['zmin'][ic],outcr['zmax'][ic],outcr['rad'][ic]=field,clus,raC,decC,zC,zmin,zmax,Mpc_am
-
-    tmpgalcr=np.zeros((len(gclose),),dtype={'names':('field','cluster','ra','dec','z','Mred','Mcol','rso'),'formats':('|S12','|S12','f8','f8','f8','f8','f8','f8')})
-    tmpgalcr['field'],tmpgalcr['cluster'],tmpgalcr['ra'],tmpgalcr['dec'],tmpgalcr['z'],tmpgalcr['Mred'],tmpgalcr['Mcol'],tmpgalcr['rso']=field,clus,crCMD['ra'][gcCMD[gz2[gclose]]],crCMD['dec'][gcCMD[gz2[gclose]]],crCMD['z'][gcCMD[gz2[gclose]]],crCMD['mag'][gcCMD[gz2[gclose]]],crCMD['col'][gcCMD[gz2[gclose]]],crCMD['rso'][gcCMD[gz2[gclose]]]
-    outgalcr=np.concatenate((outgalcr,tmpgalcr))
-
-
-np.savetxt('/home/rumbaugh/Chandra/ORELSE.cluster_bounds.dat',outcr,header='field cluster ra dec zcen zmin zmax rad',fmt='%12s %12s %f %f %f %f %f %f')
-np.savetxt('/home/rumbaugh/Chandra/ORELSE.cluster_members.dat',outgalcr,header='field cluster ra dec z Mred Mred-Mblue rso',fmt='%12s %12s %f %f %f %f %f %f')
+    #tdists=SphDist(crCMD['ra'][gcCMD[gz2]],crCMD['dec'][gcCMD[gz2]],raC,decC)
+    #gclose=np.where(tdists<Mpc_am)[0]
+    #allzs2=crCMD['z'][gcCMD[gz2[gclose]]]
+    if len(zs)>10:
+        DSstat,P,delta=DStest(ras,decs,zs,use_vel_in=False)
+        FILE.write('%12s %14s %f %f\n'%(field,clus,DSstat,P))
+    else:
+        continue
+    for j in range(0,len(delta)):
+        circsize = 100*np.exp(1.0*delta[j])
+        if ((zs[j] >  avg_z-zsig) & (zs[j] < avg_z+zsig)): 
+            tx = np.cos(np.linspace(0,2*np.pi,50)).tolist()
+            ty = np.sin(np.linspace(0,2*np.pi,50)).tolist()
+            xy1 = zip(tx,ty)
+            plt.scatter(ras[j],decs[j],s=0.25*circsize,marker=(xy1,0),facecolors='none',edgecolors='red',lw=3)
+            #plt.scatter(ras[j],decs[j],s=secsize*0.25*circsize,marker=(xy1,0),facecolors='none',edgecolors='red')
+        elif ((zs[j] < avg_z-zsig)):
+            #plt.scatter(ras[j],decs[j],s=circsize,facecolors='green',edgecolor='black')
+            tr = np.sqrt(circsize/np.pi)
+            tx = [0] + np.cos(np.linspace(0,2*np.pi*0.25,50)).tolist()
+            ty = [0] + np.sin(np.linspace(0,2*np.pi*0.25,50)).tolist()
+            xy1 = zip(tx,ty)
+            tx = [0] + np.cos(np.linspace(2*np.pi*0.25,2*np.pi*0.5,50)).tolist()
+            ty = [0] + np.sin(np.linspace(2*np.pi*0.25,2*np.pi*0.5,50)).tolist()
+            xy2 = zip(tx,ty)
+            tx = [0] + np.cos(np.linspace(2*np.pi*0.5,2*np.pi*0.75,50)).tolist()
+            ty = [0] + np.sin(np.linspace(2*np.pi*0.5,2*np.pi*0.75,50)).tolist()
+            xy3 = zip(tx,ty)
+            tx = [0] + np.cos(np.linspace(2*np.pi*0.75,2*np.pi,50)).tolist()
+            ty = [0] + np.sin(np.linspace(2*np.pi*0.75,2*np.pi,50)).tolist()
+            xy4 = zip(tx,ty)
+            plt.scatter(ras[j],decs[j],s=0.25*circsize,marker=(xy1,0),facecolors='none',edgecolors='green',lw=3)
+            plt.scatter(ras[j],decs[j],s=0.25*circsize,marker=(xy2,0),facecolors='none',edgecolors='green',lw=3)
+            plt.scatter(ras[j],decs[j],s=0.25*circsize,marker=(xy3,0),facecolors='none',edgecolors='green',lw=3)
+            plt.scatter(ras[j],decs[j],s=0.25*circsize,marker=(xy4,0),facecolors='none',edgecolors='green',lw=3)
+        else:
+            tx = np.cos(np.linspace(0,2*np.pi,50)).tolist()
+            ty = np.sin(np.linspace(0,2*np.pi,50)).tolist()
+            xy1 = zip(tx,ty)
+            plt.scatter(ras[j],decs[j],s=0.25*circsize,marker=(xy1,0),facecolors='none',edgecolors='blue',linestyle='dotted',lw=2)
+    xlim=plt.xlim()
+    plt.xlim(xlim[1],xlim[0])
+    plt.title(clus)
+    plt.savefig('/home/rumbaugh/Chandra/plots/DSplot.%s.png'%clus)
+FILE.close()
