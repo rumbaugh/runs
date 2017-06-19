@@ -17,7 +17,7 @@ iLB,iUB=int(normfrac*0.5*nsamples),int((1-0.5*normfrac)*nsamples)
 
 DBdf=pd.read_csv('/home/rumbaugh/DB_QSO_S82.dat',delim_whitespace=True,names=['DBID','ra','dec','SDR5ID','Mi','Micorr','redshift','massBH','Lbol','u','g','r','i','z','Au'],skiprows=2)
 
-if dotest: DBdf=DBdf[np.random.choice(np.arange(len(DBdf)),tests,replace=False)]
+if dotest: DBdf=DBdf.iloc[np.random.choice(np.arange(len(DBdf)),tests,replace=False)]
 
 params_df=pd.DataFrame({'DBID':DBdf.DBID})
 for x in ['tau','taulb','tauub','sigma','sigmalb','sigmaub']: params_df[x]=np.zeros(len(DBdf))
