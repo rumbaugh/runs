@@ -9,7 +9,7 @@ drwdict={'names':('SDR5ID','ra','dec','redshift','M_i','mass_BH','chi2_pdf','lta
 crdrw=np.loadtxt(drwname,dtype=drwdict)
 
 drwdf=pd.DataFrame({name:crdrw[name] for name in ['SDR5ID','ra','dec','redshift','ltau','lsig','ltau_lim_lo','ltau_lim_hi','lsig_lim_lo','lsig_lim_hi']})
-drwdf=pd.merge(DBdf,drwdf,on='SDR5ID')
+drwdf=pd.merge(DBdf,drwdf,left_index=True,right_index=True,on=['ra','dec','redshift','SDR5ID'])
 
 gkeep=np.in1d(drwdf.lsig.values,[  -0.8,  -10.0,  -0.95, -0.975, -0.675,   -0.9, -0.775,  -0.85,
                 -1.0, -0.575,   -0.5, -1.175, -0.875, -0.925, -0.725, -0.625,

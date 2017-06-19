@@ -23,7 +23,7 @@ sig_cut=vcs.index[vcs.values>5]
 gkeeptau,gkeepsig=np.in1d(drwdf.ltau.values,tau_cut,invert=True),np.in1d(drwdf.lsig.values,sig_cut,invert=True)
 gkeep=gkeeptau*gkeepsig
 
-#drwdf=drwdf[gkeep]
+drwdf=drwdf[gkeep]
 
 fitdf=pd.read_csv('/home/rumbaugh/QSO_S82_CAR1_fits.csv')
 #fitdf['sigma']=np.sqrt(0.5*fitdf.sigma.values**2*fitdf.tau.values)
@@ -38,11 +38,11 @@ xlim=plt.xlim()
 ylim=plt.ylim()
 xdummy=np.linspace(xlim[0],xlim[1],100)
 plt.plot(xdummy,xdummy,lw=2,color='k',ls='dashed')
-plt.xlim(xlim[0],xlim[1])
+plt.xlim(-2,xlim[1])
 plt.ylim(ylim[0],ylim[1])
 plt.xlabel(r'log(Macleod $\tau$ (days))')
 plt.ylabel(r'log(CAR1 fit $\tau$ (days))')
-plt.savefig('/home/rumbaugh/S82_CARfit_badtest.tau.png')
+plt.savefig('/home/rumbaugh/S82_CARfit_test.tau.png')
 
 
 
@@ -57,7 +57,7 @@ plt.xlim(xlim[0],xlim[1])
 plt.ylim(ylim[0],ylim[1])
 plt.xlabel(r'log(Macleod $\sigma$)')
 plt.ylabel(r'log(CAR1 fit $\sigma$)')
-plt.savefig('/home/rumbaugh/S82_CARfit_badtest.sigma.png')
+plt.savefig('/home/rumbaugh/S82_CARfit_test.sigma.png')
 
 
 
@@ -74,7 +74,7 @@ plt.xlim(xlim[0],xlim[1])
 plt.ylim(ylim[0],ylim[1])
 plt.ylabel(r'log(Macleod $\sigma$)-log(CAR1 fit $\sigma$)')
 plt.xlabel(r'log(Macleod $\tau$ (days))-log(CAR1 fit $\tau$ (days))')
-plt.savefig('/home/rumbaugh/S82_CARfit_badtest.tausig_diff.png')
+plt.savefig('/home/rumbaugh/S82_CARfit_test.tausig_diff.png')
 
 
 

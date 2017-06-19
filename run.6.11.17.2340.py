@@ -138,9 +138,9 @@ xlim=plt.xlim()
 ylim=plt.ylim()
 xdummy=np.linspace(np.max([xlim[0],0.7]),xlim[1],dummypoints)
 ydummy_lit0=0.112*xdummy**2.53*10**44
-ydummy_lit=0.079*xdummy**2.7*10**44
+ydummy_lit2=0.079*xdummy**2.7*10**44
 ydummy_lit_4func=0.079*xdummy**2.7
-ydummy_lit2=10**44.05*(xdummy/5.)**2.9
+ydummy_lit=10**44.05*(xdummy/5.)**2.9
 ydummy_fit=np.e**LxTout.beta[1]*xdummy**LxTout.beta[0]
 ydummy_fit_iter=np.e**LxTout_iter.beta[1]*xdummy**LxTout_iter.beta[0]
 plt.loglog(xdummy,ydummy_lit0,lw=2,color='b')
