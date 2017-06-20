@@ -5,6 +5,11 @@ import pickle
 import matplotlib.backends.backend_pdf as bpdf
 psfpdf=bpdf.PdfPages('/home/rumbaugh/S82_CAR1_fits.posteriors.pdf')
 
+try:
+    numrands
+except NameError:
+    numrands=200
+
 DBdf=pd.read_csv('/home/rumbaugh/DB_QSO_S82.dat',delim_whitespace=True,names=['DBID','ra','dec','SDR5ID','Mi','Micorr','redshift','massBH','Lbol','u','g','r','i','z','Au'],skiprows=2)
 
 drwname='/home/rumbaugh/s82drw_g.dat'
@@ -33,14 +38,14 @@ fitdf=pd.read_csv('/home/rumbaugh/QSO_S82_CAR1_fits.csv')
 
 df=pd.merge(fitdf,drwdf,on='DBID')
 
-grand=np.random.choice(np.arange(len(df)),200,replace=False)
+grand=np.random.choice(np.arange(len(df)),numrands,replace=False)
 gsort=grand[np.argsort(fitdf.tau.values[grand])]
 for i,DBID in zip(gsort,df.DBID.values[gsort]):
     sample=pickle.load(open("/home/rumbaugh/CARpickles/{}.DRWsample.pickle".format(DBID),'rb'))
     sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
-    macltau,maclsig,macltauLB,macltauUB,maclsigLB,maclsigUB=df.ltau[i],df.lsig[i],df.ltau_lim_lo[i],df.ltau_lim_hi[i],df.lsig[i],df.lsig_lim_lo[i],df.lsig_lim_hi[i]
+    macltau,maclsig,macltauLB,macltauUB,maclsigLB,maclsigUB=df.ltau[i],df.lsig[i],df.ltau_lim_lo[i],df.ltau_lim_hi[i],df.lsig_lim_lo[i],df.lsig_lim_hi[i]
     maclomega,maclomegaUB,maclomegaLB=-macltau,-macltauLB,-macltauUB
     lomerrl,lomerru,sigerrl,sigerru=np.log(np.exp(maclomega)-np.exp(maclomegaLB)),np.log(np.exp(maclomegaUB)-np.exp(maclomega)),np.exp(maclsig)-np.exp(maclsigLB),np.exp(maclsigUB)-np.exp(maclsig)
     ax0.errorbar([maclomega],[np.exp(maclsig)],xerr=[[lomerrl],[lommeru]],yerr=[[sigerrl],[sigerru]],color='r',fmt='ro',lw=2,capsize=3,mew=1)
