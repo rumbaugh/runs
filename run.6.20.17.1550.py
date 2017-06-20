@@ -45,7 +45,7 @@ for i,DBID in zip(gsort,df.DBID.values[gsort]):
     sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
-    macltau,maclsig,macltauLB,macltauUB,maclsigLB,maclsigUB=df.ltau[i],df.lsig[i],df.ltau_lim_lo[i],df.ltau_lim_hi[i],df.lsig_lim_lo[i],df.lsig_lim_hi[i]
+    macltau,maclsig,macltauLB,macltauUB,maclsigLB,maclsigUB=df.ltau[i],df.lsig[i]-np.log10(np.sqrt(365)),df.ltau_lim_lo[i],df.ltau_lim_hi[i],df.lsig_lim_lo[i]-np.log10(np.sqrt(365)),df.lsig_lim_hi[i]-np.log10(np.sqrt(365))
     maclomega,maclomegaUB,maclomegaLB=-macltau*np.log(10),-macltauLB*np.log(10),-macltauUB*np.log(10)
     lomerrl,lomerru,sigerrl,sigerru=np.log(np.exp(maclomega)-np.exp(maclomegaLB)),np.log(np.exp(maclomegaUB)-np.exp(maclomega)),10**(maclsig)-10**(maclsigLB),10**(maclsigUB)-10**(maclsig)
     ax0.errorbar([maclomega],[10**(maclsig)],xerr=[[lomerrl],[lomerru]],yerr=[[sigerrl],[sigerru]],color='r',fmt='ro',lw=2,capsize=3,mew=1)
