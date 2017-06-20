@@ -37,10 +37,9 @@ grand=np.random.choice(np.arange(len(df)),200,replace=False)
 gsort=grand[np.argsort(fitdf.tau.values[grand])]
 for i,DBID in zip(gsort,df.DBID.values[gsort]):
     sample=pickle.load(open("/home/rumbaugh/CARpickles/{}.DRWsample.pickle".format(DBID),'rb'))
-    sample.plot_2dkde('log_omega','sigma')
+    sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
-    curaxes=fig.get_axes
-    ax0=curaxes[0]
+    ax0=fig.get_axes()[0]
     macltau,maclsig,macltauLB,macltauUB,maclsigLB,maclsigUB=df.ltau[i],df.lsig[i],df.ltau_lim_lo[i],df.ltau_lim_hi[i],df.lsig[i],df.lsig_lim_lo[i],df.lsig_lim_hi[i]
     maclomega,maclomegaUB,maclomegaLB=-macltau,-macltauLB,-macltauUB
     lomerrl,lomerru,sigerrl,sigerru=np.log(np.exp(maclomega)-np.exp(maclomegaLB)),np.log(np.exp(maclomegaUB)-np.exp(maclomega)),np.exp(maclsig)-np.exp(maclsigLB),np.exp(maclsigUB)-np.exp(maclsig)
