@@ -30,6 +30,6 @@ for i in range(0,len(outcr)-2):
     #    redux='104'
     #else:
     #    redux='v5_7_0'
-    outcr[i+2]='wget https://dr12.sdss.org/sas/dr12/sdss/spectro/redux/%s/spectra/%04i/spec-%04i-%05i-%04i.fits'%(indf.run2d.values[i],indf.plate.values[i],indf.plate.values[i],indf.mjd.values[i],indf.fiberid.values[i])
+    outcr[i+2]='wget https://dr12.sdss.org/sas/dr12/sdss/spectro/redux/%s/spectra/%04i/spec-%04i-%05i-%04i.fits'%(indf.run2d.values[i].stripe(),indf.plate.values[i],indf.plate.values[i],indf.mjd.values[i],indf.fiberid.values[i])
 np.savetxt('/home/rumbaugh/runs/run.6.19.17.2220.sh',outcr,fmt='%s')
 os.system('chmod +x /home/rumbaugh/runs/run.6.19.17.2220.sh')
