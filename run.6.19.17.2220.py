@@ -8,11 +8,11 @@ indf=pd.read_csv('/home/rumbaugh/random_SDSS_specs.csv',na_values='null')
 outcr=np.zeros(len(indf.sourcetype.values)+2,dtype='|S120')
 outcr[0],outcr[1]='mkdir -p /home/rumbaugh/SDSS_PCA/spec','cd /home/rumbaugh/SDSS_PCA/spec'
 for i in range(0,len(outcr)-2):
-    if indf.plate<1963:
+    if indf.plate.values[i]<1963:
         redux='26'
-    elif indf.plate<3140:
+    elif indf.plate.values[i]<3140:
         redux='103'
-    elif indf.plate<4190:
+    elif indf.plate.values[i]<4190:
         redux='104'
     else:
         redux='v5_7_0'
