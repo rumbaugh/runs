@@ -46,7 +46,7 @@ for i,DBID in zip(gsort,df.DBID.values[gsort]):
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
     macltau,maclsig,macltauLB,macltauUB,maclsigLB,maclsigUB=df.ltau[i],df.lsig[i],df.ltau_lim_lo[i],df.ltau_lim_hi[i],df.lsig_lim_lo[i],df.lsig_lim_hi[i]
-    maclomega,maclomegaUB,maclomegaLB=-macltau*log(10),-macltauLB*log(10),-macltauUB*log(10)
+    maclomega,maclomegaUB,maclomegaLB=-macltau*np.log(10),-macltauLB*np.log(10),-macltauUB*np.log(10)
     lomerrl,lomerru,sigerrl,sigerru=np.log(np.exp(maclomega)-np.exp(maclomegaLB)),np.log(np.exp(maclomegaUB)-np.exp(maclomega)),np.exp(maclsig)-np.exp(maclsigLB),np.exp(maclsigUB)-np.exp(maclsig)
     ax0.errorbar([maclomega],[10**(maclsig)],xerr=[[lomerrl],[lomerru]],yerr=[[sigerrl],[sigerru]],color='r',fmt='ro',lw=2,capsize=3,mew=1)
     ax0.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fontsize=15,transform=ax0.transAxes,horizontalalignment='center')
