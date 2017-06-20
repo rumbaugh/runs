@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import carmcmc as cm
+import pickle
 
 try:
     dotest
@@ -32,5 +33,5 @@ for i in range(0,len(DBdf)):
     lomegaLB,lomegaUB,sigmaLB,sigmaUB=lomega_samples[iLB],lomega_samples[iUB],sigma_samples[iLB],sigma_samples[iUB]
     params_df.loc[i,'tau'],params_df.loc[i,'sigma']=np.exp(-lomega),sigma
     params_df.loc[i,'taulb'],params_df.loc[i,'tauub'],params_df.loc[i,'sigmalb'],params_df.loc[i,'sigmaub']=np.exp(-lomegaUB),np.exp(-lomegaLB),sigmaLB,sigmaUB
-    pickle.dump(DRWsample,'/home/rumbaugh/CARpickles/%i.DRWsample.pickle'%DBdf.iloc[i]['DBID'])
+    pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/%i.DRWsample.pickle'%DBdf.iloc[i]['DBID'],'wb'))
 params_df.to_csv('/home/rumbaugh/QSO_S82_CAR1_fits.csv',index=False)
