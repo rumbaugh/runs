@@ -34,7 +34,7 @@ fitdf=pd.read_csv('/home/rumbaugh/QSO_S82_CAR1_fits.csv')
 df=pd.merge(fitdf,drwdf,on='DBID')
 
 grand=np.random.choice(np.arange(len(df)),200,replace=False)
-gsort=grand[np.argsort(fitdf.tau.values)]
+gsort=grand[np.argsort(fitdf.tau.values[grand])]
 for i,DBID in zip(gsort,df.DBID.values[gsort]):
     sample=pickle.load(open("/home/rumbaugh/CARpickles/{}.DRWsample.pickle".format(DBID),'rb'))
     fig=plt.gcf()
