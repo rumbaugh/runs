@@ -37,6 +37,7 @@ grand=np.random.choice(np.arange(len(df)),200,replace=False)
 gsort=grand[np.argsort(fitdf.tau.values[grand])]
 for i,DBID in zip(gsort,df.DBID.values[gsort]):
     sample=pickle.load(open("/home/rumbaugh/CARpickles/{}.DRWsample.pickle".format(DBID),'rb'))
+    sample.plot_2dkde('log_omega','sigma')
     fig=plt.gcf()
     curaxes=fig.get_axes
     ax0=curaxes[0]
@@ -44,6 +45,6 @@ for i,DBID in zip(gsort,df.DBID.values[gsort]):
     maclomega,maclomegaUB,maclomegaLB=-macltau,-macltauLB,-macltauUB
     lomerrl,lomerru,sigerrl,sigerru=np.log(np.exp(maclomega)-np.exp(maclomegaLB)),np.log(np.exp(maclomegaUB)-np.exp(maclomega)),np.exp(maclsig)-np.exp(maclsigLB),np.exp(maclsigUB)-np.exp(maclsig)
     ax0.errorbar([maclomega],[np.exp(maclsig)],xerr=[[lomerrl],[lommeru]],yerr=[[sigerrl],[sigerru]],color='r',fmt='ro',lw=2,capsize=3,mew=1)
-    ax0.text(0.5,0.9,'ltau=%.1f(%.1f),lsig=%.1f'%(np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fotnsize=20,transform=ax0.transAxes,horizontalalignment='center')
+    ax0.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fotnsize=20,transform=ax0.transAxes,horizontalalignment='center')
     fig.savefig(psfpdf,format='pdf')
 psfpdf.close()
