@@ -47,4 +47,6 @@ for i,DBID in zip(gsort,df.DBID.values[gsort]):
     ax0.errorbar([maclomega],[np.exp(maclsig)],xerr=[[lomerrl],[lommeru]],yerr=[[sigerrl],[sigerru]],color='r',fmt='ro',lw=2,capsize=3,mew=1)
     ax0.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fotnsize=20,transform=ax0.transAxes,horizontalalignment='center')
     fig.savefig(psfpdf,format='pdf')
+    plt.clf()
+    plt.close('all')
 psfpdf.close()
