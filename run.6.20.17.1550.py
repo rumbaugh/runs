@@ -8,7 +8,7 @@ psfpdf=bpdf.PdfPages('/home/rumbaugh/S82_CAR1_fits.posteriors.pdf')
 try:
     numrands
 except NameError:
-    numrands=200
+    numrands=25
 
 DBdf=pd.read_csv('/home/rumbaugh/DB_QSO_S82.dat',delim_whitespace=True,names=['DBID','ra','dec','SDR5ID','Mi','Micorr','redshift','massBH','Lbol','u','g','r','i','z','Au'],skiprows=2)
 
@@ -38,9 +38,15 @@ fitdf=pd.read_csv('/home/rumbaugh/QSO_S82_CAR1_fits.csv')
 
 df=pd.merge(fitdf,drwdf,on='DBID')
 
-grand=np.random.choice(np.arange(len(df)),numrands,replace=False)
-gsort=grand[np.argsort(fitdf.tau.values[grand])]
-for i,DBID in zip(gsort,df.DBID.values[gsort]):
+df['ltaudiff']=df.ltau-np.log10(df.tau)
+df['group']=pd.cut(df.ltaudiff,[-np.inf,-0.6,-0.2,0.2,2,np.inf],labels=['D','C','B','A','Z'])
+
+coldict={'A':'blue','B':'green','C':'orange','D':'magenta','Z':'red'}
+
+grand=np.zeros(0,dtype='i8')
+for group in ['A','B','C','D','Z']:
+    grand=np.append(grand,np.random.choice(df.index[df.group==group],numrands,replace=False))
+for i,DBID in zip(grand,df.DBID.values[grand]):
     sample=pickle.load(open("/home/rumbaugh/CARpickles/{}.DRWsample.pickle".format(DBID),'rb'))
     sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
@@ -49,7 +55,7 @@ for i,DBID in zip(gsort,df.DBID.values[gsort]):
     maclomega,maclomegaUB,maclomegaLB=-macltau*np.log(10),-macltauLB*np.log(10),-macltauUB*np.log(10)
     lomerrl,lomerru,sigerrl,sigerru=maclomega-maclomegaLB,maclomegaUB-maclomega,10**(maclsig)-10**(maclsigLB),10**(maclsigUB)-10**(maclsig)
     ax0.errorbar([maclomega],[10**(maclsig)],xerr=[[lomerrl],[lomerru]],yerr=[[sigerrl],[sigerru]],color='r',fmt='ro',lw=2,capsize=3,mew=1)
-    ax0.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fontsize=15,transform=ax0.transAxes,horizontalalignment='center')
+    ax0.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fontsize=15,transform=ax0.transAxes,horizontalalignment='center',color=coldict[df.group[i]])
     fig.savefig(psfpdf,format='pdf')
     plt.clf()
     plt.close('all')
