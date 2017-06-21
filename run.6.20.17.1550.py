@@ -46,7 +46,8 @@ coldict={'A':'blue','B':'green','C':'orange','D':'magenta','Z':'red'}
 grand=np.zeros(0,dtype='i8')
 for group in ['A','B','C','D']:
     grand=np.append(grand,np.random.choice(df.index[df.group==group],numrands,replace=False))
-    grand=np.append(grand,np.random.choice(df.index[df.group=='Z'],5,replace=False))
+grand=np.append(grand,np.random.choice(df.index[df.group=='Z'],5,replace=False))
+print sadfsdf
 for i,DBID in zip(grand,df.DBID.values[grand]):
     sample=pickle.load(open("/home/rumbaugh/CARpickles/{}.DRWsample.pickle".format(DBID),'rb'))
     sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
