@@ -36,5 +36,5 @@ for i in range(0,len(DBdf)):
     gmaxlik=np.where(logliks==maxlik)[0]
     if len(gmaxlik)!=():gmaxlik=gmaxlik[0]
     taumaxlik,sigmaxlik=tau_samples[gmaxlik],sigma_samples[gmaxlik]
-    params_df.iloc[i]['medsiglik'],params_df.iloc[i]['medtaulik'],params_df.iloc[i]['maxlik'],params_df.iloc[i]['taumaxlik'],params_df.iloc[i]['sigmaxlik']=medsiglik,medtaulik,maxlik,taumaxlik,sigmaxlik
+    params_df.loc[i,'medsiglik'],params_df.loc[i,'medtaulik'],params_df.loc[i,'maxlik'],params_df.loc[i,'taumaxlik'],params_df.loc[i,'sigmaxlik']=medsiglik,medtaulik,maxlik,taumaxlik,sigmaxlik
 params_df.to_csv('/home/rumbaugh/QSO_S82_CAR1_fits_wlik.csv',index=False)
