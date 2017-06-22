@@ -25,7 +25,7 @@ for x in ['medsiglik','medtaulik','maxlik','taumaxlik','sigmaxlik']: params_df[x
 
 for i in range(0,len(DBdf)):
     DBID=DBdf.iloc[i]['DBID']
-    DRWsample=pickle.load(open('/home/rumbaugh/CARpickles/{}.DRWsample.pickle'.format(DBID),'rb'))
+    DRWsample=pickle.load(open('/home/rumbaugh/CARpickles/{:d}.DRWsample.pickle'.format(DBID),'rb'))
     tau_samples,sigma_samples,logliks=np.exp(-DRWsample.get_samples('log_omega').flatten()),DRWsample.get_samples('sigma').flatten(),DRWsample.get_samples('loglik').flatten()
     medtau,medsig=np.median(tau_samples),np.median(sigma_samples)
     gmedtau,gmedsig=np.where(medtau==tau_samples)[0],np.where(medsig==sigma_samples)[0]
