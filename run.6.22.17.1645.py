@@ -29,6 +29,8 @@ for i in range(0,len(DBdf)):
     tau_samples,sigma_samples,logliks=np.exp(-DRWsample.get_samples('log_omega').flatten()),DRWsample.get_samples('sigma').flatten(),DRWsample.get_samples('loglik').flatten()
     medtau,medsig=np.median(tau_samples),np.median(sigma_samples)
     gmedtau,gmedsig=np.where(medtau==tau_samples)[0],np.where(medsig==sigma_samples)[0]
+    if len(gmedtau)==0: gmedtau=np.argsort(np.abs(medtau-tau_samples))[0]
+    if len(gmedsig)==0: gmedsig=np.argsort(np.abs(medsig-sigma_samples))[0]
     medsiglik,medtaulik=np.max(logliks[gmedsig]),np.max(logliks[gmedtau])
     maxlik=np.max(logliks)
     gmaxlik=np.where(logliks==maxlik)[0]
