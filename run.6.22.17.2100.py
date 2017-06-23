@@ -268,6 +268,7 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None,highz=None,highw
     if ((highz!=None)&(highwid!=None)):
         for i in np.arange(len(zcens))[zcens<highz]:
             runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
+            print i,zcens[i],runmed[i]
         for i in np.arange(len(zcens))[zcens>=highz]:
             runmed[i]=np.median(color[np.abs(z-zcens[i])<highwid])
     for i in range(0,len(zcens)):
