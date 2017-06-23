@@ -103,7 +103,7 @@ plt.savefig('/home/rumbaugh/S82_CARfit_test.6.22.17.siglik_diff.png')
 
 plt.figure(1)
 plt.clf()
-plt.scatter(df.lsig-np.log10(df.sigma*np.sqrt(365)),f.medsiglik-df.Plike,s=4,edgecolor=None,facecolor='r',color='r',alpha=0.1)
+plt.scatter(df.lsig-np.log10(df.sigma*np.sqrt(365)),df.medsiglik-df.Plike,s=4,edgecolor=None,facecolor='r',color='r',alpha=0.1)
 xlim=plt.xlim()
 ylim=plt.ylim()
 plt.axhline(0,color='k',lw=2,ls='dashed')
