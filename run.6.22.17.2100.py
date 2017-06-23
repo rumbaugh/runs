@@ -263,7 +263,7 @@ ggdz=bhz[ggd]
 def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None,highz=None,highwid=None):
     if zmin==None: zmin=np.min(z)
     if zmax==None: zmax=np.max(z)
-    zcens=np.linspace(zmin,zmax,divisions)
+    zcens=np.linspace(zmin+width,zmax-width,divisions)
     runmed=np.zeros(len(zcens))
     if ((highz!=None)&(highwid!=None)):
         for i in np.arange(len(zcens))[zcens<highz]:
