@@ -192,8 +192,9 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None,highz=None,highw
             runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
         for i in np.arange(len(zcens))[zcens>=highz]:
             runmed[i]=np.median(color[np.abs(z-zcens[i])<highwid])
-    for i in range(0,len(zcens)):
-        runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
+    else:
+        for i in range(0,len(zcens)):
+            runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
     return zcens,runmed
 #matplotlib.rcParams['figure.figsize']=[16,18]
 matplotlib.rcParams['axes.linewidth']=3
