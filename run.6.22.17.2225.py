@@ -190,7 +190,6 @@ def calc_runmed(color,z,width,divisions=100,zmin=None,zmax=None,highz=None,highw
         for i in np.arange(len(zcens))[zcens<highz]:
             runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
         for i in np.arange(len(zcens))[zcens>=highz]:
-            print i
             runmed[i]=np.median(color[np.abs(z-zcens[i])<highwid])
     for i in range(0,len(zcens)):
         runmed[i]=np.median(color[np.abs(z-zcens[i])<width])
@@ -221,8 +220,8 @@ for ccolor,evqcolor,cband1,cband2,evqband1,evqband2,colorlabel,colorname,i,lb,ub
         gc,gevq=np.where((cband1>0)&(cband1<30)&(cband2>0)&(cband2<30))[0],np.where((evqband1>0)&(evqband1<30)&(evqband2>0)&(evqband2<30))[0]
     plt.scatter(cz[gc],ccolor[gc],color='silver',marker='.',edgecolor='None')
     plt.scatter(ggdz[gevq],evqcolor[gevq],color='pink',marker='.',edgecolor='None')
-    zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.125,zmax=3.5,highz=2.2,highwid=0.4)
-    zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.125,zmax=3.5,highz=2.2,highwid=0.4)
+    zcens_con,runmed_con=calc_runmed(ccolor[gc],cz[gc],0.125,zmax=3.5,highz=2.2,highwid=0.5)
+    zcens_evq,runmed_evq=calc_runmed(evqcolor[gevq],ggdz[gevq],0.125,zmax=3.5,highz=2.2,highwid=0.5)
     plt.plot(zcens_con,runmed_con,c='black',lw=3,label='Control')
     plt.plot(zcens_evq,runmed_evq,c='red',ls='dashed',lw=3,label='EVQ')
     if i%4==3:ax1.set_xlabel('Redshift',fontsize=20)
