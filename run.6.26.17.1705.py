@@ -55,7 +55,8 @@ gr_tmp=grand.reshape((len(groups),numrands))
 grand_df=pd.DataFrame({groups[x]:gr_tmp[x] for x in np.arange(len(groups))})
 bad_inds={x: np.zeros(0,dtype='i8') for x in groups}
 
-for ind,i,DBID,group in zip(np.arange(len(grand)),grand,df.DBID.values[grand],np.repeat(groups,numrands)):
+for ind,group in zip(np.arange(len(grand)),grand,,np.repeat(groups,numrands)):
+    DBID=df.DBID.values[grand[ind]]
     plotted=False
     while plotted==False:
         try:
@@ -65,13 +66,14 @@ for ind,i,DBID,group in zip(np.arange(len(grand)),grand,df.DBID.values[grand],np
             sample.assess_fit(doShow=False)
             plotted=True
         except ValueError:
-            bad_inds[group]=np.append(bad_inds[group],i)
+            bad_inds[group]=np.append(bad_inds[group],grand[ind])
             grand[ind]=np.random.choice(df.index[df.group==group][np.in1d(df.index[df.group==group],np.append(grand_df[group].values,bad_inds[group]),invert=True)])
+            DBID=df.DBID.values[grand[ind]]
             plt.close('all')
     plt.subplots_adjust(hspace=0.25)
     plt.subplots_adjust(top=0.92)
     fig=plt.gcf()
-    plt.text(0.5,0.95,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fontsize=15,transform=fig.transFigure,horizontalalignment='center',color=coldict[df.group[i]])
+    plt.text(0.5,0.95,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[grand[ind]]),-np.log(df.tau[grand[ind]]),np.log10(df.sigma[grand[ind]])),fontsize=15,transform=fig.transFigure,horizontalalignment='center',color=coldict[df.group[grand[ind]]])
     fig.savefig(psfpdf2,format='pdf',dpi=400)
     plt.clf()
     plt.close('all')
@@ -79,11 +81,11 @@ for ind,i,DBID,group in zip(np.arange(len(grand)),grand,df.DBID.values[grand],np
     sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
-    macltau,maclsig,macltauLB,macltauUB,maclsigLB,maclsigUB=df.ltau[i],df.lsig[i]-np.log10(np.sqrt(365)),df.ltau_lim_lo[i],df.ltau_lim_hi[i],df.lsig_lim_lo[i]-np.log10(np.sqrt(365)),df.lsig_lim_hi[i]-np.log10(np.sqrt(365))
+    macltau,maclsig,macltauLB,macltauUB,maclsigLB,maclsigUB=df.ltau[grand[ind]],df.lsig[grand[ind]]-np.log10(np.sqrt(365)),df.ltau_lim_lo[grand[ind]],df.ltau_lim_hi[grand[ind]],df.lsig_lim_lo[grand[ind]]-np.log10(np.sqrt(365)),df.lsig_lim_hi[grand[ind]]-np.log10(np.sqrt(365))
     maclomega,maclomegaUB,maclomegaLB=-macltau*np.log(10),-macltauLB*np.log(10),-macltauUB*np.log(10)
     lomerrl,lomerru,sigerrl,sigerru=maclomega-maclomegaLB,maclomegaUB-maclomega,10**(maclsig)-10**(maclsigLB),10**(maclsigUB)-10**(maclsig)
     ax0.errorbar([maclomega],[10**(maclsig)],xerr=[[lomerrl],[lomerru]],yerr=[[sigerrl],[sigerru]],color='r',fmt='ro',lw=2,capsize=3,mew=1)
-    ax0.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fontsize=15,transform=ax0.transAxes,horizontalalignment='center',color=coldict[df.group[i]])
+    ax0.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[grand[ind]]),-np.log(df.tau[grand[ind]]),np.log10(df.sigma[grand[ind]])),fontsize=15,transform=ax0.transAxes,horizontalalignment='center',color=coldict[df.group[grand[ind]]])
     fig.savefig(psfpdf,format='pdf')
     plt.clf()
     plt.close('all')
