@@ -89,9 +89,9 @@ plt.savefig('/home/rumbaugh/S82_CARfit_test.6.22.17.tausig_diff.png')
 
 ltaudiff,lsigdiff=10**df.ltau.values-df.tau.values,10**df.lsig.values-df.sigma.values*np.sqrt(365)
 ltaudiffnorm=ltaudiff/np.sqrt((10**df.ltau_lim_hi.values-10**df.ltau.values)**2+(df.tau.values-df.taulb.values)**2)
-ltaudiffnorm[ltaudiff>0]=ltaudiff.values[ltaudiff>0]/np.sqrt((10**df.ltau_lim_lo.values[ltaudiff>0]-10**df.ltau.values[ltaudiff>0])**2+(df.tau.values[ltaudiff>0]-df.tauub.values[ltaudiff>0])**2)
+ltaudiffnorm[ltaudiff>0]=ltaudiff[ltaudiff>0]/np.sqrt((10**df.ltau_lim_lo.values[ltaudiff>0]-10**df.ltau.values[ltaudiff>0])**2+(df.tau.values[ltaudiff>0]-df.tauub.values[ltaudiff>0])**2)
 lsigdiffnorm=lsigdiff/np.sqrt((10**df.lsig_lim_hi.values-10**df.lsig.values)**2+(df.sigma.values-df.sigmalb.values)**2)
-lsigdiffnorm[lsigdiff>0]=lsigdiff.values[lsigdiff>0]/np.sqrt((10**df.lsig_lim_lo.values[lsigdiff>0]-10**df.lsig.values[lsigdiff>0])**2+(df.sigma.values[lsigdiff>0]-df.sigmaub.values[lsigdiff>0])**2)
+lsigdiffnorm[lsigdiff>0]=lsigdiff[lsigdiff>0]/np.sqrt((10**df.lsig_lim_lo.values[lsigdiff>0]-10**df.lsig.values[lsigdiff>0])**2+(df.sigma.values[lsigdiff>0]-df.sigmaub.values[lsigdiff>0])**2)
 
 
 plt.figure(1)
