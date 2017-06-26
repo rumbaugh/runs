@@ -46,12 +46,34 @@ df['group']=pd.cut(df.ltaudiff,[-np.inf,-0.6,-0.2,0.2,2,np.inf],labels=['D','C',
 coldict={'A':'blue','B':'green','C':'orange','D':'magenta','Z':'red'}
 
 grand=np.zeros(0,dtype='i8')
-for group in ['A','B','C','D']:
+groups=['A','B','C','D']
+for group in groups:
     grand=np.append(grand,np.random.choice(df.index[df.group==group],numrands,replace=False))
 #grand=np.append(grand,np.random.choice(df.index[df.group=='Z'],5,replace=False))
+gr_tmp=grand.reshape((len(groups),numrands))
 
-for i,DBID in zip(grand,df.DBID.values[grand]):
-    sample=pickle.load(open("/home/rumbaugh/CARpickles/{}.DRWsample.pickle".format(DBID),'rb'))
+grand_df=pd.DataFrame({groups[x]:gr_tmp[x] for x in np.arange(len(groups))})
+bad_inds={x: np.zeros(0,dtype='i8') for x in groups}
+
+for ind,i,DBID,group in zip(np.arange(len(grand)),grand,df.DBID.values[grand],np.repeat(groups,numrands)):
+    plotted=False
+    while plotted==False:
+        try:
+            sample=pickle.load(open("/home/rumbaugh/CARpickles/{}.DRWsample.pickle".format(DBID),'rb'))
+            plt.figure(1)
+            plt.clf()
+            sample.assess_fit(doShow=False)
+            plotted=True
+        except ValueError:
+            bad_inds[group]=np.append(bad_ind[group],i)
+            grand[ind]=np.random.choice(df.index[df.group==group][np.in1d(df.index[df.group==group],np.append(grand_df[group].values,bad_inds[group]),invert=True)])
+    plt.subplots_adjust(hspace=0.25)
+    plt.subplots_adjust(top=0.92)
+    fig=plt.gcf()
+    plt.text(0.5,0.95,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fontsize=15,transform=fig.transFigure,horizontalalignment='center',color=coldict[df.group[i]])
+    fig.savefig(psfpdf2,format='pdf',dpi=400)
+    plt.clf()
+    plt.close('all')
     sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
@@ -63,13 +85,5 @@ for i,DBID in zip(grand,df.DBID.values[grand]):
     fig.savefig(psfpdf,format='pdf')
     plt.clf()
     plt.close('all')
-    plt.figure(1)
-    plt.clf()
-    sample.assess_fit(doShow=False)
-    plt.subplots_adjust(hspace=0.25)
-    plt.subplots_adjust(top=0.92)
-    fig=plt.gcf()
-    plt.text(0.5,0.95,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(df.tau[i]),-np.log(df.tau[i]),np.log10(df.sigma[i])),fontsize=15,transform=fig.transFigure,horizontalalignment='center',color=coldict[df.group[i]])
-    fig.savefig(psfpdf2,format='pdf',dpi=400)
 psfpdf.close()
 psfpdf2.close()
