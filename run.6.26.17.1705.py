@@ -65,7 +65,7 @@ for ind,i,DBID,group in zip(np.arange(len(grand)),grand,df.DBID.values[grand],np
             sample.assess_fit(doShow=False)
             plotted=True
         except ValueError:
-            bad_inds[group]=np.append(bad_ind[group],i)
+            bad_inds[group]=np.append(bad_inds[group],i)
             grand[ind]=np.random.choice(df.index[df.group==group][np.in1d(df.index[df.group==group],np.append(grand_df[group].values,bad_inds[group]),invert=True)])
     plt.subplots_adjust(hspace=0.25)
     plt.subplots_adjust(top=0.92)
