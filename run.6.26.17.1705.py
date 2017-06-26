@@ -67,6 +67,7 @@ for ind,i,DBID,group in zip(np.arange(len(grand)),grand,df.DBID.values[grand],np
         except ValueError:
             bad_inds[group]=np.append(bad_inds[group],i)
             grand[ind]=np.random.choice(df.index[df.group==group][np.in1d(df.index[df.group==group],np.append(grand_df[group].values,bad_inds[group]),invert=True)])
+            plt.close('all')
     plt.subplots_adjust(hspace=0.25)
     plt.subplots_adjust(top=0.92)
     fig=plt.gcf()
@@ -74,6 +75,7 @@ for ind,i,DBID,group in zip(np.arange(len(grand)),grand,df.DBID.values[grand],np
     fig.savefig(psfpdf2,format='pdf',dpi=400)
     plt.clf()
     plt.close('all')
+    plt.figure(1)
     sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
