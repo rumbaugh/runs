@@ -15,7 +15,7 @@ band,ELB,EUB=['soft','hard','full'],[0.5,2.0,0.5],[2.0,7.0,7.0]
 eLBdict=dict(zip(band,ELB))
 eUBdict=dict(zip(band,EUB))
 
-date='6.24.16'
+date='6.24.17'
 
 def fit_spec(cluster,field=None,band='full',gc=15,kTmax=29,redshift=None):
     nofield=False

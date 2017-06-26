@@ -1,0 +1,30 @@
+declare -a z=(soft hard full)
+
+declare obsids=927\ 1708
+
+declare targets=cl0849
+
+declare clusters=Lynx_W
+
+
+
+declare field=${targets}
+declare cluster=${clusters}
+declare curdir=/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/proc/$field
+cd $curdir
+rm -f $curdir/${cluster}_bkg.lis
+for obs in ${obsids}
+do
+declare evtfile=`ls /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/raw/$obs/primary/acisf*${obs}*evt2*fits*`
+echo "${evtfile}[sky=region(/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/proc/$field/${cluster}_${obs}_bkg_spec.reg)]" | tee -a $curdir/${cluster}_bkg.lis
+done
+for band in ${z[@]}
+do
+rm -f $curdir/${cluster}_spec_$band.lis
+for obs in ${obsids}
+do
+declare evtfile=`ls /home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/raw/$obs/primary/acisf*${obs}*evt2*fits*`
+echo "${evtfile}[sky=region(/home/rumbaugh/Chandra/ImperialPipeline/ORELSE/$field/proc/$field/${cluster}_${obs}_full_spec.reg)]" | tee -a $curdir/${cluster}_spec_$band.lis
+done
+specextract @./${cluster}_spec_$band.lis outroot=${cluster}_spec_$band bkgfile=@./${cluster}_bkg.lis grouptype=NUM_CTS binspec=15 combine="yes" clob+
+done

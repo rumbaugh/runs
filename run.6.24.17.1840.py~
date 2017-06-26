@@ -54,7 +54,7 @@ for i in range(0,len(testclusc)):
 
 
 
-def fit_core_rad(cluster,field=None,band='soft'):
+def fit_core_rad(cluster,field=None,band='full'):
     gn=np.where(cluster.lower()==testclusn)[0][0]
     ga=np.where(cluster.lower()==testclusa)[0][0]
     gc=np.where(cluster.lower()==testclusc)[0][0]
@@ -131,7 +131,7 @@ def fit_core_rad(cluster,field=None,band='soft'):
     savefig('/home/rumbaugh/fitted.DE_counts_profile.%s.2.2.16.png'%cluster)
     return r0fit,r0fiterrl,r0fiterru,bkgfit,bkgerrl,bkgerru,r500,r500cnts,NC
 
-FILE=open('/home/rumbaugh/Chandra/ORELSE.soft_cluster_fits.dat','a')
+FILE=open('/home/rumbaugh/Chandra/ORELSE.cluster_fits.6.24.17.dat','w')
 FILE.write('# cluster r0 r0- r0+ bkg bkg- bkg+ r500 r500_NC NC\n')
 for cluster in crn['cluster']:
     print cluster

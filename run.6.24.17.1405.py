@@ -15,9 +15,9 @@ band,ELB,EUB=['soft','hard','full'],[0.5,2.0,0.5],[2.0,7.0,7.0]
 eLBdict=dict(zip(band,ELB))
 eUBdict=dict(zip(band,EUB))
 
-date='6.24.16'
+date='6.24.17'
 
-def fit_spec(cluster,field=None,band='full',gc=15,kTmax=29,redshift=None):
+def fit_spec_mekal(cluster,field=None,band='full',gc=15,kTmax=29,redshift=None):
     nofield=False
     g=np.where(cluster.lower()==testclus)[0]
     if len(g)==0:
@@ -43,7 +43,7 @@ def fit_spec(cluster,field=None,band='full',gc=15,kTmax=29,redshift=None):
         load_pha('%s'%(specsinglefile))
     notice(eLBdict[band],eUBdict[band])
     subtract()
-    set_model(xsraymond.rs*xswabs.abs1)
+    set_model(xsmekal.rs*xswabs.abs1)
     abs1.nh = nh
     rs.redshift = z
     freeze(rs.redshift)

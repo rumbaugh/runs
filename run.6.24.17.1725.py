@@ -67,7 +67,7 @@ def fit_core_rad(cluster,field=None,band='soft'):
         sigma=0
     r0 = 180./(kpc[gc])/.492
     r500 = 2*sigma/(sqrt(500)*Hz[gc])/(kpc[gc]/1000)/.492
-    print cluster, r0
+    print cluster, r0,r500,sigma,Hz[gc],kpc[gc]
     NC = crn['ncnts%s'%(band[0].upper())][gn]
     cnts_arr=np.zeros(len(annnames))
     for ica in range(0,len(cnts_arr)):cnts_arr[ica]=cr[annnames[ica]][ga]
@@ -102,10 +102,15 @@ def fit_core_rad(cluster,field=None,band='soft'):
     fit4par.uncert()
     if not fit4par.have_fit: print 'Failed fit for %s'%cluster
 
-    
+    print 'vals:',fit4par.par_vals
     bkgfit,r0fit = fit4par.par_vals['bkg'],fit4par.par_vals['a1']
-    bkgerru,r0fiterru = fit4par.par_err['bkg'][1],fit4par.par_err['a1'][1]
-    bkgerrl,r0fiterrl = fit4par.par_err['bkg'][0],fit4par.par_err['a1'][0]
+    print 'errs:',fit4par.par_err
+    try:
+        bkgerru,r0fiterru = fit4par.par_err['bkg'][1],fit4par.par_err['a1'][1]
+        bkgerrl,r0fiterrl = fit4par.par_err['bkg'][0],fit4par.par_err['a1'][0]
+    except TypeError:
+        bkgerru,bkgerrl=fit4par.par_err['bkg'][1],fit4par.par_err['bkg'][0]
+        r0fiterru,r0fiterrl=0,0
     chisq2par = fit4par.statval
 
     #r500cnts = 2*pi*(NC/(2*pi*r0fit**2))/(1.0-1.0/sqrt(1+crn['specrad%s'%(band[0].upper())][gn]**2*r0fit**(-2)))*r0fit**2*(1-1.0/sqrt(1+r500**2*r0fit**(-2)))
@@ -128,16 +133,13 @@ def fit_core_rad(cluster,field=None,band='soft'):
     scatter(ann_arr-0.5*ann_step,SB_arr,s=5)
     plot(xdummy,model4par(xdummy,r0fit,bkgfit),"b-",label='2-par Fit, fc2')
     xlim(0,300)
-    savefig('/home/rumbaugh/fitted.DE_counts_profile.%s.2.2.16.png'%cluster)
+    savefig('/home/rumbaugh/fitted.DE_counts_profile.%s.6.24.17.png'%cluster)
     return r0fit,r0fiterrl,r0fiterru,bkgfit,bkgerrl,bkgerru,r500,r500cnts,NC
 
-FILE=open('/home/rumbaugh/Chandra/ORELSE.soft_cluster_fits.dat','a')
+FILE=open('/home/rumbaugh/Chandra/ORELSE.soft_cluster_fits.6.24.17.dat','w')
 FILE.write('# cluster r0 r0- r0+ bkg bkg- bkg+ r500 r500_NC NC\n')
-for cluster in crn['cluster']:
+for cluster in ['Lynx_W','0848+4451','1053+5735','Cluster_D']:
     print cluster
-    if cluster == 'Cluster_D':
-        FILE.write('Cluster_D 0 0 0 0 0 0 0 0 0\n')
-    else:
-        r0fit,r0fiterrl,r0fiterru,bkgfit,bkgfiterrl,bkgfiterru,r500,r500cnts,NC=fit_core_rad(cluster)
-        FILE.write('%12s %6.1f %6.1f %6.1f %E %E %E %6.1f %7.1f %7.1f\n'%(cluster,r0fit,r0fiterrl,r0fiterru,bkgfit,bkgfiterrl,bkgfiterru,r500,r500cnts,NC))
+    r0fit,r0fiterrl,r0fiterru,bkgfit,bkgfiterrl,bkgfiterru,r500,r500cnts,NC=fit_core_rad(cluster)
+    FILE.write('%12s %6.1f %6.1f %6.1f %E %E %E %6.1f %7.1f %7.1f\n'%(cluster,r0fit,r0fiterrl,r0fiterru,bkgfit,bkgfiterrl,bkgfiterru,r500,r500cnts,NC))
 FILE.close()

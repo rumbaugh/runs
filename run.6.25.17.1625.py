@@ -123,16 +123,22 @@ plt.loglog(xdummy,ydummy_lit0,lw=2,color='b')
 plt.loglog(xdummy,ydummy_lit,lw=2,color='cyan',ls='dashed')
 plt.loglog(xdummy,ydummy_lit2,lw=2,color='purple')#,ls='-.')
 plt.loglog(xdummy,ydummy_fit,lw=2,color='magenta',ls='dotted')
-for i in np.arange(len(clusters)): plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],clusters[i],horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
+for i in np.arange(len(clusters)):
+    if clusters[i]=='RXJ1716A':
+        plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],'RXJ1716B',horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
+    else:
+        plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],clusters[i],horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
 plt.xlim(xlim)
 plt.ylim(3E43,ylim[1])
 plt.xlabel('Temperature (keV)')
 plt.ylabel(r'$L_x\ E(z)^{-1}$ ergs s$^{-1}$')
-plt.savefig('/home/rumbaugh/Chandra/plots/scaling_relations.Lx-T.6.4.17.png')
+plt.savefig('/home/rumbaugh/Chandra/plots/scaling_relations.Lx-T.6.25.17.png')
 
 mindistlit,mindistfit=calc_SR_dists(xdummy,ydummy_lit_4func,temps,lumsEz*10**(-44),terrhi,lumEzerrs*10**(-44),Xerrlo=terrlo),calc_SR_dists(xdummy,ydummy_fit,temps,lumsEz,terrhi,lumEzerrs,Xerrlo=terrlo)
 
 outcr['mindistlit_LxT'],outcr['mindistfit_LxT']=mindistlit,mindistfit
+
+gnoD=np.where(crl['cluster'][gdo]!='Cluster_D')[0]
 
 def f_sigT(B,sig):
     #Remember, this function is in log-log form, and Lx is divided by E(z)
@@ -141,6 +147,10 @@ linearsigT=odr.Model(f_sigT)
 sigTdata=odr.Data(np.log(temps),np.log(sigs),we=(sigerrs/sigs)**-2,wd=(0.5*(tubs-tlbs)/temps)**-2)
 odrsigT=odr.ODR(sigTdata,linearsigT,beta0=[0.65,np.log(10**2.49)])
 sigTout=odrsigT.run()
+
+sigTdatanoD=odr.Data(np.log(temps[gnoD]),np.log(sigs[gnoD]),we=(sigerrs/sigs)[gnoD]**-2,wd=(0.5*(tubs-tlbs)/temps)[gnoD]**-2)
+odrsigTnoD=odr.ODR(sigTdatanoD,linearsigT,beta0=[0.65,np.log(10**2.49)])
+sigToutnoD=odrsigTnoD.run()
 
 text_dict={clusters[x]: [temps[x],sigs[x],'left','bottom'] for x in np.arange(len(clusters))}
 
@@ -157,22 +167,30 @@ ylim=plt.ylim()
 xdummy=np.linspace(np.max([xlim[0],0.7]),xlim[1],dummypoints)
 ydummy_lit=10**2.49*xdummy**0.65
 ydummy_fit=np.e**sigTout.beta[1]*xdummy**sigTout.beta[0]
+ydummy_fit2=np.e**sigToutnoD.beta[1]*xdummy**sigToutnoD.beta[0]
 plt.loglog(xdummy,ydummy_lit,lw=2,color='b')
 plt.loglog(xdummy,ydummy_fit,lw=2,color='magenta',ls='dotted')
-for i in np.arange(len(clusters)): plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],clusters[i],horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
+plt.loglog(xdummy,ydummy_fit2,lw=2,color='green',ls='dashed')
+for i in np.arange(len(clusters)): 
+    if clusters[i]=='RXJ1716A':
+        plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],'RXJ1716B',horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
+    else:
+        plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],clusters[i],horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
 plt.xlim(xlim)
 plt.ylim(ylim)
 plt.xlabel('Temperature (keV)')
 plt.ylabel('Velocity Dispersion (km/s)')
-plt.savefig('/home/rumbaugh/Chandra/plots/scaling_relations.sig-T.6.4.17.png')
+plt.savefig('/home/rumbaugh/Chandra/plots/scaling_relations.sig-T.6.25.17.png')
 
-mindistlit,mindistfit=calc_SR_dists(xdummy,ydummy_lit,temps,sigs,terrhi,sigerrs,Xerrlo=terrlo),calc_SR_dists(xdummy,ydummy_fit,temps,sigs,terrhi,sigerrs,Xerrlo=terrlo)
+mindistlit,mindistfit=calc_SR_dists(xdummy,ydummy_lit,temps,sigs,terrhi,sigerrs,Xerrlo=terrlo),calc_SR_dists(xdummy,ydummy_fit2,temps,sigs,terrhi,sigerrs,Xerrlo=terrlo)
 
 outcr['mindistlit_sigT'],outcr['mindistfit_sigT']=mindistlit,mindistfit
 
 
 lumXW=lums[gdo]/(1.-1./np.sqrt(1+(r500/r0)**2))
 lumXWerr=lumerrs[gdo]/(1.-1./np.sqrt(1+(r500/r0)**2))
+
+gno1221=np.where(crl['cluster'][gdo]!='RXJ1221B')[0]
 
 def f_sigLx(B,L):
     #Remember, this function is in log-log form, and Lx is divided by E(z)
@@ -181,6 +199,10 @@ linearsigLx=odr.Model(f_sigLx)
 sigLxdata=odr.Data(np.log(sigs),np.log(lumXW/Ezs),wd=(sigerrs/sigs)**-2,we=(lumXWerr/lumXW)**-2)
 odrsigLx=odr.ODR(sigLxdata,linearsigLx,beta0=[5.30,np.log(10**(42-12.9))])
 sigLxout=odrsigLx.run()
+
+sigLxdatano1221=odr.Data(np.log(sigs[gno1221]),np.log(lumXW/Ezs)[gno1221],wd=(sigerrs/sigs)[gno1221]**-2,we=(lumXWerr/lumXW)[gno1221]**-2)
+odrsigLxno1221=odr.ODR(sigLxdatano1221,linearsigLx,beta0=[5.30,np.log(10**(42-12.9))])
+sigLxoutno1221=odrsigLxno1221.run()
 
 text_dict={clusters[x]: [sigs[x],lumXW[x]/Ezs[x],'left','bottom'] for x in np.arange(len(clusters))}
 
@@ -197,17 +219,23 @@ ylim=plt.ylim()
 xdummy=np.linspace(np.max([xlim[0],100]),xlim[1],dummypoints)
 ydummy_lit=10**-12.9*xdummy**5.30*10**42
 ydummy_fit=np.e**sigLxout.beta[1]*xdummy**sigLxout.beta[0]
+ydummy_fit2=np.e**sigLxoutno1221.beta[1]*xdummy**sigLxoutno1221.beta[0]
 plt.loglog(xdummy,ydummy_lit,lw=2,color='b')
 plt.loglog(xdummy,ydummy_fit,lw=2,color='magenta',ls='dotted')
-for i in np.arange(len(clusters)): plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],clusters[i],horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
+plt.loglog(xdummy,ydummy_fit2,lw=2,color='green',ls='dashed')
+for i in np.arange(len(clusters)): 
+    if clusters[i]=='RXJ1716A':
+        plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],'RXJ1716B',horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
+    else:
+        plt.text(text_dict[clusters[i]][0],text_dict[clusters[i]][1],clusters[i],horizontalalignment=text_dict[clusters[i]][2],verticalalignment=text_dict[clusters[i]][3],color='k')
 plt.xlim(xlim)
 plt.ylim(3E43,ylim[1])
 plt.xlabel('Velocity Dispersion (km/s)')
 plt.ylabel(r'$L_x\ E(z)^{-1}$ ergs s$^{-1}$')
-plt.savefig('/home/rumbaugh/Chandra/plots/scaling_relations.sig-Lx.6.4.17.png')
+plt.savefig('/home/rumbaugh/Chandra/plots/scaling_relations.sig-Lx.6.25.17.png')
 
-mindistlit,mindistfit=calc_SR_dists(xdummy,ydummy_lit_4func,sigs,lumsEz*10**(-44),sigerrs,lumEzerrs*10**(-44)),calc_SR_dists(xdummy,ydummy_fit,sigs,lumsEz,sigerrs,lumEzerrs)
+mindistlit,mindistfit=calc_SR_dists(xdummy,ydummy_lit_4func,sigs,lumsEz*10**(-44),sigerrs,lumEzerrs*10**(-44)),calc_SR_dists(xdummy,ydummy_fit2,sigs,lumsEz,sigerrs,lumEzerrs)
 
 outcr['mindistlit_Lxsig'],outcr['mindistfit_Lxsig']=mindistlit,mindistfit
 outcr['field'],outcr['cluster']=fields,clusters
-np.savetxt('/home/rumbaugh/Chandra/ORELSE.scaling_relation_offsets.tab',outcr,header='Field Cluster mindistlit_LxT mindistfit_LxT mindistlit_sigT mindistfit_sigT mindistlit_Lxsig mindistfit_Lxsig',fmt='%12s %12s %f %f %f %f %f %f')
+np.savetxt('/home/rumbaugh/Chandra/ORELSE.scaling_relation_offsets.6.25.17.tab',outcr,header='Field Cluster mindistlit_LxT mindistfit_LxT mindistlit_sigT mindistfit_sigT mindistlit_Lxsig mindistfit_Lxsig',fmt='%12s %12s %f %f %f %f %f %f')
