@@ -55,7 +55,7 @@ gr_tmp=grand.reshape((len(groups),numrands))
 grand_df=pd.DataFrame({groups[x]:gr_tmp[x] for x in np.arange(len(groups))})
 bad_inds={x: np.zeros(0,dtype='i8') for x in groups}
 
-for ind,group in zip(np.arange(len(grand)),grand,,np.repeat(groups,numrands)):
+for ind,group in zip(np.arange(len(grand)),np.repeat(groups,numrands)):
     DBID=df.DBID.values[grand[ind]]
     plotted=False
     while plotted==False:
