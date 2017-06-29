@@ -53,12 +53,9 @@ df.reset_index(inplace=True)
 grand=np.zeros(0,dtype='i8')
 grand=np.random.choice(df.index,numrands,replace=False)
 groups=['A','B','C','D']
-#for group in groups:
- #   grand=np.append(grand,np.random.choice(df.index[df.group==group],numrands,replace=False))
-#grand=np.append(grand,np.random.choice(df.index[df.group=='Z'],5,replace=False))
-#gr_tmp=grand.reshape((len(groups),numrands))
-
-#grand_df=pd.DataFrame({groups[x]:gr_tmp[x] for x in np.arange(len(groups))})
+grand_dict={}
+for group in groups:
+    grand_dict[group]=grand[df.group0.values==group]
 bad_inds={x: np.zeros(0,dtype='i8') for x in groups}
 
 for ind in np.arange(len(grand)):
