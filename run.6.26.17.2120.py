@@ -12,7 +12,7 @@ except NameError:
 
 
 def read_spec_file(field):
-    fname='/home/rumbaugh/Chandra/speccats/%s'%spec_dict[field]['file']
+    fname='/home/rumbaugh/git/ORELSE/Catalogs/Spec_z/%s'%spec_dict[field]['file']
     if field=='cl1604':
         loaddict=ACSspecloaddictwnotes
         uc=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)
@@ -52,9 +52,9 @@ crcc=np.loadtxt('/home/rumbaugh/cc_out_clus.1.28.17.dat',usecols=(1,2,3,4,5,6,7,
 kpc = crcc[:,12]
 Hz = crcc[:,16]*70.
 Mpc = kpc/1000.
-crCMD=np.loadtxt('/home/rumbaugh/Chandra/CMD_info_all.1.29.17.dat',dtype={'names':('mag','col','ra','dec','z','rso','field'),'formats':('f8','f8','f8','f8','f8','f8','|S20')})
+crCMD=np.loadtxt('/home/rumbaugh/Chandra/CMD_info_all.6.26.17.dat',dtype={'names':('mag','col','ra','dec','z','rso','field'),'formats':('f8','f8','f8','f8','f8','f8','|S20')})
 
-FILE=open('/home/rumbaugh/Chandra/ORELSE.veldiffs.dat','w')
+FILE=open('/home/rumbaugh/Chandra/ORELSE.veldiffs.6.26.17.dat','w')
 FILE.write('#Field Cluster Blue_vel_cen Red_vel_cen perc perc_bwl_BS\n')
 
 for clus in crf['cluster']:
@@ -120,6 +120,5 @@ for clus in crf['cluster']:
         perc_bwl =len(gsbwl)*1.0/ntrials
         perc_bwl_BS = len(gsbwlBS)*1.0/ntrials
         bluvelcen,redvelcen=blu_bwl,red_bwl
-        bluesig,redsig=
-    FILE.write('%12s %14s %f %f %f %f %f %f\n'%(field,clus,bluvelcen,redvelcen,perc_bwl,perc_bwl_BS,bluesig,redsig))
+    FILE.write('%12s %14s %f %f %f %f\n'%(field,clus,bluvelcen,redvelcen,perc_bwl,perc_bwl_BS))
 FILE.close()

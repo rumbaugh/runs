@@ -1,0 +1,49 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import scale_estimators as SE
+
+velbound=3250
+binwid=500
+fielddict={'rxj0910':'SC0910','cl0023':'SG0023','cl1324':'SC1324','cl0849':'SC0849','cl1604':'SC1604','cl1137':'Cl1137','cl1350':'Cl1350'}
+cr=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.clusters.dat',dtype={'names':('field','cluster','RA','Dec','z','sig0.5','sig0.5err','n0.5','sig','sigerr','nsig'),'formats':('|S24','|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
+crCMD=np.loadtxt('/home/rumbaugh/Chandra/ORELSE_cluster_member_info_all.dat',dtype={'names':('field','cluster','ra','dec','z','mag','col','rso','isBCG','isBCG_tot'),'formats':('|S12','|S12','f8','f8','f8','f8','f8','f8','i8','i8')})
+crx=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.X-ray_centers_for_paper.dat',dtype={'names':('field','cluster','RA','DEC'),'formats':('|S20','|S20','f8','f8')},usecols=(0,1,2,3))
+crBCG=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.BCGS.dat',dtype={'names':('field','cluster','BCGra','BCGdec','BCG_Mred','BCGcol','BCGrso','BCGz','allBCGra','allBCGdec','allBCG_Mred','allBCGcol','allBCGrso','allBCGz'),'formats':('|S12','|S12','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
+
+
+c = 3.0*10**5
+BCGvel=np.zeros(len(crBCG))
+for clus,ic in zip(crBCG['cluster'],np.arange(len(crBCG))):
+    zs=crCMD['z'][crCMD['cluster']==clus]
+    try:
+        gcr=np.where(cr['cluster']==clus)[0][0]
+        raC,decC,zC=cr['RA'][gcr],cr['Dec'][gcr],cr['z'][gcr]
+        Mpc_am=1./Mpc[gcr]/60.
+        field=cr['field'][gcr].lower()
+    except:
+        print '%s not found, using X-ray center'%clus
+        try:
+            gcr=np.where(crx['cluster']==clus)[0][0]
+            raC,decC=crx['RA'][gcr],crx['DEC'][gcr]
+            field=crx['field'][gcr].lower()
+            zf=spec_dict[field]['z'][0]
+            cosmocalc(zf,outfile='/home/rumbaugh/temp_cc.2.1.17.dat')
+            crcctmp=np.loadtxt('/home/rumbaugh/temp_cc.2.1.17.dat')
+            Mpc_am=1./(crcctmp[12]/1000.)/60.
+            zC=None
+        except:
+            print 'X-ray center not found either'
+            continue
+    try:
+        propername=fielddict[field]
+    except KeyError:
+        propername=field.upper()
+    if zC==None: zC=SE.biweight_loc(zs)
+    vels = (zs-SE.biweight_loc(zs))*c/(1.0+zs)
+    sig=CalcVelDisp(zs,ConfInvMethod=None)
+    gblue,gred=np.where(crCMD['rso'][crCMD['cluster']==clus]>1)[0],np.where(crCMD['rso'][crCMD['cluster']==clus]<1)[0]
+
+    BCGvel[ic]=vels[crCMD['isBCG'][crCMD['cluster']==clus]==1][0]
+outdf=pd.DataFrame({'field':crBCG['field'],'cluster':crBCG['cluster'],'BCGvel':BCGvel})
+outdf=outdf[['field','cluster','BCGvel']]
+outdf.to_csv('/home/rumbaugh/Chandra/ORELSE.BCG_vels.csv',index=False)

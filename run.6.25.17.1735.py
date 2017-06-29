@@ -46,7 +46,8 @@ crcc=np.loadtxt('/home/rumbaugh/cc_out_clus.1.28.17.dat',usecols=(1,2,3,4,5,6,7,
 kpc = crcc[:,12]
 Hz = crcc[:,16]*70.
 Mpc = kpc/1000.
-crCMD=np.loadtxt('/home/rumbaugh/Chandra/CMD_info_all.1.29.17.dat',dtype={'names':('mag','col','ra','dec','z','rso','field'),'formats':('f8','f8','f8','f8','f8','f8','|S20')})
+#crCMD=np.loadtxt('/home/rumbaugh/Chandra/CMD_info_all.1.29.17.dat',dtype={'names':('mag','col','ra','dec','z','rso','field'),'formats':('f8','f8','f8','f8','f8','f8','|S20')})
+crCMD=np.loadtxt('/home/rumbaugh/Chandra/CMD_info_all.6.26.17.dat',dtype={'names':('mag','col','ra','dec','z','rso','field'),'formats':('f8','f8','f8','f8','f8','f8','|S20')})
 FILE=open('/home/rumbaugh/Chandra/ORELSE.clus_sigs_wZ.6.25.17.dat','w')
 FILE.write('# Field Cluster Sig_all Error N Sig_all_cut Error N Sig_red Error N Sig_blue Error N Zmin Zmax\n')
 for clus in crf['cluster']:
