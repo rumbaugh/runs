@@ -39,12 +39,13 @@ for i in range(0,len(DBdf)):
             if len(gthresh)>1:
                 outlier_arr[ipt]= np.abs(np.median(LCdf.g.values[gthresh])-LCdf.g.values[ipt]) > outlier_thresh
         pickle.dump(outlier_arr,open('/home/rumbaugh/CARpickles/%i.outliers_g.pickle'%DBdf.iloc[i]['DBID'],'wb'))
-    DRWmodel=cm.CarmaModel(LCdf.MJD_g.values,LCdf.g.values,LCdf.g_err.values,p=1,q=0)
-    DRWsample=DRWmodel.run_mcmc(nsamples)
-    lomega_samples,sigma_samples=np.sort(DRWsample.get_samples('log_omega').flatten()),np.sort(DRWsample.get_samples('sigma').flatten())
-    lomega,sigma=np.median(lomega_samples),np.median(sigma_samples)
-    lomegaLB,lomegaUB,sigmaLB,sigmaUB=lomega_samples[iLB],lomega_samples[iUB],sigma_samples[iLB],sigma_samples[iUB]
-    params_df.loc[i,'tau'],params_df.loc[i,'sigma']=np.exp(-lomega),sigma
-    params_df.loc[i,'taulb'],params_df.loc[i,'tauub'],params_df.loc[i,'sigmalb'],params_df.loc[i,'sigmaub']=np.exp(-lomegaUB),np.exp(-lomegaLB),sigmaLB,sigmaUB
-    pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/%i.DRWsample_OR.pickle'%DBdf.iloc[i]['DBID'],'wb'))
+    if np.sum(outlier_arr)>0:
+        DRWmodel=cm.CarmaModel(LCdf.MJD_g.values,LCdf.g.values,LCdf.g_err.values,p=1,q=0)
+        DRWsample=DRWmodel.run_mcmc(nsamples)
+        lomega_samples,sigma_samples=np.sort(DRWsample.get_samples('log_omega').flatten()),np.sort(DRWsample.get_samples('sigma').flatten())
+        lomega,sigma=np.median(lomega_samples),np.median(sigma_samples)
+        lomegaLB,lomegaUB,sigmaLB,sigmaUB=lomega_samples[iLB],lomega_samples[iUB],sigma_samples[iLB],sigma_samples[iUB]
+        params_df.loc[i,'tau'],params_df.loc[i,'sigma']=np.exp(-lomega),sigma
+        params_df.loc[i,'taulb'],params_df.loc[i,'tauub'],params_df.loc[i,'sigmalb'],params_df.loc[i,'sigmaub']=np.exp(-lomegaUB),np.exp(-lomegaLB),sigmaLB,sigmaUB
+        pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/%i.DRWsample_OR.pickle'%DBdf.iloc[i]['DBID'],'wb'))
 params_df.to_csv('/home/rumbaugh/QSO_S82_CAR1_fits.OR.csv',index=False)
