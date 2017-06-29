@@ -76,7 +76,7 @@ for ind in np.arange(len(grand)):
             plotted=True
         except ValueError:
             bad_inds[group]=np.append(bad_inds[group],grand[ind])
-            grand[ind]=np.random.choice(df.index[df.group==group][np.in1d(df.index[df.group==group],np.append(grand_dict[group].values,bad_inds[group]),invert=True)])
+            grand[ind]=np.random.choice(df.index[df.group==group][np.in1d(df.index[df.group==group],np.append(grand_dict[group],bad_inds[group]),invert=True)])
             DBID=df.DBID.values[grand[ind]]
             plt.close('all')
     plt.subplots_adjust(hspace=0.25)
