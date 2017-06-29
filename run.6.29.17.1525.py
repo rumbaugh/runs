@@ -21,7 +21,8 @@ iLB,iUB=int(normfrac*0.5*nsamples),int((1-0.5*normfrac)*nsamples)
 
 DBdf=pd.read_csv('/home/rumbaugh/DB_QSO_S82.dat',delim_whitespace=True,names=['DBID','ra','dec','SDR5ID','Mi','Micorr','redshift','massBH','Lbol','u','g','r','i','z','Au'],skiprows=2)
 
-if dotest: DBdf=DBdf.iloc[np.random.choice(np.arange(len(DBdf)),tests,replace=False)]
+if dotest: DBdf=DBdf.iloc[:tests]
+#if dotest: DBdf=DBdf.iloc[np.random.choice(np.arange(len(DBdf)),tests,replace=False)]
 
 params_df=pd.DataFrame({'DBID':DBdf.DBID})
 for x in ['tau','taulb','tauub','sigma','sigmalb','sigmaub']: params_df[x]=np.zeros(len(DBdf))
@@ -40,6 +41,7 @@ for i in range(0,len(DBdf)):
                 outlier_arr[ipt]= np.abs(np.median(LCdf.g.values[gthresh])-LCdf.g.values[ipt]) > outlier_thresh
         pickle.dump(outlier_arr,open('/home/rumbaugh/CARpickles/%i.outliers_g.pickle'%DBdf.iloc[i]['DBID'],'wb'))
     if np.sum(outlier_arr)>0:
+        LCdf=LCdf[outlier_arr==False]
         DRWmodel=cm.CarmaModel(LCdf.MJD_g.values,LCdf.g.values,LCdf.g_err.values,p=1,q=0)
         DRWsample=DRWmodel.run_mcmc(nsamples)
         lomega_samples,sigma_samples=np.sort(DRWsample.get_samples('log_omega').flatten()),np.sort(DRWsample.get_samples('sigma').flatten())
