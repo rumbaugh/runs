@@ -49,7 +49,7 @@ df['ltaudiff0']=df.ltau-np.log10(df.tau0)
 df['group']=pd.cut(df.ltaudiff0,[-np.inf,-0.6,-0.2,0.2,2,np.inf],labels=['D','C','B','A','Z'])
 
 coldict={'A':'blue','B':'green','C':'orange','D':'magenta','Z':'red'}
-
+df.reset_index(inplace=True)
 grand=np.zeros(0,dtype='i8')
 grand=np.random.choice(df.index,numrands,replace=False)
 groups=['A','B','C','D']
