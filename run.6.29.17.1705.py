@@ -55,8 +55,9 @@ grand=np.random.choice(df.index,numrands,replace=False)
 groups=['A','B','C','D']
 grand_dict={}
 for group in groups:
-    grand_dict[group]=grand[df.group.values==group]
+    grand_dict[group]=grand[df.group.values[grand]==group]
 bad_inds={x: np.zeros(0,dtype='i8') for x in groups}
+grand_df=pd.DataFrame(grand_dict)
 
 for ind in np.arange(len(grand)):
     group=df.group.values[grand[ind]]
