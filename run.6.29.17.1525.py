@@ -3,6 +3,9 @@ import pandas as pd
 import carmcmc as cm
 import pickle
 
+outlier_window=300
+outlier_thresh=0.5
+
 try:
     dotest
 except NameError:
