@@ -52,7 +52,7 @@ for ind in np.arange(len(cids_rand)):
 
     plt.figure(1)
     plt.clf()
-    DRW.sample.assess_fit(doShow=False)
+    DRWsample.assess_fit(doShow=False)
     plt.subplots_adjust(hspace=0.25)
     plt.subplots_adjust(top=0.92)
     fig=plt.gcf()
@@ -60,7 +60,7 @@ for ind in np.arange(len(cids_rand)):
     fig.savefig(psfpdf,format='pdf',dpi=400)
     plt.clf()
     plt.close('all')
-    DRW.sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
+    DRWsample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
     plt.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(np.exp(-lomega)),np.exp(lomega),np.log10(sigma)),fontsize=15,transform=fig.transFigure,horizontalalignment='center')
