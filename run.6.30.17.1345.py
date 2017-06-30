@@ -1,3 +1,4 @@
+import carmcmc as cm
 import numpy as np
 import pandas as pd
 import pickle
@@ -12,7 +13,7 @@ normfrac=0.317310507863
 nsamples=20000
 iLB,iUB=int(normfrac*0.5*nsamples),int((1-0.5*normfrac)*nsamples)
 
-df=pd.read_csv('/home/rumbaugh/Eric_LC_S1.csv',skipinitialspace=True,names=['COADD_OBJECT_ID','RA','DEC','MJD','MAG','MAG_ERR','BAND','FLAGS'])
+df=pd.read_csv('/home/rumbaugh/Eric_LC_S1.csv',skipinitialspace=True,names=['COADD_OBJECT_ID','RA','DEC','MJD','MAG','MAGERR','BAND','FLAGS'])
 
 df=df[df.BAND.values=='g']
 
