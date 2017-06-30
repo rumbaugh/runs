@@ -63,7 +63,7 @@ for ind in np.arange(len(cids_rand)):
     DRWsample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
-    plt.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(np.exp(-lomega)),np.exp(lomega),np.log10(sigma)),fontsize=15,transform=fig.transFigure,horizontalalignment='center')
+    plt.text(0.5,0.9,'%i:ltau=%.1f(%.1f),lsig=%.1f'%(DBID,np.log10(np.exp(-lomega)),lomega,np.log10(sigma)),fontsize=15,transform=fig.transFigure,horizontalalignment='center')
     fig.savefig(psfpdf,format='pdf',dpi=400)
     plt.clf()
     plt.close('all')
