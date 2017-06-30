@@ -2,6 +2,8 @@ import carmcmc as cm
 import numpy as np
 import pandas as pd
 import pickle
+import matplotlib
+import matplotlib.pyplot as plt
 import matplotlib.backends.backend_pdf as bpdf
 p=6
 psfpdf=bpdf.PdfPages('/home/rumbaugh/SN_CAR1_fits.p_%i.S1.OR.6.30.17.pdf'%p)
@@ -47,7 +49,7 @@ for ind in np.arange(len(cids_rand)):
 
     plt.figure(1)
     plt.clf()
-    sample.assess_fit(doShow=False)
+    DRWsample.assess_fit(doShow=False)
     plt.subplots_adjust(hspace=0.25)
     plt.subplots_adjust(top=0.92)
     fig=plt.gcf()
