@@ -16,7 +16,7 @@ df=pd.read_csv('/home/rumbaugh/Eric_LC_S1.csv',index_col=0,skipinitialspace=True
 
 df=df[df.BAND.values=='g']
 
-cids=df.BAND.unique()
+cids=df.COADD_OBJECT_ID.unique()
 
 cids_rand=np.random.choice(cids,num,replace=False)
 
