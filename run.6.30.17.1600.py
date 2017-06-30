@@ -41,9 +41,9 @@ for ind in np.arange(len(cids_rand)):
                 outlier_arr[ipt]= np.abs(np.median(LCdf.MAG.values[gthresh])-LCdf.MAG.values[ipt]) > outlier_thresh
         pickle.dump(outlier_arr,open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.outliers_g.pickle'%DBID,'wb'))
     LCdf=LCdf[outlier_arr==False]
-    DRWmodel=cm.CarmaModel(LCdf.MJD.values,LCdf.MAG.values,LCdf.MAGERR.values,p=1,q=0)
+    DRWmodel=cm.CarmaModel(LCdf.MJD.values,LCdf.MAG.values,LCdf.MAGERR.values,p=p,q=0)
     DRWsample=DRWmodel.run_mcmc(nsamples)
-    pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.DRWsample_OR.p_%p.pickle'%(DBID,p),'wb'))
+    pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.DRWsample_OR.p_%i.pickle'%(DBID,p),'wb'))
 
     plt.figure(1)
     plt.clf()
