@@ -17,12 +17,15 @@ df=pd.read_csv('/home/rumbaugh/Eric_LC_S1.csv',skipinitialspace=True,names=['COA
 
 df=df[df.BAND.values=='g']
 
+df.reset_index(inplace=True)
+
 cids=df.COADD_OBJECT_ID.unique()
 
 cids_rand=np.random.choice(cids,num,replace=False)
 
 df=df[np.in1d(df.COADD_OBJECT_ID.values,cids_rand)]
 
+df.reset_index(inplace=True)
 
 for ind in np.arange(len(cids_rand)):
     DBID=df.COADD_OBJECT_ID.values[ind]
