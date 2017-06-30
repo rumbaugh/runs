@@ -29,17 +29,18 @@ df.reset_index(inplace=True)
 
 for ind in np.arange(len(cids_rand)):
     DBID=df.COADD_OBJECT_ID.values[ind]
+    LCdf=df[df.COADD_OBJECT_ID.values==DBID]
     try:
         outlier_arr=pickle.load(open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.outliers_g.pickle'%DBID,'rb'))
     except IOError:
-        outlier_arr= np.zeros(len(df.MAG.values),dtype='bool')
+        outlier_arr= np.zeros(len(LCdf.MAG.values),dtype='bool')
         for ipt in np.arange(len(outlier_arr)):
-            gthresh=np.where(np.abs(df.MJD.values-df.MJD.values[ipt])<outlier_window)[0]
+            gthresh=np.where(np.abs(LCdf.MJD.values-LCdf.MJD.values[ipt])<outlier_window)[0]
             if len(gthresh)>1:
-                outlier_arr[ipt]= np.abs(np.median(df.MAG.values[gthresh])-df.MAG.values[ipt]) > outlier_thresh
+                outlier_arr[ipt]= np.abs(np.median(LCdf.MAG.values[gthresh])-LCdf.MAG.values[ipt]) > outlier_thresh
         pickle.dump(outlier_arr,open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.outliers_g.pickle'%DBID,'wb'))
-    df=df[outlier_arr==False]
-    DRWmodel=cm.CarmaModel(df.MJD.values,df.MAG.values,df.MAGERR.values,p=1,q=0)
+    LCdf=LCdf[outlier_arr==False]
+    DRWmodel=cm.CarmaModel(LCdf.MJD.values,LCdf.MAG.values,LCdf.MAGERR.values,p=1,q=0)
     DRWsample=DRWmodel.run_mcmc(nsamples)
 
     lomega_samples,sigma_samples=np.sort(DRWsample.get_samples('log_omega').flatten()),np.sort(DRWsample.get_samples('sigma').flatten())
