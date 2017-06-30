@@ -12,7 +12,7 @@ normfrac=0.317310507863
 nsamples=20000
 iLB,iUB=int(normfrac*0.5*nsamples),int((1-0.5*normfrac)*nsamples)
 
-df=pd.read_csv('/home/rumbaugh/Eric_LC_S1.csv',skipinitialspace=True,names=['COADD_OBJECT_ID','RA','DEC','MJD','MAG_PSF','MAG_PSF_ERROR','BAND','FLAGS'])
+df=pd.read_csv('/home/rumbaugh/Eric_LC_S1.csv',skipinitialspace=True,names=['COADD_OBJECT_ID','RA','DEC','MJD','MAG','MAG_ERR','BAND','FLAGS'])
 
 df=df[df.BAND.values=='g']
 
