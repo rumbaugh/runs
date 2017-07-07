@@ -27,7 +27,7 @@ cids_rand=np.random.choice(cids,num,replace=False)
 df=df[np.in1d(df.COADD_OBJECT_ID.values,cids_rand)]
 
 df.reset_index(inplace=True)
-outdf=pd.DataFrame{x: np.zeros(num) for x in ['tau','taulb','tauub','sig','siglb','sigub']}
+outdf=pd.DataFrame({x: np.zeros(num) for x in ['tau','taulb','tauub','sig','siglb','sigub']})
 outdf['cid']=cids_rand
 for ind in np.arange(len(cids_rand)):
     DBID=cids_rand[ind]
