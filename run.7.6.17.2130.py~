@@ -1,0 +1,5 @@
+import numpy as np
+import pyfits as py
+
+hdu=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
+data=hdu[1].data
