@@ -32,6 +32,11 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     DBID=data['COADD_OBJECT_ID'][ind]
     mjd,mag,magerr=np.zeros(len_lc),np.zeros(len_lc),np.zeros(len_lc)
     mjd[:],mag[:],magerr[:]=data[ind]['LC_MJD_G'][:len_lc],data[ind]['LC_MAG_PSF_G'][:len_lc],data[ind]['LC_MAGERR_PSF_G'][:len_lc]
+    inf_or_nan=np.ones(len(mjd),dtype='bool')
+    for arr in [mjd,mag,magerr]:
+        for func in [np.isnan,np.isinf]:
+            inf_or_nan*=np.invert(func(arr))
+    mjd,mag,magerr=mjd[inf_or_nan],mag[inf_or_nan],magerr[inf_or_nan]
     try:
         outlier_arr=pickle.load(open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.outliers_g.pickle'%DBID,'rb'))
     except IOError:
