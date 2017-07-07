@@ -8,7 +8,7 @@ data=data[(data['EW_OIII_5007']!=0)&(data['EW_BROAD_HB']!=0)&(data['EW_FE_HB_443
 
 plt.figure(1)
 plt.clf()
-EWOIII,EWHB,EWFeII,FWHMHB=data['EW_OIII_5007']/(1+data['REDSHIFT']),data['EW_BROAD_HB']/(1+data['REDSHIFT']),data['EW_FE_HB_4434_4684']/(1+data['REDSHIFT']),data['FWHM_BROAD_HB']#/(1+data['REDSHIFT'])
+EWOIII,EWHB,EWFeII,FWHMHB=data['EW_OIII_5007'],data['EW_BROAD_HB'],data['EW_FE_HB_4434_4684'],data['FWHM_BROAD_HB']#/(1+data['REDSHIFT'])
 RFe=EWFeII/EWHB
 try:
     smOIII

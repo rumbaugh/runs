@@ -9,7 +9,7 @@ import matplotlib.backends.backend_pdf as bpdf
 
 outlier_window=300
 outlier_thresh=0.5
-num=5
+num=5000
 
 normfrac=0.317310507863
 nsamples=20000
@@ -22,7 +22,6 @@ data=sndata[rand_inds]
 
 outdf=pd.DataFrame({x: np.zeros(num) for x in ['tau','taulb','tauub','sig','siglb','sigub']})
 bad_inds=np.zeros(0,dtype='i8')
-outdf['cid']=data['COADD_OBJECT_ID']
 for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     len_lc=np.count_nonzero(data[ind]['LC_MJD_G'])
     while len_lc<10:
@@ -51,4 +50,5 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     lomegaLB,lomegaUB,sigmaLB,sigmaUB=lomega_samples[iLB],lomega_samples[iUB],sigma_samples[iLB],sigma_samples[iUB]
     pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.DRWsample_OR.pickle'%DBID,'wb'))
     outdf['tau'][ind],outdf['taulb'][ind],outdf['tauub'][ind],outdf['sig'][ind],outdf['siglb'][ind],outdf['sigub'][ind]=np.exp(-lomega),np.exp(-lomegaUB),np.exp(-lomegaLB),sigma,sigmaLB,sigmaUB
+outdf['cid']=data['COADD_OBJECT_ID']
 outdf.to_csv('/home/rumbaugh/SN_fields.S1.CAR1fits.csv',index=False)
