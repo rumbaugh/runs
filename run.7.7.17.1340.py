@@ -28,6 +28,7 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     while len_lc<10:
         bad_inds=np.append(bad_inds,rand_inds[ind])
         rand_inds[ind]=np.random.choice(np.delete(np.arange(len(sndata)),np.append(rand_inds,bad_inds)))
+        data[ind]=sndata[rand_inds[ind]]
         len_lc=np.count_nonzero(data[ind]['LC_MJD_G'])
     DBID=data['COADD_OBJECT_ID'][ind]
     mjd,mag,magerr=data[ind]['LC_MJD_G'][:len_lc],data[ind]['LC_MAG_PSF_G'][:len_lc],data[ind]['LC_MAGERR_PSF_G'][:len_lc]
