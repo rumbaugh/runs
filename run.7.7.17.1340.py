@@ -31,7 +31,8 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
         data[ind]=sndata[rand_inds[ind]]
         len_lc=np.count_nonzero(data[ind]['LC_MJD_G'])
     DBID=data['COADD_OBJECT_ID'][ind]
-    mjd,mag,magerr=data[ind]['LC_MJD_G'][:len_lc],data[ind]['LC_MAG_PSF_G'][:len_lc],data[ind]['LC_MAGERR_PSF_G'][:len_lc]
+    mjd,mag,magerr=np.zeros(len_lc),np.zeros(len_lc),np.zeros(len_lc)
+    mjd[:],mag[:],magerr[:]=data[ind]['LC_MJD_G'][:len_lc],data[ind]['LC_MAG_PSF_G'][:len_lc],data[ind]['LC_MAGERR_PSF_G'][:len_lc]
     try:
         outlier_arr=pickle.load(open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.outliers_g.pickle'%DBID,'rb'))
     except IOError:
