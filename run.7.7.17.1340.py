@@ -9,7 +9,7 @@ import matplotlib.backends.backend_pdf as bpdf
 
 outlier_window=300
 outlier_thresh=0.5
-num=5000
+num=5
 
 normfrac=0.317310507863
 nsamples=20000
