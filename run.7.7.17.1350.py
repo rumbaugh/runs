@@ -37,6 +37,7 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
         for func in [np.isnan,np.isinf]:
             inf_or_nan*=np.invert(func(arr))
     mjd,mag,magerr=mjd[inf_or_nan],mag[inf_or_nan],magerr[inf_or_nan]
+    len_lc=len(mjd)
     try:
         outlier_arr=pickle.load(open('/home/rumbaugh/CARpickles/SN_fields/S2/%i.outliers_g.pickle'%DBID,'rb'))
     except IOError:
