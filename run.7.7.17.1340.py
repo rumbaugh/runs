@@ -16,16 +16,20 @@ nsamples=20000
 iLB,iUB=int(normfrac*0.5*nsamples),int((1-0.5*normfrac)*nsamples)
 
 hdu=py.open('/home/rumbaugh/S1_lc.fits')
-data=hdu[1].data
-
-data=data[np.random.choice(np.arange(len(data)),num,replace=False)]
+sndata=hdu[1].data
+rand_inds=np.random.choice(np.arange(len(sndata)),num,replace=False)
+data=sndata[rand_inds]
 
 outdf=pd.DataFrame({x: np.zeros(num) for x in ['tau','taulb','tauub','sig','siglb','sigub']})
-cids=data['COADD_OBJECT_ID']
-outdf['cid']=cids
-for ind in np.arange(len(cids)):
-    DBID=cids[ind]
+bad_inds=np.zeros(0,dtype='i8')
+outdf['cid']=data['COADD_OBJECT_ID']
+for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     len_lc=np.count_nonzero(data[ind]['LC_MJD_G'])
+    while len_lc<10:
+        bad_inds=np.append(bad_inds,rand_inds[ind])
+        rand_inds[ind]=np.random.choice(np.delete(np.arange(len(sndata)),np.append(rand_inds,bad_inds)))
+        len_lc=np.count_nonzero(data[ind]['LC_MJD_G'])
+    DBID=data['COADD_OBJECT_ID'][ind]
     mjd,mag,magerr=data[ind]['LC_MJD_G'][:len_lc],data[ind]['LC_MAG_PSF_G'][:len_lc],data[ind]['LC_MAGERR_PSF_G'][:len_lc]
     try:
         outlier_arr=pickle.load(open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.outliers_g.pickle'%DBID,'rb'))
