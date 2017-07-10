@@ -75,11 +75,14 @@ fitdf=pd.read_csv('/home/rumbaugh/QSO_S82_CAR1_fits_wlik.csv')
 
 df=pd.merge(fitdf,drwdf,on='DBID')
 
-sout=pydl.pydlutils.spheregroup.spherematch(data['RA'],data['DEC'],df.ra.values,df.dec.values,0.3/3600)
+try:
+    fulldf
+except NameError:
+    sout=pydl.pydlutils.spheregroup.spherematch(data['RA'],data['DEC'],df.ra.values,df.dec.values,0.3/3600)
 
-matchdata,matchdf=data[sout[0]],df[sout[1]]
-matchdf.reindex(inplace=True)
-data_df=pd.DataFrame({x: matchdata[x] for x in ['SDSS_NAME','RA','DEC','REDSHIFT','LOGL1350', 'LOGL1350_ERR',
+    matchdata,matchdf=data[sout[0]],df.iloc[sout[1]]
+    matchdf.reindex(inplace=True)
+    data_df=pd.DataFrame({x: matchdata[x] for x in ['SDSS_NAME','RA','DEC','REDSHIFT','LOGL1350', 'LOGL1350_ERR',
        'LOGL3000', 'LOGL3000_ERR', 'LOGL5100', 'LOGL5100_ERR', 'LOGLBOL',
        'LOGLBOL_ERR', 'LOGL_BROAD_HA', 'LOGL_BROAD_HA_ERR',
        'LOGL_BROAD_HB', 'LOGL_BROAD_HB_ERR', 'LOGL_BROAD_MGII',
@@ -106,8 +109,8 @@ data_df=pd.DataFrame({x: matchdata[x] for x in ['SDSS_NAME','RA','DEC','REDSHIFT
        'FWHM_NARROW_HB_ERR']})
 
 
-fulldf=pd.merge(data_df,matchdf,left_index=True,right_index=True,suffixes=('','_mac'))
-fulldf['RFe']=EWFeII/EWHB
+    fulldf=pd.merge(data_df,matchdf,left_index=True,right_index=True,suffixes=('','_mac'))
+    fulldf['RFe']=fulldf['EW_OIII_5007'].values/fulldf['EW_BROAD_HB'].values
 try:
     sm_dict
 except NameError:
