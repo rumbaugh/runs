@@ -121,7 +121,7 @@ for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.
 
     plt.figure(1)
     plt.clf()
-
+    print mappername,len(mapper)
     try:
         sm_dict[mappername]
     except KeyError:
@@ -132,8 +132,9 @@ for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.
 
         sm_dict[mappername]=np.log10(sm)
     sm=sm_dict[mappername]
+    print len(sm)
     cmap = plt.cm.get_cmap('gist_rainbow_r')
-    sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, vmin=0.7, vmax=1.6, s=2, edgecolor='None', cmap=cmap)
+    sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, s=2, edgecolor='None', cmap=cmap)#, vmin=0.7, vmax=1.6)
     plt.axvline(0,c='gray')
     plt.axvline(0.6,c='gray')
     plt.axvline(1.5,c='gray')
