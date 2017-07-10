@@ -119,7 +119,7 @@ except NameError:
 
 bounds_dict={'lsig':[-0.8,-0.5],'lsig(Mac)':[-0.8,-0.5],'ltau':[2.2,3],'ltau(Mac)':[2.2,3]}
 
-for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.lsig.values,np.log10(fulldf.tau.values),fulldf.ltau.values],['lsig','lsig(Mac)','ltau','ltau(Mac)']):
+for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.lsig.values,np.log10(fulldf.tau.values)-np.log10(1+fulldf.REDSHIFT.values),fulldf.ltau.values-np.log10(1+fulldf.REDSHIFT.values)],['lsig','lsig(Mac)','ltau','ltau(Mac)']):
 
     plt.figure(1)
     plt.clf()
