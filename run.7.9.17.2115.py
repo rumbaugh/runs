@@ -117,7 +117,7 @@ try:
 except NameError:
     sm_dict={}
 
-bounds_dict={'lsig':[-0.75,-0.3],'lsig(Mac)':[-0.75,-0.3],'ltau':[2.2,3],'ltau(Mac)':[2.2,3]}
+bounds_dict={'lsig':[-0.8,-0.5],'lsig(Mac)':[-0.8,-0.5],'ltau':[2.2,3],'ltau(Mac)':[2.2,3]}
 
 for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.lsig.values,np.log10(fulldf.tau.values),fulldf.ltau.values],['lsig','lsig(Mac)','ltau','ltau(Mac)']):
 
