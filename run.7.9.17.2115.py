@@ -117,6 +117,8 @@ try:
 except NameError:
     sm_dict={}
 
+bounds_dict={'lsig':[-0.75,-0.3],'lsig(Mac)':[-0.75,-0.3],'ltau':[2.2,3],'ltau(Mac)':[2.2,3]}
+
 for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.lsig.values,np.log10(fulldf.tau.values),fulldf.ltau.values],['lsig','lsig(Mac)','ltau','ltau(Mac)']):
 
     plt.figure(1)
@@ -132,7 +134,7 @@ for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.
         sm_dict[mappername]=np.log10(sm)
     sm=sm_dict[mappername]
     cmap = plt.cm.get_cmap('gist_rainbow_r')
-    sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, s=2, edgecolor='None', cmap=cmap)#, vmin=0.7, vmax=1.6)
+    sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, s=2, edgecolor='None', cmap=cmap, vmin=bounds_dict[mappername][0], vmax=bounds_dict[mappername][1])
     plt.axvline(0,c='gray')
     plt.axvline(0.6,c='gray')
     plt.axvline(1.5,c='gray')
