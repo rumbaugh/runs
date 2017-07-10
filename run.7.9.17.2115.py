@@ -7,6 +7,7 @@ import pydl.pydlutils.spheregroup
 
 hdu=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 data=hdu[1].data
+data=data.byteswap().newbyteorder()
 data=data[(data['EW_OIII_5007']>0)&(data['EW_BROAD_HB']!=0)&(data['EW_FE_HB_4434_4684']!=0)&(data['FWHM_BROAD_HB']>0)]
 data=data[(np.log10(data['EW_OIII_5007'])>0.001)&(np.log10(data['EW_OIII_5007'])<3)&(data['FWHM_BROAD_HB']<15000)]
 
