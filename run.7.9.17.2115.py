@@ -1,7 +1,7 @@
 import numpy as np
 import pyfits as py
 import matplotlib.pyplot as plt
-import pandas as pd
+import pandas as pd 
 import pydl.pydlutils.spheregroup
 
 
@@ -29,7 +29,7 @@ except NameError:
 cmap = plt.cm.get_cmap('gist_rainbow_r')
 
 
-sc = plt.scatter(RFe,FWHMHB, c=logEWOIII, vmin=0.7, vmax=1.6, s=2, edgecolor='None', cmap=cmap)
+sc = plt.scatter(RFe,FWHMHB, c=logEWOIII, vmin=0.7, vmax=1.6, s=4, edgecolor='None', cmap=cmap)
 plt.axvline(0,c='gray')
 plt.axvline(0.6,c='gray')
 plt.axvline(1.5,c='gray')
@@ -47,7 +47,7 @@ plt.savefig('/home/rumbaugh/DR7_RFe-FHMWHB-OIII.png')
 
 data=data[gFe]
 
-DBdf=pd.read_csv('/home/rumbaugh/DB_QSO_S82.dat',delim_whitespace=True,names=['DBID','ra','dec','SDR5ID','Mi','Micorr','redshift','massBH','Lbol','u','g','r','i','z','Au'],skiprows=2)
+DBdf=pd.read_csv('/home/rumbaugh/DB_QSO_S82.dat',delim_whitespace=True,names=['DBID','ra','dec','SDR5ID','Mi','Micorr','redshift','massBH','Lbol','u','g','r','i','z','Au'],skiprows=4)
 
 drwname='/home/rumbaugh/s82drw_g.dat'
 drwdict={'names':('SDR5ID','ra','dec','redshift','M_i','mass_BH','chi2_pdf','ltau','lsig','ltau_lim_lo','ltau_lim_hi','lsig_lim_lo','lsig_lim_hi','edge_flag','Plike','Pnoise','Pinf','mu','npts'),'formats':('i8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','i4','f8','f8','f8','f8','i8')}
@@ -134,7 +134,7 @@ for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.
         sm_dict[mappername]=np.log10(sm)
     sm=sm_dict[mappername]
     cmap = plt.cm.get_cmap('gist_rainbow_r')
-    sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, s=2, edgecolor='None', cmap=cmap, vmin=bounds_dict[mappername][0], vmax=bounds_dict[mappername][1])
+    sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, s=4, edgecolor='None', cmap=cmap, vmin=bounds_dict[mappername][0], vmax=bounds_dict[mappername][1])
     plt.axvline(0,c='gray')
     plt.axvline(0.6,c='gray')
     plt.axvline(1.5,c='gray')
