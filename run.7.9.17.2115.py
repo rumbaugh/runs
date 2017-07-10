@@ -129,7 +129,7 @@ for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.
         sm=np.zeros(len(mapper))
 
         for RFetmp,HBtmp,i in zip(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values,np.arange(len(mapper))):
-            sm[i]=np.mean(10**mapper[(np.abs(RFetmp-fulldf.RFe.values)<0.2)&(np.abs(HBtmp-fulldf.FWHM_BROAD_HB.values)<1000)])
+            sm[i]=np.median(10**mapper[(np.abs(RFetmp-fulldf.RFe.values)<0.2)&(np.abs(HBtmp-fulldf.FWHM_BROAD_HB.values)<1000)])
 
         sm_dict[mappername]=np.log10(sm)
     sm=sm_dict[mappername]
@@ -148,4 +148,4 @@ for mapper,mappername in zip([np.log10(fulldf.sigma.values*np.sqrt(365)),fulldf.
     plt.ylabel(r'FHWM$_{H\beta}$ (km/s)')
     clb=plt.colorbar(sc)
     clb.set_label(mappername)#, labelpad=-40, y=1.05, rotation=0)
-    plt.savefig('/home/rumbaugh/DR7_RFe-FHMWHB-{}.png'.format(mappername))
+    plt.savefig('/home/rumbaugh/DR7_RFe-FHMWHB-{}.median.png'.format(mappername))
