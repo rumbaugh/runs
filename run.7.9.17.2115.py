@@ -83,7 +83,7 @@ except NameError:
 
     matchdata,matchdf=data[sout[0]],df.iloc[sout[1]]
     matchdf.reset_index(inplace=True)
-    data_df=pd.DataFrame({x: pd.Series(np.array(matchdata[x])) for x in ['SDSS_NAME','RA','DEC','REDSHIFT','LOGL1350', 'LOGL1350_ERR',
+    data_df=pd.DataFrame({x: pd.Series(np.array(matchdata[x]).byteswap().newbyteorder()) for x in ['SDSS_NAME','RA','DEC','REDSHIFT','LOGL1350', 'LOGL1350_ERR',
        'LOGL3000', 'LOGL3000_ERR', 'LOGL5100', 'LOGL5100_ERR', 'LOGLBOL',
        'LOGLBOL_ERR', 'LOGL_BROAD_HA', 'LOGL_BROAD_HA_ERR',
        'LOGL_BROAD_HB', 'LOGL_BROAD_HB_ERR', 'LOGL_BROAD_MGII',
