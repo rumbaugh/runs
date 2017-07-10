@@ -81,7 +81,7 @@ except NameError:
     sout=pydl.pydlutils.spheregroup.spherematch(data['RA'],data['DEC'],df.ra.values,df.dec.values,0.3/3600)
 
     matchdata,matchdf=data[sout[0]],df.iloc[sout[1]]
-    matchdf.reindex(inplace=True)
+    matchdf.reset_index(inplace=True)
     data_df=pd.DataFrame({x: matchdata[x] for x in ['SDSS_NAME','RA','DEC','REDSHIFT','LOGL1350', 'LOGL1350_ERR',
        'LOGL3000', 'LOGL3000_ERR', 'LOGL5100', 'LOGL5100_ERR', 'LOGLBOL',
        'LOGLBOL_ERR', 'LOGL_BROAD_HA', 'LOGL_BROAD_HA_ERR',
