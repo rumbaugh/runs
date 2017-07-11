@@ -115,8 +115,8 @@ except NameError:
 
 fulldf['sigma_hat']=fulldf.sigma.values
 fulldf['sigma_hat_mac']=10**fulldf.lsig.values
-fulldf['sigma']=0.5*fulldf.sigma_hat.values**2*fulldf.tau.values/(1.+fulldf.REDSHIFT.values)
-fulldf['sigma_mac']=0.5*fulldf.sigma_hat_mac.values**2*10**fulldf.ltau.values/365.25/(1.+fulldf.REDSHIFT.values)
+fulldf['sigma']=0.5*(fulldf.sigma_hat.values**2)*fulldf.tau.values/(1.+fulldf.REDSHIFT.values)
+fulldf['sigma_mac']=0.5*(fulldf.sigma_hat_mac.values**2)*(10**fulldf.ltau.values)/365.25/(1.+fulldf.REDSHIFT.values)
 
 
 try:
