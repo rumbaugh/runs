@@ -141,7 +141,7 @@ for mapper,mappername in zip([fulldf.sigma.values,fulldf.sigma_mac.values,fulldf
         sm_dict[mappername]=np.log10(sm)
     sm=sm_dict[mappername]
     cmap = plt.cm.get_cmap('gist_rainbow_r')
-    sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, s=4, edgecolor='None', cmap=cmap)#, vmin=bounds_dict[mappername][0], vmax=bounds_dict[mappername][1])
+    sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, s=4, edgecolor='None', cmap=cmap, vmin=bounds_dict[mappername][0], vmax=bounds_dict[mappername][1])
     plt.axvline(0,c='gray')
     plt.axvline(0.6,c='gray')
     plt.axvline(1.5,c='gray')
