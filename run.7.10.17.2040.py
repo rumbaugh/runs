@@ -136,9 +136,9 @@ for mapper,mappername in zip([fulldf.sigma.values,fulldf.sigma_mac.values,fulldf
         sm=np.zeros(len(mapper))
 
         for RFetmp,HBtmp,i in zip(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values,np.arange(len(mapper))):
-            sm[i]=np.median(10**mapper[(np.abs(RFetmp-fulldf.RFe.values)<0.2)&(np.abs(HBtmp-fulldf.FWHM_BROAD_HB.values)<1000)])
+            sm[i]=np.median(mapper[(np.abs(RFetmp-fulldf.RFe.values)<0.2)&(np.abs(HBtmp-fulldf.FWHM_BROAD_HB.values)<1000)])
 
-        sm_dict[mappername]=np.log10(sm)
+        sm_dict[mappername]=sm
     sm=sm_dict[mappername]
     cmap = plt.cm.get_cmap('gist_rainbow_r')
     sc = plt.scatter(fulldf.RFe.values,fulldf.FWHM_BROAD_HB.values, c=sm, s=4, edgecolor='None', cmap=cmap, vmin=bounds_dict[mappername][0], vmax=bounds_dict[mappername][1])
