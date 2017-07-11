@@ -116,7 +116,7 @@ except NameError:
 fulldf['sigma_hat']=fulldf.sigma.values
 fulldf['sigma_hat_mac']=10**fulldf.lsig.values
 fulldf['sigma']=0.5*fulldf.sigma_hat.values**2*fulldf.tau
-fulldf['sigma_mac']=0.5*fulldf.sigma_hat_mac.values**2*10**fulldf.ltau
+fulldf['sigma_mac']=0.5*fulldf.sigma_hat_mac.values**2*10**fulldf.ltau/365.25
 
 
 try:
@@ -124,7 +124,7 @@ try:
 except NameError:
     sm_dict={}
 
-bounds_dict={'sig':[-0.8,-0.5],'lsig(Mac)':[-0.8,-0.5],'ltau':[2.2,3],'ltau(Mac)':[2.2,3]}
+bounds_dict={'sig^2':[0,0.15],'sig^2(Mac)':[0,.15],'tau':[50,300],'tau(Mac)':[50,300]}
 
 for mapper,mappername in zip([fulldf.sigma.values,fulldf.sigma_mac.values,fulldf.tau.values/(1.+fulldf.REDSHIFT.values),(10**fulldf.ltau.values)/(1.+fulldf.REDSHIFT.values)],['sig^2','sig^2(Mac)','tau','tau(Mac)']):
 
