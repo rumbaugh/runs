@@ -124,7 +124,7 @@ try:
 except NameError:
     sm_dict={}
 
-bounds_dict={'sig^2':[0.99,0.1],'sig^2(Mac)':[0,.1],'tau':[50,300],'tau(Mac)':[50,300]}
+bounds_dict={'sig^2':[0.,0.1],'sig^2(Mac)':[0,.1],'tau':[50,300],'tau(Mac)':[50,300]}
 
 for mapper,mappername in zip([fulldf.sigma.values,fulldf.sigma_mac.values,fulldf.tau.values/(1.+fulldf.REDSHIFT.values),(10**fulldf.ltau.values)/(1.+fulldf.REDSHIFT.values)],['sig^2','sig^2(Mac)','tau','tau(Mac)']):
 
