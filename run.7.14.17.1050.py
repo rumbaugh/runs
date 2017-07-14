@@ -46,5 +46,5 @@ for objclass in ['STAR','QSO','GALAXY']:
 plt.xlabel('log(sigma)')
 plt.ylabel('log(tau)')
 #plt.xlim(-0.01,.15)
-plt.legend('lower left')
+plt.legend(loc='lower left')
 plt.savefig('/home/rumbaugh/specplot_SNfields_S2.cen_30122.png')
