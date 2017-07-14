@@ -42,6 +42,7 @@ plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
-    plt.scatter(tmpdf.sigma.values,tmpdf.tau.values,color=cdict[objclass],label=objclass,s=8,edgecolor='None',alpha=0.3)
+    plt.scatter(np.log10(tmpdf.sigma.values),tmpdf.tau.values,color=cdict[objclass],label=objclass,s=8,edgecolor='None',alpha=0.5)
+plt.xlim(-0.01,.15)
 plt.legend()
-plt.savefig('/home/rumbaugh.specplot_SNfields_S2.cen_30122.png')
+plt.savefig('/home/rumbaugh/specplot_SNfields_S2.cen_30122.png')
