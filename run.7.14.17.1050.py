@@ -33,7 +33,7 @@ fulldf=fulldf[fulldf.numepoch.values>5]
 try:
     fulldf.sigma_hat
 except AttributeError:
-    fulldf['sigma_hat']=fulldf.sigma.values
+    fulldf['sigma_hat']=fulldf.sig.values
     fulldf['sigma']=0.5*(fulldf.sigma_hat.values**2)*fulldf.tau.values
 cdict={x:y for x,y in zip(['STAR','QSO','GALAXY'],['pink','cyan','green'])}
 
