@@ -35,7 +35,7 @@ try:
 except AttributeError:
     fulldf['sigma_hat']=fulldf.sig.values
     fulldf['sigma']=0.5*(fulldf.sigma_hat.values**2)*fulldf.tau.values
-cdict={x:y for x,y in zip(['STAR','QSO','GALAXY'],['red','blue','green'])}
+cdict={x:y for x,y in zip(['STAR','QSO','GALAXY'],['red','cyan','green'])}
 
 plt.figure(1)
 plt.clf()
@@ -46,5 +46,5 @@ for objclass in ['STAR','QSO','GALAXY']:
 plt.xlabel('log(sigma)')
 plt.ylabel('log(tau)')
 #plt.xlim(-0.01,.15)
-plt.legend()
+plt.legend('lower left')
 plt.savefig('/home/rumbaugh/specplot_SNfields_S2.cen_30122.png')
