@@ -1,4 +1,3 @@
-import carmcmc as cm
 import numpy as np
 import pandas as pd
 import pickle
@@ -24,12 +23,12 @@ cenra,cendec=sndata['RA'][ri],sndata['DEC'][ri]
 gri=np.sort(np.where((np.abs(cenra-sndata["RA"])<0.3)&(np.abs(cendec-sndata['DEC'])<0.3))[0])
 data=sndata[gri]
 
-outdf=pd.DataFrame({x: np.zeros(len(gri)) for x in ['tau','taulb','tauub','sig','siglb','sigub','numepoch_tot','numepoch']})
-outdf['DataID']=gri
+outdf=pd.read_csv('/home/rumbaugh/SN_fields.S2.cen_{}.CAR1fits.csv'.format(ri))
 for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     len_lc=np.count_nonzero(data[ind]['LC_MJD_G'])
     outdf.numepoch_tot[ind]=len_lc
     if len_lc<6:
+        outdf.numepoch[ind]=0
         continue
     DBID=data['COADD_OBJECT_ID'][ind]
     mjd,mag,magerr=np.zeros(len_lc),np.zeros(len_lc),np.zeros(len_lc)
@@ -47,14 +46,4 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
             outlier_arr[ipt]= np.abs(np.median(mag[gthresh])-mag[ipt]) > outlier_thresh
     mjd,mag,magerr=mjd[outlier_arr==False],mag[outlier_arr==False],magerr[outlier_arr==False]
     outdf.numepoch[ind]=len(mjd)
-    DRWmodel=cm.CarmaModel(mjd,mag,magerr,p=1,q=0)
-    DRWsample=DRWmodel.run_mcmc(nsamples)
-
-    lomega_samples,sigma_samples=np.sort(DRWsample.get_samples('log_omega').flatten()),np.sort(DRWsample.get_samples('sigma').flatten())
-    lomega,sigma=np.median(lomega_samples),np.median(sigma_samples)
-    lomegaLB,lomegaUB,sigmaLB,sigmaUB=lomega_samples[iLB],lomega_samples[iUB],sigma_samples[iLB],sigma_samples[iUB]
-    pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/SN_fields/S2/%i.DRWsample_OR.pickle'%DBID,'wb'))
-    outdf['tau'][ind],outdf['taulb'][ind],outdf['tauub'][ind],outdf['sig'][ind],outdf['siglb'][ind],outdf['sigub'][ind]=np.exp(-lomega),np.exp(-lomegaUB),np.exp(-lomegaLB),sigma,sigmaLB,sigmaUB
-outdf['cid']=data['COADD_OBJECT_ID']
-outdf['RA'],outdf["DEC"]=data['RA'],data['DEC']
 outdf.to_csv('/home/rumbaugh/SN_fields.S2.cen_{}.CAR1fits.csv'.format(ri),index=False)
