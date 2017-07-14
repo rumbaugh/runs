@@ -5,6 +5,10 @@ import pandas as pd
 import pydl.pydlutils.spheregroup
 
 
+RFebounds=np.append(np.arange(0,1.5,0.25),np.arange(1.5,3.5,0.5))
+boundnames=np.array([('%f' % x).rstrip('0').rstrip('.') for x in RFebounds])
+binnames=np.array(['{}-{}'.format(boundnames[i],boundnames[i+1]) for i in np.arange(0,len(boundnames)-1)])
+
 hdu=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 data=hdu[1].data
 #data=data.byteswap().newbyteorder()
@@ -112,11 +116,17 @@ except NameError:
 
     fulldf=pd.merge(data_df,matchdf,left_index=True,right_index=True,suffixes=('','_mac'))
     fulldf['RFe']=fulldf['EW_FE_HB_4434_4684'].values/fulldf['EW_BROAD_HB'].values
+    fulldf['origtau']=fulldf.tau
 
-fulldf['sigma_hat']=fulldf.sigma.values
-fulldf['sigma_hat_mac']=10**fulldf.lsig.values
-fulldf['sigma']=0.5*(fulldf.sigma_hat.values**2)*fulldf.tau.values
-fulldf['sigma_mac']=0.5*(fulldf.sigma_hat_mac.values**2)*(10**fulldf.ltau.values)/365.25
+try:
+    fulldf.sigma_hat
+    fulldf.sigma_mac
+except AttributeError:
+    fulldf['sigma_hat']=fulldf.sigma.values
+    fulldf['sigma_hat_mac']=10**fulldf.lsig.values
+    fulldf['sigma']=0.5*(fulldf.sigma_hat.values**2)*fulldf.tau.values
+    fulldf['sigma_mac']=0.5*(fulldf.sigma_hat_mac.values**2)*(10**fulldf.ltau.values)/365.25
+
 
 
 try:
@@ -125,8 +135,16 @@ except NameError:
     sm_dict={}
 
 bounds_dict={'sig^2':[0.02,0.08],'sig^2(Mac)':[0.02,.08],'tau':[150,750],'tau(Mac)':[150,750]}
+binbounds_dict={'sig^2':[0.0,0.12],'sig^2(Mac)':[0.0,.1],'tau':[0,1000],'tau(Mac)':[0,1000]}
 
-for mapper,mappername in zip([fulldf.sigma.values,fulldf.sigma_mac.values,fulldf.tau.values/(1.+fulldf.REDSHIFT.values),(10**fulldf.ltau.values)/(1.+fulldf.REDSHIFT.values)],['sig^2','sig^2(Mac)','tau','tau(Mac)']):
+fulldf['RFeBin']=pd.cut(fulldf.RFe,RFebounds,labels=binnames)
+fulldf['lumbin']=pd.cut(fulldf.LOGL5100,[-np.inf,44.25,44.75,np.inf],labels=['44','44.5','45'])
+
+fulldf['tau']=fulldf.origtau/(1.+fulldf.REDSHIFT.values)
+fulldf['tau_mac']=(10**fulldf.ltau.values)/(1.+fulldf.REDSHIFT.values)
+
+
+for mapper,mappername,backmapper,lloc in zip([fulldf.sigma.values,fulldf.sigma_mac.values,fulldf.tau.values/(1.+fulldf.REDSHIFT.values),(10**fulldf.ltau.values)/(1.+fulldf.REDSHIFT.values)],['sig^2','sig^2(Mac)','tau','tau(Mac)'],['sigma','sigma_mac','tau','tau_mac'],['lower left','upper center','lower right','upper center']):
 
     plt.figure(1)
     plt.clf()
@@ -156,5 +174,26 @@ for mapper,mappername in zip([fulldf.sigma.values,fulldf.sigma_mac.values,fulldf
     clb=plt.colorbar(sc)
     clb.set_label(mappername)#, labelpad=-40, y=1.05, rotation=0)
     plt.savefig('/home/rumbaugh/DR7_RFe-FHMWHB-{}.median.png'.format(mappername))
+    plt.figure(1)
+    plt.clf()
+    binmed=fulldf.groupby('RFeBin').median()[backmapper]
+    binmederr=fulldf.groupby('RFeBin').std()[backmapper]/fulldf.RFeBin.value_counts(sort=False)*np.sqrt(np.pi*(2*fulldf.RFeBin.value_counts(sort=False).values+1.)/(4*fulldf.RFeBin.value_counts(sort=False).values))
+    plt.errorbar(0.5*(RFebounds[:-1]+RFebounds[1:]),binmed,yerr=binmederr,color='k',fmt='o',capsize=3,mew=1,ms=6,label='All')
+    
+    lumdf=fulldf.groupby(['lumbin','RFeBin']).median()[backmapper]
+    lumstddf=fulldf.groupby(['lumbin','RFeBin']).std()[backmapper]
 
-jdf=pd.read_csv('/home/rumbaugh/Downloads/jon_drw.csv')
+    lcorarr=['b','green','r']
+    for lum,lcol in zip(['44','44.5','45'],lcorarr):
+        binmed=lumdf[lum]
+        binmederr=lumstddf[lum]/fulldf.RFeBin[fulldf.lumbin.values==lum].value_counts(sort=False)*np.sqrt(np.pi*(2*fulldf.RFeBin[fulldf.lumbin.values==lum].value_counts(sort=False).values+1.)/(4*fulldf.RFeBin[fulldf.lumbin.values==lum].value_counts(sort=False).values))
+        plt.errorbar(0.5*(RFebounds[:-1]+RFebounds[1:]),binmed,yerr=binmederr,color=lcol,fmt='o',capsize=3,mew=1,ms=6,label='L~{}'.format(lum))
+    plt.legend(frameon=False,loc=lloc,numpoints=1)
+    plt.xlabel('RFe')
+    plt.ylabel(mappername)
+    plt.xlim(-0.2,3)
+    plt.ylim(binbounds_dict[mappername][0],binbounds_dict[mappername][1])
+    plt.savefig('/home/rumbaugh/DR7_RFe-{}.median.wbins.png'.format(mappername))
+jdf=pd.read_csv('/home/rumbaugh/Downloads/jon_drw.csv',indexcol=0)
+
+jmatch=pd.merge(fulldf,jdf,how='outer',left_on='DBID',right_index=True)
