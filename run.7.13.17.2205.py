@@ -23,6 +23,6 @@ data=sndata[gri]
 
 outdf=pd.DataFrame({x: data[x] for x in ['COADD_OBJECT_ID','RA','DEC']})
 outdf['DataID']=gri
-outdf['numrow']=np.arnage(len(gri))
+outdf['numrow']=np.arange(len(gri))
 
 outdf.to_csv('/home/rumbaugh/SN_fields.S2.cen_{}.radecid.csv'.format(ri))
