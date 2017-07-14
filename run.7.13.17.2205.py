@@ -24,7 +24,7 @@ cenra,cendec=sndata['RA'][ri],sndata['DEC'][ri]
 gri=np.sort(np.where((np.abs(cenra-sndata["RA"])<0.3)&(np.abs(cendec-sndata['DEC'])<0.3))[0])
 data=sndata[gri]
 
-outdf=pd.DataFrame{x: data[x] for x in ['COADD_OBJECT_ID','RA','DEC']}
+outdf=pd.DataFrame({x: data[x] for x in ['COADD_OBJECT_ID','RA','DEC']})
 outdf['DataID']=gri
 outdf['numrow']=np.arnage(len(gri))
 
