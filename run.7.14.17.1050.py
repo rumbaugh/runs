@@ -35,14 +35,14 @@ try:
 except AttributeError:
     fulldf['sigma_hat']=fulldf.sig.values
     fulldf['sigma']=0.5*(fulldf.sigma_hat.values**2)*fulldf.tau.values
-cdict={x:y for x,y in zip(['STAR','QSO','GALAXY'],['pink','cyan','green'])}
+cdict={x:y for x,y in zip(['STAR','QSO','GALAXY'],['red','blue','light green'])}
 
 plt.figure(1)
 plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
-    plt.scatter(np.log10(tmpdf.sigma.values),np.log10(tmpdf.tau.values),color=cdict[objclass],label=objclass,s=8,edgecolor='None',alpha=0.5)
+    plt.scatter(np.log10(tmpdf.sigma.values),np.log10(tmpdf.tau.values),color=cdict[objclass],label=objclass,s=8,edgecolor='None')
 plt.xlabel('log(sigma)')
 plt.ylabel('log(tau)')
 #plt.xlim(-0.01,.15)
