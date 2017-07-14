@@ -22,8 +22,6 @@ sndata=hdu[1].data
 cenra,cendec=sndata['RA'][ri],sndata['DEC'][ri]
 gri=np.sort(np.where((np.abs(cenra-sndata["RA"])<0.3)&(np.abs(cendec-sndata['DEC'])<0.3))[0])
 data=sndata[gri]
-datadf=pd.DataFrame({x: data[x] for x in data.names})
-datadf['DataID']=gri
 
 specdf=pd.read_csv('/home/rumbaugh/SNfields_S2_cen_30122_spec.csv')
 
