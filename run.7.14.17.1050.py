@@ -27,7 +27,7 @@ specdf=pd.read_csv('/home/rumbaugh/SNfields_S2_cen_30122_spec.csv')
 
 fitdf=pd.read_csv('/home/rumbaugh/SN_fields.S2.cen_{}.CAR1fits.csv'.format(ri))
 
-fulldf=pd.merge(fitdf,specdf,on='DataID',suffixes=('_DR7','_DR13'))
+fulldf=pd.merge(fitdf,specdf,left_on=['DataID','cid'],right_on=['dataid','coadd_object_id'],suffixes=('_DR7','_DR13'))
 fulldf=fulldf[fulldf.numepoch.values>5]
 
 try:
