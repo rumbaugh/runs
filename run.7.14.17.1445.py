@@ -37,7 +37,10 @@ for i in range(0,len(fulldf)):
 
     plt.figure(1)
     plt.clf()
-    sample.assess_fit(doShow=False)    
+    try:
+        sample.assess_fit(doShow=False)    
+    except:
+        pass
     fig=plt.gcf()
     curaxes=fig.get_axes()
     try:
