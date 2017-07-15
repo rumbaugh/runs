@@ -51,7 +51,7 @@ for i in range(0,len(fulldf)):
     ax1.errorbar(sample.time,sample.y,sample.ysig,color='r',fmt='o',capsize=2,mew=0,ms=3)
     plt.subplots_adjust(hspace=0)
     plt.subplots_adjust(top=0.92)
-    plt.text(0.5,0.95,'%i - %s: ltau=%.1f(%.1f),lsig=%.1f'%(DBID,fulldf['class'].values[i],np.log10(fulldf.tau[i]),-np.log(fulldf.tau[i]),np.log10(fulldf.sigma[i])),fontsize=15,transform=fig.transFigure,horizontalalignment='center',color=cdict[fulldf['class'].values[i]])
+    plt.text(0.5,0.95,'%i - %s: ltau=%.1f(%.1f),lsig=%.1f'%(DBID,fulldf['class'].values[i],np.log10(fulldf.tau.values[i]),-np.log(fulldf.tau.values[i]),np.log10(fulldf.sigma.values[i])),fontsize=15,transform=fig.transFigure,horizontalalignment='center',color=cdict[fulldf['class'].values[i]])
     fig.savefig(psfpdf,format='pdf',dpi=400)
 
     plt.clf()
@@ -60,7 +60,7 @@ for i in range(0,len(fulldf)):
     sample.plot_2dkde('log_omega','sigma',doPlotStragglers=False)
     fig=plt.gcf()
     ax0=fig.get_axes()[0]
-    ax0.text(0.5,0.9,'%i - %s: ltau=%.1f(%.1f),lsig=%.1f'%(DBID,fulldf['class'].values[i],np.log10(fulldf.tau[i]),-np.log(fulldf.tau[i]),np.log10(fulldf.sigma[i])),fontsize=15,transform=fig.transFigure,horizontalalignment='center',color=cdict[fulldf['class'].values[i]])
+    ax0.text(0.5,0.9,'%i - %s: ltau=%.1f(%.1f),lsig=%.1f'%(DBID,fulldf['class'].values[i],np.log10(fulldf.tau.values[i]),-np.log(fulldf.tau.values[i]),np.log10(fulldf.sigma.values[i])),fontsize=15,transform=fig.transFigure,horizontalalignment='center',color=cdict[fulldf['class'].values[i]])
     fig.savefig(psfpdf,format='pdf')
     plt.clf()
     plt.close('all')
