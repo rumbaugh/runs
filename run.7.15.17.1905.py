@@ -36,7 +36,7 @@ except AttributeError:
     fulldf['sigma_hat']=fulldf.sig.values
     fulldf['sigma']=0.5*(fulldf.sigma_hat.values**2)*fulldf.tau.values
     fulldf['sigma_err']=0.5*np.sqrt(4*(fulldf.sigma_hat.values*fulldf.tau.values)**2*(0.5*(fulldf.sigub.values-fulldf.siglb.values))**2+fulldf.sigma_hat.values**4*(0.5*(fulldf.tauub.values-fulldf.taulb.values))**2)
-*fulldf.tau.values
+
 cdict={x:y for x,y in zip(['STAR','QSO','GALAXY'],['red','cyan','green'])}
 
 plt.figure(1)
