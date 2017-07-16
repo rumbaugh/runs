@@ -51,3 +51,4 @@ plt.ylabel('log(tau)')
 #plt.xlim(-0.01,.15)
 plt.legend(loc='lower left')
 plt.savefig('/home/rumbaugh/specplot_werr_SNfields_S2.cen_30122.png')
+
