@@ -44,7 +44,7 @@ plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
-    plt.errorbar(np.log10(tmpdf.sigma.values),np.log10(tmpdf.tau.values),xerr=fulldf.sigma_err.values,yerr=[np.log10(tmpdf.tau.values)-np.log10(tmpdf.taulb.values),np.log10(tmpdf.tauub.values)-np.log10(tmpdf.tau.values)],color=cdict[objclass],label=objclass,fmt='o',capsize=2,mew=0,ms=3)
+    plt.errorbar(np.log10(tmpdf.sigma.values),np.log10(tmpdf.tau.values),xerr=tmpdf.sigma_err.values,yerr=[np.log10(tmpdf.tau.values)-np.log10(tmpdf.taulb.values),np.log10(tmpdf.tauub.values)-np.log10(tmpdf.tau.values)],color=cdict[objclass],label=objclass,fmt='o',capsize=2,mew=0,ms=3)
 
 plt.xlabel('log(sigma)')
 plt.ylabel('log(tau)')
