@@ -12,7 +12,7 @@ rmsdf=pd.read_csv('/home/rumbaugh/SN_fields.S2.cen_{}.RMS.csv'.format(ri))
 
 fulldf=pd.merge(fitdf,specdf,left_on=['DataID','cid'],right_on=['dataid','coadd_object_id'],suffixes=('_DR7','_DR13'))
 fulldf=pd.merge(fulldf,rmsdf,on=['DataID','cid'],suffixes=('','_RMS'))
-fulldf=pd.merge(fulldf,autofitdf,on=['DataID','cid'],suffixes=('','_AUTO'))
+fulldf=pd.merge(fulldf,autormsdf,on=['DataID','cid'],suffixes=('','_AUTO'))
 fulldf=fulldf[fulldf.numepoch.values>5]
 
 try:
@@ -29,7 +29,7 @@ plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
-    plt.hist(tmpdf.RMS.values,color=cdict[objclass],alpha=0.4)
+    plt.hist(tmpdf.RMS.values,color=cdict[objclass],alpha=0.4,range=(0,4),bins=20)
 plt.xlabel('RMS variability (mags)')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/RMS_hist.SN_fields.S2.cen_{}.RMS.png'.format(ri))
@@ -39,7 +39,7 @@ plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
-    plt.hist(tmpdf.RMS.values,color=cdict[objclass],alpha=0.4)
+    plt.hist(tmpdf.RMS_AUTO.values,color=cdict[objclass],alpha=0.4,range=(0,4),bins=20)
 plt.xlabel('RMS variability (mags)')
 plt.ylabel('Number of objects')
-plt.savefig('/home/rumbaugh/RMS_hist.SN_fields.S2.cen_{}.RMS.png'.format(ri))
+plt.savefig('/home/rumbaugh/RMS_hist_AUTO.SN_fields.S2.cen_{}.RMS.png'.format(ri))
