@@ -60,8 +60,9 @@ for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
     plt.errorbar(tmpdf.RMS.values,np.log10(tmpdf.sigma.values),yerr=tmpdf.sigma_err.values,color=cdict[objclass],label=objclass,fmt='o',capsize=2,mew=0,ms=3)
 
-plt.ylabel('RMS variability (mags)')
-plt.xlabel('log(sigma^2)')
+plt.ylim(-6,0)
+plt.xlabel('RMS variability (mags)')
+plt.ylabel('log(sigma^2)')
 plt.savefig('/home/rumbaugh/RMS_vs_sigma.SN_fields.S2.cen_{}.png'.format(ri))
 
 plt.figure(1)
@@ -70,7 +71,7 @@ execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
     plt.errorbar(tmpdf.RMS_AUTO.values,np.log10(tmpdf.sigma_AUTO.values),yerr=tmpdf.sigma_AUTO_err.values,color=cdict[objclass],label=objclass,fmt='o',capsize=2,mew=0,ms=3)
-
-plt.ylabel('RMS variability (mags)')
-plt.xlabel('log(sigma^2)')
+plt.ylim(-6,0)
+plt.xlabel('RMS variability (mags)')
+plt.ylabel('log(sigma^2)')
 plt.savefig('/home/rumbaugh/RMS_vs_sigma_AUTO.SN_fields.S2.cen_{}.png'.format(ri))
