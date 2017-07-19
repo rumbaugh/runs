@@ -33,7 +33,7 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     except:
         continue
     outdf['RMS'][ind]=np.sqrt(np.sum((DRWsample.y-np.mean(DRWsample.y))**2))
-    outdf['numepoch']=len(DRWsample.y)
+    outdf['numepoch'][ind]=len(DRWsample.y)
 outdf['cid']=data['COADD_OBJECT_ID']
 outdf['RA'],outdf["DEC"]=data['RA'],data['DEC']
 outdf.to_csv('/home/rumbaugh/SN_fields.S2.cen_{}.RMS.csv'.format(ri),index=False)
