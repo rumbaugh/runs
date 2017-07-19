@@ -29,4 +29,4 @@ for objclass in ['STAR','QSO','GALAXY']:
     plt.hist(tmpdf.RMS.values,color=cdict[objclass],alpha=0.4)
 plt.xlabel('RMS variability (mags)')
 plt.ylabel('Number of objects')
-plt.savefig('/home/rumbaugh/RMS_hist.SN_fields.S2.cen_{}.RMS.csv'.format(ri))
+plt.savefig('/home/rumbaugh/RMS_hist.SN_fields.S2.cen_{}.RMS.png'.format(ri))
