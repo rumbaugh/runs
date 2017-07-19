@@ -24,7 +24,7 @@ cenra,cendec=sndata['RA'][ri],sndata['DEC'][ri]
 gri=np.sort(np.where((np.abs(cenra-sndata["RA"])<0.3)&(np.abs(cendec-sndata['DEC'])<0.3))[0])
 data=sndata[gri]
 
-outdf=pd.DataFrame({x: np.zeros(len(gri)) for x in ['RMS','numepoch']})
+outdf=pd.DataFrame({x: np.zeros(len(gri)) for x in ['RMS','RMSnorm','numepoch']})
 outdf['DataID']=gri
 for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     DBID=data['COADD_OBJECT_ID'][ind]
@@ -33,6 +33,7 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     except:
         continue
     outdf['RMS'][ind]=np.sqrt(np.sum((DRWsample.y-np.mean(DRWsample.y))**2)/len(DRWsample.y))
+    outdf['RMSnorm'][ind]=np.sqrt(np.sum(((DRWsample.y-np.mean(DRWsample.y))/DRWsample.ysig)**2)/len(DRWsample.y))
     outdf['numepoch'][ind]=len(DRWsample.y)
 outdf['cid']=data['COADD_OBJECT_ID']
 outdf['RA'],outdf["DEC"]=data['RA'],data['DEC']
