@@ -29,7 +29,7 @@ plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
-    plt.hist(tmpdf.RMS.values,color=cdict[objclass],alpha=0.4,range=(0,4),bins=20)
+    plt.hist(tmpdf.RMS.values,color=cdict[objclass],alpha=0.4,range=(0,0.6),bins=20)
 plt.xlabel('RMS variability (mags)')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/RMS_hist.SN_fields.S2.cen_{}.RMS.png'.format(ri))
@@ -39,7 +39,7 @@ plt.clf()
 execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
 for objclass in ['STAR','QSO','GALAXY']:
     tmpdf=fulldf[fulldf['class'].values==objclass]
-    plt.hist(tmpdf.RMS_AUTO.values,color=cdict[objclass],alpha=0.4,range=(0,4),bins=20)
+    plt.hist(tmpdf.RMS_AUTO.values,color=cdict[objclass],alpha=0.4,range=(0,0.6),bins=20)
 plt.xlabel('RMS variability (mags)')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/RMS_hist_AUTO.SN_fields.S2.cen_{}.RMS.png'.format(ri))
