@@ -22,6 +22,10 @@ except AttributeError:
     fulldf['sigma']=0.5*(fulldf.sigma_hat.values**2)*fulldf.tau.values
     fulldf['sigma_err']=0.5*np.sqrt(4*(fulldf.sigma_hat.values*fulldf.tau.values)**2*(0.5*(fulldf.sigub.values-fulldf.siglb.values))**2+fulldf.sigma_hat.values**4*(0.5*(fulldf.tauub.values-fulldf.taulb.values))**2)
 
+    fulldf['sigma_AUTO_hat']=fulldf.sig_AUTO.values
+    fulldf['sigma_AUTO']=0.5*(fulldf.sigma_AUTO_hat.values**2)*fulldf.tau.values
+    fulldf['sigma_AUTO_err']=0.5*np.sqrt(4*(fulldf.sigma_AUTO_hat.values*fulldf.tau.values)**2*(0.5*(fulldf.sigub.values-fulldf.siglb.values))**2+fulldf.sigma_AUTO_hat.values**4*(0.5*(fulldf.tauub.values-fulldf.taulb.values))**2)
+
 cdict={x:y for x,y in zip(['STAR','QSO','GALAXY'],['red','cyan','green'])}
 
 plt.figure(1)
@@ -43,3 +47,26 @@ for objclass in ['STAR','QSO','GALAXY']:
 plt.xlabel('RMS variability (mags)')
 plt.ylabel('Number of objects')
 plt.savefig('/home/rumbaugh/RMS_hist_AUTO.SN_fields.S2.cen_{}.RMS.png'.format(ri))
+
+
+plt.figure(1)
+plt.clf()
+execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
+for objclass in ['STAR','QSO','GALAXY']:
+    tmpdf=fulldf[fulldf['class'].values==objclass]
+    plt.errorbar(tmpdf.RMS.values,np.log10(tmpdf.sigma.values),yerr=tmpdf.sigma_err.values,color=cdict[objclass],label=objclass,fmt='o',capsize=2,mew=0,ms=3)
+
+plt.ylabel('RMS variability (mags)')
+plt.xlabel('log(sigma^2)')
+plt.savefig('/home/rumbaugh/RMS_vs_sigma.SN_fields.S2.cen_{}.png'.format(ri))
+
+plt.figure(1)
+plt.clf()
+execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
+for objclass in ['STAR','QSO','GALAXY']:
+    tmpdf=fulldf[fulldf['class'].values==objclass]
+    plt.errorbar(tmpdf.RMS_AUTO.values,np.log10(tmpdf.sigma_AUTO.values),yerr=tmpdf.sigma_AUTO_err.values,color=cdict[objclass],label=objclass,fmt='o',capsize=2,mew=0,ms=3)
+
+plt.ylabel('RMS variability (mags)')
+plt.xlabel('log(sigma^2)')
+plt.savefig('/home/rumbaugh/RMS_vs_sigma_AUTO.SN_fields.S2.cen_{}.png'.format(ri))
