@@ -32,7 +32,7 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
         DRWsample=pickle.load(open('/home/rumbaugh/CARpickles/SN_fields/S2/%i.DRWsample_OR.pickle'%DBID,'rb'))
     except:
         continue
-    outdf['RMS'][ind]=np.sqrt(np.sum((DRWsample.y-np.mean(DRWsample.y))**2))
+    outdf['RMS'][ind]=np.sqrt(np.sum((DRWsample.y-np.mean(DRWsample.y))**2)/len(DRWsample.y))
     outdf['numepoch'][ind]=len(DRWsample.y)
 outdf['cid']=data['COADD_OBJECT_ID']
 outdf['RA'],outdf["DEC"]=data['RA'],data['DEC']
