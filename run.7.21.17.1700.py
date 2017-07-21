@@ -10,8 +10,8 @@ num=5000
 hdu=py.open('/home/rumbaugh/S1_lc.fits')
 data=hdu[1].data
 
-outdf=pd.DataFrame({x: np.zeros(len(gri)) for x in ['RMS','RMSnorm','numepoch','numepoch_tot']})
-outdf['DataID']=gri
+outdf=pd.DataFrame({x: np.zeros(len(data)) for x in ['RMS','RMSnorm','numepoch','numepoch_tot']})
+outdf['DataID']=np.arange(len(data))
 for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     len_lc=np.count_nonzero(data[ind]['LC_MJD_G'])
     outdf.numepoch_tot[ind]=len_lc
