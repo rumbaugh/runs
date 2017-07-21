@@ -1,17 +1,13 @@
-import carmcmc as cm
 import numpy as np
 import pandas as pd
 import pickle
 import pyfits as py
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.backends.backend_pdf as bpdf
 
 outlier_window=300
 outlier_thresh=0.5
 num=5000
 
-hdu=py.open('/home/rumbaugh/S2_lc.fits')
+hdu=py.open('/home/rumbaugh/S1_lc.fits')
 data=hdu[1].data
 
 outdf=pd.DataFrame({x: np.zeros(len(gri)) for x in ['RMS','RMSnorm','numepoch']})
@@ -43,4 +39,4 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     outdf['numepoch'][ind]=len(mag)
 outdf['cid']=data['COADD_OBJECT_ID']
 outdf['RA'],outdf["DEC"]=data['RA'],data['DEC']
-outdf.to_csv('/home/rumbaugh/SN_fields.S2.AUTO_RMS.csv',index=False)
+outdf.to_csv('/home/rumbaugh/SN_fields.S1.AUTO_RMS.csv',index=False)
