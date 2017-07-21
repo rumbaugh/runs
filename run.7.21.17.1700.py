@@ -1,11 +1,7 @@
-import carmcmc as cm
 import numpy as np
 import pandas as pd
 import pickle
 import pyfits as py
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.backends.backend_pdf as bpdf
 
 outlier_window=300
 outlier_thresh=0.5
