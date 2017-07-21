@@ -10,6 +10,6 @@ for field in ['S1','S2']:
 
     outdf=pd.DataFrame({x: data[x] for x in ['COADD_OBJECT_ID','RA','DEC']})
     outdf['DataID']=outdf.index.values
-    outdf['numrow']=np.arange(len(gri))
+    outdf['numrow']=np.arange(len(outdf))
 
     outdf.to_csv('/home/rumbaugh/SN_fields.{}.radecid.csv'.format(field),index=False)
