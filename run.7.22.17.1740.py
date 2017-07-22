@@ -116,15 +116,11 @@ for i in np.arange(nums*3):
         LCdf=LCdf[(LCdf.g.values>0)&(LCdf.g.values<30)&(LCdf.g_err.values<3)&(LCdf.g_err.values>0)]
         len_lc=len(LCdf)
 
-    try:
-        outlier_arr=pickle.load(open('/home/rumbaugh/CARpickles/%i.outliers_g.pickle'%DBdf.iloc[i]['DBID'],'rb'))
-    except IOError:
-        outlier_arr= np.zeros(len(LCdf.g.values),dtype='bool')
-        for ipt in np.arange(len(outlier_arr)):
-            gthresh=np.where(np.abs(LCdf.MJD_g.values-LCdf.MJD_g.values[ipt])<outlier_window)[0]
-            if len(gthresh)>1:
-                outlier_arr[ipt]= np.abs(np.median(LCdf.g.values[gthresh])-LCdf.g.values[ipt]) > outlier_thresh
-        pickle.dump(outlier_arr,open('/home/rumbaugh/CARpickles/%i.outliers_g.pickle'%DBdf.iloc[i]['DBID'],'wb'))
+    outlier_arr= np.zeros(len(LCdf.g.values),dtype='bool')
+    for ipt in np.arange(len(outlier_arr)):
+        gthresh=np.where(np.abs(LCdf.MJD_g.values-LCdf.MJD_g.values[ipt])<outlier_window)[0]
+        if len(gthresh)>1:
+            outlier_arr[ipt]= np.abs(np.median(LCdf.g.values[gthresh])-LCdf.g.values[ipt]) > outlier_thresh
 
     LCdf=LCdf[outlier_arr==False]
     mjd,mag,magerr=LCdf.MJD_g.values,LCdf.g.values,LCdf.g_err.values
