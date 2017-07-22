@@ -99,7 +99,7 @@ for i in np.arange(nums*3):
     ind=totrandinds[i]
     x=i/nums
 
-    LCdf=pd.read_csv('/home/rumbaugh/QSO_S82/%i'%fulldf.iloc[ind]['DBID'],delim_whitespace=True,names=['MJD_u','u','u_err','MJD_g','g','g_err','MJD_r','r','r_err','MJD_i','i','i_err','MJD_z','z','z_err','ra_median','dec_median'])
+    LCdf=pd.read_csv('/home/rumbaugh/oldDRW/QSO_S82/%i'%fulldf.iloc[ind]['DBID'],delim_whitespace=True,names=['MJD_u','u','u_err','MJD_g','g','g_err','MJD_r','r','r_err','MJD_i','i','i_err','MJD_z','z','z_err','ra_median','dec_median'])
     LCdf=LCdf[(LCdf.g.values>0)&(LCdf.g.values<30)&(LCdf.g_err.values<3)&(LCdf.g_err.values>0)]
 
     len_lc=len(LCdf)
@@ -112,7 +112,7 @@ for i in np.arange(nums*3):
         RFedict['randinds'][i%nums]=ind
         totrandsinds[i]=ind
         
-        LCdf=pd.read_csv('/home/rumbaugh/QSO_S82/%i'%fulldf.iloc[ind]['DBID'],delim_whitespace=True,names=['MJD_u','u','u_err','MJD_g','g','g_err','MJD_r','r','r_err','MJD_i','i','i_err','MJD_z','z','z_err','ra_median','dec_median'])
+        LCdf=pd.read_csv('/home/rumbaugh/oldDRW/QSO_S82/%i'%fulldf.iloc[ind]['DBID'],delim_whitespace=True,names=['MJD_u','u','u_err','MJD_g','g','g_err','MJD_r','r','r_err','MJD_i','i','i_err','MJD_z','z','z_err','ra_median','dec_median'])
         LCdf=LCdf[(LCdf.g.values>0)&(LCdf.g.values<30)&(LCdf.g_err.values<3)&(LCdf.g_err.values>0)]
         len_lc=len(LCdf)
 
