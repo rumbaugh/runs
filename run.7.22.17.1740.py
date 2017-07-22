@@ -82,9 +82,10 @@ except NameError:
     fulldf['RFe']=fulldf['EW_OIII_5007'].values/fulldf['EW_BROAD_HB'].values
 
 nums=10
-RFedict={x: {'lb':0.5*x, 'ub': 0.5*(x+1), 'badinds':np.zeros(0,dtype='i8')} for x in np.arange(0,4)}
+RFedict={x: {'lb':0.5*x, 'ub': 0.5*(x+1), 'badinds':np.zeros(0,dtype='i8')} for x in np.arange(0,3)}
+RFedict[2]['ub']=2
 totrandinds=np.zeros(0,dtype='i8')
-for x in range(0,4):
+for x in range(0,3):
     g=np.where((fulldf.RFe.values>RFedict[x]['lb'])&(fulldf.RFe.values<RFedict[x]['ub']))[0]
     RFedict[x]['g']=g
     RFedict[x]['randinds']=np.random.choice(g,nums,replace=False)
@@ -92,9 +93,9 @@ for x in range(0,4):
 
 
 
-outdf=pd.DataFrame({x: np.zeros(nums*4) for x in ['p','q']})
+outdf=pd.DataFrame({x: np.zeros(nums*3) for x in ['p','q']})
 outdf['group']=np.repeat(np.arange(4),nums)
-for i in np.arange(nums*4):
+for i in np.arange(nums*3):
     ind=totrandinds[i]
     x=i/nums
 
