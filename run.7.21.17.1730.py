@@ -18,7 +18,7 @@ except AttributeError:
 
 plt.figure(1)
 plt.clf()
-plt.errorbar(fulldf.tau.values,fulldf.sigma.values,xerr=[fulldf.tau.values-fulldf.taulb.values,fulldf.tauub.values-fulldf.tau.values],yerr=df.sigma_err.values,fmt='o',capsize=2,mew=0,ms=3.alpha=0.5)
+plt.errorbar(fulldf.tau.values,fulldf.sigma.values,xerr=[fulldf.tau.values-fulldf.taulb.values,fulldf.tauub.values-fulldf.tau.values],yerr=df.sigma_err.values,fmt='o',capsize=2,mew=0,ms=3,alpha=0.5)
 plt.xlabel(r'$\sigma**2$')
 plt.ylabel(r'$\tau$ (days)')
 
