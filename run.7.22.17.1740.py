@@ -109,7 +109,7 @@ for i in np.arange(nums*3):
         gtmp=np.in1d(RFedict[x]['g'],RFedict[x]['badinds'])
         possinds=RFedict[x]['g'][gtmp]
         ind=np.random.choice(possinds)
-        RFedict['randinds'][i%nums]=ind
+        RFedict[x]['randinds'][i%nums]=ind
         totrandsinds[i]=ind
         
         LCdf=pd.read_csv('/home/rumbaugh/oldDRW/QSO_S82/%i'%fulldf.iloc[ind]['DBID'],delim_whitespace=True,names=['MJD_u','u','u_err','MJD_g','g','g_err','MJD_r','r','r_err','MJD_i','i','i_err','MJD_z','z','z_err','ra_median','dec_median'])
