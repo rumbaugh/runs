@@ -25,7 +25,7 @@ EWOIII,EWHB,EWFeII,FWHMHB=data['EW_OIII_5007'],data['EW_BROAD_HB'],data['EW_FE_H
 RFe=EWFeII/EWHB
 
 nums=10
-RFedict={x: {'lb':0.5*x, 'ub': 0.5*(x+1), 'badinds'=np.zeros(0,dtype='i8')} for x in np.arange(0,4)}
+RFedict={x: {'lb':0.5*x, 'ub': 0.5*(x+1), 'badinds':np.zeros(0,dtype='i8')} for x in np.arange(0,4)}
 totrandinds=np.zeros(0,dtype='i8')
 for x in range(0,4):
     g=np.where((RFe>RFedict[x]['lb'])&(RFe<RFedict[x]['ub']))[0]
