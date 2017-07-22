@@ -94,7 +94,7 @@ for x in range(0,3):
 
 
 outdf=pd.DataFrame({x: np.zeros(nums*3) for x in ['p','q']})
-outdf['group']=np.repeat(np.arange(4),nums)
+outdf['group']=np.repeat(np.arange(3),nums)
 for i in np.arange(nums*3):
     ind=totrandinds[i]
     x=i/nums
