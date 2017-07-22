@@ -110,7 +110,7 @@ for i in np.arange(nums*3):
         possinds=RFedict[x]['g'][gtmp]
         ind=np.random.choice(possinds)
         RFedict[x]['randinds'][i%nums]=ind
-        totrandsinds[i]=ind
+        totrandinds[i]=ind
         
         LCdf=pd.read_csv('/home/rumbaugh/oldDRW/QSO_S82/%i'%fulldf.iloc[ind]['DBID'],delim_whitespace=True,names=['MJD_u','u','u_err','MJD_g','g','g_err','MJD_r','r','r_err','MJD_i','i','i_err','MJD_z','z','z_err','ra_median','dec_median'])
         LCdf=LCdf[(LCdf.g.values>0)&(LCdf.g.values<30)&(LCdf.g_err.values<3)&(LCdf.g_err.values>0)]
@@ -135,5 +135,5 @@ for i in np.arange(nums*3):
         print '%i failed'%DBID
         outdf['p'][i],outdf['q'][i]=0,0
 outdf['cid']=data['COADD_OBJECT_ID'][totrandinds]
-outdf['DBID']=totrandsinds
+outdf['DBID']=totrandinds
 outdf.to_csv('/home/rumbaugh/S82.downsample.choose_order.csv',index=False)
