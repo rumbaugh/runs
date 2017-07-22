@@ -16,11 +16,11 @@ nsamples=20000
 iLB,iUB=int(normfrac*0.5*nsamples),int((1-0.5*normfrac)*nsamples)
 
 
-rmsdf=pd.read_csv('/home/rumbaugh/SN_fields.S1.AUTO_RMS.csv')
+rmsdf=pd.read_csv('/home/rumbaugh/SN_fields.S2.AUTO_RMS.csv')
 
-hdu=py.open('/home/rumbaugh/S1_lc.fits')
+hdu=py.open('/home/rumbaugh/S2_lc.fits')
 sndata=hdu[1].data
-rms_inds=np.where(rmsdf.RMSnorm.values>7)[0]
+rms_inds=np.where(rmsdf.rmsnorm.values>7)[0]
 data=sndata[rms_inds]
 
 outdf=pd.DataFrame({x: np.zeros(num) for x in ['tau','taulb','tauub','sig','siglb','sigub']})
@@ -49,7 +49,7 @@ for ind in np.arange(len(data['COADD_OBJECT_ID'])):
     lomega_samples,sigma_samples=np.sort(DRWsample.get_samples('log_omega').flatten()),np.sort(DRWsample.get_samples('sigma').flatten())
     lomega,sigma=np.median(lomega_samples),np.median(sigma_samples)
     lomegaLB,lomegaUB,sigmaLB,sigmaUB=lomega_samples[iLB],lomega_samples[iUB],sigma_samples[iLB],sigma_samples[iUB]
-    pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/SN_fields/S1/%i.DRWsample_OR.pickle'%DBID,'wb'))
+    pickle.dump(DRWsample,open('/home/rumbaugh/CARpickles/SN_fields/S2/%i.DRWsample_OR.pickle'%DBID,'wb'))
     outdf['tau'][ind],outdf['taulb'][ind],outdf['tauub'][ind],outdf['sig'][ind],outdf['siglb'][ind],outdf['sigub'][ind]=np.exp(-lomega),np.exp(-lomegaUB),np.exp(-lomegaLB),sigma,sigmaLB,sigmaUB
 outdf['cid']=data['COADD_OBJECT_ID']
-outdf.to_csv('/home/rumbaugh/SN_fields.S1.AUTO_CAR1fits.csv',index=False)
+outdf.to_csv('/home/rumbaugh/SN_fields.S2.AUTO_CAR1fits.csv',index=False)

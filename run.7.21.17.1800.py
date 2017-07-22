@@ -20,7 +20,7 @@ rmsdf=pd.read_csv('/home/rumbaugh/SN_fields.S2.AUTO_RMS.csv')
 
 hdu=py.open('/home/rumbaugh/S2_lc.fits')
 sndata=hdu[1].data
-rms_inds=np.where(rmsdf.rmsnorm.values>7)[0]
+rms_inds=np.where(rmsdf.RMSnorm.values>7)[0]
 data=sndata[rms_inds]
 
 outdf=pd.DataFrame({x: np.zeros(num) for x in ['tau','taulb','tauub','sig','siglb','sigub']})
