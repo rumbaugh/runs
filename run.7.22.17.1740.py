@@ -115,7 +115,7 @@ for i in np.arange(nums*3):
         LCdf=pd.read_csv('/home/rumbaugh/oldDRW/QSO_S82/%i'%fulldf.iloc[ind]['DBID'],delim_whitespace=True,names=['MJD_u','u','u_err','MJD_g','g','g_err','MJD_r','r','r_err','MJD_i','i','i_err','MJD_z','z','z_err','ra_median','dec_median'])
         LCdf=LCdf[(LCdf.g.values>0)&(LCdf.g.values<30)&(LCdf.g_err.values<3)&(LCdf.g_err.values>0)]
         len_lc=len(LCdf)
-
+    DBID=fulldf.DBID.iloc[ind]
     outlier_arr= np.zeros(len(LCdf.g.values),dtype='bool')
     for ipt in np.arange(len(outlier_arr)):
         gthresh=np.where(np.abs(LCdf.MJD_g.values-LCdf.MJD_g.values[ipt])<outlier_window)[0]
