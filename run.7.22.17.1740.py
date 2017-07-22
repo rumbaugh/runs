@@ -6,6 +6,7 @@ import pyfits as py
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.backends.backend_pdf as bpdf
+import pydl.pydlutils.spheregroup
 
 outlier_window=300
 outlier_thresh=0.5
@@ -35,7 +36,7 @@ P_cut=(drwdf.edge_flag.values==0)&(drwdf.Plike.values-drwdf.Pnoise.values>2)&(dr
 gkeeptau,gkeepsig=np.in1d(drwdf.ltau.values,tau_cut,invert=True),np.in1d(drwdf.lsig.values,sig_cut,invert=True)
 gkeep=gkeeptau*gkeepsig*P_cut
 
-drwdf=drwdf[gkeep]
+df=drwdf[gkeep]
 
 hdu=py.open('/home/rumbaugh/dr7_bh_Nov19_2013.fits')
 data=hdu[1].data
