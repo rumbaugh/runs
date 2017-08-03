@@ -15,7 +15,7 @@ for i in range(0,len(mdata)):
     if len(data)>0:
         dists=SphDist(data['RA'],data['DEC'],data["RA"][0],data['DEC'][0])*60
         mdiststmp=SphDist(data['RA'],data['DEC'],mdata["RA_DES"][i],mdata['DEC_DES'][i])*60
-        if (np.max(dists)>10)|(np.max(mdists)>10):
+        if (np.max(dists)>10)|(np.max(mdiststmp)>10):
             print '\nDBID - {}:'.format(DBID)
             print np.max(dists),np.max(mdiststmp)
     
