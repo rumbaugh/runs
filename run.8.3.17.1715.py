@@ -10,7 +10,6 @@ print np.max(mdists),np.max(mdists2)
 
 for i in range(0,len(mdata)):
     DBID=mdata['DatabaseID'][i]
-    print '\nDBID - {}:'.format(DBID)
     hdu=py.open('/home/rumbaugh/var_database/Y3A1/{}/LC.fits'.format(DBID))
     data=hdu[1].data
     if len(data)>0:
