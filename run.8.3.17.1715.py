@@ -14,7 +14,7 @@ for i in range(0,len(mdata)):
     hdu=py.open('/home/rumbaugh/var_database/Y3A1/{}/LC.fits'.format(DBID))
     data=hdu[1].data
     dists=SphDist(data['RA'],data['DEC'],data["RA"][0],data['DEC'][0])*60
-    mdiststmp=SphDist(data['RA'],data['DEC'],mdata["RA_DES"][i],mdata['DEC_DES'][1])*60
+    mdiststmp=SphDist(data['RA'],data['DEC'],mdata["RA_DES"][i],mdata['DEC_DES'][i])*60
     if (np.max(dists)>10)|(np.max(mdists)>10):
         print '\nDBID - {}:'.format(DBID)
         print np.max(dists),np.max(mdists)
