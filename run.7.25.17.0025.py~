@@ -1,0 +1,6 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+mmcgdf=pd.read_csv('Chandra/ORELSE.MMCG_vels.csv')
+bcgdf=pd.read_csv('Chandra/ORELSE.BCG_vels.csv')

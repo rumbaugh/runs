@@ -1,0 +1,12 @@
+import numpy as np
+import pandas as pd
+
+def open_csv(fname):
+    df=pd.read_csv(fname,delim_whitespace=True)
+    if df.columns[0]=='#':
+        newnames=df.columns[1:].tolist()
+        df=pd.read_csv(fname,delim_whitespace=True,comment='#',names=newnames)
+    return df
+
+cendf=pd.read_csv('/home/rumbaugh/Chandra/ORELSE.cluster_centroids.6.26.17.csv')
+cdf=open_csv('/home/rumbaugh/Chandra/ORELSE.clusters.dat')

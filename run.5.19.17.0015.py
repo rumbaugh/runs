@@ -23,14 +23,18 @@ def covplot(ras,decs,pcol,nside=16):
     ax.set_ylabel('Dec.')
     ax.set_xlim(-1.1*np.pi,1.1*np.pi)
     ax.set_ylim(-1.1*np.pi/2,1.1*np.pi/2)
-def do_plots(ras,decs,pcol,i,fname,nside=16):
+def do_plots(ras,decs,pcol,i,fname=None,nside=16):
     execfile('/home/rumbaugh/pythonscripts/set_plt_params.py')
     covplot(ras,decs,pcol,nside=nside)
         
 try:
     cr2
 except NameError:
-    cr2=np.loadtxt('TID_randsamp2_rumbaugh.csv',dtype={'names':('ra','dec','id'),'formats':('f8','f8','i8')},delimiter=',',skiprows=1)
+    cr2=np.loadtxt('TID_randsamp2_rumbaugh.csv',dtype={'names':('ra','dec','id'),'formats':('f8','f8','i8')},delimiter=',',skiprows=1) 
+try:
+    cr3
+except NameError:
+    cr3=np.loadtxt('sdss-poss+healpix.txt',dtype={'names':('n','ra','dec','id'),'formats':('i8','f8','f8','i8')})
 crs,cols,fnames=cr2,'magenta','/home/rumbaugh/coverage_plot.SDSS.png'
 fig=plt.figure(1)
 plt.clf()
