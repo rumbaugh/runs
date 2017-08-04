@@ -18,7 +18,8 @@ LSSTra,LSSTdec=LSSTdf.ra.values+180+67.5,LSSTdf.dec.values
 LSSTdec=np.append(LSSTdec[LSSTra>360]-360,LSSTdec[LSSTra<360])
 LSSTra=np.append(LSSTra[LSSTra>360]-360,LSSTra[LSSTra<360])
 
-
+LSST_DDF_df=pd.read_csv('/home/rumbaugh/LSST_drillfields.csv')
+DDFrad=1.75
 MDSdf=pd.read_csv('/home/rumbaugh/PS_MDS.csv')
 MDwid=np.sqrt(7)*0.5
 SNdf=pd.read_csv('/home/rumbaugh/DES_SNfields.csv')
@@ -99,6 +100,18 @@ for imd in np.arange(0,len(MDSdf)):
     ras[ras>360]-=360
     x,y=aitoff(ras,decs)
     x*=xmult
+    ax.fill(x,y,color='blue',alpha=0.9,edgecolor='None')
+tdd=time.time()
+print 'DDF plotted. Time Elapsed: {:.2f} seconds'.format(tdd-st)
+
+for imd in np.arange(0,len(LSST_DDF_df)):
+    ra=hms2deg(LSST_DDF_df.RAh.iloc[imd],LSST_DDF_df.RAm.iloc[imd],LSST_DDF_df.RAs.iloc[imd])
+    dec=dms2deg(LSST_DDF_df.DECd.iloc[imd],LSST_DDF_df.DECm.iloc[imd],LSST_DDF_df.DECs.iloc[imd])
+    decs=LSST_DDF_df.DEC.iloc[imd]+np.array([-MDwid,MDwid,MDwid,-MDwid])
+    ras=LSST_DDF_df.RA.iloc[imd]+np.array([-MDwid,-MDwid,MDwid,MDwid])/np.cos(decs*np.pi/180.)+mapshift
+    ras[ras>360]-=360
+    x,y=aitoff(ras,decs)
+    x*=xmult
     ax.fill(x,y,color='green',alpha=0.9,edgecolor='None')
 t5=time.time()
 print 'MDF plotted. Time Elapsed: {:.2f} seconds'.format(t5-st)
@@ -114,6 +127,7 @@ for imd in np.arange(0,len(SNdf)):
     ax.fill(x,y,color='red',alpha=0.5,edgecolor='None')
 tsn=time.time()
 print 'SN fields plotted. Time Elapsed: {:.2f} seconds'.format(tsn-st)
+
 
 LSSTx,LSSTy=aitoff(LSSTra,LSSTdec)
 LSSTx*=xmult
@@ -176,7 +190,8 @@ leg2=plt.legend(handles=[liney3a1,linesdss,lineposs],loc='lower right',frameon=F
 
 ax = plt.gca().add_artist(leg2)
 
-lineMDF =plt.scatter(ldumx,ldumy,s=40,color='green',marker='s',alpha=0.9,edgecolor='None',label='Pan-STARRS MDF')
+lineDDF =plt.scatter(ldumx,ldumy,s=40,color='blue',alpha=0.9,edgecolor='None',label='LSST Deep Drilling Fields')
+lineMDF =plt.scatter(ldumx,ldumy,s=40,color='green',marker='s',alpha=0.9,edgecolor='None',label='Pan-STARRS1 MDF')
 lineSNF =plt.scatter(ldumx,ldumy,s=40,color='red',marker='s',alpha=0.6,edgecolor='None',label='DES SN Fields')
 leg3=plt.legend(handles=[lineMDF,lineSNF],loc='upper left',frameon=False,numpoints=2,scatterpoints=1,fontsize=12)
 
