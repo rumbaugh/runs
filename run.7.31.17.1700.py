@@ -101,20 +101,21 @@ for imd in np.arange(0,len(MDSdf)):
     x,y=aitoff(ras,decs)
     x*=xmult
     ax.fill(x,y,color='blue',alpha=0.9,edgecolor='None')
-tdd=time.time()
-print 'DDF plotted. Time Elapsed: {:.2f} seconds'.format(tdd-st)
+t5=time.time()
+print 'MDF plotted. Time Elapsed: {:.2f} seconds'.format(t5-st)
 
 for imd in np.arange(0,len(LSST_DDF_df)):
     ra=hms2deg(LSST_DDF_df.RAh.iloc[imd],LSST_DDF_df.RAm.iloc[imd],LSST_DDF_df.RAs.iloc[imd])
     dec=dms2deg(LSST_DDF_df.DECd.iloc[imd],LSST_DDF_df.DECm.iloc[imd],LSST_DDF_df.DECs.iloc[imd])
-    decs=LSST_DDF_df.DEC.iloc[imd]+np.array([-MDwid,MDwid,MDwid,-MDwid])
-    ras=LSST_DDF_df.RA.iloc[imd]+np.array([-MDwid,-MDwid,MDwid,MDwid])/np.cos(decs*np.pi/180.)+mapshift
+    phidummy=np.linspace(0,3*np.pi,1000)
+    decs=LSST_DDF_df.DEC.iloc[imd]+DDFrad*np.sin(phidummy)
+    ras=LSST_DDF_df.RA.iloc[imd]+DDFrad*np.cos(phidummy)+mapshift
     ras[ras>360]-=360
     x,y=aitoff(ras,decs)
     x*=xmult
-    ax.fill(x,y,color='green',alpha=0.9,edgecolor='None')
-t5=time.time()
-print 'MDF plotted. Time Elapsed: {:.2f} seconds'.format(t5-st)
+    ax.fill(x,y,color='blue',alpha=0.9,edgecolor='None')
+tdd=time.time()
+print 'DDF plotted. Time Elapsed: {:.2f} seconds'.format(tdd-st)
 
 for imd in np.arange(0,len(SNdf)):
     ra=hms2deg(SNdf.RAh.iloc[imd],SNdf.RAm.iloc[imd],SNdf.RAs.iloc[imd])
