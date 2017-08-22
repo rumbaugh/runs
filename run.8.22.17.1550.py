@@ -36,5 +36,5 @@ for i in range(0,len(DR7ID)):
         crmac=None
     badbands={x:0 for x in ['g','r','i']}
     for band in ['g','r','i']:
-        badbands[x]=len(cr[(cr['BAND']==band)&(crout<0)])
+        badbands[band]=len(cr[(cr['BAND']==band)&(crout!=0)])
     print DBID,badbands
