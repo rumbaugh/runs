@@ -1,0 +1,47 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.backends.backend_pdf as bpdf
+psfpdf=bpdf.PdfPages('/home/rumbaugh/Chandra/plots/centroid_comp.8.16.17.pdf')
+
+AMs=0.5
+
+def open_csv(fname):
+    df=pd.read_csv(fname,delim_whitespace=True)
+    if df.columns[0]=='#':
+        newnames=df.columns[1:].tolist()
+        df=pd.read_csv(fname,delim_whitespace=True,comment='#',names=newnames)
+    return df
+
+cendf=pd.read_csv('/home/rumbaugh/Chandra/ORELSE.cluster_centroids.6.26.17.csv')
+RFcendf=pd.read_csv('/home/rumbaugh/Chandra/ORELSE.cluster_centroids.RF.csv')
+cdf=pd.read_csv('/home/rumbaugh/Chandra/ORELSE.clusters.dat',skiprows=1,names=['field_uc','cluster','ra','dec','z','sig0.5Mpc','N0.5Mpc','sig0.5Mpcerr','sig1Mpc','N1Mpc','sig1Mpcerr','logMvir','err','nh'],delim_whitespace=True)
+mmcgdf=pd.read_csv('/home/rumbaugh/Chandra/MMCG_spec_1.5Rvir.07.20.17.cat',delim_whitespace=True)
+
+df=pd.merge(cendf,cdf,on=['cluster'],how='left',suffixes=('_cen','_clus'))
+df=pd.merge(df,RFcendf,on=['field','cluster'],how='outer',suffixes=('_old',''))
+
+for clus in df.cluster.values:
+    fig=plt.figure(1)
+    plt.clf()
+    g=np.where(df.cluster.values==clus)[0][0]
+    plt.scatter([df.Xray_ra.iloc[g]],[df.Xray_dec.iloc[g]],marker='x',s=50,color='b',label='X-ray',lw=2)
+    plt.scatter([df.ra.iloc[g]],[df.dec.iloc[g]],marker='s',s=50,color='cyan',label='LWM')
+    plt.scatter([df.MWM_ra.iloc[g]],[df.MWM_dec.iloc[g]],marker='s',s=50,color='magenta',label='MWM')
+    plt.scatter([df.BCG_ra.iloc[g]],[df.BCG_dec.iloc[g]],marker='o',s=50,color='green',label='BCG')
+    plt.scatter([df.MMCG_ra.iloc[g]],[df.MMCG_dec.iloc[g]],marker='o',s=50,color='red',label='MMCG')
+    plt.legend(scatterpoints=1,frameon=False)
+    ydummy=np.linspace(df.Xray_dec.iloc[g]-AMs*1./60,df.Xray_dec.iloc[g]+AMs*1./60,100)
+    xdummy=np.sqrt((AMs*1./60)**2-(ydummy-df.Xray_dec.iloc[g])**2)*np.cos(df.Xray_dec.iloc[g]*np.pi/180)+df.Xray_ra.iloc[g]
+    ydummy2=np.linspace(df.Xray_dec.iloc[g]+AMs*1./60,df.Xray_dec.iloc[g]-AMs*1./60,100)
+    xdummy2=-np.sqrt((AMs*1./60)**2-(ydummy2-df.Xray_dec.iloc[g])**2)*np.cos(df.Xray_dec.iloc[g]*np.pi/180)+df.Xray_ra.iloc[g]
+    xdummy,ydummy=np.append(xdummy,xdummy2),np.append(ydummy,ydummy2)
+    plt.plot(xdummy,ydummy,color='k',ls='dashed')
+    plt.xlabel('RA')
+    plt.ylabel('Dec')
+    xlim=plt.xlim()
+    ylim=plt.ylim()
+    plt.ylim(ylim[1],ylim[0])
+    plt.title(clus)
+    fig.savefig(psfpdf,format='pdf')
+psfpdf.close()

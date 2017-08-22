@@ -94,28 +94,31 @@ for i in range(0,np.shape(cry)[0]):
         ax.fill(x,y,color='orange',alpha=0.4,edgecolor='orange')
 t4=time.time()
 print 'Y3A1 plotted. Time Elapsed: {:.2f} seconds'.format(t4-st)
+
+
+for imd in np.arange(0,len(LSST_DDF_df)):
+    ra=hms2deg(LSST_DDF_df.RAh.iloc[imd],LSST_DDF_df.RAm.iloc[imd],LSST_DDF_df.RAs.iloc[imd])
+    dec=dms2deg(LSST_DDF_df.DECd.iloc[imd],LSST_DDF_df.DECm.iloc[imd],LSST_DDF_df.DECs.iloc[imd])
+    phidummy=np.linspace(0,3*np.pi,1000)
+    decs=dec+DDFrad*np.sin(phidummy)
+    ras=ra+DDFrad*np.cos(phidummy)+mapshift
+    ras[ras>360]-=360
+    x,y=aitoff(ras,decs)
+    x*=xmult
+    plt.plot(x,y,color='blue',lw=1)
+    #ax.fill(x,y,color='blue',alpha=0.9,edgecolor='None')
+tdd=time.time()
+print 'DDF plotted. Time Elapsed: {:.2f} seconds'.format(tdd-st)
+
 for imd in np.arange(0,len(MDSdf)):
     decs=MDSdf.DEC.iloc[imd]+np.array([-MDwid,MDwid,MDwid,-MDwid])
     ras=MDSdf.RA.iloc[imd]+np.array([-MDwid,-MDwid,MDwid,MDwid])/np.cos(decs*np.pi/180.)+mapshift
     ras[ras>360]-=360
     x,y=aitoff(ras,decs)
     x*=xmult
-    ax.fill(x,y,color='blue',alpha=0.9,edgecolor='None')
+    ax.fill(x,y,color='green',alpha=0.9,edgecolor='None')
 t5=time.time()
 print 'MDF plotted. Time Elapsed: {:.2f} seconds'.format(t5-st)
-
-for imd in np.arange(0,len(LSST_DDF_df)):
-    ra=hms2deg(LSST_DDF_df.RAh.iloc[imd],LSST_DDF_df.RAm.iloc[imd],LSST_DDF_df.RAs.iloc[imd])
-    dec=dms2deg(LSST_DDF_df.DECd.iloc[imd],LSST_DDF_df.DECm.iloc[imd],LSST_DDF_df.DECs.iloc[imd])
-    phidummy=np.linspace(0,3*np.pi,1000)
-    decs=LSST_DDF_df.DEC.iloc[imd]+DDFrad*np.sin(phidummy)
-    ras=LSST_DDF_df.RA.iloc[imd]+DDFrad*np.cos(phidummy)+mapshift
-    ras[ras>360]-=360
-    x,y=aitoff(ras,decs)
-    x*=xmult
-    ax.fill(x,y,color='blue',alpha=0.9,edgecolor='None')
-tdd=time.time()
-print 'DDF plotted. Time Elapsed: {:.2f} seconds'.format(tdd-st)
 
 for imd in np.arange(0,len(SNdf)):
     ra=hms2deg(SNdf.RAh.iloc[imd],SNdf.RAm.iloc[imd],SNdf.RAs.iloc[imd])
@@ -191,10 +194,10 @@ leg2=plt.legend(handles=[liney3a1,linesdss,lineposs],loc='lower right',frameon=F
 
 ax = plt.gca().add_artist(leg2)
 
-lineDDF =plt.scatter(ldumx,ldumy,s=40,color='blue',alpha=0.9,edgecolor='None',label='LSST Deep Drilling Fields')
+lineDDF =plt.scatter(ldumx,ldumy,s=40,color='blue',alpha=0.9,facecolor='None',lw=1,edgecolor='blue',label='LSST Deep Drilling Fields')
 lineMDF =plt.scatter(ldumx,ldumy,s=40,color='green',marker='s',alpha=0.9,edgecolor='None',label='Pan-STARRS1 MDF')
 lineSNF =plt.scatter(ldumx,ldumy,s=40,color='red',marker='s',alpha=0.6,edgecolor='None',label='DES SN Fields')
-leg3=plt.legend(handles=[lineMDF,lineSNF],loc='upper left',frameon=False,numpoints=2,scatterpoints=1,fontsize=12)
+leg3=plt.legend(handles=[lineDDF,lineMDF,lineSNF],loc='upper left',frameon=False,numpoints=2,scatterpoints=1,fontsize=12)
 
 plt.fill(lfillx,lfilly,color='white',edgecolor='white',label=None)
 

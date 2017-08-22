@@ -1,0 +1,118 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.odr as odr
+
+
+dummypoints=10000
+
+name_dict={'Cluster_A': 'SC1604A','Cluster_B': 'SC1604B','Cluster_D': 'SC1604D','0848+4451': 'Lynx E','Lynx_W':'Lynx W','Cluster_I': 'SC1324I', '1324+3011':'SC1324A','1324+3013':'SC1324B','0910+5419':'SC0910A','0910+5422':'SC0910B'}
+
+crcc=np.loadtxt('/home/rumbaugh/cc_out.2.19.16.dat')
+fourpiDL2=crcc[:,18]
+Ez=crcc[:,16]
+cc_z=crcc[:,0]
+cr=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.clusters.dat',dtype={'names':('field','cluster','RA','Dec','z','sig0.5','sig0.5err','n0.5','sig','sigerr','nsig'),'formats':('|S24','|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
+
+crl=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.clusters_lums.dat',dtype={'names':('field','cluster','ls','lh','lf','ls500','lh500','lf500','lbol','lserr','lherr','lferr','ls500err','lh500err','lf500err','lbolerr'),'formats':('|S24','|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
+
+crf=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.cluster_fits.dat',dtype={'names':('cluster','r0','r0-','r0+','blg','bkg-','blg+','r500','r500NC','NC'),'formats':('|S24','f8','f8','f8','f8','f8','f8','f8','f8','f8')})
+
+crx=np.loadtxt('/home/rumbaugh/Chandra/ORELSE.clusters_Xray.dat',dtype={'names':('field','cluster','ra','dec','z','nh','kt','lb','ub','rsn'),'formats':('|S24','|S24','f8','f8','f8','f8','f8','f8','f8','f8')})
+testclus=np.zeros(np.shape(crx)[0],dtype='|S128')
+for i in range(0,len(testclus)): testclus[i]=crx['cluster'][i].lower()
+
+lums=crl['lbol']
+lumerrs=crl['lbolerr']
+names=crl['cluster']
+
+delinds=np.zeros(0,dtype='i8')
+for i in range(np.shape(crl)[0]):
+    tmpsum=0
+    g=np.where(cr['cluster']==crl['cluster'][i])[0]
+    for j in range(2,len(crl[i])):
+        tmpsum+=np.isnan(crl[i][j])
+    if tmpsum>=1: 
+        delinds=np.append(delinds,i)
+    elif len(g)==0:
+        delinds=np.append(delinds,i)
+
+
+gdo=np.delete(np.arange(np.shape(crl)[0]),delinds)
+temps,tubs,tlbs,Ezs,sigs,sigerrs,nsig,r0,r500=np.zeros(len(gdo)),np.zeros(len(gdo)),np.zeros(len(gdo)),np.zeros(len(gdo)),np.zeros(len(gdo)),np.zeros(len(gdo)),np.zeros(len(gdo),dtype='i8'),np.zeros(len(gdo)),np.zeros(len(gdo))
+fields,clusters=np.zeros(len(gdo),dtype='|S24'),np.zeros(len(gdo),dtype='|S24')
+for i,i0 in zip(gdo,np.arange(len(gdo))):
+    g=np.where(crx['cluster']==crl['cluster'][i])[0][0]
+    gf=np.where(crf['cluster']==crl['cluster'][i])[0][0]
+    gc=np.where(cr['cluster']==crl['cluster'][i])[0][0]
+    gcc=np.argsort(np.abs(cr['z'][gc]-cc_z))[0]
+    Ezs[i0]=Ez[gcc]
+    temps[i0],tubs[i0],tlbs[i0]=crx['kt'][g],crx['ub'][g],crx['lb'][g]
+    sigs[i0],sigerrs[i0]=cr['sig'][gc],cr['sigerr'][gc]
+    nsig[i0]=cr['nsig'][gc]
+    r0[i0],r500[i0]=np.abs(crf['r0'][gf]),crf['r500'][gf]
+    fields[i0],clusters[i0]=crl['field'][i],crl['cluster'][i]
+    print crl['cluster'][i],clusters[i0],fields[i0]
+
+def customerr(message):
+    try:
+        raise ValueError
+    except ValueError as err:
+        err.message(message)
+        raise
+
+def calc_SR_dists(xdummy,ydummy,X,Y,Xerr,Yerr,Xerrlo=None,Yerrlo=None):
+    dummypoints=len(xdummy)
+    if len(xdummy)!=len(ydummy): customerr('calc_SR_Dists: xdummy and ydummy must have the same length')
+    if len(X)!=len(Y): customerr('calc_SR_Dists: X and Y must have the same length')
+    if len(Xerr)!=len(Yerr): customerr('calc_SR_Dists: Xerr and Yerr must have the same length')
+    if len(X)!=len(Xerr): customerr('calc_SR_Dists: X and Xerr must have the same length')
+    xarr=X.reshape((len(X),1))*np.ones(dummypoints)
+    yarr=Y.reshape((len(Y),1))*np.ones(dummypoints)
+    xdumarr=np.ones(len(X)).reshape((len(X),1))*xdummy.reshape((1,dummypoints))
+    ydumarr=np.ones(len(X)).reshape((len(X),1))*ydummy.reshape((1,dummypoints))
+    Xerrarr=Xerr.reshape((len(X),1))*np.ones(dummypoints)
+    Yerrarr=Yerr.reshape((len(X),1))*np.ones(dummypoints)
+    if (Xerrlo==None)&(Yerrlo==None):
+        xnorm,ynorm=Xerrarr,Yerrarr
+    else:
+        xnorm,ynorm=Xerrarr,Yerrarr
+        if Xerrlo!=None: 
+            Xerrloarr=Xerrlo.reshape((len(X),1))*np.ones(dummypoints)
+            xnorm[xarr>xdumarr]=Xerrloarr[xarr>xdumarr]
+        if Yerrlo!=None: 
+            Yerrloarr=Yerrloz.reshape((len(X),1))*np.ones(dummypoints)
+            ynorm[yarr>ydumarr]=Yerrlo[yarr>ydumarr]
+    dist=np.sqrt(((xarr-xdumarr)/xnorm)**2+((yarr-ydumarr)/ynorm)**2)
+    mindist=np.min(dist,axis=1)
+    return mindist
+
+outcr=np.zeros((len(temps),),dtype={'names':('field','cluster','mindistlit_LxT','mindistfit_LxT','mindistlit_sigT','mindistfit_sigT','mindistlit_Lxsig','mindistfit_Lxsig'),'formats':('|S24','|S24','f8','f8','f8','f8','f8','f8')})
+
+def f_LxT(B,T):
+    #Remember, this function is in log-log form, and Lx is divided by E(z)
+    return B[0]*T+B[1]
+linearLxT=odr.Model(f_LxT)
+LxTdata=odr.Data(np.log(temps),np.log(lums[gdo]/Ezs),wd=(0.5*(tubs-tlbs)/temps)**-2,we=(lumerrs[gdo]/lums[gdo])**-2)
+odrLxT=odr.ODR(LxTdata,linearLxT,beta0=[2.6,np.log(0.1)])
+LxTout=odrLxT.run()
+
+lumsEz=lums[gdo]/Ezs
+lumEzerrs=lumerrs[gdo]/Ezs
+#terrlo,terrhi=temps-tlbs,tubs-temps
+terrlo,terrhi=tlbs,tubs
+for i in range(0,len(terrlo)): print fields[i],clusters[i],temps[i],tlbs[i],tubs[i],lums[gdo[i]]/Ezs[i],terrlo[i],terrhi[i]
+
+
+text_dict={clusters[x]: [temps[x],lumsEz[x],'left','bottom'] for x in np.arange(len(clusters))}
+
+for i in np.arange(len(clusters)): 
+    try:
+        name_dict[clusters[i]]
+    except KeyError:
+        name_dict[clusters[i]]=clusters[i]
+
+outdf=pd.DataFrame({'cluster':clusters,'temp':temps,'terrlo':terrlo,'terrhi':terrhi,'lum':lums[gdo],'lumerr':lumerrs[gdo],'sig':sigs,'sigerr':sigerrs,'N':nsig})
+
+MMCGdf=pd.read_csv('/home/rumbaugh/Chandra/ORELSE.MMCG_vels.csv')
+
+outdf=pd.merge(outdf,MMCGdf,on=['cluster'])

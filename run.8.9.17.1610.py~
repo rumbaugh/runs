@@ -1,0 +1,55 @@
+import numpy as np
+import pandas as pd
+execfile('/home/rumbaugh/pythonscripts/SphDist.py')
+
+ntrials=10000
+normfrac=0.317310507863
+iUB=int(ntrials*(1-normfrac))
+
+def open_csv(fname,names=None):
+    df=pd.read_csv(fname,delim_whitespace=True)
+    if df.columns[0]=='#':
+        if names!=None:
+            newnames=names
+        else:
+            newnames=df.columns[1:].tolist()
+        df=pd.read_csv(fname,delim_whitespace=True,comment='#',names=newnames)
+    return df
+
+MMCGdf_full=pd.read_csv('/home/rumbaugh/MMCGs_fotNick/MMCG_tot_1.5Rvir.08.02.17.cat',delim_whitespace=True,usecols=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,))
+MMCGdf=MMCGdf_full[MMCGdf_full['#comments'].values=='#Most']
+MMCGdf.set_index('id_cluster',inplace=True)
+
+xdf=open_csv('/home/rumbaugh/Chandra/ORELSE.X-ray_centers_for_paper.dat',names=['field','cluster','RA(deg)','Dec(deg)','rah','ram','ras','dech','decm','decs'])
+xdf['field']=xdf.field.str.lower()
+xdf['field'][np.in1d(xdf.field.values,['cl1324_north','cl1324_south'])]='cl1324'
+
+clbdf=open_csv('/home/rumbaugh/Chandra/ORELSE.cluster_bounds.6.26.17.dat')
+clbdf=pd.merge(clbdf,xdf,on=['cluster','field'])
+clbdf=pd.merge(clbdf,MMCGdf,left_on=['cluster'],right_index=True,suffixes=('','_MMCG'))
+clbdf.set_index('cluster',inplace=True)
+
+mmcgra,mmcgdec,lwra,lwdec,lwN=np.zeros(len(clbdf)),np.zeros(len(clbdf)),np.zeros(len(clbdf)),np.zeros(len(clbdf)),np.zeros(len(clbdf),dtype='i8')
+dist_mmcg2x,dist_mmcg2lw,dist_lw2x=np.zeros(len(clbdf)),np.zeros(len(clbdf)),np.zeros(len(clbdf))
+LWerr=np.zeros(len(clbdf))
+for cluster,ic in zip(clbdf.index.unique().values,np.arange(len(clbdf.index.unique()))):
+    try:
+        CMdf=pd.read_csv('/home/rumbaugh/MMCGs_fotNick/cluster_member_1Mpc/Cluster_member_{}_spec_1Mpc.cat'.format(cluster),delim_whitespace=True)
+    except IOError:
+        continue
+    CMdf.dropna(inplace=True)
+    CMdf['r_J']=np.array(CMdf.r_J.values,dtype='f8')
+    mmcgra[ic],mmcgdec[ic]=clbdf.loc[cluster].ra_MMCG,clbdf.loc[cluster].dec_MMCG
+    lw_wt=(1./100.**(CMdf.r_J.values/5)).sum()
+    lwra[ic],lwdec[ic]=(CMdf.ra.values/(100.**(CMdf.r_J.values/5))).sum()/lw_wt,(CMdf.dec.values/(100.**(CMdf.r_J.values/5))).sum()/lw_wt
+    lwN[ic]=len(CMdf)
+    dist_mmcg2x[ic],dist_mmcg2lw[ic],dist_lw2x[ic]=SphDist(mmcgra[ic],mmcgdec[ic],clbdf["RA(deg)"][ic],clbdf["Dec(deg)"][ic])*60,SphDist(mmcgra[ic],mmcgdec[ic],lwra[ic],lwdec[ic],)*60,SphDist(lwra[ic],lwdec[ic],clbdf["RA(deg)"][ic],clbdf["Dec(deg)"][ic])*60
+    grand=np.random.choice(np.arange(len(CMdf)),((ntrials,len(CMdf))))
+    tmplw_wt=np.sum(1./100.**(CMdf.r_J.values[grand]/5),axis=1)
+    tmplwra,tmplwdec=np.sum(CMdf.ra.values[grand]/(100.**(CMdf.r_J.values[grand])),axis=1)/tmplw_wt,np.sum(CMdf.dec.values[grand]/(100.**(CMdf.r_J.values[grand])),axis=1)/tmplw_wt
+    tmpracen,tmpdeccen=np.median(tmplwra),np.median(tmplwdec)
+    tmpdists=np.sort(SphDist(tmplwra,tmplwdec,tmpracen,tmpdeccen)*60)
+    LWerr[ic]=tmpdists[iUB]
+outdf=pd.DataFrame({'field':clbdf.field,'cluster':clbdf.index.unique().values,'Xray_ra':clbdf["RA(deg)"],'Xray_dec':clbdf["Dec(deg)"],'MMCG_ra':mmcgra,'MMCG_dec':mmcgdec,'LWM_ra':lwra,'LWM_dec':lwdec,'LWM_Ngal':lwN,'dist_mmcg2x':dist_mmcg2x,'dist_mmcg2lw':dist_mmcg2lw,'dist_lw2x':dist_lw2x,'LWerr':LWerr})
+outdf=outdf[['field','cluster','Xray_ra','Xray_dec','MMCG_ra','MMCG_dec','LWM_ra','LWM_dec','LWM_Ngal','dist_mmcg2x','dist_mmcg2lw','dist_lw2x','LWerr']]
+outdf.to_csv('/home/rumbaugh/Chandra/ORELSE.cluster_centroids.RF.csv',index=False)
