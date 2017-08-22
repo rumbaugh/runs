@@ -28,9 +28,13 @@ for i in range(0,len(DR7ID)):
     crout=np.loadtxt('%s/%s/outliers.tab'%(DBdir,DBID),dtype='i8')
     try:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
+        try:
+            croutmac=np.loadtxt('%s/%s/outliers_Macleod.tab'%(DBdir,DBID),dtype='i8')
+        except IOError:
+            pass
     except IOError:
-        print 'No Mac for %s'%DBID
-    try:
-        croutmac=np.loadtxt('%s/%s/outliers_Macleod.tab'%(DBdir,DBID),dtype='i8')
-    except IOError:
-        print 'No Mac outliers for %s'%DBID
+        crmac=None
+    badbands={x:0 for x in ['g','r','i']}
+    for band in ['g','r','i']:
+        badbands[x]=len(cr[(cr['BAND']==band)&(crout<0)])
+    print DBID,badbands
