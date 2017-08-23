@@ -31,8 +31,8 @@ for i in range(0,3):
     DBID=crd['DBID'][i]
     
     tmpcr=np.loadtxt('%s/%s/LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
-    cr=np.zeros(len(tmpcr),dtype={'names':('DatabaseID','Survey','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','f8','|S12','f8','f8','i8')})
-    cr['DatabaseID'],cr['Survey'],cr['MJD'],cr['BAND'],cr['MAG'],cr['MAGERR'],cr['FLAG']=tmpcr['DatabaseID'],tmpcr['Survey'],tmpcr['MJD'],tmpcr['BAND'],tmpcr['MAG'],tmpcr['MAGERR'],tmpcr['FLAG']
+    cr=np.zeros(len(tmpcr),dtype={'names':('Survey','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S20','f8','|S12','f8','f8','i8')})
+    cr['Survey'],cr['MJD'],cr['BAND'],cr['MAG'],cr['MAGERR'],cr['FLAG']=tmpcr['Survey'],tmpcr['MJD'],tmpcr['BAND'],tmpcr['MAG'],tmpcr['MAGERR'],tmpcr['FLAG']
     crout=np.loadtxt('%s/%s/outliers.tab'%(DBdir,DBID),dtype='i8')*-2
     try:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
@@ -56,8 +56,8 @@ for i in range(0,3):
     except IOError:
         crmac=None
     if crmac!=None: 
-        tmpcrmac=np.zeros(len(crmac),dtype={'names':('DatabaseID','Survey','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','|S20','f8','|S12','f8','f8','i8')})
-        tmpcrmac['DatabaseID'],tmpcrmac['Survey'],tmpcrmac['MJD'],tmpcrmac['BAND'],tmpcrmac['MAG'],tmpcrmac['MAGERR'],tmpcrmac['FLAG']=crmac['DatabaseID'],np.full(len(crmac),"SDSS",dtype='|S20'),crmac['MJD'],crmac['BAND'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
+        tmpcrmac=np.zeros(len(crmac),dtype={'names':('Survey','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S20','f8','|S12','f8','f8','i8')})
+        tmpcrmac['Survey'],tmpcrmac['MJD'],tmpcrmac['BAND'],tmpcrmac['MAG'],tmpcrmac['MAGERR'],tmpcrmac['FLAG']=np.full(len(crmac),"SDSS",dtype='|S20'),crmac['MJD'],crmac['BAND'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
         cr=np.append(cr,crmac)
         crout=np.append(crout,macflags)
     crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>5)]=-1
