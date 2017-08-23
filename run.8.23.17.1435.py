@@ -70,7 +70,10 @@ for i in range(0,len(DR7ID)):
                 if len(gthresh)>1:
                     gout=np.where((np.abs(np.median(mag[gthresh])-mag[ipt]) > outlier_thresh)&(crout[gb[gthresh]]!=-4))[0]
                     if len(gout)>0: 
-                        crout[gb[gthresh[gout]]]=-2
+                        if np.count_nonzero(crout[gb[gthresh[gout]]]==1)>0:
+                            crout[gb[gthresh[gout]]][crout[gb[gthresh[gout]]]==1]=-4
+                        if np.count_nonzero(crout[gb[gthresh[gout]]]!=1)>0:
+                            crout[gb[gthresh[gout]]][crout[gb[gthresh[gout]]]!=1]=-2
     crout=crout[cr['Survey']!='POSS']
     cr=cr[cr['Survey']!='POSS']
     for b in ['g','r','i']:
