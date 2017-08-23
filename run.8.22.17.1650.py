@@ -26,8 +26,7 @@ except:
 gsort=np.argsort(DR7ID)
 DR7ID,sdssname,crd=DR7ID[gsort],sdssname[gsort],crd[gsort]
 
-#for i in range(0,len(DR7ID)):
-for i in range(0,3):
+for i in range(0,len(DR7ID)):
     DBID=crd['DBID'][i]
     
     tmpcr=np.loadtxt('%s/%s/LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
