@@ -13,12 +13,15 @@ data=hdubh[1].data
 
 crdb=np.loadtxt('/home/rumbaugh/var_database/Y3A1/databaseIDs.dat',dtype={'names':('DatabaseID','DBIDS','MQrownum','SP_rownum','sdr7id','thingid','SDSSNAME','CID','TILENAME'),'formats':('|S32','|S128','i8','i8','|S24','i8','|S64','i8','|S32')},skiprows=1)
 
-DBID2SN={crdb['DatabaseID'][x]:crdb['SDSSNAME'][x] for x in np.arange(len(crdb))[crdb['SDSSNAME']!='-1']}
+try:
+    SN2DR7:
+except:
+    DBID2SN={crdb['DatabaseID'][x]:crdb['SDSSNAME'][x] for x in np.arange(len(crdb))[crdb['SDSSNAME']!='-1']}
 
-SN2DR7={data['SDSS_NAME'][x]:x for x in np.arange(0,len(data))}
+    SN2DR7={data['SDSS_NAME'][x]:x for x in np.arange(0,len(data))}
 
-sdssname=np.array([DBID2SN[x] for x in crd['DBID']])
-DR7ID=np.array([SN2DR7[x] for x in sdssname],dtype='i8')
+    sdssname=np.array([DBID2SN[x] for x in crd['DBID']])
+    DR7ID=np.array([SN2DR7[x] for x in sdssname],dtype='i8')
 
 gsort=np.argsort(DR7ID)
 DR7ID,sdssname,crd=DR7ID[gsort],sdssname[gsort],crd[gsort]
@@ -53,7 +56,7 @@ for i in range(0,3):
     except IOError:
         crmac=None
     if crmac!=None: 
-        tmpcrmac=np.zeros(len(crmac),dtype={'names':('DatabaseID','Survey','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
+        tmpcrmac=np.zeros(len(crmac),dtype={'names':('DatabaseID','Survey','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','|S20','f8','|S4','f8','f8','i8')})
         tmpcrmac['DatabaseID'],tmpcrmac['Survey'],tmpcrmac['MJD'],tmpcrmac['BAND'],tmpcrmac['MAG'],tmpcrmac['MAGERR'],tmpcrmac['FLAG']=crmac['DatabaseID'],np.full(len(crmac),"SDSS",dtype='|S20'),crmac['MJD'],crmac['BAND'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
         cr=np.append(cr,crmac)
         crout=np.append(crout,macflags)
