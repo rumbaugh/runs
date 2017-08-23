@@ -72,6 +72,7 @@ for i in range(0,len(DR7ID)):
                     if len(gout)>0: 
                         crout[gb[gthresh[gout]]]=-2
     crout=crout[cr['Survey']!='POSS']
+    cr=cr[cr['Survey']!='POSS']
     for b in ['g','r','i']:
         outdf=pd.DataFrame({x:cr[x][cr['BAND']==b] for x in ['MJD','MAG','MAGERR']})
         outdf['FLAG']=crout[cr['BAND']==b]
