@@ -58,7 +58,7 @@ for i in range(0,3):
     if crmac!=None: 
         tmpcrmac=np.zeros(len(crmac),dtype={'names':('Survey','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S20','f8','|S12','f8','f8','i8')})
         tmpcrmac['Survey'],tmpcrmac['MJD'],tmpcrmac['BAND'],tmpcrmac['MAG'],tmpcrmac['MAGERR'],tmpcrmac['FLAG']=np.full(len(crmac),"SDSS",dtype='|S20'),crmac['MJD'],crmac['BAND'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
-        cr=np.append(cr,crmac)
+        cr=np.append(cr,tmpcrmac)
         crout=np.append(crout,macflags)
     crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>5)]=-1
     for b in ['g','r','i']:
