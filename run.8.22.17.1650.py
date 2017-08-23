@@ -33,6 +33,7 @@ for i in range(0,len(DR7ID)):
     cr=np.zeros(len(tmpcr),dtype={'names':('Survey','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('|S20','f8','|S12','f8','f8','i8')})
     cr['Survey'],cr['MJD'],cr['BAND'],cr['MAG'],cr['MAGERR'],cr['FLAG']=tmpcr['Survey'],tmpcr['MJD'],tmpcr['BAND'],tmpcr['MAG'],tmpcr['MAGERR'],tmpcr['FLAG']
     crout=np.loadtxt('%s/%s/outliers.tab'%(DBdir,DBID),dtype='i8')*-2
+    if len(crout)!=len(cr):crout=np.zeros(len(cr),dtype='i8')
     try:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
         macflags=np.ones(len(crmac),dtype='i8')
