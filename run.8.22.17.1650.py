@@ -73,6 +73,4 @@ for i in range(0,3):
         outdf=pd.Dataframe({x:cr[x][cr['BAND']==b] for x in ['MJD','MAG','MAGERR']})
         outdf['FLAG']=crout[cr['BAND']==b]
     
-        outdf.to_csv('/home/rumbaugh/EVQ_DB/{}_{}'.format(DR7ID[i],b)
-        
-        
+        outdf.to_csv('/home/rumbaugh/EVQ_DB/{}_{}'.format(DR7ID[i],b))
