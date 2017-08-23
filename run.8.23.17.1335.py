@@ -32,8 +32,8 @@ for i in range(0,len(DR7ID)):
     if len(df)>1:
         maxg[i]=df.MAG.max()-df.MAG.min()
 
-print len(maxg[maxg>=2])
-print len(maxg[maxg>=1.5])
-print len(maxg[maxg>=1])
+print len(maxg[maxg>2])
+print len(maxg[maxg>1.5])
+print len(maxg[maxg>1])
 
         
