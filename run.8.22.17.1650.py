@@ -59,7 +59,7 @@ for i in range(0,3):
         crout=np.append(crout,macflags)
     crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>5)]=-1
     for b in ['g','r','i']:
-        gb=np.where((cr['BAND']==b)&(crout>=0)))[0]
+        gb=np.where((cr['BAND']==b)&(crout>=0))[0]
         if len(gb)>0:
             mag,mjd=cr['MAG'][gb],cr['MJD'][gb]
             for ipt in np.arange(0,len(gb)):
