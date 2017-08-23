@@ -60,7 +60,7 @@ for i in range(0,len(DR7ID)):
         tmpcrmac['Survey'],tmpcrmac['MJD'],tmpcrmac['BAND'],tmpcrmac['MAG'],tmpcrmac['MAGERR'],tmpcrmac['FLAG']=np.full(len(crmac),"SDSS",dtype='|S20'),crmac['MJD'],crmac['BAND'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
         cr=np.append(cr,tmpcrmac)
         crout=np.append(crout,macflags)
-    crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>.15)]=-1
+    crout[(cr['MAG']<0)|(cr['MAG']>30)|(cr['MAGERR']>.15)]=-1
     for b in ['g','r','i']:
         gb=np.where((cr['BAND']==b)&(crout>=0))[0]
         if len(gb)>0:
@@ -70,7 +70,10 @@ for i in range(0,len(DR7ID)):
                 if len(gthresh)>1:
                     gout=np.where((np.abs(np.median(mag[gthresh])-mag[ipt]) > outlier_thresh)&(crout[gb[gthresh]]!=-4))[0]
                     if len(gout)>0: 
-                        crout[gb[gthresh[gout]]]=-2
+                        if crout[gb[gthresh[gout]]]==1:
+                            crout[gb[gthresh[gout]]]=-4
+                        else:
+                            crout[gb[gthresh[gout]]]=-2
     crout=crout[cr['Survey']!='POSS']
     cr=cr[cr['Survey']!='POSS']
     for b in ['g','r','i']:
