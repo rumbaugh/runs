@@ -60,7 +60,7 @@ for i in range(0,len(DR7ID)):
         tmpcrmac['Survey'],tmpcrmac['MJD'],tmpcrmac['BAND'],tmpcrmac['MAG'],tmpcrmac['MAGERR'],tmpcrmac['FLAG']=np.full(len(crmac),"SDSS",dtype='|S20'),crmac['MJD'],crmac['BAND'],crmac['MAG'],crmac['MAGERR'],crmac['FLAG']
         cr=np.append(cr,tmpcrmac)
         crout=np.append(crout,macflags)
-    crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>5)]=-1
+    crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>.15)]=-1
     for b in ['g','r','i']:
         gb=np.where((cr['BAND']==b)&(crout>=0))[0]
         if len(gb)>0:
