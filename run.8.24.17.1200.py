@@ -71,7 +71,7 @@ def setup_crout(i,calc_outliers=False,calc_outliers_new=False):
                 if len(gthresh)>1:
                     gout=np.where((np.abs(np.median(mag[gthresh])-mag[ipt]) > outlier_thresh)&(crout[gb[gthresh]]!=-4))[0]
                     if len(gout)>0: 
-                        if calc_outlier_new:
+                        if calc_outliers_new:
                             if len(gout)!=np.count_nonzero(crout[gb[gthresh[gout]]]!=1)+np.count_nonzero(crout[gb[gthresh[gout]]]==1):
                                 print i, len(gout),np.count_nonzero(crout[gb[gthresh[gout]]]!=1),np.count_nonzero(crout[gb[gthresh[gout]]]==1)
                             if np.count_nonzero(crout[gb[gthresh[gout]]]!=1)>0:
