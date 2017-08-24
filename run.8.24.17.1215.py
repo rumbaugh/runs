@@ -36,6 +36,15 @@ for i in range(0,len(DR7ID)):
     crout=np.loadtxt('%s/%s/outliers.tab'%(DBdir,DBID),dtype='i8')*-2
     if len(crout)!=len(cr):crout=np.zeros(len(cr),dtype='i8')
     crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>=.15)]=-1
+    for b in ['g','r','i']:
+        gb=np.where((cr['BAND']==b)&(crout>=0))[0]
+        if len(gb)>0:
+            mag,mjd=cr['MAG'][gb],cr['MJD'][gb]
+            for ipt in np.arange(0,len(gb)):
+                gthresh=np.where(np.abs(mjd-mjd[ipt])<outlier_window)[0]
+                if len(gthresh)>1:
+                    if ((np.abs(np.median(mag[gthresh])-mag[ipt]) > outlier_thresh)&(crout[gb[ipt]]!=-4)):
+                        crout[gb[ipt]]=-2
     try:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
         macflags=np.ones(len(crmac),dtype='i8')
