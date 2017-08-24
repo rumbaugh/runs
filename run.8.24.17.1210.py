@@ -70,8 +70,8 @@ def setup_crout(i,calc_outliers=False,calc_outliers_new=False):
             for ipt in np.arange(0,len(gb)):
                 gthresh=np.where(np.abs(mjd-mjd[ipt])<outlier_window)[0]
                 if len(gthresh)>1:
-                        if ((np.abs(np.median(mag[gthresh])-mag[ipt]) > outlier_thresh)&(crout[gb[ipt]]!=-4)):
-                            crout[gb[gthresh[gout]]]=-2
+                    if ((np.abs(np.median(mag[gthresh])-mag[ipt]) > outlier_thresh)&(crout[gb[ipt]]!=-4)):
+                        crout[gb[ipt]]=-2
     crout=crout[cr['Survey']!='POSS']
     cr=cr[cr['Survey']!='POSS']
     return cr,crout
