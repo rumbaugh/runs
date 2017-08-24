@@ -35,15 +35,15 @@ for i in range(0,len(DR7ID)):
     cr['Survey'],cr['MJD'],cr['BAND'],cr['MAG'],cr['MAGERR'],cr['FLAG']=tmpcr['Survey'],tmpcr['MJD'],tmpcr['BAND'],tmpcr['MAG'],tmpcr['MAGERR'],tmpcr['FLAG']
     crout=np.loadtxt('%s/%s/outliers.tab'%(DBdir,DBID),dtype='i8')*-2
     if len(crout)!=len(cr):crout=np.zeros(len(cr),dtype='i8')
-    crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>=.15)]=-1
+    crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>=5)]=-1
     try:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
         macflags=np.ones(len(crmac),dtype='i8')
         for b in ['g','r','i','z','u']:
-            gb=np.where(cr['BAND']==b)[0]
+            gb=np.where((cr['BAND']==b)&(crout!=-1))[0]
             gbmac=np.where(crmac['BAND']==b)[0]
             if len(gb)>0:
-                gb0=np.where((cr['BAND']==b)&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0]
+                gb0=np.where((cr['BAND']==b)&(crout!=-1)&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0]
                 if ((len(gb0)>0)&(len(gbmac)>0)):
                     mjd0,mjdmac=cr['MJD'][gb0],crmac['MJD'][gbmac]
                     mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd0.reshape((1,len(mjd0)))*np.ones((len(mjdmac),1)))
