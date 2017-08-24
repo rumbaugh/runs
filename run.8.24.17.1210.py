@@ -34,6 +34,7 @@ def setup_crout(i,calc_outliers=False,calc_outliers_new=False):
     cr['Survey'],cr['MJD'],cr['BAND'],cr['MAG'],cr['MAGERR'],cr['FLAG']=tmpcr['Survey'],tmpcr['MJD'],tmpcr['BAND'],tmpcr['MAG'],tmpcr['MAGERR'],tmpcr['FLAG']
     crout=np.loadtxt('%s/%s/outliers.tab'%(DBdir,DBID),dtype='i8')*-2
     if len(crout)!=len(cr):crout=np.zeros(len(cr),dtype='i8')
+    crout[(cr['MAG']<14)|(cr['MAG']>30)|(cr['MAGERR']>5)]=-1
     try:
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
         macflags=np.ones(len(crmac),dtype='i8')
