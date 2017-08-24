@@ -38,10 +38,10 @@ def setup_crout(i,calc_outliers=False,calc_outliers_new=False):
         crmac=np.loadtxt('%s/%s/Macleod_LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','RA','DEC','MJD','BAND','MAG','MAGERR','FLAG'),'formats':('i8','f8','f8','f8','|S4','f8','f8','i8')})
         macflags=np.ones(len(crmac),dtype='i8')
         for b in ['g','r','i','z','u']:
-            gb=np.where(cr['BAND']==b)[0]
+            gb=np.where((cr['BAND']==b)&(crout!=-1))[0]
             gbmac=np.where(crmac['BAND']==b)[0]
             if len(gb)>0:
-                gb0=np.where((cr['BAND']==b)&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0]
+                gb0=np.where((cr['BAND']==b)&(crout!=-1)&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0]
                 if ((len(gb0)>0)&(len(gbmac)>0)):
                     mjd0,mjdmac=cr['MJD'][gb0],crmac['MJD'][gbmac]
                     mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd0.reshape((1,len(mjd0)))*np.ones((len(mjdmac),1)))

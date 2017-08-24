@@ -43,7 +43,7 @@ for i in range(0,len(DR7ID)):
             gb=np.where((cr['BAND']==b)&(crout!=-1))[0]
             gbmac=np.where(crmac['BAND']==b)[0]
             if len(gb)>0:
-                gb0=np.where((cr['BAND']==b)&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0]
+                gb0=np.where((cr['BAND']==b)&(crout!=-1)&(cr['MJD']>np.min(crmac['MJD'])-30)&(cr['MJD']<np.max(crmac['MJD'])+30))[0]
                 if ((len(gb0)>0)&(len(gbmac)>0)):
                     mjd0,mjdmac=cr['MJD'][gb0],crmac['MJD'][gbmac]
                     mjddists=np.abs(mjdmac.reshape((len(mjdmac),1))-mjd0.reshape((1,len(mjd0)))*np.ones((len(mjdmac),1)))
