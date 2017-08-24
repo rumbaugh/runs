@@ -26,7 +26,7 @@ except:
 gsort=np.argsort(DR7ID)
 DR7ID,sdssname,crd=DR7ID[gsort],sdssname[gsort],crd[gsort]
 
-def setup_crout(i,calc_outliers=False):
+def setup_crout(i,calc_outliers=False,calc_outliers_new=False):
     DBID=crd['DBID'][i]
     
     tmpcr=np.loadtxt('%s/%s/LC.tab'%(DBdir,DBID),dtype={'names':('DatabaseID','Survey','SurveyCoaddID','SurveyObjectID','RA','DEC','MJD','TAG','BAND','MAGTYPE','MAG','MAGERR','FLAG'),'formats':('|S64','|S20','|S20','|S20','f8','f8','f8','|S20','|S12','|S12','f8','f8','i8')},skiprows=1)
@@ -71,12 +71,15 @@ def setup_crout(i,calc_outliers=False):
                 if len(gthresh)>1:
                     gout=np.where((np.abs(np.median(mag[gthresh])-mag[ipt]) > outlier_thresh)&(crout[gb[gthresh]]!=-4))[0]
                     if len(gout)>0: 
-                        if len(gout)!=np.count_nonzero(crout[gb[gthresh[gout]]]!=1)+np.count_nonzero(crout[gb[gthresh[gout]]]==1):
-                            print i, len(gout),np.count_nonzero(crout[gb[gthresh[gout]]]!=1),np.count_nonzero(crout[gb[gthresh[gout]]]==1)
-                        if np.count_nonzero(crout[gb[gthresh[gout]]]!=1)>0:
-                            crout[gb[gthresh[gout]]][crout[gb[gthresh[gout]]]!=1]=-2
-                        if np.count_nonzero(crout[gb[gthresh[gout]]]==1)>0:
-                            crout[gb[gthresh[gout]]][crout[gb[gthresh[gout]]]==1]=-4
+                        if calc_outlier_new:
+                            if len(gout)!=np.count_nonzero(crout[gb[gthresh[gout]]]!=1)+np.count_nonzero(crout[gb[gthresh[gout]]]==1):
+                                print i, len(gout),np.count_nonzero(crout[gb[gthresh[gout]]]!=1),np.count_nonzero(crout[gb[gthresh[gout]]]==1)
+                            if np.count_nonzero(crout[gb[gthresh[gout]]]!=1)>0:
+                                crout[gb[gthresh[gout]]][crout[gb[gthresh[gout]]]!=1]=-2
+                            if np.count_nonzero(crout[gb[gthresh[gout]]]==1)>0:
+                                crout[gb[gthresh[gout]]][crout[gb[gthresh[gout]]]==1]=-4
+                        else:
+                            crout[gb[gthresh[gout]]]=-2
     crout=crout[cr['Survey']!='POSS']
     cr=cr[cr['Survey']!='POSS']
     return cr,crout
