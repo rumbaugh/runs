@@ -26,6 +26,7 @@ except:
 gsort=np.argsort(DR7ID)
 DR7ID,sdssname,crd=DR7ID[gsort],sdssname[gsort],crd[gsort]
 
+maxgnew=np.zeros(len(DR7ID))
 for i in range(0,len(DR7ID)):
     DBID=crd['DBID'][i]
     
@@ -78,6 +79,7 @@ for i in range(0,len(DR7ID)):
                             crout[gb[gthresh[gout]]][crout[gb[gthresh[gout]]]==1]=-4
     crout=crout[cr['Survey']!='POSS']
     cr=cr[cr['Survey']!='POSS']
+    maxgnew[i]=np.max(cr[(cr['BAND']=='b')&(crout>=0)])-np.min(cr[(cr['BAND']=='b')&(crout>=0)])
     for b in ['g','r','i']:
         outdf=pd.DataFrame({x:cr[x][cr['BAND']==b] for x in ['MJD','MAG','MAGERR']})
         outdf['FLAG']=crout[cr['BAND']==b]
